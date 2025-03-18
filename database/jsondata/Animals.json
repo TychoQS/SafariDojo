@@ -1,0 +1,8 @@
+{
+  "Animals":
+  [{"name": "elephant", "base-icon": "/images/Elephant.png" },
+    {"name": "owl", "base-icon": "/images/Owl.png" },
+    {"name": "frog", "base-icon": "/images/Frog.png" },
+    {"name": "platypus", "base-icon": "/images/Platypus.png" },
+    {"name": "kangaroo", "base-icon": "/images/Kangaroo.png" }]
+}
