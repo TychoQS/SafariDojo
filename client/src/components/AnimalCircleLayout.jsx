@@ -2,8 +2,6 @@ import React from "react";
 import AnimalIcon from "./AnimalIcon";
 import animals from "../../../database/jsondata/animals.json";
 
-
-
 const CircleLayout = ({ animals }) => {
     const radius = 150;
     const centerX = 190;
@@ -14,15 +12,19 @@ const CircleLayout = ({ animals }) => {
             <div className="absolute w-[350px] h-[350px] border-40 border-white-600 rounded-full"></div>
             {animals.map((animal, index) => {
                 const angle = (index / animals.length) * 2 * Math.PI;
-                const x = centerX + radius * Math.cos(angle) - 40;
-                const y = centerY + radius * Math.sin(angle) - 40;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
                 return (
                     <AnimalIcon
                         key={animal.name}
                         animal={animal.name}
                         imageURL={animal.baseIcon}
                         borderColor={animal.borderColor}
-                        style={{ top: `${y}px`, left: `${x}px` }}
+                        style={{
+                            top: `${y}px`,
+                            left: `${x}px`,
+                            transform: "translate(-50%, -50%)"
+                        }}
                     />
                 );
             })}
@@ -30,14 +32,12 @@ const CircleLayout = ({ animals }) => {
     );
 };
 
-
 const App = () => {
     return (
-        <div>
+        <div className="flex justify-center items-center h-screen">
             <CircleLayout animals={animals} />
         </div>
     );
 };
 
 export default App;
-
