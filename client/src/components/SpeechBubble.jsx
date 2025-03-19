@@ -60,9 +60,9 @@ export default function SpeechBubble(props) {
                 {Text}
             </p>
             <section className={`absolute top+[45%] right-[0.1rem]
-                        border-l-[5vh] border-l-transparent
-                        border-r-[5vh] border-r-transparent
-                        border-t-[10vh] rotate-[-30deg] bg-bl
+                        border-l-[2.5vh] border-l-transparent
+                        border-r-[3vh] border-r-transparent
+                        border-t-[8vh] rotate-[-30deg] bg-bl
                         ${getSpeechBubbleSquareBackgroundColor(Subject)}`} >
             </section>
         </section>
