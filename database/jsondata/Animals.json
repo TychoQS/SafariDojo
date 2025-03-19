@@ -1,8 +1,27 @@
-{
-  "Animals":
-  [{"name": "elephant", "base-icon": "/images/Elephant.png" },
-    {"name": "owl", "base-icon": "/images/Owl.png" },
-    {"name": "frog", "base-icon": "/images/Frog.png" },
-    {"name": "platypus", "base-icon": "/images/Platypus.png" },
-    {"name": "kangaroo", "base-icon": "/images/Kangaroo.png" }]
-}
+[
+  {
+    "name": "owl",
+    "baseIcon": "/images/Owl.png",
+    "borderColor": "#EFF66E"
+  },
+  {
+    "name": "kangaroo",
+    "baseIcon": "/images/Kangaroo.png",
+    "borderColor": "#ED6EF6"
+  },
+  {
+    "name": "elephant",
+    "baseIcon": "/images/Elephant.png",
+    "borderColor": "#1BA8E4"
+  },
+  {
+    "name": "frog",
+    "baseIcon": "/images/Frog.png",
+    "borderColor": "#32CD32"
+  },
+  {
+    "name": "platypus",
+    "baseIcon": "/images/Platypus.png",
+    "borderColor": "#F67C6E"
+  }
+]
