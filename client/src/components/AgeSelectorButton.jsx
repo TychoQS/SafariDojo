@@ -1,3 +1,11 @@
+/*
+        USAGE
+
+<AgeSelectorButton
+    Text={"Ages"}
+    Subject={"Subject"}>
+</AgeSelectorButton>
+*/
 
 export default function AgeSelectorButton(props) {
 
@@ -28,12 +36,3 @@ export default function AgeSelectorButton(props) {
         </button>
     )
 }
-
-/*
-        USAGE
-
-<AgeSelectorButton
-    Text={"Ages"}
-    Subject={"Subject"}>
-</AgeSelectorButton>
-*/
