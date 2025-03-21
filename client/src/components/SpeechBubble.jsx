@@ -9,7 +9,9 @@ Just call the component giving a text and a subject in this format:
 ======================== EXAMPLE ====================
 
         <SpeechBubble
-            Text={"This is a very funny art game"}
+            Text={"This is a fun and engaging art game where you need to recognize famous paintings, guess their names,
+             and test your knowledge of classic and modern masterpieces. Challenge yourself, discover new artworks,
+             and learn interesting facts along the way!"}
             Subject={"Art"}>
         </SpeechBubble>
 
@@ -19,7 +21,7 @@ export default function SpeechBubble(props) {
     const Text = props.Text
     const Subject = props.Subject
 
-    const getSpeechBubbleOvalBackgroundColor = (Subject) => {
+    const getBackgroundColorBasedOn = (Subject) => {
         switch (Subject) {
             case "Math":
                 return "bg-[#1BA8E4]"
@@ -30,40 +32,40 @@ export default function SpeechBubble(props) {
             case "Art":
                 return "bg-[#F67C6E]"
             case "Science":
-                return "bg-[#Science]"
+                return "bg-[#6EF68B]"
             default:
-            return ""
+                return ""
         }
     }
 
-    const getSpeechBubbleSquareBackgroundColor = (Subject) => {
+    const getBackgroundHexColorBasedOn = (Subject) => {
         switch (Subject) {
             case "Math":
-                return "border-[#1BA8E4]"
+                return "#1BA8E4"
             case "English":
-                return "border-[#EFF66E]"
+                return "#EFF66E"
             case "Geography":
-                return "border-[#ED6EF6]"
+                return "#ED6EF6"
             case "Art":
-                return "border-[#F67C6E]"
+                return "#F67C6E"
             case "Science":
-                return "border-[#Science]"
+                return "#6EF68B"
             default:
                 return ""
         }
     }
 
     return (
-        <section className={`relative mt-15 border-4 border-black rounded-[90px] mx-auto px-10 py-6 max-w-sm min-h-fit
-                            ${getSpeechBubbleOvalBackgroundColor(Subject)}`}>
-            <p className="text-center font-bold color text-black align-baseline">
-                {Text}
-            </p>
-            <section className={`absolute top+[45%] right-[0.1rem]
-                        border-l-[2.5vh] border-l-transparent
-                        border-r-[3vh] border-r-transparent
-                        border-t-[8vh] rotate-[-30deg] bg-bl
-                        ${getSpeechBubbleSquareBackgroundColor(Subject)}`} >
+        <section id={"BubbleSpeechContainer"} className={"flex"}>
+            <section id={"BubbleSpeech"} className={`relative mt-15 border-4  ml-auto mr-auto border-black
+                                 flex flex-col justify-end items-end rounded-tr-3xl rounded-tl-3xl rounded-bl-3xl rounded-br-3xl 
+                                ${getBackgroundColorBasedOn(Subject)}`}>
+                <p id={"BubbleSpeechText"} className="text-xl text-center font-bold color text-black align-baseline w-96 mx-auto p-4">
+                    {Text}
+                </p>
+                <svg id={"BubbleSpeechTail"} viewBox="0 0 200 100" className={"absolute bottom-0 transform rotate-160 translate-y-51 translate-x-32 stroke-3"}>
+                    <polygon points="40,60 115,147 96,490" fill={getBackgroundHexColorBasedOn(Subject)} stroke="black" strokeWidth="2.2"  />
+                </svg>
             </section>
         </section>
     );
