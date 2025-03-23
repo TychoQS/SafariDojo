@@ -1,6 +1,6 @@
 import React from "react";
-import AnimalIcon from "./AnimalIcon";
-import animals from "../../../database/jsondata/animals.json";
+import animals from "../../../database/jsondata/Subject.json";
+import AnimalIcon from "@/components/AnimalIcon";
 
 const CircleLayout = ({ animals }) => {
     const radius = 150;

@@ -1,0 +1,37 @@
+[
+  {
+    "subjectName": "English",
+    "animalName": "owl",
+    "baseIcon": "/images/Owl.png",
+    "backgroundColor": "FDFFCE",
+    "borderColor": "#EFF66E"
+  },
+  {
+    "subjectName": "Geography",
+    "animalName": "kangaroo",
+    "baseIcon": "/images/Kangaroo.png",
+    "backgroundColor": "E8B1EC",
+    "borderColor": "#ED6EF6"
+  },
+  {
+    "subjectName": "Maths",
+    "animalName": "elephant",
+    "baseIcon": "/images/Elephant.png",
+    "backgroundColor": "#9BD6EF",
+    "borderColor": "#1BA8E4"
+  },
+  {
+    "subjectName": "Science",
+    "animalName": "frog",
+    "baseIcon": "/images/Frog.png",
+    "backgroundColor": "C9F1D2",
+    "borderColor": "#6EF68B"
+  },
+  {
+    "subjectName": "Art",
+    "animalName": "platypus",
+    "baseIcon": "/images/Platypus.png",
+    "backgroundColor": "F2C1BB",
+    "borderColor": "#F67C6E"
+  }
+]
