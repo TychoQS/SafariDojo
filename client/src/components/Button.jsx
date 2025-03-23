@@ -1,4 +1,10 @@
 import React from 'react';
+import { Cherry_Bomb_One } from 'next/font/google';
+
+const cherryBomb = Cherry_Bomb_One({
+    weight: '400',
+    subsets: ['latin'],
+});
 
 const Button = ({ size = 'medium', children }) => {
     const sizeClasses = {
@@ -11,7 +17,7 @@ const Button = ({ size = 'medium', children }) => {
 
     return (
         <button
-            className={`cursor-pointer ${buttonSizeClass} border-b-8 rounded-full hover:bg-orange-400 hover:border-none bg-[#FBAF00] border-b-[#403C61] font-black shadow-md text-[#403C61] focus:outline-none`}
+            className={`cursor-pointer ${buttonSizeClass} border-b-8 rounded-full hover:bg-orange-400 hover:border-none bg-[#FBAF00] border-b-[#403C61] font-black shadow-md text-[#403C61] focus:outline-none ${cherryBomb.className}`}
         >
             {children}
         </button>

@@ -1,24 +1,42 @@
 import React from 'react';
-import animals from "../../../database/jsondata/Subject.json";
+import { Cherry_Bomb_One } from "next/font/google";
+import { Patrick_Hand } from "next/font/google";
 
-const Card = ({gameSubject, isCompleted}) => {
-    const subject = animals.find(subject => subject.subjectName === gameSubject);
+import subjects from "../../../database/jsondata/Subject.json";
+
+const cherryBombOne = Cherry_Bomb_One({
+    subsets: ['latin'],
+    weight: '400',
+});
+
+const patrickHand = Patrick_Hand({
+    subsets: ['latin'],
+    weight: '400',
+});
+
+const Card = ({ gameSubject, isCompleted }) => {
+    const subject = subjects.find(subject => subject.subjectName === gameSubject);
     const { subjectName, borderColor } = subject;
 
     return (
         <div
-            className="flex items-center w-150 h-15 bg-white border-2 border-gray-300 rounded-lg overflow-hidden shadow-lg">
+            className="flex items-center w-150 h-15 bg-white border-3 border-[#3E3F4F] rounded-lg overflow-hidden shadow-lg"
+        >
             <div className="flex items-center px-4 py-2 w-full">
 
                 <div className="flex flex-col justify-center items-center mr-4 w-20">
-                    <span className="text-black text-xs mb-1">{subjectName}</span>
+          <span
+              className={`text-[#3E3F4F] text-xs mb-1 ${patrickHand.className}`}
+          >
+            {subjectName}
+          </span>
                     <div
                         className={`w-5 h-5 rounded-full flex justify-center items-center`}
-                        style={{backgroundColor: borderColor}}
+                        style={{ backgroundColor: borderColor }}
                     />
                 </div>
 
-                <div className="text-lg text-black mr-4">
+                <div className={`text-3xl text-[#3E3F4F] mr-4 ${cherryBombOne.className}`}>
                     <span>Juego de Ejemplo</span>
                 </div>
 
@@ -39,18 +57,4 @@ const Card = ({gameSubject, isCompleted}) => {
         </div>
     );
 };
-
-const App = () => {
-    return (
-        <div className="min-h-screen bg-black text-white p-6">
-            <div className="space-y-6">
-                <Card
-                    gameSubject="Geography"
-                    isCompleted={true}
-                />
-            </div>
-        </div>
-    );
-};
-
-export default App;
+export default Card;

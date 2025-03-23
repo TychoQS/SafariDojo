@@ -1,6 +1,6 @@
 import Form from "next/form";
-import Input from "./Input";
-import Title from "./Title";
+import Input from "@/components/Input";
+import Title from "@/components/Title";
 
 export default function BillingForm() {
     return (

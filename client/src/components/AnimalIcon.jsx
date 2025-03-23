@@ -1,9 +1,9 @@
 import React from "react";
-import subjects from "../../../database/jsondata/Subject.json";
+import animals from "../../../database/jsondata/Subject.json";
 
 const AnimalIcon = ({subject, style}) => {
 
-    const subjectData = subjects.find(item => item.subjectName === subject);
+    const subjectData = animals.find(item => item.subjectName === subject);
     const {animalName, baseIcon, borderColor} = subjectData;
 
     return (
