@@ -10,6 +10,9 @@ USAGE
 </GameCard>
 */
 
+import Button from "@/components/Button";
+import React from "react";
+
 export default function GameCard(props) {
     const { Title, Description, Completed, Subject, Score } = props;
 
@@ -40,9 +43,7 @@ export default function GameCard(props) {
             style={getBackgroundStyle()}>
             <div className="text-2xl font-black text-center">{Title}</div>
             <div className="text-sm text-center font-medium p-2 rounded-md">{Description}</div>
-            <button className="cursor-pointer w-40 h-12 border-b-8 rounded-full hover:bg-orange-400 hover:border-none bg-[#FBAF00] border-b-[#403C61] font-black text-xl shadow-md">
-                Start
-            </button>
+            <Button size="medium">Start</Button>
             <div className="text-lg font-semibold">Previous Score: {Score ?? "N/A"}</div>
         </section>
     );
