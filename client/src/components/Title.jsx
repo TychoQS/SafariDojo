@@ -12,7 +12,7 @@ const Title = ({ children, level = 1 }) => {
     return (
         <div className="text-center my-6 relative inline-block pb-6">
             <HeadingTag
-                className={`${cherryBomb.className} text-5xl text-[#FBAF00] relative z-10`}
+                className={`${cherryBomb.className} text-5xl text-[#FBAF00] relative`}
                 style={{
                     textShadow: '4px 0px 0px #372E55',
                 }}
