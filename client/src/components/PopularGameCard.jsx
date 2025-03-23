@@ -1,22 +1,12 @@
 import React from 'react';
-import { Cherry_Bomb_One } from "next/font/google";
-import { Patrick_Hand } from "next/font/google";
 
 import subjects from "../../../database/jsondata/Subject.json";
+import {patrickHand, cherryBomb} from "@/styles/fonts";
 
-const cherryBombOne = Cherry_Bomb_One({
-    subsets: ['latin'],
-    weight: '400',
-});
 
-const patrickHand = Patrick_Hand({
-    subsets: ['latin'],
-    weight: '400',
-});
-
-const Card = ({ gameSubject, isCompleted }) => {
+const Card = ({gameSubject, isCompleted}) => {
     const subject = subjects.find(subject => subject.subjectName === gameSubject);
-    const { subjectName, borderColor } = subject;
+    const {subjectName, borderColor} = subject;
 
     return (
         <div
@@ -32,11 +22,11 @@ const Card = ({ gameSubject, isCompleted }) => {
           </span>
                     <div
                         className={`w-5 h-5 rounded-full flex justify-center items-center`}
-                        style={{ backgroundColor: borderColor }}
+                        style={{backgroundColor: borderColor}}
                     />
                 </div>
 
-                <div className={`text-3xl text-[#3E3F4F] mr-4 ${cherryBombOne.className}`}>
+                <div className={`text-3xl text-[#3E3F4F] mr-4 ${cherryBomb.className}`}>
                     <span>Juego de Ejemplo</span>
                 </div>
 

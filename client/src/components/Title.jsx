@@ -1,10 +1,5 @@
 import React from 'react';
-import { Cherry_Bomb_One } from 'next/font/google';
-
-const cherryBomb = Cherry_Bomb_One({
-    weight: '400',
-    subsets: ['latin'],
-});
+import { cherryBomb } from '@/styles/fonts';
 
 const Title = ({ children, level = 1 }) => {
     const HeadingTag = `h${level}`;

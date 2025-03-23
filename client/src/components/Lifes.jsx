@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
 function App() {
     const [hearts, setHearts] = useState([true, true, true, true, true]);

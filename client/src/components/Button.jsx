@@ -1,12 +1,7 @@
 import React from 'react';
-import { Cherry_Bomb_One } from 'next/font/google';
+import {cherryBomb} from '@/styles/fonts';
 
-const cherryBomb = Cherry_Bomb_One({
-    weight: '400',
-    subsets: ['latin'],
-});
-
-const Button = ({ size = 'medium', children }) => {
+const Button = ({size = 'medium', children}) => {
     const sizeClasses = {
         small: 'w-24 h-8 text-sm',
         medium: 'w-40 h-12 text-xl',
