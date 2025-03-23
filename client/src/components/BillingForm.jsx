@@ -1,4 +1,5 @@
 import Form from "next/form";
+import Input from "./Input";
 
 export default function BillingForm() {
     return (
@@ -8,12 +9,9 @@ export default function BillingForm() {
                 Billing information
             </h1>
             <Form id={"BillingForm"} className={"flex flex-col items-center text-[#372E55]"}>
-                <label htmlFor={"CardholderName"}>Cardholder name</label>
-                <input id={"CardholderName"} className={"border-b-8 border-2 rounded-xl border-[#372E55]"}/>
-                <label htmlFor={"CardNumber"}>Card number</label>
-                <input id={"CardNumber"} className={"border-b-8 border-2 rounded-xl border-[#372E55]"}/>
-                <label htmlFor={"ValidityDate"}>Validity Date</label>
-                <input id={"ValidityDate"} className={"border-b-8 border-2 rounded-xl border-[#372E55]"}/>
+                <Input size="large" id="CardholderName" label="Cardholder name"/>
+                <Input size="large" id="CardNumber" label="Card Number"/>
+                <Input size="large" id="ValidityDate" label="Validity Date"/>
             </Form>
         </section>
     )
