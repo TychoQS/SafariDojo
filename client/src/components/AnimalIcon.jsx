@@ -1,15 +1,20 @@
 import React from "react";
+import subjects from "../../../database/jsondata/Subject.json";
 
-const AnimalIcon = ({ animal, imageURL, borderColor, style }) => {
+const AnimalIcon = ({subject, style}) => {
+
+    const subjectData = subjects.find(item => item.subjectName === subject);
+    const {animalName, baseIcon, borderColor} = subjectData;
+
     return (
         <div className="absolute" style={style}>
             <div
                 className="w-20 h-20 md:w-32 md:h-32 rounded-full border-8 bg-white overflow-hidden"
-                style={{ borderColor }}
+                style={{borderColor}}
             >
                 <img
-                    src={imageURL}
-                    alt={animal}
+                    src={baseIcon}
+                    alt={animalName}
                     className="w-full h-full object-cover"
                 />
             </div>
