@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { novaMono } from "@/styles/fonts";
 
-function App() {
+function Lifes() {
     const [hearts, setHearts] = useState([true, true, true, true, true]);
     const [countdown, setCountdown] = useState(10);
 
@@ -41,16 +42,16 @@ function App() {
 
     const renderHearts = () => {
         return hearts.map((heart, index) => (
-            <span key={index} className="text-4xl mx-2">
-        {heart ? '❤️' : '🩶'}
-      </span>
+            <span key={index} className="text-4xl mx-1">
+                {heart ? '❤️' : '🩶'}
+            </span>
         ));
     };
 
     return (
-        <div className="App flex flex-col items-center p-6 space-y-6">
+        <div className="flex flex-col items-center p-6 space-y-6">
             <div className="flex items-center">
-                <div className="mr-6 text-xl font-semibold">
+                <div className={`mr-6 text-xl font-semibold ${novaMono.className}`}>
                     {formatTime(countdown)}
                 </div>
 
@@ -58,15 +59,8 @@ function App() {
                     {renderHearts()}
                 </div>
             </div>
-
-            <button
-                onClick={loseLife}
-                className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-            >
-                Perder vida
-            </button>
         </div>
     );
 }
 
-export default App;
+export default Lifes;
