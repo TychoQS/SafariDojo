@@ -28,7 +28,7 @@ export const Header = ({ mode }) => {
     };
 
     return (
-        <header className="flex items-center p-4 shadow-md bg-white w-[80rem] h-[5rem]">
+        <header className="flex items-center p-4 shadow-md bg-white h-[5rem]">
             <a href="...">
                 <img src="/images/logo.svg" alt="Logo" className="m-4" />
             </a>
