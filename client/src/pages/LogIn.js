@@ -5,17 +5,18 @@ import FormField from "@/components/FormField";
 
 const LogIn = () => {
     return (
-        <div style={styles.page}>
+        <div className="flex flex-col min-h-screen bg-cover bg-center m-0"
+             style={{ backgroundImage: "url('/images/LogBackground.png')" }}>
             <Header />
-            <main style={styles.main}>
+            <main className="flex-1 self-center">
                 <FormField
                     title="Log In"
                     inputs={[
-                        { id: "FullName", label: "Email", size: "large" },
-                        { id: "UserEmail", label: "Password", size: "large" }
+                        { id: "FullName", label: "Email", size: "large", placeholder: "example@example.com" },
+                        { id: "UserEmail", label: "Password", size: "large", placeholder: "********" },
                     ]}
                     buttonText="Next"
-                    buttonSize="medium"
+                    buttonSize="small"
                     linkText="Forgot password?"
                     linkUrl="#"
                 />
@@ -23,22 +24,6 @@ const LogIn = () => {
             <Footer />
         </div>
     );
-};
-
-const styles = {
-    page: {
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        backgroundImage: "url('/images/LogBackground.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        margin: 0,
-    },
-    main: {
-        flex: 1,
-        alignSelf: "center",
-    },
 };
 
 export default LogIn;

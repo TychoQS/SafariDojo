@@ -24,14 +24,15 @@ export default function FormField({
     return (
         <section
             className="bg-[#FFDEB6] w-[32rem] h-[32rem] border-4 border-[#FBAF00] rounded-full flex flex-col items-center justify-center mx-auto text-center">
-            <Title level={1}>{title}</Title>
-            <form onSubmit={e => e.preventDefault()} className="flex flex-col items-center">
+            <Title level={2}>{title}</Title>
+            <form onSubmit={e => e.preventDefault()} className="flex flex-col items-center m-[1.75rem]">
                 {inputs.map((input, index) => (
                     <Input
                         key={index}
                         id={input.id}
                         label={input.label}
                         size={input.size}
+                        placeholder={input.placeholder}
                     />
                 ))}
             </form>

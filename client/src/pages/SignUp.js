@@ -5,17 +5,18 @@ import FormField from "@/components/FormField";
 
 const SignUp = () => {
     return (
-        <div style={styles.page}>
+        <div className="flex flex-col min-h-screen bg-cover bg-center m-0"
+             style={{ backgroundImage: "url('/images/LogBackground.png')" }}>
             <Header />
-            <main style={styles.main}>
+            <main className="flex-1">
                 <FormField
                     title="Sign Up"
                     inputs={[
-                        { id: "FullName", label: "Name", size: "large" },
-                        { id: "UserEmail", label: "Email", size: "large" }
+                        { id: "FullName", label: "Full Name", size: "large", placeholder: "John Doe" },
+                        { id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com" },
                     ]}
                     buttonText="Next"
-                    buttonSize="medium"
+                    buttonSize="small"
                     linkText="Already have an account?"
                     linkUrl="#"
                 />
@@ -23,21 +24,6 @@ const SignUp = () => {
             <Footer />
         </div>
     );
-};
-
-const styles = {
-    page: {
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        backgroundImage: "url('/images/LogBackground.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        margin: 0,
-    },
-    main: {
-        flex: 1,
-    },
 };
 
 export default SignUp;

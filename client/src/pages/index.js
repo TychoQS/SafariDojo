@@ -1,32 +1,29 @@
-import React, {useState} from 'react'
-import SpeechBubble from "@/components/SpeechBubble";
+import React from "react";
 import Header from "@/components/Header";
-import Button from "@/components/Button";
 import Footer from "@/components/Footer";
-import GoalsCard from "@/components/GoalsCard";
+import FormField from "@/components/FormField";
 
-function index() {
-  const [message, setMessage] = useState('Loading message...');
+const SignUp = () => {
+    return (
+        <div className="flex flex-col min-h-screen bg-cover bg-center m-0"
+             style={{ backgroundImage: "url('/images/LogBackground.png')" }}>
+            <Header />
+            <main className="flex-1">
+                <FormField
+                    title="Sign Up"
+                    inputs={[
+                        { id: "FullName", label: "Full Name", size: "large", placeholder: "John Doe" },
+                        { id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com" },
+                    ]}
+                    buttonText="Next"
+                    buttonSize="small"
+                    linkText="Already have an account?"
+                    linkUrl="#"
+                />
+            </main>
+            <Footer />
+        </div>
+    );
+};
 
-  // API Fetch
-  fetch('http://localhost:8080/api/home')
-        .then(res => res.json())
-        .then(data => setMessage(data.message));
-
-  return (
-      <>
-          <div className="app min-h-screen flex flex-col bg-PS-main-purple">
-              <Header />
-              <section className="flex-grow flex items-center justify-center relative mt-5 mb-5">
-                  <GoalsCard Progress={[0, 3, 7]} Total={[7, 7, 7]} />
-                  <div className="absolute bottom-[-20px] w-full flex justify-center">
-                      <Button size="large">set goals</Button>
-                  </div>
-              </section>
-              <Footer />
-          </div>
-      </>
-  )
-}
-
-export default index;
+export default SignUp;
