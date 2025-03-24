@@ -38,7 +38,7 @@ export default function Input ({size = 'medium', id, label, ...props}) {
             )}
             <input
                 id={id}
-                className={`text-[#000000] bg-[#FFFFFF] ${borderColor} rounded-full px-4 py-2 border-2 outline-none border-b-6 ${inputSizeClass} ${deliciousHandDrawn.className}`}
+                className={`text-[#000000] bg-[#FFFFFF] ${borderColor} rounded-2xl px-4 py-2 border-2 outline-none border-b-6 ${inputSizeClass} ${deliciousHandDrawn.className}`}
                 {...props}
             />
         </div>
