@@ -11,7 +11,8 @@ array with the goals to complete (Arrays must have the same size):
 
  */
 
-import {cherryBomb, deliciousHandDrawn} from '@/styles/fonts';
+import {deliciousHandDrawn} from '@/styles/fonts';
+import Title from "./Title";
 
 const GetCompletedGoalsAsPercentage = ({Completed, Total}) => {
     return (Completed / Total) * 100;
@@ -42,13 +43,7 @@ export default function GoalsCard({Progress, Total}) {
             id="DailyGoalsCard"
             className="bg-[#FFDEB6] flex flex-col items-center border-6 border-[#FBAF00] rounded-xl
                        w-full max-w-2xl h-auto pt-3 px-6 md:px-10">
-            <h2
-                id="DailyGoalsCardTitle"
-                className={`text-center text-7xl text-[#FBAF00] ${cherryBomb.className}
-                            [text-shadow:8px_0px_0px_#372E55] [-webkit-text-stroke:1px_black]
-                            border-black`}>
-                Daily goals
-            </h2>
+            <Title level={1}>Daily Goals</Title>
             <div className="w-full max-w-lg h-px bg-black mt-4"></div>
             <ul id="DailyGoalsCardGoalList" className="w-full space-y-2 mt-6 pb-24">
                 {Progress.map((completed, index) => (

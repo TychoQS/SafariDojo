@@ -1,3 +1,8 @@
+/*
+======================== USAGE ====================
+        <Footer />
+ */
+
 const Footer = () => {
     return (
         <footer className="flex flex-col items-center text-center p-4 shadow-md bg-white h-[6rem]">

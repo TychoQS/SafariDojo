@@ -1,3 +1,20 @@
+/*
+======================== USAGE ====================
+        <Input
+            size="medium"
+            id="input1"
+            label="Enter your name"
+            placeholder="John Doe"
+        />
+
+        <Input
+            size="large"
+            id="input2"
+            label="Email Address"
+            placeholder="example@domain.com"
+        />
+*/
+
 import React from 'react';
 import {deliciousHandDrawn} from '@/styles/fonts';
 

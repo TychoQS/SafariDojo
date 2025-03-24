@@ -1,3 +1,9 @@
+/*
+======================== USAGE ====================
+
+ */
+
+
 import React from 'react';
 import subjects from "../../../database/jsondata/Subject.json";
 import {patrickHand, cherryBomb} from "@/styles/fonts";

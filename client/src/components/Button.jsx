@@ -1,3 +1,12 @@
+/*
+======================== USAGE ====================
+        <Button size="medium">Click Me</Button>
+
+        <Button size="small">Small Button</Button>
+
+        <Button size="large">Large Button</Button>
+*/
+
 import React from 'react';
 import {cherryBomb} from '@/styles/fonts';
 

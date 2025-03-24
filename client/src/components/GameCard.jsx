@@ -1,13 +1,12 @@
 /*
-USAGE
-
-<GameCard
-      Title={"Game name"}
-      Description={"Game description Game description Game description Game description Game description"}
-      Completed={true}
-      Subject={"Art"}
-      Score={"0"}>
-</GameCard>
+======================== USAGE ====================
+        <GameCard
+              Title={"Game name"}
+              Description={"Game description Game description Game description Game description Game description"}
+              Completed={true}
+              Subject={"Art"}
+              Score={"0"}>
+        </GameCard>
 */
 
 import Button from "@/components/Button";

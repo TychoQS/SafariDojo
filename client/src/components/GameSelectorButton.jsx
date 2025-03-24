@@ -1,10 +1,9 @@
 /*
-        USAGE
-
-<GameSelectorButton
-      Game={"Game name"}
-      Subject={"Subject (singular)"}>
-</GameSelectorButton>
+======================== USAGE ====================
+      <GameSelectorButton
+          Game={"Game name"}
+          Subject={"Subject (singular)"}>
+      </GameSelectorButton>
 */
 
 export default function GameSelectorButton(props) {

@@ -1,3 +1,10 @@
+/*
+======================== USAGE ====================
+        <Header/>
+        <Header mode="guest" />   // Shows "Sign Up" and "Log In" buttons
+        <Header mode="loggedIn" /> // Shows "Log Out" button
+*/
+
 import React from "react";
 
 export const Header = ({ mode }) => {
