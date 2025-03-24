@@ -5,7 +5,7 @@ module.exports = {
                 "PS-light-black": "#372E55",
                 "PS-gray": "#D9D9D9",
                 "PS-header-color": "#E4EFED",
-                "PS-main-yellow": "#9702E2",
+                "PS-main-purple": "#9702E2",
                 "PS-dark-yellow": "#FBAF00",
                 "PS-dark-yellow2": "#FBB000",
                 "PS-light-yellow": "#FFDEB6",
