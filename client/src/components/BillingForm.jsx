@@ -1,6 +1,7 @@
 import Form from "next/form";
-import Input from "@/components/Input";
-import Title from "@/components/Title";
+import Input from "./Input";
+import Title from "./Title";
+import Button from "@/components/Button";
 
 export default function BillingForm() {
     return (
@@ -11,10 +12,10 @@ export default function BillingForm() {
                 <Input size="large" id="CardholderName" label="Cardholder name"/>
                 <Input size="large" id="CardNumber" label="Card Number"/>
                 <Input size="large" id="ValidityDate" label="Validity Date"/>
-                <button className="cursor-pointer w-40 h-12 border-b-6 rounded-full
+                <Button className="cursor-pointer w-40 h-12 border-b-6 rounded-full
                 hover:bg-orange-400 hover:border-none bg-[#FBAF00] border-b-[#403C61] font-black text-xl shadow-md">
                     Save
-                </button>
+                </Button>
             </Form>
         </section>
     )
