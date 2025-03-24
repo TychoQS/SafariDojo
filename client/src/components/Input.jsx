@@ -18,9 +18,9 @@
 import React from 'react';
 import {deliciousHandDrawn} from '@/styles/fonts';
 
-const Input = ({size = 'medium', id, label, ...props}) => {
+export default function Input ({size = 'medium', id, label, ...props}) {
     const sizeClasses = {
-        medium: 'w-40 h-12 text-lg',
+        medium: 'w-40 h-12 text-xl',
         large: 'w-64 h-12 text-xl',
     };
 
@@ -29,7 +29,7 @@ const Input = ({size = 'medium', id, label, ...props}) => {
     const inputSizeClass = sizeClasses[size] || sizeClasses.medium;
 
     return (
-        <div className="mb-4">
+        <div>
             {label && (
                 <label htmlFor={id}
                        className={`block text-[#372E55] text-center w-full text-lg ${deliciousHandDrawn.className}`}>
@@ -44,5 +44,3 @@ const Input = ({size = 'medium', id, label, ...props}) => {
         </div>
     );
 };
-
-export default Input;

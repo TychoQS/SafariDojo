@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { novaMono } from "@/styles/fonts";
 
-function Lifes() {
+export default function Lifes() {
     const [hearts, setHearts] = useState([true, true, true, true, true]);
     const [countdown, setCountdown] = useState(10);
 
@@ -62,5 +62,3 @@ function Lifes() {
         </div>
     );
 }
-
-export default Lifes;

@@ -10,7 +10,7 @@
 import React from 'react';
 import {cherryBomb} from '@/styles/fonts';
 
-const Button = ({size = 'medium', children}) => {
+export default function Button({size = 'medium', children}) {
     const sizeClasses = {
         small: 'w-24 h-8 text-sm',
         medium: 'w-40 h-12 text-xl',
@@ -27,5 +27,3 @@ const Button = ({size = 'medium', children}) => {
         </button>
     );
 };
-
-export default Button;

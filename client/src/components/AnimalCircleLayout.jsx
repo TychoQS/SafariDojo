@@ -1,7 +1,7 @@
 import React from "react";
 import AnimalIcon from "@/components/AnimalIcon";
 
-const CircleLayout = () => {
+export default function CircleLayout() {
     const radius = 150;
     const centerX = 190;
     const centerY = 190;
@@ -37,5 +37,3 @@ const CircleLayout = () => {
         </div>
     );
 };
-
-export default CircleLayout;

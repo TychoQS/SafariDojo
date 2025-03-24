@@ -10,7 +10,7 @@
 import React from "react";
 import animals from "../../../database/jsondata/Subject.json";
 
-const AnimalIcon = ({ subject, style, borderThickness = 8 }) => {
+export default function AnimalIcon({ subject, style, borderThickness = 8 }) {
     const subjectData = animals.find(item => item.subjectName === subject);
     const { animalName, baseIcon, borderColor } = subjectData;
 
@@ -32,5 +32,3 @@ const AnimalIcon = ({ subject, style, borderThickness = 8 }) => {
         </div>
     );
 };
-
-export default AnimalIcon;
