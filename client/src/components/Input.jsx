@@ -1,9 +1,10 @@
 import React from 'react';
+import {deliciousHandDrawn} from '@/styles/fonts';
 
-const Input = ({ size = 'medium', id, label, ...props }) => {
+const Input = ({size = 'medium', id, label, ...props}) => {
     const sizeClasses = {
-        medium: 'w-40 h-12 text-base',
-        large: 'w-64 h-12 text-lg',
+        medium: 'w-40 h-12 text-lg',
+        large: 'w-64 h-12 text-xl',
     };
 
     const borderColor = size === 'medium' ? 'border-[#FBAF00]' : 'border-[#372E55]';
@@ -13,13 +14,14 @@ const Input = ({ size = 'medium', id, label, ...props }) => {
     return (
         <div className="mb-4">
             {label && (
-                <label htmlFor={id} className="block text-[#372E55] mb-2 text-center w-full">
+                <label htmlFor={id}
+                       className={`block text-[#372E55] text-center w-full text-lg ${deliciousHandDrawn.className}`}>
                     {label}
                 </label>
             )}
             <input
                 id={id}
-                className={`text-[#000000] bg-[#FFFFFF] ${borderColor} rounded-full px-4 py-2 border-2 outline-none border-b-6 ${inputSizeClass}`}
+                className={`text-[#000000] bg-[#FFFFFF] ${borderColor} rounded-full px-4 py-2 border-2 outline-none border-b-6 ${inputSizeClass} ${deliciousHandDrawn.className}`}
                 {...props}
             />
         </div>

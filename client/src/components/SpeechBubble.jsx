@@ -60,11 +60,14 @@ export default function SpeechBubble(props) {
             <section id={"BubbleSpeech"} className={`relative mt-15 border-4  ml-auto mr-auto border-black
                                  flex flex-col justify-end items-end rounded-tr-3xl rounded-tl-3xl rounded-bl-3xl rounded-br-3xl 
                                 ${getBackgroundColorBasedOn(Subject)}`}>
-                <p id={"BubbleSpeechText"} className="text-xl text-center font-bold color text-black align-baseline w-96 mx-auto p-4">
+                <p id={"BubbleSpeechText"}
+                   className="text-xl text-center font-bold color text-black align-baseline w-96 mx-auto p-4">
                     {Text}
                 </p>
-                <svg id={"BubbleSpeechTail"} viewBox="0 0 200 100" className={"absolute bottom-0 transform rotate-160 translate-y-51 translate-x-32 stroke-3"}>
-                    <polygon points="40,60 115,147 96,490" fill={getBackgroundHexColorBasedOn(Subject)} stroke="black" strokeWidth="2.2"  />
+                <svg id={"BubbleSpeechTail"} viewBox="0 0 200 100"
+                     className={"absolute bottom-0 transform rotate-160 translate-y-51 translate-x-32 stroke-3"}>
+                    <polygon points="40,60 115,147 96,490" fill={getBackgroundHexColorBasedOn(Subject)} stroke="black"
+                             strokeWidth="2.2"/>
                 </svg>
             </section>
         </section>
