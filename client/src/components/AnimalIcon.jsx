@@ -4,7 +4,8 @@ Subject animals
         <AnimalIcon
             subject={"Math"}
             style={{ top: "50px", left: "100px" }}
-            borderThickness={8}>
+            borderThickness={8}
+            link = true
             size="small">
         </AnimalIcon>
 
@@ -28,7 +29,8 @@ export default function AnimalIcon({
                                        backgroundColor = "white",
                                        borderThickness = 6,
                                        animalName,
-                                       size = "medium"
+                                       size = "medium",
+                                       link = false
                                    }) {
     const subjectData = animals.find(item => item.subjectName === subject);
 
@@ -48,28 +50,34 @@ export default function AnimalIcon({
             sizeClasses = "md:w-48 md:h-48";
             break;
         case "small":
-            sizeClasses = "w-20 h-20"
+            sizeClasses = "w-20 h-20";
             break;
     }
 
-    return (
-        <Link href={{pathname: "/GameSelectionPage", query: {Subject: subject}   }}>
-            <div className="absolute" style={style}>
-                <div
-                    className={`rounded-full overflow-hidden ${sizeClasses}`}
-                    style={{
-                        backgroundColor,
-                        borderColor,
-                        borderWidth: borderThickness,
-                    }}
-                >
-                    <img
-                        src={baseIcon}
-                        alt={animalName || subject}
-                        className="w-full h-full object-cover"
-                    />
-                </div>
+    const iconContent = (
+        <div className="absolute" style={style}>
+            <div
+                className={`rounded-full overflow-hidden ${sizeClasses}`}
+                style={{
+                    backgroundColor,
+                    borderColor,
+                    borderWidth: borderThickness,
+                }}
+            >
+                <img
+                    src={baseIcon}
+                    alt={animalName || subject}
+                    className="w-full h-full object-cover"
+                />
             </div>
+        </div>
+    );
+
+    return link ? (
+        <Link href={{pathname: "/GameSelectionPage", query: {Subject: subject}}}>
+            {iconContent}
         </Link>
+    ) : (
+        iconContent
     );
 }

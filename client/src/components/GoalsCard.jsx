@@ -24,14 +24,14 @@ const BuildDailyGoalsCardGoalListItem = ({Text, Completed, Total}) => {
     return (
         <li id="DailyGoalListItem">
             <h3 id={"DailyGoalListTitle"}
-                className={`font-bold text-4xl mb-2 ${deliciousHandDrawn.className}`}>{Text}</h3>
+                className={`text-black font-bold text-4xl mb-2 ${deliciousHandDrawn.className}`}>{Text}</h3>
             <section id={"DailyGoalListItemBody"} className="flex items-center gap-4">
                 <div id={"GrayProgressBar"} className="flex-grow w-full bg-[#D9D9D9] rounded-full h-4 overflow-hidden">
                     <div id={"YellowProgressBar"} className="bg-[#FBAF00] h-full rounded-full"
                          style={{width: `${progress}%`}}></div>
                 </div>
                 <h3 id={"NumericProgress"}
-                    className={`text-6xl inline-flex items-center align-middle pb-4 pl-1 ${deliciousHandDrawn.className}`}>{Completed}/{Total}</h3>
+                    className={`text-black text-6xl inline-flex items-center align-middle pb-4 pl-1 ${deliciousHandDrawn.className}`}>{Completed}/{Total}</h3>
             </section>
         </li>
     );

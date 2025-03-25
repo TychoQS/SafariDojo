@@ -26,6 +26,7 @@ export default function CircleLayout() {
                     <AnimalIcon
                         key={index}
                         subject={icon.subject}
+                        link={true}
                         style={{
                             top: `${y}px`,
                             left: `${x}px`,
