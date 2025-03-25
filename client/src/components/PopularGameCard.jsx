@@ -29,7 +29,7 @@ const Card = ({gameSubject, isCompleted, medalType}) => {
 
                 <div className="w-7 h-7 ml-20 relative flex items-center">
                     <img
-                        src={`/images/${medalType}Medal.png`}
+                        src={`/images/Medals/${medalType}Medal.png`}
                         alt={`${medalType} medal`}
                         className="w-full h-full object-contain"
                     />
