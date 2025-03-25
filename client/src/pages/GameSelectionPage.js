@@ -4,10 +4,35 @@ import GameSelectionButton from '@/components/GameSelectorButton';
 import animals from "../../../database/jsondata/Subject.json";
 import AgeSelectorButton from "@/components/AgeSelectorButton";
 import Footer from "@/components/Footer";
+import {useRouter} from "next/router";
+import {useEffect, useState} from "react";
 
-function GameSelectionPage(subject) {
-    const subjectData = animals.find(item => item.subjectName === subject);
-    const {selectGameIcon, backgroundColor, borderColor} = subjectData;
+function GameSelectionPage() {
+    const router = useRouter()
+    const [subject, setSubject] = useState(null)
+    const [subjectData, setSubjectData] = useState(null)
+
+    useEffect(() => {
+        if (router.isReady) {
+            const querySubject = router.query.Subject
+            setSubject(querySubject)
+            console.log('Subject extraído:', querySubject)
+        }
+    }, [router.isReady, router.query])
+
+    useEffect(() => {
+        if (subject) {
+            const foundSubjectData = animals.find(item => item.subjectName === subject);
+            if (foundSubjectData) {
+                setSubjectData(foundSubjectData)
+                console.log('Datos del subject:', foundSubjectData)
+            }
+        }
+    }, [subject])
+
+    const selectGameIcon = subjectData?.selectGameIcon
+    const backgroundColor = subjectData?.backgroundColor
+    const borderColor = subjectData?.borderColor
 
     return (
         <>
