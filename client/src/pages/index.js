@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CircleLayout from "@/components/AnimalCircleLayout";
 import PopularGameCard from "@/components/PopularGameCard";
 import SearchBar from "@/components/SearchBar";
 import FilterBar from "@/components/FilterBar";
+import {cherryBomb} from '@/styles/fonts';
 
 function Index() {
     const [filters, setFilters] = useState({
@@ -13,11 +14,11 @@ function Index() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const games = [
-        { gameSubject: "English", isCompleted: true, medalType: "gold" },
-        { gameSubject: "Maths", isCompleted: false, medalType: "bronze" },
-        { gameSubject: "Science", isCompleted: false, medalType: "silver" },
-        { gameSubject: "Art", isCompleted: true, medalType: "silver" },
-        { gameSubject: "Art", isCompleted: false, medalType: "bronze" },
+        {gameSubject: "English", isCompleted: true, medalType: "gold"},
+        {gameSubject: "Maths", isCompleted: false, medalType: "bronze"},
+        {gameSubject: "Science", isCompleted: false, medalType: "silver"},
+        {gameSubject: "Art", isCompleted: true, medalType: "silver"},
+        {gameSubject: "Art", isCompleted: false, medalType: "bronze"},
     ];
 
     const handleSearch = (term) => {
@@ -44,7 +45,7 @@ function Index() {
                 filteredGames.sort((a, b) => a.gameSubject.localeCompare(b.gameSubject));
                 break;
             case "medal":
-                const medalOrder = { gold: 1, silver: 2, bronze: 3 };
+                const medalOrder = {gold: 1, silver: 2, bronze: 3};
                 filteredGames.sort((a, b) => medalOrder[a.medalType] - medalOrder[b.medalType]);
                 break;
 
@@ -63,13 +64,22 @@ function Index() {
     return (
         <>
             <div className="app min-h-screen flex flex-col bg-PS-main-purple">
-                <Header mode="guest" />
-                <section className="flex-grow flex flex-col relative mt-5 justify-center items-center align-middle">
-                    <CircleLayout />
-                    <section className="w-full flex-grow flex flex-col relative mt-5 justify-center items-center bg-[#FFDEB6] p-4 gap-6">
+                <Header mode="guest"/>
+                <section className="flex-grow flex flex-col  mt-5 justify-center items-center align-middle">
+                    <CircleLayout/>
+                    <section
+                        className="w-full flex-grow flex flex-col relative mt-5 items-center bg-PS-light-yellow p-4 gap-6">
+                        <div className=" w-full flex flex-col items-center mt-[-10px] mb-[20px]">
+                            <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 translate-y-[-50%] 
+                            border-3 border-PS-light-black bg-PS-dark-yellow 
+                            text-PS-light-black text-5xl font-bold py-2 px-4 rounded-lg shadow-md w-200 
+                            items-center flex justify-center ${cherryBomb.className}`}>
+                                Most Popular Games
+                            </div>
+                        </div>
                         <div className="flex justify-center items-center gap-4 w-full">
-                            <SearchBar placeholder="Buscar..." onSearch={handleSearch} />
-                            <FilterBar onFilterChange={handleFilterChange} />
+                            <SearchBar placeholder="Buscar..." onSearch={handleSearch}/>
+                            <FilterBar onFilterChange={handleFilterChange}/>
                         </div>
 
                         {filteredGames.map((game, index) => (
@@ -82,7 +92,7 @@ function Index() {
                         ))}
                     </section>
                 </section>
-                <Footer />
+                <Footer/>
             </div>
         </>
     );

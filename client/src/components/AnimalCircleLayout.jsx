@@ -15,7 +15,7 @@ export default function CircleLayout() {
     ];
 
     return (
-        <div className="relative flex justify-center items-center w-[250px] h-[250px] mx-auto">
+        <div className="relative flex justify-center items-center w-[250px] h-[250px] mx-auto my-[50px]">
             <div className="absolute w-[200px] h-[200px] border-20 border-white rounded-full"></div>
             {icons.map((icon, index) => {
                 const angle = (index / icons.length) * 2 * Math.PI;

@@ -8,6 +8,7 @@
             ]}
             buttonText="Next"
             buttonSize="medium"
+            buttonLink="LogIn"
             linkText="Already have an account?"
             linkUrl="#"
         />
@@ -18,10 +19,11 @@ import Input from "@/components/Input";
 import Button from "@/components/Button";
 import Title from "@/components/Title";
 import {deliciousHandDrawn} from '@/styles/fonts';
+import Link from "next/link";
 
 export default function FormField({
-    title, inputs, buttonText, buttonSize, linkText, linkUrl
-    }) {
+                                      title, inputs, buttonText, buttonSize, buttonLink, linkText, linkUrl
+                                  }) {
     return (
         <section
             className="bg-[#FFDEB6] w-[32rem] h-[32rem] border-4 border-[#FBAF00] rounded-full flex flex-col items-center justify-center mx-auto text-center">
@@ -40,7 +42,9 @@ export default function FormField({
             <p className={`text-[1.5rem] mt-[1rem] text-[#FBAF00] ${deliciousHandDrawn.className}`}>
                 {linkText} <a className="text-[#372E55]" href={linkUrl}>Click here</a>
             </p>
-            <Button size={buttonSize}>{buttonText}</Button>
+            <Link href={buttonLink}>
+                <Button size={buttonSize}>{buttonText}</Button>
+            </Link>
         </section>
     );
 }

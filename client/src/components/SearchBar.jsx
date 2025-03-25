@@ -24,7 +24,7 @@ export default function SearchBar({ placeholder, onSearch }) {
             />
             <button
                 onClick={handleSearch}
-                className="absolute top-1/2 right-2 transform -translate-y-1/2 p-2 text-white bg-[#372E55] rounded-lg focus:outline-none"
+                className="absolute top-1/2 right-2 transform -translate-y-1/2 p-2 text-white rounded-lg focus:outline-none"
             >
                 🔍
             </button>

@@ -12,12 +12,12 @@ const SignUp = () => {
                 <FormField
                     title="Sign Up"
                     inputs={[
-                        { id: "FullName", label: "Full Name", size: "large", placeholder: "John Doe" },
-                        { id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com" },
+                        { id: "Password", label: "Password", size: "large", placeholder: "********" },
+                        { id: "ConfirmPassword", label: "Confirm Password", size: "large", placeholder: "********" },
                     ]}
-                    buttonText="next"
+                    buttonText="create"
                     buttonSize="small"
-                    buttonLink="/SignUpSecond"
+                    buttonLink="/MyProfile"
                     linkText="Already have an account?"
                     linkUrl="/LogIn"
                 />
