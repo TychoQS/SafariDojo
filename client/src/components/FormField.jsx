@@ -17,6 +17,7 @@ import React from "react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import Title from "@/components/Title";
+import {deliciousHandDrawn} from '@/styles/fonts';
 
 export default function FormField({
     title, inputs, buttonText, buttonSize, linkText, linkUrl
@@ -36,7 +37,7 @@ export default function FormField({
                     />
                 ))}
             </form>
-            <p className="text-[1rem] mt-[1rem] text-[#FBAF00]">
+            <p className={`text-[1.5rem] mt-[1rem] text-[#FBAF00] ${deliciousHandDrawn.className}`}>
                 {linkText} <a className="text-[#372E55]" href={linkUrl}>Click here</a>
             </p>
             <Button size={buttonSize}>{buttonText}</Button>

@@ -8,7 +8,7 @@ const SignUp = () => {
         <div className="flex flex-col min-h-screen bg-cover bg-center m-0"
              style={{ backgroundImage: "url('/images/LogBackground.png')" }}>
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 flex justify-center items-center align-middle">
                 <FormField
                     title="Sign Up"
                     inputs={[
