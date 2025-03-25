@@ -2,40 +2,40 @@
   {
     "subjectName": "English",
     "animalName": "owl",
-    "baseIcon": "/images/Owl.png",
-    "selectGameIcon": "/images/Owl2.png",
+    "baseIcon": "/images/SubjectAnimals/Owl.png",
+    "selectGameIcon": "/images/SubjectAnimals/Owl2.png",
     "backgroundColor": "FDFFCE",
     "borderColor": "#EFF66E"
   },
   {
     "subjectName": "Geography",
     "animalName": "kangaroo",
-    "baseIcon": "/images/Kangaroo.png",
-    "selectGameIcon": "/images/Kangaroo2.png",
+    "baseIcon": "/images/SubjectAnimals/Kangaroo.png",
+    "selectGameIcon": "/images/SubjectAnimals/Kangaroo2.png",
     "backgroundColor": "E8B1EC",
     "borderColor": "#ED6EF6"
   },
   {
     "subjectName": "Maths",
     "animalName": "elephant",
-    "baseIcon": "/images/Elephant.png",
-    "selectGameIcon": "/images/Elephant2.png",
+    "baseIcon": "/images/SubjectAnimals/Elephant.png",
+    "selectGameIcon": "/images/SubjectAnimals/Elephant2.png",
     "backgroundColor": "#9BD6EF",
     "borderColor": "#1BA8E4"
   },
   {
     "subjectName": "Science",
     "animalName": "frog",
-    "baseIcon": "/images/Frog.png",
-    "selectGameIcon": "/images/Frog2.png",
+    "baseIcon": "/images/SubjectAnimals/Frog.png",
+    "selectGameIcon": "/images/SubjectAnimals/Frog2.png",
     "backgroundColor": "C9F1D2",
     "borderColor": "#6EF68B"
   },
   {
     "subjectName": "Art",
     "animalName": "platypus",
-    "baseIcon": "/images/Platypus.png",
-    "selectGameIcon": "/images/Platypus2.png",
+    "baseIcon": "/images/SubjectAnimals/Platypus.png",
+    "selectGameIcon": "/images/SubjectAnimals/Platypus2.png",
     "backgroundColor": "F2C1BB",
     "borderColor": "#F67C6E"
   }
