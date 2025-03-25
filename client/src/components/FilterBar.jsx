@@ -5,7 +5,7 @@ const FilterBar = ({ onFilterChange }) => {
     return (
         <select
             onChange={(e) => onFilterChange(e.target.value)}
-            className={`w-5px h-1.5 px-4 border-2 border-[#372E55] text-[#372E55] rounded-lg 
+            className={`w-5px h-5px px-4 border-2 border-[#372E55] text-[#372E55] rounded-lg 
                 shadow-md focus:outline-none bg-white ${mavenPro.className}`}
                 >
             <option value="">Filter</option>

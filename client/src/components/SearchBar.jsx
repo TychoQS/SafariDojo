@@ -19,7 +19,7 @@ export default function SearchBar({ placeholder, onSearch }) {
                 value={searchTerm}
                 onChange={handleChange}
                 placeholder={placeholder}
-                className={`w-full h-1.5 px-4 border-2 border-[#372E55] text-[#372E55] rounded-lg 
+                className={`w-full h-5px px-4 border-2 border-[#372E55] text-[#372E55] rounded-lg 
                 shadow-md focus:outline-none bg-white ${mavenPro.className}`}
             />
             <button
