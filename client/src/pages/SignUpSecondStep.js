@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
 
-const SignUp = () => {
+const SignUpSecondStep = () => {
     return (
         <div className="flex flex-col min-h-screen bg-cover bg-center m-0"
              style={{ backgroundImage: "url('/images/LogBackground.png')" }}>
@@ -12,12 +12,12 @@ const SignUp = () => {
                 <FormField
                     title="Sign Up"
                     inputs={[
-                        { id: "FullName", label: "Full Name", size: "large", placeholder: "John Doe" },
-                        { id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com" },
+                        { id: "Password", label: "Password", size: "large", placeholder: "********" },
+                        { id: "ConfirmPassword", label: "Confirm password", size: "large", placeholder: "********" },
                     ]}
-                    buttonText="next"
+                    buttonText="Create"
                     buttonSize="small"
-                    buttonLink="/SignUpSecond"
+                    buttonLink="/MyProfile"
                     linkText="Already have an account?"
                     linkUrl="/LogIn"
                 />
@@ -27,4 +27,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default SignUpSecondStep;
