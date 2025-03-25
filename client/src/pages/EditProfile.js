@@ -5,7 +5,7 @@ import Title from "@/components/Title";
 import Button from "@/components/Button";
 import AnimalIcon from "@/components/AnimalIcon";
 
-export default function MyProfile() {
+export default function EditProfile() {
     return (
         <>
             <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -13,7 +13,7 @@ export default function MyProfile() {
                 <section
                     className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-[#FFDEB6] border-[#FBAF00] mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
                     <div className="col-span-2 flex justify-center items-center">
-                        <Title>My profile</Title>
+                        <Title>Edit your profile</Title>
                     </div>
 
                     <div className="col-start-2 row-start-3 flex flex-col items-end space-y-6">
@@ -34,30 +34,8 @@ export default function MyProfile() {
                     </div>
 
                     <div className="col-start-1 col-span-2 row-start-4 flex justify-between items-center">
-                        <div className="flex space-x-8">
-                            <a href=".." target="_blank">
-                                <img
-                                    src="/images/StatsButton.svg"
-                                    alt="Stats Button"
-                                    className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"
-                                />
-                            </a>
-                            <a href=".." target="_blank">
-                                <img
-                                    src="/images/Diana.svg"
-                                    alt="Diana"
-                                    className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"
-                                />
-                            </a>
-                            <a href=".." target="_blank">
-                                <img
-                                    src="/images/Medals.svg"
-                                    alt="Medals"
-                                    className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"
-                                />
-                            </a>
-                        </div>
-                        <Button size="large">Edit profile</Button>
+                        <Button size="large">Cancel</Button>
+                        <Button size="large">Save</Button>
                     </div>
                 </section>
                 <Footer/>
