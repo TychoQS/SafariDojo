@@ -57,7 +57,7 @@ export default function MyProfile() {
                                 />
                             </a>
                         </div>
-                        <Button size="large">Edit profile</Button>
+                        <Button size="large">edit profile</Button>
                     </div>
                 </section>
                 <Footer/>

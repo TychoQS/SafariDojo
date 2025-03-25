@@ -15,7 +15,7 @@ const SignUp = () => {
                         { id: "FullName", label: "Full Name", size: "large", placeholder: "John Doe" },
                         { id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com" },
                     ]}
-                    buttonText="Next"
+                    buttonText="next"
                     buttonSize="small"
                     linkText="Already have an account?"
                     linkUrl="#"

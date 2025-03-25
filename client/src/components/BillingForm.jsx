@@ -13,7 +13,7 @@ export default function BillingForm() {
                 <Input size="large" id="CardholderName" label="Cardholder name"/>
                 <Input size="large" id="CardNumber" label="Card Number"/>
                 <Input size="large" id="ValidityDate" label="Validity Date"/>
-                <Button>Save</Button>
+                <Button>save</Button>
             </Form>
         </section>
     )

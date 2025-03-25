@@ -34,8 +34,8 @@ export default function EditProfile() {
                     </div>
 
                     <div className="col-start-1 col-span-2 row-start-4 flex justify-between items-center">
-                        <Button size="large">Cancel</Button>
-                        <Button size="large">Save</Button>
+                        <Button size="large">cancel</Button>
+                        <Button size="large">save</Button>
                     </div>
                 </section>
                 <Footer/>

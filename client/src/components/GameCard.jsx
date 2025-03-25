@@ -42,7 +42,7 @@ export default function GameCard(props) {
             style={getBackgroundStyle()}>
             <div className="text-2xl font-black text-center">{Title}</div>
             <div className="text-sm text-center font-medium p-2 rounded-md">{Description}</div>
-            <Button size="medium">Start</Button>
+            <Button size="medium">start</Button>
             <div className="text-lg font-semibold">Previous Score: {Score ?? "N/A"}</div>
         </section>
     );

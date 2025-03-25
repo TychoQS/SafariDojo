@@ -15,7 +15,7 @@ const LogIn = () => {
                         { id: "FullName", label: "Email", size: "large", placeholder: "example@example.com" },
                         { id: "UserEmail", label: "Password", size: "large", placeholder: "********" },
                     ]}
-                    buttonText="Next"
+                    buttonText="next"
                     buttonSize="small"
                     linkText="Forgot password?"
                     linkUrl="#"
