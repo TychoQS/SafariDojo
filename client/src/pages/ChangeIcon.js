@@ -27,7 +27,7 @@ export default function ChangeIcon() {
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header mode="loggedIn"/>
             <section
-                className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto, auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-[#FFDEB6] border-[#FBAF00] mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
+                className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto, auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
                 <div className="col-span-2 flex justify-center items-center">
                     <Title>Choose an icon</Title>
                 </div>

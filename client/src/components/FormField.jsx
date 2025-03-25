@@ -26,7 +26,7 @@ export default function FormField({
                                   }) {
     return (
         <section
-            className="bg-[#FFDEB6] w-[32rem] h-[32rem] border-4 border-[#FBAF00] rounded-full flex flex-col items-center justify-center mx-auto text-center">
+            className="bg-[#FFDEB6] w-[32rem] h-[32rem] border-4 border-PS-dark-yellow rounded-full flex flex-col items-center justify-center mx-auto text-center">
             <Title level={2}>{title}</Title>
             <form onSubmit={e => e.preventDefault()} className="flex flex-col items-center m-[1.75rem]">
                 {inputs.map((input, index) => (
@@ -39,7 +39,7 @@ export default function FormField({
                     />
                 ))}
             </form>
-            <p className={`text-[1.5rem] mt-[1rem] text-[#FBAF00] ${deliciousHandDrawn.className}`}>
+            <p className={`text-[1.5rem] mt-[1rem] text-PS-dark-yellow ${deliciousHandDrawn.className}`}>
                 {linkText} <a className="text-[#372E55]" href={linkUrl}>Click here</a>
             </p>
             <Link href={buttonLink}>

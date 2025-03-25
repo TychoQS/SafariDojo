@@ -16,7 +16,7 @@ export default function DisplayField({ size = 'medium', label, value }) {
         large: 'w-64 h-12 text-2xl',
     };
 
-    const borderColor = size === 'medium' ? 'border-[#FBAF00]' : 'border-[#372E55]';
+    const borderColor = size === 'medium' ? 'border-PS-dark-yellow' : 'border-PS-light-black';
 
     const displaySizeClass = sizeClasses[size] || sizeClasses.medium;
 
@@ -24,7 +24,7 @@ export default function DisplayField({ size = 'medium', label, value }) {
         <div>
             {label && (
                 <label
-                    className={`block text-[#372E55] text-center w-full text-2xl ${deliciousHandDrawn.className}`}
+                    className={`block text-PS-light-black text-center w-full text-2xl ${deliciousHandDrawn.className}`}
                     style={{
                         cursor: 'default',
                         userSelect: 'none',

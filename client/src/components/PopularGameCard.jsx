@@ -14,16 +14,16 @@ const Card = ({gameSubject, isCompleted, medalType}) => {
 
     return (
         <div
-            className="relative flex items-center w-150 h-15 bg-white border-3 border-[#3E3F4F] rounded-lg overflow-hidden shadow-lg">
+            className="relative flex items-center w-150 h-15 bg-white border-3 border-PS-light-black rounded-lg overflow-hidden shadow-lg">
             <div className="flex items-center px-4 py-2 w-full">
                 <div className="flex flex-col justify-center items-center w-20">
-                      <span className={`text-[#3E3F4F] text-xs ${patrickHand.className}`}>
+                      <span className={`text-PS-light-black text-xs ${patrickHand.className}`}>
                         {subjectName}
                       </span>
                     <div className="w-5 h-5 rounded-full" style={{backgroundColor: borderColor}}/>
                 </div>
 
-                <div className={`text-3xl text-[#3E3F4F] mr-2 ${cherryBomb.className}`}>
+                <div className={`text-3xl text-PS-light-black mr-2 ${cherryBomb.className}`}>
                     <span>Juego de Ejemplo</span>
                 </div>
 
@@ -38,7 +38,7 @@ const Card = ({gameSubject, isCompleted, medalType}) => {
                         alt="Base Icon"
                         className="absolute top-1 left-[40%] transform -translate-x-1/2 w-4 h-4 object-contain"
                     />
-                    <span className={`ml-2 text-lg font-bold text-[#3E3F4F] ${patrickHand.className}`}>+1</span>
+                    <span className={`ml-2 text-lg font-bold text-PS-light-black ${patrickHand.className}`}>+1</span>
                 </div>
             </div>
 

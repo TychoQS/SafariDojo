@@ -46,7 +46,7 @@ export default function EditProfile() {
                     </div>
                 </section>
 
-                <div className="col-start-1 col-span-2 row-start-4 flex justify-between items-center">
+                <div className="col-start-1 col-span-2 row-start-4 flex justify-center items-center gap-x-5">
                     <Link href="/MyProfile">
                         <Button size="large">cancel</Button>
                     </Link>

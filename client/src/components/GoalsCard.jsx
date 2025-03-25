@@ -26,8 +26,8 @@ const BuildDailyGoalsCardGoalListItem = ({Text, Completed, Total}) => {
             <h3 id={"DailyGoalListTitle"}
                 className={`text-black font-bold text-4xl mb-2 ${deliciousHandDrawn.className}`}>{Text}</h3>
             <section id={"DailyGoalListItemBody"} className="flex items-center gap-4">
-                <div id={"GrayProgressBar"} className="flex-grow w-full bg-[#D9D9D9] rounded-full h-4 overflow-hidden">
-                    <div id={"YellowProgressBar"} className="bg-[#FBAF00] h-full rounded-full"
+                <div id={"GrayProgressBar"} className="flex-grow w-full bg-PS-gray rounded-full h-4 overflow-hidden">
+                    <div id={"YellowProgressBar"} className="bg-PS-dark-yellow h-full rounded-full"
                          style={{width: `${progress}%`}}></div>
                 </div>
                 <h3 id={"NumericProgress"}
@@ -41,7 +41,7 @@ export default function GoalsCard({Progress, Total}) {
     return (
         <section
             id="DailyGoalsCard"
-            className="bg-[#FFDEB6] flex flex-col items-center border-6 border-[#FBAF00] rounded-xl
+            className="bg-PS-light-yellow flex flex-col items-center border-6 border-PS-dark-yellow rounded-xl
                        w-full max-w-2xl h-auto pt-3 px-6 md:px-10">
             <Title level={1}>Daily Goals</Title>
             <div className="w-full max-w-lg h-px bg-black mt-4"></div>

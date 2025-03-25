@@ -7,7 +7,6 @@ module.exports = {
                 "PS-header-color": "#E4EFED",
                 "PS-main-purple": "#9702E2",
                 "PS-dark-yellow": "#FBAF00",
-                "PS-dark-yellow2": "#FBB000",
                 "PS-light-yellow": "#FFDEB6",
                 "PS-math-color": "#1BA8E4",
                 "PS-art-color": "#F67C6E",

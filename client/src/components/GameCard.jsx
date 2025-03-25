@@ -38,7 +38,7 @@ export default function GameCard(props) {
 
     return (
         <section
-            className="w-75 h-90 flex flex-col m-auto items-center justify-evenly border-4 rounded-lg bg-[#FFDEB6] border-[#FBAF00] text-black p-4 shadow-lg relative"
+            className="w-75 h-90 flex flex-col m-auto items-center justify-evenly border-4 rounded-lg bg-PS-light-yellow border-PS-dark-yellow text-black p-4 shadow-lg relative"
             style={getBackgroundStyle()}>
             <div className="text-2xl font-black text-center">{Title}</div>
             <div className="text-sm text-center font-medium p-2 rounded-md">{Description}</div>

@@ -21,8 +21,8 @@ export default function Button({ size = 'small', children, onClick }) {
     return (
         <button
             onClick={onClick}
-            className={`cursor-pointer ${buttonSizeClass} rounded-2xl border-2 border-b-8 border-[#403C61] hover:bg-orange-400 hover:border-none 
-            bg-[#FBAF00] font-black shadow-md text-[#403C61] focus:outline-none ${cherryBomb.className}`}
+            className={`cursor-pointer ${buttonSizeClass} rounded-2xl border-2 border-b-8 border-PS-light-black hover:bg-orange-400 hover:border-none 
+            bg-PS-dark-yellow font-black shadow-md text-PS-light-black focus:outline-none ${cherryBomb.className}`}
         >
             {children}
         </button>

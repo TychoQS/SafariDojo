@@ -1,42 +1,29 @@
-/*
-======================== USAGE ====================
-        <Input
-            size="medium"
-            id="input1"
-            label="Enter your name"
-            placeholder="John Doe"
-        />
-
-        <Input
-            size="large"
-            id="input2"
-            label="Email Address"
-            placeholder="example@domain.com"
-        />
-*/
-
 import React from 'react';
-import {deliciousHandDrawn} from '@/styles/fonts';
+import { deliciousHandDrawn } from '@/styles/fonts';
 
-export default function Input ({size = 'medium', id, label, ...props}) {
+export default function Input({ size = 'medium', id, label, ...props }) {
     const sizeClasses = {
         medium: 'w-40 h-12 text-2xl',
         large: 'w-64 h-12 text-2xl',
     };
 
-    const borderColor = size === 'medium' ? 'border-[#FBAF00]' : 'border-[#372E55]';
+    const borderColor = size === 'medium' ? 'border-PS-dark-yellow' : 'border-PS-light-black';
 
     const inputSizeClass = sizeClasses[size] || sizeClasses.medium;
+
+    const labelColor = id === 'recovery' ? 'text-PS-dark-yellow' : 'text-PS-light-black';
 
     return (
         <div>
             {label && (
-                <label htmlFor={id}
-                       className={`block text-[#372E55] text-center w-full text-2xl ${deliciousHandDrawn.className}`}
-                       style={{
-                           cursor: 'default',
-                           userSelect: 'none',
-                       }}>
+                <label
+                    htmlFor={id}
+                    className={`block text-center w-full text-2xl ${deliciousHandDrawn.className} ${labelColor}`}
+                    style={{
+                        cursor: 'default',
+                        userSelect: 'none',
+                    }}
+                >
                     {label}
                 </label>
             )}
