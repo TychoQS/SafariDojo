@@ -20,7 +20,7 @@
     "animalName": "elephant",
     "baseIcon": "/images/SubjectAnimals/Elephant.png",
     "selectGameIcon": "/images/SubjectAnimals/Elephant2.png",
-    "backgroundColor": "#9BD6EF",
+    "backgroundColor": "9BD6EF",
     "borderColor": "#1BA8E4"
   },
   {
