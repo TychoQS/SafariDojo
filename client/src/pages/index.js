@@ -1,29 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import FormField from "@/components/FormField";
+import CircleLayout from "@/components/AnimalCircleLayout";
+import PopularGameCard from "@/components/PopularGameCard";
+import SearchBar from "@/components/SearchBar";
 
-const SignUp = () => {
+function Index() {
+    const [searchResult, setSearchResult] = useState("");
+
+    const handleSearch = (term) => {
+        setSearchResult(`Resultados para: ${term}`);
+    };
+
     return (
-        <div className="flex flex-col min-h-screen bg-cover bg-center m-0"
-             style={{ backgroundImage: "url('/images/LogBackground.png')" }}>
-            <Header />
-            <main className="flex-1">
-                <FormField
-                    title="Sign Up"
-                    inputs={[
-                        { id: "FullName", label: "Full Name", size: "large", placeholder: "John Doe" },
-                        { id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com" },
-                    ]}
-                    buttonText="Next"
-                    buttonSize="small"
-                    linkText="Already have an account?"
-                    linkUrl="#"
-                />
-            </main>
-            <Footer />
-        </div>
-    );
-};
+        <>
+            <div className="app min-h-screen flex flex-col bg-PS-main-purple">
+                <Header mode="guest"/>
+                <section className="flex-grow flex flex-col relative mt-5 justify-center items-center align-middle">
+                    <CircleLayout />
+                    <section className="w-full flex-grow flex flex-col relative mt-5 justify-center items-center bg-[#FFDEB6] gap-6">
+                        <SearchBar placeholder="Search..." onSearch={handleSearch} />
 
-export default SignUp;
+                        {searchResult && <p className="mt-4 text-lg">{searchResult}</p>}
+
+                        <PopularGameCard gameSubject="English" isCompleted={true} medalType="gold" />
+                        <PopularGameCard gameSubject="Maths" isCompleted={false} medalType="bronze" />
+                        <PopularGameCard gameSubject="Science" isCompleted={false} medalType="silver" />
+                    </section>
+                </section>
+                <Footer />
+            </div>
+        </>
+    );
+}
+
+export default Index;

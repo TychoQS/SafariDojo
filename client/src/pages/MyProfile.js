@@ -9,7 +9,6 @@ import {useProfile} from "@/pages/context/ProfileContext";
 
 export default function MyProfile() {
     const {profile} = useProfile();
-    console.log(profile);
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -35,18 +34,18 @@ export default function MyProfile() {
 
                 <div className="col-start-1 col-span-2 row-start-4 flex justify-between items-center">
                     <div className="flex space-x-8">
-                        <a href=".." target="_blank">
+                        <Link href="..">
                             <img src="/images/StatsButton.svg" alt="Stats Button"
                                  className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"/>
-                        </a>
-                        <a href=".." target="_blank">
+                        </Link>
+                        <Link href="/Goals">
                             <img src="/images/Diana.svg" alt="Diana"
                                  className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"/>
-                        </a>
-                        <a href=".." target="_blank">
+                        </Link>
+                        <Link href="..">
                             <img src="/images/Medals.svg" alt="Medals"
                                  className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"/>
-                        </a>
+                        </Link>
                     </div>
                     <Button size="large">
                         <Link href="/EditProfile">edit profile</Link>

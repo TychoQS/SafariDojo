@@ -13,8 +13,8 @@ export default function Header({mode}) {
             case "guest":
                 return (
                     <>
-                        <a href="..." className="text-black">Sign Up</a>
-                        <a href="...">
+                        <a href="/SignUp" className="text-black">Sign Up</a>
+                        <a href="/LogIn">
                             <button
                                 className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
                                 Log In
@@ -24,7 +24,7 @@ export default function Header({mode}) {
                 );
             case "loggedIn":
                 return (
-                    <a href="...">
+                    <a href="/LogOut">
                         <button
                             className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
                             Log Out
@@ -38,13 +38,13 @@ export default function Header({mode}) {
 
     return (
         <header className="flex items-center p-4 shadow-md bg-white h-[5rem]">
-            <a href="...">
+            <a href="..">
                 <img src="/images/logo.svg" alt="Logo" className="m-4"/>
             </a>
             <nav className="ml-4">
                 <ul className="flex gap-6 list-none m-0 p-0 text-black">
                     <li>
-                        <a href="...">Home</a>
+                        <a href="..">Home</a>
                     </li>
                 </ul>
             </nav>

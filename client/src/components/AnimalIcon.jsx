@@ -21,7 +21,14 @@ Profile animals
 import React from "react";
 import animals from "../../../database/jsondata/Subject.json";
 
-export default function AnimalIcon({ subject, style, backgroundColor = "white", borderThickness = 8, animalName, size = "medium" }) {
+export default function AnimalIcon({
+                                       subject,
+                                       style,
+                                       backgroundColor = "white",
+                                       borderThickness = 6,
+                                       animalName,
+                                       size = "medium"
+                                   }) {
     const subjectData = animals.find(item => item.subjectName === subject);
 
     const baseIcon = subjectData
@@ -34,13 +41,13 @@ export default function AnimalIcon({ subject, style, backgroundColor = "white", 
 
     switch (size) {
         case "medium":
-            sizeClasses = "md:w-32 md:h-32";
+            sizeClasses = "md:w-20 md:h-20";
             break;
         case "large":
             sizeClasses = "md:w-48 md:h-48";
             break;
-        default:
-            sizeClasses = "w-20 h-20";
+        case "small":
+            sizeClasses = "w-20 h-20"
             break;
     }
 
