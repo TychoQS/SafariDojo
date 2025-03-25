@@ -16,7 +16,6 @@ function GameSelectionPage() {
         if (router.isReady) {
             const querySubject = router.query.Subject
             setSubject(querySubject)
-            console.log('Subject extraído:', querySubject)
         }
     }, [router.isReady, router.query])
 
@@ -25,7 +24,6 @@ function GameSelectionPage() {
             const foundSubjectData = animals.find(item => item.subjectName === subject);
             if (foundSubjectData) {
                 setSubjectData(foundSubjectData)
-                console.log('Datos del subject:', foundSubjectData)
             }
         }
     }, [subject])
