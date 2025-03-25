@@ -20,6 +20,7 @@ Profile animals
 
 import React from "react";
 import animals from "../../../database/jsondata/Subject.json";
+import Link from "next/link";
 
 export default function AnimalIcon({
                                        subject,
@@ -52,21 +53,23 @@ export default function AnimalIcon({
     }
 
     return (
-        <div className="absolute" style={style}>
-            <div
-                className={`rounded-full overflow-hidden ${sizeClasses}`}
-                style={{
-                    backgroundColor,
-                    borderColor,
-                    borderWidth: borderThickness,
-                }}
-            >
-                <img
-                    src={baseIcon}
-                    alt={animalName || subject}
-                    className="w-full h-full object-cover"
-                />
+        <Link href={{pathname: "/GameSelectionPage", query: subject}}>
+            <div className="absolute" style={style}>
+                <div
+                    className={`rounded-full overflow-hidden ${sizeClasses}`}
+                    style={{
+                        backgroundColor,
+                        borderColor,
+                        borderWidth: borderThickness,
+                    }}
+                >
+                    <img
+                        src={baseIcon}
+                        alt={animalName || subject}
+                        className="w-full h-full object-cover"
+                    />
+                </div>
             </div>
-        </div>
+        </Link>
     );
 }
