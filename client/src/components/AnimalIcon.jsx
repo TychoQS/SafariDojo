@@ -53,7 +53,7 @@ export default function AnimalIcon({
     }
 
     return (
-        <Link href={{pathname: "/GameSelectionPage", query: subject}}>
+        <Link href={{pathname: "/GameSelectionPage", query: {Subject: subject}   }}>
             <div className="absolute" style={style}>
                 <div
                     className={`rounded-full overflow-hidden ${sizeClasses}`}
