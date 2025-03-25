@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import GoalsCard from "@/components/GoalsCard";
 
-function Index() {
+function Goals() {
     return (
         <>
             <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -21,4 +21,4 @@ function Index() {
         </>
     );
 }
-export default Index;
+export default Goals;

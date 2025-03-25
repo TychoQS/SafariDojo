@@ -45,7 +45,7 @@ export default function GoalsCard({Progress, Total}) {
                        w-full max-w-2xl h-auto pt-3 px-6 md:px-10">
             <Title level={1}>Daily Goals</Title>
             <div className="w-full max-w-lg h-px bg-black mt-4"></div>
-            <ul id="DailyGoalsCardGoalList" className="w-full space-y-2 mt-6 pb-24">
+            <ul id="DailyGoalsCardGoalList" className="w-full space-y-2 mt-6 pb-15">
                 {Progress.map((completed, index) => (
                     <BuildDailyGoalsCardGoalListItem Text={"Complete Quizzes"} Completed={completed}
                                                      Total={Total[index]}/>

@@ -32,7 +32,11 @@ export default function Input ({size = 'medium', id, label, ...props}) {
         <div>
             {label && (
                 <label htmlFor={id}
-                       className={`block text-[#372E55] text-center w-full text-2xl ${deliciousHandDrawn.className}`}>
+                       className={`block text-[#372E55] text-center w-full text-2xl ${deliciousHandDrawn.className}`}
+                       style={{
+                           cursor: 'default',
+                           userSelect: 'none',
+                       }}>
                     {label}
                 </label>
             )}

@@ -1,5 +1,12 @@
+import {ProfileProvider} from "@/pages/context/ProfileContext";
 import "@/styles/globals.css";
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+function MyApp({Component, pageProps}) {
+    return (
+        <ProfileProvider>
+            <Component {...pageProps} />
+        </ProfileProvider>
+    );
 }
+
+export default MyApp;

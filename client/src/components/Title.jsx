@@ -12,6 +12,8 @@ const Title = ({ children, level = 1 }) => {
                             border-black relative`}
                 style={{
                     textShadow: '4px 0px 0px #372E55',
+                    cursor: 'default',
+                    userSelect: 'none',
                 }}
             >
                 <span className="block">{children}</span>
