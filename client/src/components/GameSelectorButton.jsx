@@ -10,11 +10,11 @@ export default function GameSelectorButton(props) {
     const {Game, Subject} = props;
 
     const getImage = {
-            "Math": <img className={"h60 w-60"} src={"../images/platypus.png"} alt={"platypus"}></img>,
-            "English": <img className={"h60 w-60"} src={"../images/platypus.png"} alt={"platypus"}></img>,
-            "Geography": <img className={"h60 w-60"} src={"../images/platypus.png"} alt={"platypus"}></img>,
-            "Art": <img className={"h60 w-60"} src={"../images/platypus.png"} alt={"platypus"}></img>,
-            "Science": <img className={"h60 w-60"} src={"../images/platypus.png"} alt={"platypus"}></img>
+            "Math": <img className={"h30 w-35"} src={"../images/platypus.png"} alt={"platypus"}></img>,
+            "English": <img className={"h-30 w-35"} src={"../images/platypus.png"} alt={"platypus"}></img>,
+            "Geography": <img className={"h-30 w-35"} src={"../images/platypus.png"} alt={"platypus"}></img>,
+            "Art": <img className={"h-30 w-35"} src={"../images/platypus.png"} alt={"platypus"}></img>,
+            "Science": <img className={"h-30 w-35"} src={"../images/platypus.png"} alt={"platypus"}></img>
     }
 
     const getColor = {
@@ -26,12 +26,12 @@ export default function GameSelectorButton(props) {
     };
 
     return (
-        <button className={"cursor-pointer h-85 w-115 text-4xl flex flex-col items-center " +
-            `justify-center gap-10 border-4 rounded-lg text-black ${getColor[Subject]}`}>
+        <div className={"cursor-pointer h-60 w-84 text-2xl flex flex-col items-center " +
+            `justify-center gap-5 border-4 rounded-lg font-black text-black ${getColor[Subject]}`}>
 
             {getImage[Subject]}
             {Game}
 
-        </button>
+        </div>
     )
 }

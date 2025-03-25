@@ -2,10 +2,12 @@
         USAGE
 
 <AgeSelectorButton
-    Text={"Ages"}
+    Age={"Ages"}
     Subject={"Subject"}>
 </AgeSelectorButton>
 */
+
+
 
 export default function AgeSelectorButton(props) {
     const {Age, Subject} = props;
@@ -19,7 +21,7 @@ export default function AgeSelectorButton(props) {
     };
 
     return (
-        <button className={"cursor-pointer w-48 h-16 border-4 rounded-lg text-black " +
+        <button className={"cursor-pointer w-40 h-16 border-4 rounded-lg text-xl font-black text-black " +
             `${getColor[Subject]}`}>
             {Age}
         </button>
