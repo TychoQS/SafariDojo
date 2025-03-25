@@ -2,9 +2,9 @@ import React from "react";
 import AnimalIcon from "@/components/AnimalIcon";
 
 export default function CircleLayout() {
-    const radius = 100;
-    const centerX = 120;
-    const centerY = 120;
+    const radius = 160;
+    const centerX = 200;
+    const centerY = 200;
 
     const icons = [
         {subject: 'English', angle: 0},
@@ -15,8 +15,8 @@ export default function CircleLayout() {
     ];
 
     return (
-        <div className="relative flex justify-center items-center w-[250px] h-[250px] mx-auto my-[50px]">
-            <div className="absolute w-[200px] h-[200px] border-20 border-white rounded-full"></div>
+        <div className="relative flex justify-center items-center w-[400px] h-[400px] mx-auto my-[100px]">
+            <div className="absolute w-[350px] h-[350px] border-40 border-white rounded-full"></div>
             {icons.map((icon, index) => {
                 const angle = (index / icons.length) * 2 * Math.PI;
                 const x = centerX + radius * Math.cos(angle);

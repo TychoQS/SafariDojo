@@ -41,7 +41,7 @@ export default function AnimalIcon({
 
     switch (size) {
         case "medium":
-            sizeClasses = "md:w-20 md:h-20";
+            sizeClasses = "md:w-32 md:h-32";
             break;
         case "large":
             sizeClasses = "md:w-48 md:h-48";
