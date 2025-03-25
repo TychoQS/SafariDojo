@@ -18,7 +18,7 @@ const LogIn = () => {
                     buttonText="next"
                     buttonSize="small"
                     linkText="Forgot password?"
-                    linkUrl="#"
+                    linkUrl="#AccountRecovery"
                 />
             </main>
             <Footer />

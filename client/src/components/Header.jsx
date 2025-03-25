@@ -13,7 +13,7 @@ export default function Header({mode}) {
             case "guest":
                 return (
                     <>
-                        <a href="/SignUp" className="text-black">Sign Up</a>
+                        <a href="/client/src/pages/SignUpFirstStep" className="text-black">Sign Up</a>
                         <a href="/LogIn">
                             <button
                                 className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
