@@ -68,17 +68,6 @@ function Index() {
 
     const filteredGames = filterAndGroupGames(games);
 
-    if (!isLoggedIn) {
-        return (
-            <div className="flex justify-center items-center flex-col">
-                <h2>You need to be logged in to view the games</h2>
-                <button onClick={() => window.location.href = '/login'} className="btn btn-primary">
-                    Go to Login
-                </button>
-            </div>
-        );
-    }
-
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header/>
