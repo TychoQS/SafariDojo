@@ -1,0 +1,42 @@
+[
+  {
+    "gameName": "Math Invasors",
+    "gameDescription": "Controlas una nave que dispara proyectiles y tu misión es destruir la respuesta correcta de las operaciones."
+  },
+  {
+    "gameName": "Crash Stopper",
+    "gameDescription": "Conduces un coche y deberás darle energía resolviendo operaciones."
+  },
+  {
+    "gameName": "CrossWord",
+    "gameDescription": "Se te presenta un crucigrama que deberás resolver."
+  },
+  {
+    "gameName": "Chinese Scribblenauts",
+    "gameDescription": "Ayuda a Owlingo a llegar a su destino con las herramientas que necesite, pero recuerda que solo habla inglés."
+  },
+  {
+    "gameName": "Detective Lupin",
+    "gameDescription": "Intenta adivinar de que imagen se trata, puedes pedir hasta tres comodines."
+  },
+  {
+    "gameName": "Make the film",
+    "gameDescription": "Resuelve el rompecabezas y averigua que historia se está contando."
+  },
+  {
+    "gameName": "Call of the clan",
+    "gameDescription": "Ayuda a los animales a encontrar a sus análogos moviendote con WASD o las flechas direccionales."
+  },
+  {
+    "gameName": "Snake maze",
+    "gameDescription": "Recorre el laberinto reencuentrate con tu tesoro preciado."
+  },
+  {
+    "gameName": "Pin the Place",
+    "gameDescription": "Intenta acercarte en el mapa lo más posible a la ubicación que se te muestra."
+  },
+  {
+    "gameName": "Detective Mr WorldWide",
+    "gameDescription": "Intenta adivinar la bandera, tienes hasta 3 comodines."
+  }
+]

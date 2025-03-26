@@ -34,6 +34,8 @@ function GameSelectionPage() {
     const selectGameIcon = subjectData?.selectGameIcon
     const backgroundColor = subjectData?.backgroundColor
     const borderColor = subjectData?.borderColor
+    const firstGame = subjectData?.firstGame
+    const secondGame = subjectData?.secondGame
 
     const [SelectedButton, setSelectedButton] = useState(0)
 
@@ -44,25 +46,24 @@ function GameSelectionPage() {
 
 
     return (
-        <>
             <div className={"app min-h-screen flex flex-col bg-PS-main-purple"}>
                 <Header/>
                 <div className="flex items-end justify-end">
                     <Lifes />
                 </div>
                 <div className={"flex flex-row justify-evenly"}>
-                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: "Detective Lupin", Age: SelectedButton}}}>
+                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: firstGame, Age: SelectedButton}}}>
                         <GameSelectionButton
-                            Game={"Detective Lupin"}
+                            Game={firstGame}
                             Subject={subject}
                             BackgroundColor={backgroundColor}
                             BorderColor={borderColor}>
                         </GameSelectionButton>
                     </Link>
 
-                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: "Make the film", Age: SelectedButton}}}>
+                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: secondGame, Age: SelectedButton}}}>
                         <GameSelectionButton
-                            Game={"Make the film"}
+                            Game={secondGame}
                             Subject={subject}
                             BackgroundColor={backgroundColor}
                             BorderColor={borderColor}>
@@ -101,7 +102,6 @@ function GameSelectionPage() {
                 </div>
                 <Footer/>
             </div>
-        </>
     )
 }
 
