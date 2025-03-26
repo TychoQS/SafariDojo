@@ -35,7 +35,7 @@ function GameSelectionPage() {
     const backgroundColor = subjectData?.backgroundColor
     const borderColor = subjectData?.borderColor
 
-    const [SelectedButton, setSelectedButton] = useState(null)
+    const [SelectedButton, setSelectedButton] = useState(0)
 
     const Click = (Index) => {
         setSelectedButton(Index);
