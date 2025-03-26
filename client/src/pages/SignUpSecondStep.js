@@ -12,8 +12,28 @@ const SignUpSecondStep = () => {
                 <FormField
                     title="Sign Up"
                     inputs={[
-                        { id: "Password", label: "Password", size: "large", placeholder: "********" },
-                        { id: "ConfirmPassword", label: "Confirm password", size: "large", placeholder: "********" },
+                        {
+                            id: "Password", label: "Password", size: "large", placeholder: "********",
+                            rules: {
+                                required: true,
+                                minLength: { value: 8, message: "Password must have at least 8 characters." },
+                                pattern: {
+                                    value: /^(?=.*[A-Z])(?=.*\d)/,
+                                    message: "Password must contain at least one uppercase letter and one number.",
+                                },
+                            }
+                        },
+                        {
+                            id: "ConfirmPassword", label: "Confirm Password", size: "large", placeholder: "********",
+                            rules: {
+                                required: true,
+                                minLength: { value: 8, message: "Password must have at least 8 characters." },
+                                pattern: {
+                                    value: /^(?=.*[A-Z])(?=.*\d)/,
+                                    message: "Password must contain at least one uppercase letter and one number.",
+                                },
+                            }
+                        },
                     ]}
                     buttonText="Create"
                     buttonSize="small"

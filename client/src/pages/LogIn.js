@@ -12,13 +12,28 @@ const LogIn = () => {
                 <FormField
                     title="Log In"
                     inputs={[
-                        { id: "FullName", label: "Email", size: "large", placeholder: "example@example.com" },
-                        { id: "UserEmail", label: "Password", size: "large", placeholder: "********" },
+                        {
+                            id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com",
+                            rules: {
+                                required: true,
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: "Please enter a valid email address."
+                                },
+                            },
+                        },
+                        {
+                            id: "PasswordLogIn", label: "Password", size: "large", placeholder: "********",
+                            rules: {
+                                required: true
+                            }
+                        },
                     ]}
+                    buttonLink=".."
                     buttonText="next"
                     buttonSize="small"
                     linkText="Forgot password?"
-                    linkUrl="#AccountRecovery"
+                    linkUrl="/AccountRecovery"
                 />
             </main>
             <Footer />
