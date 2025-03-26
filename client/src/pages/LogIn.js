@@ -2,11 +2,11 @@ import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
-import { useRouter } from "next/router";
-import { useAuth } from "@/pages/context/AuthContext";
+import {useRouter} from "next/router";
+import {useAuth} from "@/pages/context/AuthContext";
 
 const LogIn = () => {
-    const { logIn } = useAuth();
+    const {logIn} = useAuth();
     const router = useRouter();
 
     const handleLogin = (data) => {
@@ -14,9 +14,9 @@ const LogIn = () => {
 
         if (data.UserEmail === "nelson@ulpgc.com" && data.PasswordLogIn === "Ps20242025") {
             logIn();
-            router.push("/");
+            router.push("..");
         } else {
-            alert("Credenciales inválidas, por favor inténtalo de nuevo.");
+            alert("Invalid credentials, please try again.");
         }
     };
 
@@ -33,7 +33,7 @@ const LogIn = () => {
                                 required: true,
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Por favor, ingresa un correo válido."
+                                    message: "Please enter a valid email."
                                 },
                             },
                         },
@@ -42,15 +42,14 @@ const LogIn = () => {
                             rules: { required: true }
                         },
                     ]}
-                    buttonLink=".."
-                    buttonText="Next"
+                    buttonText="Enter"
                     buttonSize="small"
-                    linkText="¿Olvidaste tu contraseña?"
+                    linkText="Forgot your password?"
                     linkUrl="/AccountRecovery"
                     onSubmit={handleLogin}
                 />
             </main>
-            <Footer />
+            <Footer/>
         </div>
     );
 };

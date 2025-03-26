@@ -69,8 +69,10 @@ export default function FormField({
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            onSubmit(formData); // Pasamos los datos al onSubmit
-            router.push(buttonLink);
+            onSubmit(formData);
+            if(buttonLink) {
+                router.push(buttonLink);
+            }
         }
     };
 
