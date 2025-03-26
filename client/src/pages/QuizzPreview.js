@@ -3,12 +3,14 @@
     import Footer from "@/components/Footer";
     import SpeechBubble from "@/components/SpeechBubble";
     import GameCard from "@/components/GameCard";
+    import {useAuth} from "@/pages/context/AuthContext";
 
     function QuizzPreview() {
+        const {isLoggedIn} = useAuth();
         return (
             <>
                 <div id={"QuizzPreviewComponent"} className={"app min-h-screen flex flex-col bg-PS-main-purple"}>
-                    <Header></Header>
+                    <Header/>
                     <main id={"QuizPreviewMain"} className={"flex flex-grow flex-col relative"}>
                         <section id={"SpeechBubbleSection"} className="flex items-start justify-center relative hover:scale-110">
                             <div id={"SpeechBubbleDiv"} className={"mt-8"}>

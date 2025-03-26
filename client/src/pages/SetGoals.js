@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Input from "@/components/Input";
@@ -7,8 +7,10 @@ import Button from "@/components/Button";
 import AnimalIcon from "@/components/AnimalIcon";
 import Link from "next/link";
 import { useGoals } from "@/pages/context/GoalContext";
+import {useAuth} from "@/pages/context/AuthContext";
 
 export default function SetGoals() {
+    const {isLoggedIn} = useAuth();
     const { goals, setNewGoals } = useGoals();
 
     const [medals, setMedals] = useState(0);
@@ -58,7 +60,7 @@ export default function SetGoals() {
 
     return (
         <div className="min-h-screen flex flex-col bg-PS-main-purple">
-            <Header mode="loggedIn"/>
+            <Header/>
             <section className="grid-rows-[auto,auto,auto,auto] m-auto flex-col items-center justify-start gap-6">
                 <section className="flex flex-row justify-center items-center gap-10 m-auto p-6">
                     <div className="flex flex-col items-center">

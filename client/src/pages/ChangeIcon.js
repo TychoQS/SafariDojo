@@ -6,12 +6,14 @@ import Footer from "@/components/Footer";
 import React, {useState} from "react";
 import Link from "next/link";
 import {useProfile} from "@/pages/context/ProfileContext";
+import {useAuth} from "@/pages/context/AuthContext";
 
 const animalNames = [
     "Giraffe", "Sheep", "Lion", "Tiger", "Monkey", "Pig", "Shark", "Seal", "Koala"
 ];
 
 export default function ChangeIcon() {
+    const {isLoggedIn} = useAuth();
     const {profile, updateProfile} = useProfile();
     const [selectedAnimal, setSelectedAnimal] = useState(profile.icon);
 
@@ -25,7 +27,7 @@ export default function ChangeIcon() {
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
-            <Header mode="loggedIn"/>
+            <Header/>
             <section
                 className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto, auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
                 <div className="col-span-2 flex justify-center items-center">

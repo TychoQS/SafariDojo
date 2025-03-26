@@ -4,12 +4,14 @@ import Input from "@/components/Input";
 import Title from "@/components/Title";
 import Button from "@/components/Button";
 import AnimalIcon from "@/components/AnimalIcon";
-import {useState} from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import {useProfile} from "@/pages/context/ProfileContext";
 import DisplayField from "@/components/DisplayField";
+import {useAuth} from "@/pages/context/AuthContext";
 
 export default function EditProfile() {
+    const {isLoggedIn} = useAuth();
     const {profile, updateProfile} = useProfile();
     const [name, setName] = useState(profile.name);
 
@@ -19,7 +21,7 @@ export default function EditProfile() {
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
-            <Header mode="loggedIn"/>
+            <Header/>
             <section
                 className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
                 <div className="col-span-2 flex justify-center items-center">

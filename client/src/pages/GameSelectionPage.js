@@ -6,8 +6,10 @@ import AgeSelectorButton from "@/components/AgeSelectorButton";
 import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
+import {useAuth} from "@/pages/context/AuthContext";
 
 function GameSelectionPage() {
+    const {isLoggedIn} = useAuth();
     const router = useRouter()
     const [subject, setSubject] = useState(null)
     const [subjectData, setSubjectData] = useState(null)

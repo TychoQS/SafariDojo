@@ -5,9 +5,11 @@ import CircleLayout from "@/components/AnimalCircleLayout";
 import PopularGameCard from "@/components/PopularGameCard";
 import SearchBar from "@/components/SearchBar";
 import FilterBar from "@/components/FilterBar";
+import {useAuth} from "@/pages/context/AuthContext";
 import {cherryBomb} from '@/styles/fonts';
 
 function Index() {
+    const {isLoggedIn} = useAuth();
     const [filters, setFilters] = useState({
         filterBy: "",
     });
@@ -64,7 +66,7 @@ function Index() {
     return (
         <>
             <div className="app min-h-screen flex flex-col bg-PS-main-purple">
-                <Header mode="guest"/>
+                <Header/>
                 <section className="flex-grow flex flex-col  mt-5 justify-center items-center align-middle">
                     <CircleLayout/>
                     <section

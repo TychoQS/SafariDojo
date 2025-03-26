@@ -13,6 +13,7 @@ export default function FormField({
                                       buttonLink,
                                       linkText,
                                       linkUrl,
+                                      onSubmit,
                                   }) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const router = useRouter();
@@ -68,6 +69,7 @@ export default function FormField({
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
+            onSubmit(formData); // Pasamos los datos al onSubmit
             router.push(buttonLink);
         }
     };

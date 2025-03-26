@@ -6,13 +6,20 @@ import AnimalIcon from "@/components/AnimalIcon";
 import Link from "next/link";
 import DisplayField from "@/components/DisplayField";
 import {useProfile} from "@/pages/context/ProfileContext";
+import React from "react";
+import {useAuth} from "@/pages/context/AuthContext";
 
 export default function MyProfile() {
+    const {isLoggedIn} = useAuth();
     const {profile} = useProfile();
+
+    if (!isLoggedIn) {
+        return <div>No estás logueado. Redirigiendo...</div>;
+    }
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
-            <Header mode="loggedIn"/>
+            <Header/>
             <section
                 className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
                 <div className="col-span-2 flex justify-center items-center">

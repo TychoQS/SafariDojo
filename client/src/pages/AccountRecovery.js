@@ -9,7 +9,7 @@ const AccountRecovery = () => {
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple"
              style={{ backgroundImage: "url('/images/Clouds.svg')" }}>
-            <Header />
+            <Header showButtons={false} />
             <main className="flex-1 flex justify-center items-center">
                 <div className="flex flex-col justify-center items-center gap-15">
                     <Title>Account Recovery</Title>
