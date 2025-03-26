@@ -23,7 +23,7 @@ export default function SpeechBubble(props) {
 
     const getBackgroundColorBasedOn = (Subject) => {
         switch (Subject) {
-            case "Math":
+            case "Maths":
                 return "bg-[#1BA8E4]"
             case "English":
                 return "bg-[#EFF66E]"
@@ -40,7 +40,7 @@ export default function SpeechBubble(props) {
 
     const getBackgroundHexColorBasedOn = (Subject) => {
         switch (Subject) {
-            case "Math":
+            case "Maths":
                 return "#1BA8E4"
             case "English":
                 return "#EFF66E"
