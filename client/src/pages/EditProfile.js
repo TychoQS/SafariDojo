@@ -9,14 +9,24 @@ import Link from "next/link";
 import {useProfile} from "@/pages/context/ProfileContext";
 import DisplayField from "@/components/DisplayField";
 import {useAuth} from "@/pages/context/AuthContext";
+import {useRouter} from "next/router";
 
 export default function EditProfile() {
     const {isLoggedIn} = useAuth();
     const {profile, updateProfile} = useProfile();
     const [name, setName] = useState(profile.name);
+    const [error, setError] = useState("");
+    const router = useRouter();
 
     const handleSave = () => {
-        updateProfile({name});
+        if (!error && name.trim()) {
+            updateProfile({name});
+            router.push("/MyProfile");
+        }
+    };
+
+    const handleError = (id, errorMsg) => {
+        if (id === "UserName") setError(errorMsg);
     };
 
     return (
@@ -29,7 +39,18 @@ export default function EditProfile() {
                 </div>
 
                 <div className="col-start-2 row-start-3 flex flex-col items-end space-y-6">
-                    <Input size="large" label="Name" value={name} onChange={(e) => setName(e.target.value)}/>
+                    <Input
+                        id="UserName"
+                        size="large"
+                        label="Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        onError={handleError}
+                        rules={{
+                            required: true,
+                            minLength: {value: 2, message: "Name must be at least 2 characters."},
+                        }}
+                    />
                     <DisplayField size="large" label="Email" value={profile.email}/>
                 </div>
 
@@ -45,11 +66,9 @@ export default function EditProfile() {
                     <Link href="/MyProfile">
                         <Button size="large">cancel</Button>
                     </Link>
-                    <Link href="/MyProfile">
-                        <Button size="large" onClick={() => {
-                            handleSave();
-                        }}>save</Button>
-                    </Link>
+                    <Button size="large" onClick={handleSave} disabled={!!error || !name.trim()}>
+                        save
+                    </Button>
                 </div>
             </section>
             <Footer/>
