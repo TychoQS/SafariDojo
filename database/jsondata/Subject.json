@@ -5,7 +5,9 @@
     "baseIcon": "/images/SubjectAnimals/Owl.png",
     "selectGameIcon": "/images/SubjectAnimals/Owl2.png",
     "backgroundColor": "#FDFFCE",
-    "borderColor": "#EFF66E"
+    "borderColor": "#EFF66E",
+    "firstGame": "CrossWord",
+    "secondGame": "Chinese Scribblenauts"
   },
   {
     "subjectName": "Geography",
@@ -13,7 +15,9 @@
     "baseIcon": "/images/SubjectAnimals/Kangaroo.png",
     "selectGameIcon": "/images/SubjectAnimals/Kangaroo2.png",
     "backgroundColor": "#E8B1EC",
-    "borderColor": "#ED6EF6"
+    "borderColor": "#ED6EF6",
+    "firstGame": "Pin the place",
+    "secondGame": "Detective Mr WorldWide"
   },
   {
     "subjectName": "Maths",
@@ -21,7 +25,9 @@
     "baseIcon": "/images/SubjectAnimals/Elephant.png",
     "selectGameIcon": "/images/SubjectAnimals/Elephant2.png",
     "backgroundColor": "#9BD6EF",
-    "borderColor": "#1BA8E4"
+    "borderColor": "#1BA8E4",
+    "firstGame": "Math Invasors",
+    "secondGame": "Crash Stopper"
   },
   {
     "subjectName": "Science",
@@ -29,7 +35,9 @@
     "baseIcon": "/images/SubjectAnimals/Frog.png",
     "selectGameIcon": "/images/SubjectAnimals/Frog2.png",
     "backgroundColor": "#C9F1D2",
-    "borderColor": "#6EF68B"
+    "borderColor": "#6EF68B",
+    "firstGame": "Call of the clan",
+    "secondGame": "Snake maze"
   },
   {
     "subjectName": "Art",
@@ -37,6 +45,8 @@
     "baseIcon": "/images/SubjectAnimals/Platypus.png",
     "selectGameIcon": "/images/SubjectAnimals/Platypus2.png",
     "backgroundColor": "#F2C1BB",
-    "borderColor": "#F67C6E"
+    "borderColor": "#F67C6E",
+    "firstGame": "Detective Lupin",
+    "secondGame": "Make the film"
   }
 ]
