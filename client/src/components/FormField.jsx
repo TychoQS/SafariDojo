@@ -13,47 +13,39 @@ export default function FormField({
                                       buttonLink,
                                       linkText,
                                       linkUrl,
+                                      onSubmit,
                                   }) {
     const router = useRouter();
     const [formData, setFormData] = useState(
-        inputs.reduce((acc, input) => {
-            acc[input.id] = "";
-            return acc;
-        }, {})
+        inputs.reduce((acc, input) => ({ ...acc, [input.id]: "" }), {})
     );
     const [errors, setErrors] = useState({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [id]: value,
-        }));
+        setFormData((prevData) => ({ ...prevData, [id]: value }));
     };
 
     const handleError = (id, errorMsg) => {
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            [id]: errorMsg,
-        }));
+        setErrors((prevErrors) => ({ ...prevErrors, [id]: errorMsg }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsSubmitted(true);
 
         const newErrors = {};
-
         inputs.forEach((input) => {
+            const value = formData[input.id] || "";
             if (input.rules) {
-                if (input.rules?.required && !formData[input.id]) {
+                if (input.rules.required && !value) {
                     newErrors[input.id] = `${input.label} is required.`;
                 }
-
-                if (input.rules?.pattern && !input.rules.pattern.value.test(formData[input.id])) {
-                    newErrors[input.id] = input.rules?.pattern?.message || `${input.label} is invalid.`;
+                if (input.rules.pattern && !input.rules.pattern.value.test(value)) {
+                    newErrors[input.id] = input.rules.pattern.message || `${input.label} is invalid.`;
                 }
-
-                if (input.rules?.minLength && formData[input.id].length < input.rules.minLength.value) {
+                if (input.rules.minLength && value.length < input.rules.minLength.value) {
                     newErrors[input.id] = input.rules.minLength.message || `${input.label} must have at least ${input.rules.minLength.value} characters.`;
                 }
             }
@@ -66,12 +58,12 @@ export default function FormField({
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            console.log("Form Submitted:", formData);
-            router.push(buttonLink);
-        } else {
-            console.log("Form has errors");
+            onSubmit(formData);
+            if (buttonLink) router.push(buttonLink);
         }
     };
+
+    const isFormInvalid = Object.values(errors).some((error) => error) || inputs.some((input) => !formData[input.id]);
 
     return (
         <section className="bg-[#FFDEB6] w-[32rem] h-[32rem] border-4 border-PS-dark-yellow rounded-full flex flex-col items-center justify-center mx-auto text-center">
@@ -89,7 +81,7 @@ export default function FormField({
                             rules={input.rules}
                             onError={handleError}
                         />
-                        {input.id === "ConfirmPassword" && errors[input.id] && (
+                        {isSubmitted && errors[input.id] && (
                             <p className="text-red-500 text-sm">{errors[input.id]}</p>
                         )}
                     </div>
@@ -98,7 +90,7 @@ export default function FormField({
                     {linkText} <a className="text-[#372E55]" href={linkUrl}>Click here</a>
                 </p>
                 <div className="m-2 w-full text-center">
-                    <Button size={buttonSize} type="submit" className="mt-30">
+                    <Button size={buttonSize} type="submit" className="mt-30" disabled={isFormInvalid}>
                         {buttonText}
                     </Button>
                 </div>
