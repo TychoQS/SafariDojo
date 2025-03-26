@@ -13,9 +13,7 @@ export default function FormField({
                                       buttonLink,
                                       linkText,
                                       linkUrl,
-                                      onSubmit,
                                   }) {
-    const [isSubmitted, setIsSubmitted] = useState(false);
     const router = useRouter();
     const [formData, setFormData] = useState(
         inputs.reduce((acc, input) => {
@@ -42,7 +40,6 @@ export default function FormField({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsSubmitted(true);
 
         const newErrors = {};
 
@@ -69,10 +66,10 @@ export default function FormField({
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            onSubmit(formData);
-            if(buttonLink) {
-                router.push(buttonLink);
-            }
+            console.log("Form Submitted:", formData);
+            router.push(buttonLink);
+        } else {
+            console.log("Form has errors");
         }
     };
 
@@ -92,7 +89,7 @@ export default function FormField({
                             rules={input.rules}
                             onError={handleError}
                         />
-                        {isSubmitted && input.id === "ConfirmPassword" && errors[input.id] && (
+                        {input.id === "ConfirmPassword" && errors[input.id] && (
                             <p className="text-red-500 text-sm">{errors[input.id]}</p>
                         )}
                     </div>
