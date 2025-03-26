@@ -22,6 +22,7 @@
                 setSubject(querySubject)
                 setGame(queryGame)
                 setAge(queryAge)
+                console.log(querySubject)
             }
         }, [router.isReady, router.query])
 
@@ -30,7 +31,7 @@
                 <div id={"QuizzPreviewComponent"} className={"app min-h-screen flex flex-col bg-PS-main-purple"}>
                     <Header/>
                     <main id={"QuizPreviewMain"} className={"flex flex-grow flex-col relative"}>
-                        <section id={"SpeechBubbleSection"} className="flex items-start justify-center relative hover:scale-110">
+                        <section id={"SpeechBubbleSection"} className="flex items-start justify-center relative">
                             <div id={"SpeechBubbleDiv"} className={"mt-8"}>
                                 <SpeechBubble // TODO Make it Dynamic
                                     Text={"Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum " +
