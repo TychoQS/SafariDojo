@@ -78,24 +78,24 @@ function GameSelectionPage() {
                 <div onClick={() => Click(0)}>
                     <AgeSelectorButton
                         Age={"6 - 7 years"}
-                        BorderColor={SelectedButton === 0 ? borderColor : backgroundColor}
-                        BackgroundColor={SelectedButton === 0 ? backgroundColor : borderColor}>
+                        BackgroundColor={SelectedButton === 0 ? borderColor : backgroundColor}
+                        BorderColor={SelectedButton === 0 ? backgroundColor : borderColor}>
                     </AgeSelectorButton>
                 </div>
 
                 <div onClick={() => Click(1)}>
                     <AgeSelectorButton
                         Age={"8 - 9 years"}
-                        BorderColor={SelectedButton === 1 ? borderColor : backgroundColor}
-                        BackgroundColor={SelectedButton === 1 ? backgroundColor : borderColor}>
+                        BackgroundColor={SelectedButton === 1 ? borderColor : backgroundColor}
+                        BorderColor={SelectedButton === 1 ? backgroundColor : borderColor}>
                     </AgeSelectorButton>
                 </div>
 
                 <div onClick={() => Click(2)}>
                     <AgeSelectorButton
                         Age={"10 - 11 years"}
-                        BorderColor={SelectedButton === 2 ? borderColor : backgroundColor}
-                        BackgroundColor={SelectedButton === 2 ? backgroundColor : borderColor}>
+                        BackgroundColor={SelectedButton === 2 ? borderColor : backgroundColor}
+                        BorderColor={SelectedButton === 2 ? backgroundColor : borderColor}>
                     </AgeSelectorButton>
                 </div>
                 </div>
