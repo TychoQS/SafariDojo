@@ -18,11 +18,10 @@ const GetCompletedGoalsAsPercentage = ({Completed, Total}) => {
     return (Completed / Total) * 100;
 };
 
-
 const BuildDailyGoalsCardGoalListItem = ({Text, Completed, Total}) => {
     const progress = GetCompletedGoalsAsPercentage({Completed, Total});
     return (
-        <li id="DailyGoalListItem">
+        <li id="DailyGoalListItem" className="mb-4">
             <h3 id={"DailyGoalListTitle"}
                 className={`text-black font-bold text-4xl mb-2 ${deliciousHandDrawn.className}`}>{Text}</h3>
             <section id={"DailyGoalListItemBody"} className="flex items-center gap-4">
@@ -35,7 +34,7 @@ const BuildDailyGoalsCardGoalListItem = ({Text, Completed, Total}) => {
             </section>
         </li>
     );
-}
+};
 
 export default function GoalsCard({Progress, Total}) {
     return (
@@ -45,12 +44,18 @@ export default function GoalsCard({Progress, Total}) {
                        w-full max-w-2xl h-auto pt-3 px-6 md:px-10">
             <Title level={1}>Daily Goals</Title>
             <div className="w-full max-w-lg h-px bg-black mt-4"></div>
-            <ul id="DailyGoalsCardGoalList" className="w-full space-y-2 mt-6 pb-15">
-                {Progress.map((completed, index) => (
-                    <BuildDailyGoalsCardGoalListItem Text={"Complete Quizzes"} Completed={completed}
-                                                     Total={Total[index]}/>
-                ))}
-            </ul>
+
+            <div className="w-full max-w-lg mt-6" style={{height: '400px', overflowY: 'auto'}}>
+                <ul id="DailyGoalsCardGoalList" className="w-full">
+                    {Progress.map((completed, index) => (
+                        <BuildDailyGoalsCardGoalListItem
+                            key={index}
+                            Text={["Complete Quizzes", "Earn Medals", "Complete Maths Quizzes", "Complete Art Quizzes", "Complete Geography Quizzes", "Complete English Quizzes", "Complete Science Quizzes"][index]}
+                            Completed={completed}
+                            Total={Total[index]}/>
+                    ))}
+                </ul>
+            </div>
         </section>
     );
 }

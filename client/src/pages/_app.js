@@ -1,10 +1,13 @@
 import {ProfileProvider} from "@/pages/context/ProfileContext";
+import {GoalsProvider} from "@/pages/context/GoalContext";
 import "@/styles/globals.css";
 
-function MyApp({Component, pageProps}) {
+function MyApp({ Component, pageProps }) {
     return (
         <ProfileProvider>
-            <Component {...pageProps} />
+            <GoalsProvider>
+                <Component {...pageProps} />
+            </GoalsProvider>
         </ProfileProvider>
     );
 }
