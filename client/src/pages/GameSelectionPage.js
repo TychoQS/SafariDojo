@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {useAuth} from "@/pages/context/AuthContext";
+import Link from "next/link";
 
 function GameSelectionPage() {
     const {isLoggedIn} = useAuth();
@@ -42,19 +43,23 @@ function GameSelectionPage() {
                     <Lifes />
                 </div>
                 <div className={"flex flex-row justify-evenly"}>
-                <GameSelectionButton
-                    Game={"Detective Lupin"}
-                    Subject={subject}
-                    BackgroundColor={backgroundColor}
-                    BorderColor={borderColor}>
-                </GameSelectionButton>
+                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: "Detective Lupin", Age: }}}>
+                        <GameSelectionButton
+                            Game={"Detective Lupin"}
+                            Subject={subject}
+                            BackgroundColor={backgroundColor}
+                            BorderColor={borderColor}>
+                        </GameSelectionButton>
+                    </Link>
 
-                <GameSelectionButton
-                    Game={"Make the film"}
-                    Subject={subject}
-                    BackgroundColor={backgroundColor}
-                    BorderColor={borderColor}>
-                </GameSelectionButton>
+                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: "Detective Lupin"}}}>
+                        <GameSelectionButton
+                            Game={"Make the film"}
+                            Subject={subject}
+                            BackgroundColor={backgroundColor}
+                            BorderColor={borderColor}>
+                        </GameSelectionButton>
+                    </Link>
             </div>
 
                 <div className={"flex flex-row justify-center mt-[-5%]"}>
