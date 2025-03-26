@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
 import {useRouter} from "next/router";
 import {useAuth} from "@/pages/context/AuthContext";
+import users from "../../../database/jsondata/Users.json";
 
 const LogIn = () => {
     const {logIn} = useAuth();
@@ -12,7 +13,11 @@ const LogIn = () => {
     const handleLogin = (data) => {
         console.log("Form data:", data);
 
-        if (data.UserEmail === "nelson@ulpgc.com" && data.PasswordLogIn === "Ps20242025") {
+        const userExists = users.find(user =>
+            user.email === data.UserEmail && user.password === data.PasswordLogIn
+        );
+
+        if (userExists) {
             logIn();
             router.push("..");
         } else {
