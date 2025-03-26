@@ -20,7 +20,7 @@ export default function GameSelectorButton(props) {
     return (
         <div className={"cursor-pointer h-60 w-84 text-2xl flex flex-col items-center justify-center " +
             `gap-5 border-4 rounded-lg font-black text-black hover:bg-[${BorderColor}] ` +
-            `hover:border-[#${BackgroundColor}] bg-[#${BackgroundColor}] border-[${BorderColor}]`}>
+            `hover:border-[${BackgroundColor}] bg-[${BackgroundColor}] border-[${BorderColor}]`}>
 
             {getImage[Subject]}
             {Game}

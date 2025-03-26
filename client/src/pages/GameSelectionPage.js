@@ -35,6 +35,14 @@ function GameSelectionPage() {
     const backgroundColor = subjectData?.backgroundColor
     const borderColor = subjectData?.borderColor
 
+    const [SelectedButton, setSelectedButton] = useState(null)
+
+    const Click = (Index) => {
+        setSelectedButton(Index);
+    }
+
+
+
     return (
         <>
             <div className={"app min-h-screen flex flex-col bg-PS-main-purple"}>
@@ -43,7 +51,7 @@ function GameSelectionPage() {
                     <Lifes />
                 </div>
                 <div className={"flex flex-row justify-evenly"}>
-                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: "Detective Lupin", Age: }}}>
+                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: "Detective Lupin", Age: SelectedButton}}}>
                         <GameSelectionButton
                             Game={"Detective Lupin"}
                             Subject={subject}
@@ -52,7 +60,7 @@ function GameSelectionPage() {
                         </GameSelectionButton>
                     </Link>
 
-                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: "Detective Lupin"}}}>
+                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: "Make the film", Age: SelectedButton}}}>
                         <GameSelectionButton
                             Game={"Make the film"}
                             Subject={subject}
@@ -63,27 +71,33 @@ function GameSelectionPage() {
             </div>
 
                 <div className={"flex flex-row justify-center mt-[-5%]"}>
-                    <img className={"h-46 w-35"} src={selectGameIcon} alt={"platypus"}></img>
+                    <img className={"h-46 w-40"} src={selectGameIcon} alt={"platypus"}></img>
                 </div>
 
             <div className={"flex flex-row justify-evenly mb-8"}>
-                <AgeSelectorButton
-                    Age={"6 - 7 years"}
-                    BackgroundColor={backgroundColor}
-                    BorderColor={borderColor}>
-                </AgeSelectorButton>
+                <div onClick={() => Click(0)}>
+                    <AgeSelectorButton
+                        Age={"6 - 7 years"}
+                        BorderColor={SelectedButton === 0 ? borderColor : backgroundColor}
+                        BackgroundColor={SelectedButton === 0 ? backgroundColor : borderColor}>
+                    </AgeSelectorButton>
+                </div>
 
-                <AgeSelectorButton
-                    Age={"8 - 9 years"}
-                    BackgroundColor={backgroundColor}
-                    BorderColor={borderColor}>
-                </AgeSelectorButton>
+                <div onClick={() => Click(1)}>
+                    <AgeSelectorButton
+                        Age={"8 - 9 years"}
+                        BorderColor={SelectedButton === 1 ? borderColor : backgroundColor}
+                        BackgroundColor={SelectedButton === 1 ? backgroundColor : borderColor}>
+                    </AgeSelectorButton>
+                </div>
 
-                <AgeSelectorButton
-                    Age={"10 - 11 years"}
-                    BackgroundColor={backgroundColor}
-                    BorderColor={borderColor}>
-                </AgeSelectorButton>
+                <div onClick={() => Click(2)}>
+                    <AgeSelectorButton
+                        Age={"10 - 11 years"}
+                        BorderColor={SelectedButton === 2 ? borderColor : backgroundColor}
+                        BackgroundColor={SelectedButton === 2 ? backgroundColor : borderColor}>
+                    </AgeSelectorButton>
+                </div>
                 </div>
                 <Footer/>
             </div>

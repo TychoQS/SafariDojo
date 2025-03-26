@@ -7,14 +7,12 @@
 </AgeSelectorButton>
 */
 
-
-
 export default function AgeSelectorButton(props) {
     const {Age, BackgroundColor, BorderColor} = props;
 
     return (
         <button className={"cursor-pointer w-40 h-16 border-4 rounded-lg text-xl font-black text-black " +
-            `hover:bg-[${BorderColor}] hover:border-[#${BackgroundColor}] bg-[#${BackgroundColor}] border-[${BorderColor}]`}>
+            `bg-[${BorderColor}] border-[${BackgroundColor}] `}>
             {Age}
         </button>
     )

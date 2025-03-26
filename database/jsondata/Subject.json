@@ -4,7 +4,7 @@
     "animalName": "owl",
     "baseIcon": "/images/SubjectAnimals/Owl.png",
     "selectGameIcon": "/images/SubjectAnimals/Owl2.png",
-    "backgroundColor": "FDFFCE",
+    "backgroundColor": "#FDFFCE",
     "borderColor": "#EFF66E"
   },
   {
@@ -12,7 +12,7 @@
     "animalName": "kangaroo",
     "baseIcon": "/images/SubjectAnimals/Kangaroo.png",
     "selectGameIcon": "/images/SubjectAnimals/Kangaroo2.png",
-    "backgroundColor": "E8B1EC",
+    "backgroundColor": "#E8B1EC",
     "borderColor": "#ED6EF6"
   },
   {
@@ -20,7 +20,7 @@
     "animalName": "elephant",
     "baseIcon": "/images/SubjectAnimals/Elephant.png",
     "selectGameIcon": "/images/SubjectAnimals/Elephant2.png",
-    "backgroundColor": "9BD6EF",
+    "backgroundColor": "#9BD6EF",
     "borderColor": "#1BA8E4"
   },
   {
@@ -28,7 +28,7 @@
     "animalName": "frog",
     "baseIcon": "/images/SubjectAnimals/Frog.png",
     "selectGameIcon": "/images/SubjectAnimals/Frog2.png",
-    "backgroundColor": "C9F1D2",
+    "backgroundColor": "#C9F1D2",
     "borderColor": "#6EF68B"
   },
   {
@@ -36,7 +36,7 @@
     "animalName": "platypus",
     "baseIcon": "/images/SubjectAnimals/Platypus.png",
     "selectGameIcon": "/images/SubjectAnimals/Platypus2.png",
-    "backgroundColor": "F2C1BB",
+    "backgroundColor": "#F2C1BB",
     "borderColor": "#F67C6E"
   }
 ]
