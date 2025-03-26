@@ -1,3 +1,21 @@
+/*
+======================== USAGE ====================
+        <Input
+            id="password"
+            label="Password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+            onError={handleError}
+            rules={{
+                required: true,
+                password: true,
+                minLength: { value: 6, message: "Password must be at least 6 characters." },
+            }}
+        />
+
+ */
+
 import React, { useState, useEffect } from "react";
 import { deliciousHandDrawn } from "@/styles/fonts";
 
