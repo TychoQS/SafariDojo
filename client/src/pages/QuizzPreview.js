@@ -49,7 +49,7 @@
         }, [game, subject])
 
 
-        const selectGameIcon = subjectData?.selectGameIcon
+        const selectGameIcon = subjectData?.PreviewGameImage
         const gameDescription = gameData?.gameDescription
 
         const ageDescription = {
