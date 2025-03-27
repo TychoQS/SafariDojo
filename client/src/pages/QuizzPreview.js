@@ -26,40 +26,56 @@
             }
         }, [router.isReady, router.query])
 
+        const getMascotBasedOn = (Subject) => {
+            switch (Subject) {
+                case "Maths":
+                    return "Elephant"
+                case "English":
+                    return "Owl"
+                case "Geography":
+                    return "Kangaroo"
+                case "Art":
+                    return "Platypus"
+                case "Science":
+                    return "Frog"
+                default:
+                    return ""
+            }
+        }
+
         return (
             <>
-                <div id={"QuizzPreviewComponent"} className={"app min-h-screen flex flex-col bg-PS-main-purple"}>
+                <div id={"QuizzPreviewComponent"} className={"app flex min-h-screen flex-col bg-PS-main-purple"}>
                     <Header/>
-                    <main id={"QuizPreviewMain"} className={"flex flex-grow flex-col relative"}>
-                        <section id={"SpeechBubbleSection"} className="flex items-start justify-center relative">
-                            <div id={"SpeechBubbleDiv"} className={"mt-8"}>
+                    <main id={"QuizPreviewMain"} className={"grid flex-grow justify-end items-end grid-cols-3 grid-rows-[1fr_auto]"}>
+                        <section id={"SpeechBubbleSection"} className="col-span-3 mt-5 z-20 ">
                                 <SpeechBubble // TODO Make it Dynamic
                                     Text={"Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum " +
-                                        "Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum "}
+                                        "Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum"}
                                     Subject={subject}>
                                 </SpeechBubble>
-                            </div>
                         </section>
-                        <section id={"MascotSection"} className="flex flex-row-reverse mr-80 relative z-10">
-                            <img
-                                id={"MascotImage"}
-                                className={"max-h-[600px] object-contain"}
-                                src={"../images/SubjectAnimals/Platypus3.png"} // TODO Make it Dynamic
-                                alt={"Alt-Text"}
-                                height={"600"}
-                            />
-                            <div id={"GameCardDiv"} className="absolute bottom-[-8.75em] pr-120">
-                                <GameCard  // TODO Make it Dynamic
+                        <section id={"StartSection"} className={"col-span-3 row-start-2 grid grid-cols-[1fr_max-content_1fr] z-10 md:space-x-2"}>
+                            <section className="col-start-2 flex justify-center items-end z-10 self-end sm:z-0">
+                                <GameCard
                                     Title={game}
                                     Description={"Game description Game description Game description Game description Game description"}
                                     Completed={true}
                                     Subject={subject}
                                     Score={"0"}>
                                 </GameCard>
-                            </div>
+                            </section>
+                            <section id={"MascotSection"} className="col-start-3 flex items-end justify-start z-0">
+                                <img
+                                    id={"MascotImage"}
+                                    className={"lg:xl:2xl:min-h-[600px] min-h-[280px] object-cover"}
+                                    src={`../images/SubjectAnimals/Preview/Preview${getMascotBasedOn(subject)}.png`}
+                                    alt={"Discipline-Mascot"}
+                                />
+                            </section>
                         </section>
                     </main>
-                    <Footer></Footer>
+                        <Footer/>
                 </div>
             </>
         )
