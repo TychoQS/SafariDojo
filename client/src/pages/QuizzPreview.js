@@ -53,9 +53,9 @@
         const gameDescription = gameData?.gameDescription
 
         const ageDescription = {
-            "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
-            "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
-            "hard": "Para ganar necesitas superar los 2 puntos!!!"
+            "easy": "Obtain 500 points to win",
+            "medium": "Obtain 1500 points to win",
+            "hard": "Obtain 3000 points to win"
         }
 
         return (
@@ -64,7 +64,7 @@
                     <Header/>
                     <main id={"QuizPreviewMain"} className={"grid flex-grow justify-end items-end grid-cols-3 grid-rows-[1fr_auto]"}>
                         <section id={"SpeechBubbleSection"} className="col-span-3 mt-5 z-20 ">
-                                <SpeechBubble // TODO Make it Dynamic
+                                <SpeechBubble
                                     Text={gameDescription}
                                     Subject={subject}>
                                 </SpeechBubble>

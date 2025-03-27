@@ -51,7 +51,7 @@ function GameSelectionPage() {
                 <div className="flex items-end justify-end">
                     <Lifes />
                 </div>
-                <main className={"flex flex-col flex-grow justify-end"}>
+                <main className={"flex flex-col flex-grow justify-center"}>
                 <div className={"flex flex-row justify-evenly"}>
                     <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: firstGame, Age: SelectedButton}}}>
                         <GameSelectionButton
@@ -72,7 +72,7 @@ function GameSelectionPage() {
                     </Link>
                 </div>
 
-                <div className={"flex flex-row justify-center mt-[-5%]"}>
+                <div className={"flex flex-row justify-center"}>
                     <img className={"h-46 w-40"} src={selectGameIcon} alt={"platypus"}></img>
                 </div>
 
