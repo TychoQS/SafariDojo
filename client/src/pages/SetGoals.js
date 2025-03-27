@@ -7,16 +7,16 @@ import Button from "@/components/Button";
 import AnimalIcon from "@/components/AnimalIcon";
 import Link from "next/link";
 import { useGoals } from "@/pages/context/GoalContext";
-import {useAuth} from "@/pages/context/AuthContext";
+import { useAuth } from "@/pages/context/AuthContext";
 
 export default function SetGoals() {
-    const {isLoggedIn} = useAuth();
+    const { isLoggedIn } = useAuth();
     const { goals, setNewGoals } = useGoals();
 
     const [medals, setMedals] = useState(0);
-    const [games, setGames] = useState(0);
     const [quizzes, setQuizzes] = useState(0);
     const [selectedSubject, setSelectedSubject] = useState(null);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         if (selectedSubject) {
@@ -24,20 +24,22 @@ export default function SetGoals() {
             setQuizzes(goals.total[subjectIndex + 2]);
         } else {
             setQuizzes(goals.total[0]);
+            setMedals(goals.total[1]);
         }
     }, [selectedSubject, goals.total]);
 
     const handleSave = () => {
+        if (Object.values(errors).some(error => error)) return;
+
         const updatedGoals = [...goals.total];
 
         if (selectedSubject) {
             const subjectIndex = getSubjectIndex(selectedSubject);
             updatedGoals[subjectIndex + 2] = quizzes;
-        } else if (!selectedSubject) {
+        } else {
             updatedGoals[0] = quizzes;
         }
         updatedGoals[1] = medals;
-        updatedGoals[0] = games;
 
         setNewGoals({
             completed: Array(7).fill(0),
@@ -46,11 +48,7 @@ export default function SetGoals() {
     };
 
     const handleSelectSubject = (subject) => {
-        if (selectedSubject === subject) {
-            setSelectedSubject(null);
-        } else {
-            setSelectedSubject(subject);
-        }
+        setSelectedSubject(selectedSubject === subject ? null : subject);
     };
 
     const getSubjectIndex = (subject) => {
@@ -58,9 +56,19 @@ export default function SetGoals() {
         return subjects.indexOf(subject);
     };
 
+    const handleNumberInput = (setter, field) => (e) => {
+        const value = e.target.value;
+        if (/^\d*$/.test(value)) {
+            setter(value);
+            setErrors(prev => ({ ...prev, [field]: "" }));
+        } else {
+            setErrors(prev => ({ ...prev, [field]: "Only numbers are allowed" }));
+        }
+    };
+
     return (
         <div className="min-h-screen flex flex-col bg-PS-main-purple">
-            <Header/>
+            <Header />
             <section className="grid-rows-[auto,auto,auto,auto] m-auto flex-col items-center justify-start gap-6">
                 <section className="flex flex-row justify-center items-center gap-10 m-auto p-6">
                     <div className="flex flex-col items-center">
@@ -73,7 +81,7 @@ export default function SetGoals() {
                                             className={`flex justify-center items-center ${selectedSubject === subject ? 'opacity-50' : ''}`}
                                             onClick={() => handleSelectSubject(subject)}
                                         >
-                                            <AnimalIcon subject={subject} size="small" borderThickness={4} backgroundColor="#E4DDFB"/>
+                                            <AnimalIcon subject={subject} size="small" borderThickness={4} backgroundColor="#E4DDFB" />
                                         </div>
                                     ))}
                                 </div>
@@ -84,7 +92,7 @@ export default function SetGoals() {
                                             className={`flex justify-center items-center ${selectedSubject === subject ? 'opacity-50' : ''}`}
                                             onClick={() => handleSelectSubject(subject)}
                                         >
-                                            <AnimalIcon subject={subject} size="small" borderThickness={4} backgroundColor="#E4DDFB"/>
+                                            <AnimalIcon subject={subject} size="small" borderThickness={4} backgroundColor="#E4DDFB" />
                                         </div>
                                     ))}
                                 </div>
@@ -94,22 +102,28 @@ export default function SetGoals() {
                     <div className="flex flex-col items-center space-y-6">
                         <Title>Set Goals</Title>
                         <section className="w-80 p-4 bg-PS-light-yellow rounded-lg flex flex-col items-center space-y-4 shadow-lg">
-                            {!selectedSubject && (
-                                <Input
-                                    size="medium"
-                                    id="SetGoalsMedals"
-                                    label="Number of medals"
-                                    value={medals}
-                                    onChange={(e) => setMedals(e.target.value)}
-                                />
-                            )}
                             <Input
                                 size="medium"
                                 id="SetGoalsQuizzes"
                                 label="Number of quizzes"
                                 value={quizzes}
-                                onChange={(e) => setQuizzes(e.target.value)}
+                                onChange={handleNumberInput(setQuizzes, "quizzes")}
+                                onError={() => errors.quizzes}
                             />
+                            {errors.quizzes && <p className="text-red-500 text-sm">{errors.quizzes}</p>}
+                            {!selectedSubject && (
+                                <>
+                                    <Input
+                                        size="medium"
+                                        id="SetGoalsMedals"
+                                        label="Number of medals"
+                                        value={medals}
+                                        onChange={handleNumberInput(setMedals, "medals")}
+                                        onError={() => errors.medals}
+                                    />
+                                    {errors.medals && <p className="text-red-500 text-sm">{errors.medals}</p>}
+                                </>
+                            )}
                         </section>
                     </div>
                 </section>
@@ -118,11 +132,11 @@ export default function SetGoals() {
                         <Button size="large">cancel</Button>
                     </Link>
                     <Link href="/Goals">
-                        <Button size="large" onClick={handleSave}>save</Button>
+                        <Button size="large" onClick={handleSave} disabled={Object.values(errors).some(error => error)}>save</Button>
                     </Link>
                 </div>
             </section>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

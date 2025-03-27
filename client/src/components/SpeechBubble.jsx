@@ -23,7 +23,7 @@ export default function SpeechBubble(props) {
 
     const getBackgroundColorBasedOn = (Subject) => {
         switch (Subject) {
-            case "Math":
+            case "Maths":
                 return "bg-[#1BA8E4]"
             case "English":
                 return "bg-[#EFF66E]"
@@ -40,7 +40,7 @@ export default function SpeechBubble(props) {
 
     const getBackgroundHexColorBasedOn = (Subject) => {
         switch (Subject) {
-            case "Math":
+            case "Maths":
                 return "#1BA8E4"
             case "English":
                 return "#EFF66E"
@@ -65,7 +65,7 @@ export default function SpeechBubble(props) {
                     {Text}
                 </p>
                 <svg id={"BubbleSpeechTail"} viewBox="0 0 200 100"
-                     className={"absolute bottom-0 transform rotate-160 translate-y-51 translate-x-32 stroke-3"}>
+                     className={"absolute bottom-0 transform rotate-160 translate-y-51 translate-x-32 stroke-3 pointer-events-none"}>
                     <polygon points="40,60 115,147 96,490" fill={getBackgroundHexColorBasedOn(Subject)} stroke="black"
                              strokeWidth="2.2"/>
                 </svg>

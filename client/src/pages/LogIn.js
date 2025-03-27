@@ -2,12 +2,12 @@ import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
-import {useRouter} from "next/router";
-import {useAuth} from "@/pages/context/AuthContext";
+import { useRouter } from "next/router";
+import { useAuth } from "@/pages/context/AuthContext";
 import users from "../../../database/jsondata/Users.json";
 
 const LogIn = () => {
-    const {logIn} = useAuth();
+    const { logIn } = useAuth();
     const router = useRouter();
 
     const handleLogin = (data) => {
@@ -18,7 +18,9 @@ const LogIn = () => {
         );
 
         if (userExists) {
-            logIn();
+            const token = `fakeTokenForUser-${userExists.id}`;
+            logIn(token, userExists);
+
             router.push("..");
         } else {
             alert("Invalid credentials, please try again.");
@@ -54,7 +56,7 @@ const LogIn = () => {
                     onSubmit={handleLogin}
                 />
             </main>
-            <Footer/>
+            <Footer />
         </div>
     );
 };

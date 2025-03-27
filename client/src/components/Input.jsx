@@ -1,3 +1,21 @@
+/*
+======================== USAGE ====================
+        <Input
+            id="password"
+            label="Password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+            onError={handleError}
+            rules={{
+                required: true,
+                password: true,
+                minLength: { value: 6, message: "Password must be at least 6 characters." },
+            }}
+        />
+
+ */
+
 import React, { useState, useEffect } from "react";
 import { deliciousHandDrawn } from "@/styles/fonts";
 
@@ -76,7 +94,7 @@ export default function Input({
     ${borderColor} rounded-2xl px-4 py-2 border-2 outline-none border-b-6 ${inputSizeClass} ${deliciousHandDrawn.className}`}
             />
             {error && (
-                <p className="text-red-500 text-sm">{error}</p> // Imprimimos el error aquí
+                <p className="text-red-500 text-sm">{error}</p>
             )}
         </div>
     );
