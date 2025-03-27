@@ -65,7 +65,7 @@
                     <main id={"QuizPreviewMain"} className={"grid flex-grow justify-end items-end grid-cols-3 grid-rows-[1fr_auto]"}>
                         <section id={"SpeechBubbleSection"} className="col-span-3 mt-5 z-20 ">
                                 <SpeechBubble // TODO Make it Dynamic
-                                    Text={ageDescription[age]}
+                                    Text={gameDescription}
                                     Subject={subject}>
                                 </SpeechBubble>
                         </section>
@@ -73,7 +73,7 @@
                             <section className="col-start-2 flex justify-center items-end z-10 self-end sm:z-0">
                                 <GameCard
                                     Title={game}
-                                    Description={gameDescription}
+                                    Description={ageDescription[age]}
                                     Completed={true}
                                     Subject={subject}
                                     Score={"0"}>
