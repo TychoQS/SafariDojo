@@ -1,7 +1,7 @@
 [
   {
     "gameName": "Math Invasors",
-    "gameDescription": "Controlas una nave que dispara proyectiles y tu misión es destruir la respuesta correcta de las operaciones.",
+    "gameDescription": "Math Invaders challenges your speed and accuracy in a thrilling battle against incoming numbers. Shoot down only the correct answers before they reach the ground. Will you keep up with the increasing speed and complexity, or will the numbers overwhelm you? Prepare for battle—math has never been this intense! ",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -10,7 +10,7 @@
   },
   {
     "gameName": "Crash Stopper",
-    "gameDescription": "Conduces un coche y deberás darle energía resolviendo operaciones.",
+    "gameDescription": "Crash Stopper puts you behind the wheel of a high-speed math race! Answer correctly to accelerate, but the faster you go, the closer you are to crashing. Push your limits, outpace your rivals, and see where you land when the dust settles!",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -19,7 +19,7 @@
   },
   {
     "gameName": "CrossWord",
-    "gameDescription": "Se te presenta un crucigrama que deberás resolver.",
+    "gameDescription": "CrossWord is the ultimate test of your vocabulary and wit! Solve the puzzle, unlock the words, and rise to the challenge. Every clue brings you closer to victory—can you conquer them all? Only the sharpest minds will claim the crown!",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -28,7 +28,7 @@
   },
   {
     "gameName": "Chinese Scribblenauts",
-    "gameDescription": "Ayuda a Owlingo a llegar a su destino con las herramientas que necesite, pero recuerda que solo habla inglés.",
+    "gameDescription": "Chinese Scribblenauts is an epic adventure where your imagination is the key to survival! Write the objects you need to move forward, and watch them come to life. But be careful—three mistakes and you’ll be erased from existence! Write wisely...",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -37,7 +37,7 @@
   },
   {
     "gameName": "Detective Lupin",
-    "gameDescription": "Intenta adivinar de que imagen se trata, puedes pedir hasta tres comodines.",
+    "gameDescription": "In Detective Lupin, you’ll see a pixelated version of a famous painting and have to guess what it is! Use the hints to pick the right answer from three choices. If you get it right, the full artwork is revealed with a bit of info about the artist. For an extra twist, you can even color in the black-and-white version once you’ve guessed it!",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -46,7 +46,7 @@
   },
   {
     "gameName": "Make the film",
-    "gameDescription": "Resuelve el rompecabezas y averigua que historia se está contando.",
+    "gameDescription": "Jump into the world of storytelling magic where you become a story detective! Take a classic tale that's been mixed up and help put its scenes back in the right order. Drag and drop the story cards to create the perfect sequence. When you get it right, watch as a special animation or a surprising alternate ending brings your storytelling skills to life!",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -55,7 +55,7 @@
   },
   {
     "gameName": "Call of the clan",
-    "gameDescription": "Ayuda a los animales a encontrar a sus análogos moviendote con WASD o las flechas direccionales.",
+    "gameDescription": "Embark on an exciting adventure where you'll guide an animal through a unique journey of discovery! Use your WASD or arrow keys to move your character around the screen, exploring different animal groups. Your mission is to find which animal family your character belongs to by identifying their shared traits. Get close to each group, compare characteristics, and discover the true clan of your adventurous animal friend!",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -64,7 +64,7 @@
   },
   {
     "gameName": "Snake maze",
-    "gameDescription": "Recorre el laberinto reencuentrate con tu tesoro preciado.",
+    "gameDescription": "Prepare for an exciting journey through a fascinating maze where each path reveals a unique animal and its special characteristic! Navigate carefully, discovering fascinating creatures along the way. Your goal is to explore the intricate pathways, learning about different animals while finding your way through the twisting maze. Every turn brings a new animal fact and a chance to test your navigation skills!",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -72,8 +72,8 @@
     }
   },
   {
-    "gameName": "Pin the Place",
-    "gameDescription": "Intenta acercarte en el mapa lo más posible a la ubicación que se te muestra.",
+    "gameName": "Pin the place",
+    "gameDescription": "Look, you take a map and choose a place like Spain. You need to put a pin as close as possible to its actual location. The closer you place it, the more points you get. It's like a geography detective game where your world knowledge helps you win. The more precise you are, the more points you'll score!",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -82,7 +82,7 @@
   },
   {
     "gameName": "Detective Mr WorldWide",
-    "gameDescription": "Intenta adivinar la bandera, tienes hasta 3 comodines.",
+    "gameDescription": "Look, you get a map or a flag, and you have to guess the country. Maybe they show you just the outline of a country, or just its flag. You've got to use your smarts and geographic knowledge to figure out which place it is. The faster and more accurately you guess, the more points you win. It's like being a world detective, uncovering the identity of countries with just a few clues! Are you Mr. Worldwide because you know every place on Earth, or do you know every place on Earth because you're Mr. Worldwide?",
     "difficulty": {
       "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
       "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
