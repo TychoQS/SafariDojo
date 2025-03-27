@@ -37,7 +37,7 @@ function GameSelectionPage() {
     const firstGame = subjectData?.firstGame
     const secondGame = subjectData?.secondGame
 
-    const [SelectedButton, setSelectedButton] = useState(0)
+    const [SelectedButton, setSelectedButton] = useState("easy")
 
     const Click = (Index) => {
         setSelectedButton(Index);
@@ -76,27 +76,27 @@ function GameSelectionPage() {
                 </div>
 
             <div className={"flex flex-row justify-evenly mb-8"}>
-                <div onClick={() => Click(0)}>
+                <div onClick={() => Click("easy")}>
                     <AgeSelectorButton
                         Age={"6 - 7 years"}
-                        BackgroundColor={SelectedButton === 0 ? borderColor : backgroundColor}
-                        BorderColor={SelectedButton === 0 ? backgroundColor : borderColor}>
+                        BackgroundColor={SelectedButton === "easy" ? borderColor : backgroundColor}
+                        BorderColor={SelectedButton === "easy" ? backgroundColor : borderColor}>
                     </AgeSelectorButton>
                 </div>
 
-                <div onClick={() => Click(1)}>
+                <div onClick={() => Click("medium")}>
                     <AgeSelectorButton
                         Age={"8 - 9 years"}
-                        BackgroundColor={SelectedButton === 1 ? borderColor : backgroundColor}
-                        BorderColor={SelectedButton === 1 ? backgroundColor : borderColor}>
+                        BackgroundColor={SelectedButton === "medium" ? borderColor : backgroundColor}
+                        BorderColor={SelectedButton === "medium" ? backgroundColor : borderColor}>
                     </AgeSelectorButton>
                 </div>
 
-                <div onClick={() => Click(2)}>
+                <div onClick={() => Click("hard")}>
                     <AgeSelectorButton
                         Age={"10 - 11 years"}
-                        BackgroundColor={SelectedButton === 2 ? borderColor : backgroundColor}
-                        BorderColor={SelectedButton === 2 ? backgroundColor : borderColor}>
+                        BackgroundColor={SelectedButton === "hard" ? borderColor : backgroundColor}
+                        BorderColor={SelectedButton === "hard" ? backgroundColor : borderColor}>
                     </AgeSelectorButton>
                 </div>
                 </div>

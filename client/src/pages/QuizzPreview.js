@@ -5,13 +5,19 @@
     import GameCard from "@/components/GameCard";
     import {useAuth} from "@/pages/context/AuthContext";
     import {useRouter} from "next/router";
-    import animals from "../../../database/jsondata/Subject.json";
+    import subjects from "../../../database/jsondata/Subject.json";
+    import games from "../../../database/jsondata/Games.json";
 
     function QuizzPreview() {
         const {isLoggedIn} = useAuth();
         const router = useRouter();
+
         const [subject, setSubject] = useState(null)
+        const [subjectData, setSubjectData] = useState(null)
+
         const [game, setGame] = useState(null)
+        const [gameData, setGameData] = useState(null)
+
         const [age, setAge] = useState(null)
 
         useEffect(() => {
@@ -26,21 +32,30 @@
             }
         }, [router.isReady, router.query])
 
-        const getMascotBasedOn = (Subject) => {
-            switch (Subject) {
-                case "Maths":
-                    return "Elephant"
-                case "English":
-                    return "Owl"
-                case "Geography":
-                    return "Kangaroo"
-                case "Art":
-                    return "Platypus"
-                case "Science":
-                    return "Frog"
-                default:
-                    return ""
+        useEffect(() => {
+            if (game) {
+                const foundGameData = games.find(item => item.gameName === game);
+                if (foundGameData) {
+                    setGameData(foundGameData)
+                }
             }
+
+            if (subject) {
+                const foundSubjectData = subjects.find(item => item.subjectName === subject);
+                if (foundSubjectData) {
+                    setSubjectData(foundSubjectData)
+                }
+            }
+        }, [game, subject])
+
+
+        const selectGameIcon = subjectData?.selectGameIcon
+        const gameDescription = gameData?.gameDescription
+
+        const ageDescription = {
+            "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+            "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+            "hard": "Para ganar necesitas superar los 2 puntos!!!"
         }
 
         return (
@@ -50,8 +65,7 @@
                     <main id={"QuizPreviewMain"} className={"grid flex-grow justify-end items-end grid-cols-3 grid-rows-[1fr_auto]"}>
                         <section id={"SpeechBubbleSection"} className="col-span-3 mt-5 z-20 ">
                                 <SpeechBubble // TODO Make it Dynamic
-                                    Text={"Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum " +
-                                        "Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum Lore Ipsum"}
+                                    Text={ageDescription[age]}
                                     Subject={subject}>
                                 </SpeechBubble>
                         </section>
@@ -59,7 +73,7 @@
                             <section className="col-start-2 flex justify-center items-end z-10 self-end sm:z-0">
                                 <GameCard
                                     Title={game}
-                                    Description={"Game description Game description Game description Game description Game description"}
+                                    Description={gameDescription}
                                     Completed={true}
                                     Subject={subject}
                                     Score={"0"}>
@@ -69,7 +83,7 @@
                                 <img
                                     id={"MascotImage"}
                                     className={"lg:xl:2xl:min-h-[600px] min-h-[280px] object-cover"}
-                                    src={`../images/SubjectAnimals/Preview/Preview${getMascotBasedOn(subject)}.png`}
+                                    src={selectGameIcon}
                                     alt={"Discipline-Mascot"}
                                 />
                             </section>

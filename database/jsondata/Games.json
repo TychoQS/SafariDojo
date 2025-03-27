@@ -1,42 +1,92 @@
 [
   {
     "gameName": "Math Invasors",
-    "gameDescription": "Controlas una nave que dispara proyectiles y tu misión es destruir la respuesta correcta de las operaciones."
+    "gameDescription": "Controlas una nave que dispara proyectiles y tu misión es destruir la respuesta correcta de las operaciones.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   },
   {
     "gameName": "Crash Stopper",
-    "gameDescription": "Conduces un coche y deberás darle energía resolviendo operaciones."
+    "gameDescription": "Conduces un coche y deberás darle energía resolviendo operaciones.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   },
   {
     "gameName": "CrossWord",
-    "gameDescription": "Se te presenta un crucigrama que deberás resolver."
+    "gameDescription": "Se te presenta un crucigrama que deberás resolver.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   },
   {
     "gameName": "Chinese Scribblenauts",
-    "gameDescription": "Ayuda a Owlingo a llegar a su destino con las herramientas que necesite, pero recuerda que solo habla inglés."
+    "gameDescription": "Ayuda a Owlingo a llegar a su destino con las herramientas que necesite, pero recuerda que solo habla inglés.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   },
   {
     "gameName": "Detective Lupin",
-    "gameDescription": "Intenta adivinar de que imagen se trata, puedes pedir hasta tres comodines."
+    "gameDescription": "Intenta adivinar de que imagen se trata, puedes pedir hasta tres comodines.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   },
   {
     "gameName": "Make the film",
-    "gameDescription": "Resuelve el rompecabezas y averigua que historia se está contando."
+    "gameDescription": "Resuelve el rompecabezas y averigua que historia se está contando.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   },
   {
     "gameName": "Call of the clan",
-    "gameDescription": "Ayuda a los animales a encontrar a sus análogos moviendote con WASD o las flechas direccionales."
+    "gameDescription": "Ayuda a los animales a encontrar a sus análogos moviendote con WASD o las flechas direccionales.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   },
   {
     "gameName": "Snake maze",
-    "gameDescription": "Recorre el laberinto reencuentrate con tu tesoro preciado."
+    "gameDescription": "Recorre el laberinto reencuentrate con tu tesoro preciado.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   },
   {
     "gameName": "Pin the Place",
-    "gameDescription": "Intenta acercarte en el mapa lo más posible a la ubicación que se te muestra."
+    "gameDescription": "Intenta acercarte en el mapa lo más posible a la ubicación que se te muestra.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   },
   {
     "gameName": "Detective Mr WorldWide",
-    "gameDescription": "Intenta adivinar la bandera, tienes hasta 3 comodines."
+    "gameDescription": "Intenta adivinar la bandera, tienes hasta 3 comodines.",
+    "difficulty": {
+      "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+      "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+      "hard": "Para ganar necesitas superar los 2 puntos!!!"
+    }
   }
 ]
