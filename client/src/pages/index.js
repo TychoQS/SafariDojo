@@ -5,11 +5,9 @@ import CircleLayout from "@/components/AnimalCircleLayout";
 import PopularGameCard from "@/components/PopularGameCard";
 import SearchBar from "@/components/SearchBar";
 import FilterBar from "@/components/FilterBar";
-import {useAuth} from "@/pages/context/AuthContext";
 import {cherryBomb} from '@/styles/fonts';
 
 function Index() {
-    const {isLoggedIn} = useAuth();
     const [filters, setFilters] = useState({
         filterBy: "",
     });
@@ -32,11 +30,6 @@ function Index() {
             ...prevFilters,
             filterBy: value,
         }));
-    };
-
-    const handleResetFilters = () => {
-        setSearchTerm("");
-        setFilters({filterBy: ""});
     };
 
     const filterAndGroupGames = (games) => {
@@ -89,12 +82,6 @@ function Index() {
                     <div className="flex justify-center items-center gap-4 w-full">
                         <SearchBar placeholder="Buscar..." onSearch={handleSearch}/>
                         <FilterBar onFilterChange={handleFilterChange}/>
-                        <button
-                            onClick={handleResetFilters}
-                            className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer"
-                        >
-                            Reset Filters
-                        </button>
                     </div>
 
                     {filteredGames.length === 0 ? (

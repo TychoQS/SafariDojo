@@ -9,12 +9,7 @@ import React from "react";
 import AnimalIcon from "@/components/AnimalIcon";
 
 export default function MyProfile() {
-    const {isLoggedIn, user} = useAuth();
-
-    if (!isLoggedIn) {
-        return <div>You are not logged in</div>;
-    }
-
+    const {user} = useAuth();
     const currentUser = user || {name: "Unknown", email: "N/A", profilePhoto: "default"};
 
     return (
