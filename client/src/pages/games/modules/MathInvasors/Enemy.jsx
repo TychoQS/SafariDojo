@@ -1,14 +1,14 @@
 const MinDistanceBetweenEnemies = 50;
 
 export default class Enemy {
-    constructor(X, Value) {
+    constructor(X) {
         this.X = X;
         this.Y = 0;
         this.Width = 30;
         this.Height = 30;
         this.Speed = 1;
         this.Color = "red";
-        this.Number = Value;
+        this.Number = Math.floor(Math.random() * 10);
     }
 
     Move() {
@@ -35,7 +35,7 @@ export function generateEnemies(canvasWidth, numEnemies) {
 
 export function generateAnEnemy(canvasWidth) {
     const x = Math.random() * (canvasWidth - 30);
-    return new Enemy(x, getRandomNumber());
+    return new Enemy(x);
 };
 
 
