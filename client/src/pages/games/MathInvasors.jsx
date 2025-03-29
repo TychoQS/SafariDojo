@@ -1,10 +1,15 @@
 import {useEffect, useRef, useState} from "react";
+import { P2Start } from '@/styles/fonts';
 import Player from "@/pages/games/modules/MathInvasors/Player";
 import Missile from "@/pages/games/modules/MathInvasors/Missile";
 import Enemy, {generateEnemies} from "@/pages/games/modules/MathInvasors/Enemy";
 import {GetRandomOperation, GetRandomNumber} from "@/pages/games/modules/MathInvasors/MathUtils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Title from "@/components/Title";
+import Button from "@/components/Button";
+
+
 
 export default function MathInvasors() {
     const canvasRef = useRef(null);
@@ -13,12 +18,18 @@ export default function MathInvasors() {
     const enemiesRef = useRef([]);
     const [Score, setScore] = useState(0);
     const [Operation, SetOperation] = useState("");
+    const CanvasWidth = 800;
+    const CanvasHeight = 430;
     let Result = useRef(0);
-
+    const [Playing, SetPlaying] = useState(false);
 
     useEffect(() => {
+        if (!Playing) return;
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
+
+        canvas.width = CanvasWidth;
+        canvas.height = CanvasHeight;
 
 
         playerRef.current = new Player(canvas.width, canvas.height);
@@ -110,9 +121,9 @@ export default function MathInvasors() {
                 enemiesRef.current = enemiesRef.current.filter((enemy) => {
                     function missileIsInEnemySquare() {
                         return missile.X < enemy.X + (enemy.Width * 1.05) &&
-                               missile.X >= (enemy.X * 0.9) &&
-                               missile.Y < enemy.Y + (enemy.Height * 1.05) &&
-                               missile.Y >= (enemy.Y * 0.9);
+                            missile.X >= (enemy.X * 0.9) &&
+                            missile.Y < enemy.Y + (enemy.Height * 1.05) &&
+                            missile.Y >= (enemy.Y * 0.9);
                     }
 
                     if (missileIsInEnemySquare()) {
@@ -149,25 +160,37 @@ export default function MathInvasors() {
             window.removeEventListener("keydown", keyPressed);
             window.removeEventListener("keyup", keyReleased);
         };
-    }, []);
+    }, [Playing]);
 
     return (
         <>
-            <Header></Header>
-                <main className="flex flex-col items-center justify-center flex-grow bg-black">
-                    <h1 className={"text-red-600"}>{Operation}</h1>
-                    <h1 className="text-white text-xl mb-2">Math Invasors</h1>
-                    <div className="text-white text-xl mb-4">
-                        Score: {Score}
-                    </div>
-                    <canvas
-                        ref={canvasRef}
-                        width="800"
-                        height="600"
-                        className="border-4 border-PS-main-purple bg-black-600 mb-4"
-                    ></canvas>
+            <div id={""} className={"app flex flex-col h-screen bg-PS-main-purple"}>
+                <Header></Header>
+                <main className="flex flex-col flex-1 items-center justify-center bg-PS-main-purple">
+                    <section className={"flex flex-col"}>
+                        <h1 className={`text-center text-2xl ${P2Start.className} text-PS-dark-yellow`}>Math Invasors</h1>
+                        <h2 className={`text-center text-2xl ${P2Start.className} text-PS-dark-yellow`}>Score: {Score}</h2>
+                        <h2 className={`text-center text-2xl ${P2Start.className} text-PS-dark-yellow`}>Current Operation: {Operation}</h2>
+                    </section>
+                    <section className={"flex-1 flex items-center justify-center"}>
+                        <canvas
+                            ref={canvasRef}
+                            width={CanvasWidth}
+                            height={CanvasHeight}
+                            className="border-4 border-PS-dark-yellow bg-PS-light-yellow mb-4"
+                        ></canvas>
+                    </section>
+                    <section className={"mb-5"}>
+                        <Button size={"large"} onClick={Start}>Start</Button>
+                    </section>
                 </main>
-            <Footer></Footer>
+                <Footer></Footer>
+            </div>
         </>
     );
+
+    function Start() {
+        SetPlaying(true);
+    }
+
 }
