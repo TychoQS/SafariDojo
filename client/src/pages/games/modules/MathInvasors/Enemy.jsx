@@ -1,14 +1,14 @@
-const MinDistanceBetweenEnemies = 50;
+const MinDistanceBetweenEnemies = 150;
 
 export default class Enemy {
-    constructor(X) {
+    constructor(X, Number) {
         this.X = X;
         this.Y = 0;
         this.Width = 30;
         this.Height = 30;
         this.Speed = 1;
         this.Color = "red";
-        this.Number = Math.floor(Math.random() * 10);
+        this.Number = Number;
     }
 
     Move() {
@@ -22,26 +22,29 @@ export default class Enemy {
     }
 }
 
-export function generateEnemies(canvasWidth, numEnemies) {
-    let enemies = [];
-    while (enemies.length < numEnemies) {
-        const newEnemy = generateAnEnemy(canvasWidth);
-        if (isEnemyFarEnough(newEnemy, enemies)) {
-            enemies.push(newEnemy);
-        }
-    }
-    return enemies;
-};
+export function generateEnemies(canvasWidth, Numbers, Enemies = []) {
+    let newEnemies = [];
 
-export function generateAnEnemy(canvasWidth) {
-    const x = Math.random() * (canvasWidth - 30);
-    return new Enemy(x);
-};
+    Numbers.forEach((number) => {
+        const newEnemy = generateAnEnemy(canvasWidth, number, [...newEnemies]);
+        if (newEnemy) newEnemies.push(newEnemy);
+    });
 
+    return newEnemies;
+}
+
+export function generateAnEnemy(canvasWidth, Number, Enemies = []) {
+    let newEnemy;
+    do {
+        const x = Math.random() * (canvasWidth - 30);
+        newEnemy = new Enemy(x, Number);
+    } while (!isEnemyFarEnough(newEnemy, Enemies));
+
+    return newEnemy;
+}
 
 const isEnemyFarEnough = (newEnemy, existingEnemies) => {
-    return existingEnemies.every((enemy) => {
-        const distance = Math.abs(newEnemy.X - enemy.X);
-        return distance > MinDistanceBetweenEnemies;
-    });
+    return existingEnemies.every((enemy) =>
+        Math.abs(newEnemy.X - enemy.X) > MinDistanceBetweenEnemies
+    );
 };

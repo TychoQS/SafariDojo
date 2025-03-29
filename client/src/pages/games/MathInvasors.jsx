@@ -2,13 +2,19 @@ import {useEffect, useRef, useState} from "react";
 import Player from "@/pages/games/modules/MathInvasors/Player";
 import Missile from "@/pages/games/modules/MathInvasors/Missile";
 import Enemy, {generateEnemies} from "@/pages/games/modules/MathInvasors/Enemy";
+import {GetRandomOperation, GetRandomNumber} from "@/pages/games/modules/MathInvasors/MathUtils";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function MathInvasors() {
     const canvasRef = useRef(null);
     const playerRef = useRef(null);
     const missilesRef = useRef([]);
     const enemiesRef = useRef([]);
-    const [score, setScore] = useState(0);
+    const [Score, setScore] = useState(0);
+    const [Operation, SetOperation] = useState("");
+    let Result = useRef(0);
+
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -17,13 +23,24 @@ export default function MathInvasors() {
 
         playerRef.current = new Player(canvas.width, canvas.height);
 
-        enemiesRef.current = generateEnemies(canvas.width, 3);
+        SpawnWave(canvas.width);
+
+        function SpawnWave(CanvasWidth) {
+            const { operand1, operand2, operator, result } = GetRandomOperation();
+            const newOperation = `${operand1} ${operator} ${operand2}`;
+            SetOperation(newOperation)
+            Result.current = result;
+            const EnemiesWave = [GetRandomNumber(), GetRandomNumber(), result].sort(() => Math.random() - 0.5);
+            enemiesRef.current = generateEnemies(CanvasWidth, EnemiesWave);
+            console.log("Enemies", enemiesRef.current);
+        }
 
         const keyPressed = (e) => {
             if (!playerRef.current) return;
             if (e.key === "ArrowLeft") playerRef.current.MoveLeft();
             if (e.key === "ArrowRight") playerRef.current.MoveRight();
             if (e.key === " ") {
+                e.preventDefault();
                 const shootPosition = playerRef.current.Shoot();
                 if (!shootPosition) return;
                 const newMissile = new Missile(shootPosition.x, shootPosition.y);
@@ -53,7 +70,7 @@ export default function MathInvasors() {
                 .map((enemy) => {
                     enemy.Move();
                     if (enemy.Y > canvas.height) {
-                        return new Enemy(Math.random() * (canvas.width));
+                        return new Enemy(Math.random() * (canvas.width), GetRandomNumber());
                     }
                     return enemy;
                 })
@@ -86,6 +103,7 @@ export default function MathInvasors() {
         }
 
         const CheckCollisions = () => {
+            let hitCorrectEnemy = false;
             missilesRef.current = missilesRef.current.filter((missile) => {
                 let hit = false;
 
@@ -99,7 +117,10 @@ export default function MathInvasors() {
 
                     if (missileIsInEnemySquare()) {
                         hit = true;
-                        setScore((prevScore) => prevScore + enemy.Number);
+                        if (enemy.Number === Result.current) {
+                            setScore((prevScore) => prevScore + 1);
+                            hitCorrectEnemy = true
+                        }
                         return false;
                     }
                     return true;
@@ -107,8 +128,9 @@ export default function MathInvasors() {
                 return !hit;
             });
 
-            while (enemiesRef.current.length < 3) {
-                enemiesRef.current.push(new Enemy(Math.random() * (canvasRef.current.width - 30)));
+            if (hitCorrectEnemy) {
+                enemiesRef.current = [];
+                SpawnWave(canvas.width);
             }
         };
 
@@ -130,17 +152,22 @@ export default function MathInvasors() {
     }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-black">
-            <h1 className="text-white text-2xl mb-2">Math Invasors</h1>
-            <div className="text-white text-3xl mb-4">
-                Score: {score}
-            </div>
-            <canvas
-                ref={canvasRef}
-                width="920"
-                height="700"
-                className="border-4 border-orange-500 bg-purple-600"
-            ></canvas>
-        </div>
+        <>
+            <Header></Header>
+                <main className="flex flex-col items-center justify-center flex-grow bg-black">
+                    <h1 className={"text-red-600"}>{Operation}</h1>
+                    <h1 className="text-white text-xl mb-2">Math Invasors</h1>
+                    <div className="text-white text-xl mb-4">
+                        Score: {Score}
+                    </div>
+                    <canvas
+                        ref={canvasRef}
+                        width="800"
+                        height="600"
+                        className="border-4 border-PS-main-purple bg-black-600 mb-4"
+                    ></canvas>
+                </main>
+            <Footer></Footer>
+        </>
     );
 }
