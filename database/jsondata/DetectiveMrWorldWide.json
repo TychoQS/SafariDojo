@@ -1,0 +1,52 @@
+[
+  {
+    "id": 0,
+    "Name": "Spain",
+    "Image": "/images/Games/Geography/Spn.png"
+  },
+  {
+    "id": 1,
+    "Name": "Australia",
+    "Image": "/images/Games/Geography/Aus.png"
+  },
+  {
+    "id": 2,
+    "Name": "Portugal",
+    "Image": "/images/Games/Geography/Por.png"
+  },
+  {
+    "id": 3,
+    "Name": "Germany",
+    "Image": "/images/Games/Geography/Ger.png"
+  },
+  {
+    "id": 4,
+    "Name": "United Kingdom",
+    "Image": "/images/Games/Geography/UK.png"
+  },
+  {
+    "id": 5,
+    "Name": "Brazil",
+    "Image": "/images/Games/Geography/Br.png"
+  },
+  {
+    "id": 6,
+    "Name": "United States",
+    "Image": "/images/Games/Geography/US.png"
+  },
+  {
+    "id": 7,
+    "Name": "China",
+    "Image": "/images/Games/Geography/Chi.png"
+  },
+  {
+    "id": 8,
+    "Name": "Canary Island",
+    "Image": "/images/Games/Geography/Canary.png"
+  },
+  {
+    "id": 9,
+    "Name": "Japan",
+    "Image": "/images/Games/Geography/Jpn.jpg"
+  }
+]

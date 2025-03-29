@@ -1,46 +1,46 @@
 [
   {
-    "id": "0",
+    "id": 0,
     "Name": "The last supper",
     "Image": "/images/Games/Art/TheLastSupper.jpg"
   },
   {
-    "id": "1",
+    "id": 1,
     "Name": "Mona Lisa",
     "Image": "/images/Games/Art/LaGioconda.jpg"
   },
   {
-    "id": "2",
+    "id": 2,
     "Name": "Van Gogh",
     "Image": "/images/Games/Art/VanGogh.jpg"
   },
   {
-    "id": "3",
+    "id": 3,
     "Name": "The Birth of Venus",
     "Image": "/images/Games/Art/NacimientoDeVenus.jpg"
   },
   {
-    "id": "4",
+    "id": 4,
     "Name": "The Creation of Adan",
     "Image": "/images/Games/Art/CreacionDeAdan.jpg"
   },
   {
-    "id": "5",
+    "id": 5,
     "Name": "Starry Night",
     "Image": "/images/Games/Art/NocheEstrellada.jpg"
   },
   {
-    "id": "6",
+    "id": 6,
     "Name": "Bedroom in Arles",
     "Image": "/images/Games/Art/CuartoDeArles.jpg"
   },
   {
-    "id": "7",
+    "id": 7,
     "Name": "The Scream",
     "Image": "/images/Games/Art/ElGrito.jpg"
   },
   {
-    "id": "8",
+    "id": 8,
     "Name": "Holy Family",
     "Image": "/images/Games/Art/LaSagradaFamilia.jpg"
   }

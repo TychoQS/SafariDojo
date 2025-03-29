@@ -1,38 +1,34 @@
 import {useState, useEffect} from "react";
-import images from '../../../../database/jsondata/DetectiveLupin.json';
+import images from '../../../../database/jsondata/DetectiveMrWorldWide.json';
 
 
 function getImage() {
-    const max = 9;
+    const max = 10;
     const image = Math.floor(Math.random() * max);
     return images[image] || { Name: "", Image: "" };
 }
 
-function DetectiveLupin() {
+function DetectiveMrWorldWide() {
     const [guess, setGuess] = useState("");
     const [message, setMessage] = useState("");
     const [item, setItem] = useState({Name: "", Image: ""});
-    const [loading, setLoading] = useState(true);
     const [next, setNext] = useState(false);
     const [score, setScore] = useState(0);
 
     useEffect(() => {
         setItem(getImage());
-        setLoading(false);
     }, []);
 
-    if (loading) return <p>Loading...</p>;
-
     const name = item.Name;
-    const paint = item.Image;
+    const flag = item.Image;
 
     function validatePicture(name, guess) {
         if (name.trim().toLowerCase() === guess.trim().toLowerCase()) {
-            setMessage("Very good, I'm proud of you!!!")
+            setMessage("Nice, you must be a real explorer!!!")
             setScore(score+100);
         }
         else {
-            setMessage("Nice try!");
+            setMessage("Keep guessing!");
         }
         setNext(true);
     }
@@ -43,24 +39,24 @@ function DetectiveLupin() {
             border-PS-dark-yellow bg-PS-light-yellow">
 
                 <div className="max-w-80 max-h-80 flex justify-center items-center">
-                    {paint ? <img src={paint} alt={name} className="max-w-full max-h-full object-contain" /> : <p>No image available</p>}
+                    {flag ? <img src={flag} alt={name} className="max-w-full max-h-full object-contain" /> : <p>No image available</p>}
                 </div>
 
                 {message && <p className={"text-black text-xl"}>{message}</p>}
 
-                    <input className={"h-7.5 w-60 border-2 rounded-lg bg-[#F2C1BB] border-[#F67C6E] text-black"}
-                           placeholder={"Introduce the paint name..."} value={guess}
-                           onChange={(e) => setGuess(e.target.value)}/>
+                <input className={"h-7.5 w-60 border-2 rounded-lg bg-[#E8B1EC] border-[#ED6EF6] text-black"}
+                       placeholder={"Introduce the paint name..."} value={guess}
+                       onChange={(e) => setGuess(e.target.value)}/>
 
                 <div className="flex flex-row justify-center">
                     {!next ? <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                        "text-lg border-[#F67C6E] bg-[#F2C1BB] text-black"}
+                        "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
                                      onClick={() => validatePicture(name, guess)}>
                         Resolve
                     </button> : null}
 
                     {next ? <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                        "text-lg border-[#F67C6E] bg-[#F2C1BB] text-black"}
+                        "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
                                     onClick={() => setItem(getImage()) || setGuess("") || setMessage("") || setNext(false)}>
                         Next
                     </button> : null}
@@ -73,4 +69,4 @@ function DetectiveLupin() {
 }
 
 
-export default DetectiveLupin;
+export default DetectiveMrWorldWide;
