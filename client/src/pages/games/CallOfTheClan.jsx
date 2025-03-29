@@ -292,8 +292,8 @@ const AnimalClassificationGame = () => {
                 {/* Game won screen */}
                 {gameWon && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-science-color text-black">
-                        <h2 className="text-4xl font-bold mb-4">Congratulations!</h2>
-                        <p className="text-2xl mb-6">You completed all 5 levels!</p>
+                        <h2 className="text-4xl font-bold mb-4">Game Over!</h2>
+                        <p className="text-2xl mb-6">You've completed all 5 levels!</p>
                         <p className="text-xl mb-8">Final score: {score}</p>
                         <Button
                             size={"large"}
