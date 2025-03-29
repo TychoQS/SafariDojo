@@ -63,7 +63,9 @@ export default function Input({
         }
 
         setError(errorMsg);
-        onError(id, errorMsg);
+        if (onError) {
+            onError(id, errorMsg);
+        }
     };
 
     useEffect(() => {
@@ -91,7 +93,7 @@ export default function Input({
                 onChange={onChange}
                 placeholder={placeholder}
                 className={`input-field text-[#000000] bg-[#FFFFFF] 
-    ${borderColor} rounded-2xl px-4 py-2 border-2 outline-none border-b-6 ${inputSizeClass} ${deliciousHandDrawn.className}`}
+                ${borderColor} rounded-2xl px-4 py-2 border-2 outline-none border-b-6 ${inputSizeClass} ${deliciousHandDrawn.className}`}
             />
             {error && (
                 <p className="text-red-500 text-sm">{error}</p>
