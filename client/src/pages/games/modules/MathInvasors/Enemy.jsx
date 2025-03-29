@@ -6,7 +6,7 @@ export default class Enemy {
         this.Y = 0;
         this.Width = 30;
         this.Height = 30;
-        this.Speed = 1;
+        this.Speed = 0.5;
         this.Color = "red";
         this.Number = Number;
     }

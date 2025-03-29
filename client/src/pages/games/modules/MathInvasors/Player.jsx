@@ -4,7 +4,7 @@ export default class Player {
     constructor(canvasWidth, canvasHeight) {
         this.Width = 30;
         this.Height = 15;
-        this.Speed = 3;
+        this.Speed = 4;
         this.Emoji = "🚀";
         this.X = canvasWidth / 2 - this.Width / 2;
         this.Y = canvasHeight - 30;

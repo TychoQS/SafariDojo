@@ -7,7 +7,7 @@ export default class Missile {
         this.Width = 7;
         this.Height = 15;
         this.Radius = 5;
-        this.Speed = 7;
+        this.Speed = 6;
         this.Color = "purple";
     }
 
