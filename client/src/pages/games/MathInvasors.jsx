@@ -1,40 +1,65 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import { P2Start } from '@/styles/fonts';
 import Player from "@/pages/games/modules/MathInvasors/Player";
 import Missile from "@/pages/games/modules/MathInvasors/Missile";
-import Enemy, {generateEnemies} from "@/pages/games/modules/MathInvasors/Enemy";
-import {GetRandomOperation, GetRandomNumber} from "@/pages/games/modules/MathInvasors/MathUtils";
+import { generateEnemies } from "@/pages/games/modules/MathInvasors/Enemy";
+import { GetRandomOperation, GetRandomNumber } from "@/pages/games/modules/MathInvasors/MathUtils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Title from "@/components/Title";
 import Button from "@/components/Button";
 
+function UnsetEvents(keyPressed, keyReleased) {
+    window.removeEventListener("keydown", keyPressed);
+    window.removeEventListener("keyup", keyReleased);
+}
 
+function SetEvents(keyPressed, keyReleased) {
+    window.addEventListener("keydown", keyPressed);
+    window.addEventListener("keyup", keyReleased);
+}
 
 export default function MathInvasors() {
     const canvasRef = useRef(null);
     const playerRef = useRef(null);
     const missilesRef = useRef([]);
     const enemiesRef = useRef([]);
-    const [Score, setScore] = useState(0);
+    const [Score, SetScore] = useState(0);
     const [Operation, SetOperation] = useState("");
     const CanvasWidth = 800;
     const CanvasHeight = 430;
     let Result = useRef(0);
     const [Playing, SetPlaying] = useState(false);
+    const [GameOver, SetGameOver] = useState(false);
+    const animationFrameRef = useRef(null);
+    const [Info, SetInfo] = useState("");
+    const [ButtonText, SetButtonText] = useState("Start");
+
 
     useEffect(() => {
-        if (!Playing) return;
+        if (Playing) SetGameOver(false);
+    }, [Playing]);
+
+    useEffect(() => {
+        if (GameOver) {
+            SetInfo("GAME OVER")
+            SetButtonText("Restart")
+        }
+    }, [GameOver]);
+
+    useEffect(() => {
+        SetInfo(Operation ? `Current Operation: ${Operation}` : "");
+    }, [Operation]);
+
+
+    useEffect(() => {
+        console.log("ENTRÉ")
+        if (!Playing || GameOver) return;
+        console.log("ENTRÉ Y PASE")
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
-
         canvas.width = CanvasWidth;
         canvas.height = CanvasHeight;
-
-
         playerRef.current = new Player(canvas.width, canvas.height);
-
-        SpawnWave(canvas.width);
 
         function SpawnWave(CanvasWidth) {
             const { operand1, operand2, operator, result } = GetRandomOperation();
@@ -43,8 +68,9 @@ export default function MathInvasors() {
             Result.current = result;
             const EnemiesWave = [GetRandomNumber(), GetRandomNumber(), result].sort(() => Math.random() - 0.5);
             enemiesRef.current = generateEnemies(CanvasWidth, EnemiesWave);
-            console.log("Enemies", enemiesRef.current);
         }
+
+        SpawnWave(canvas.width);
 
         const keyPressed = (e) => {
             if (!playerRef.current) return;
@@ -66,9 +92,7 @@ export default function MathInvasors() {
             }
         };
 
-        // Agregar los event listeners
-        window.addEventListener("keydown", keyPressed);
-        window.addEventListener("keyup", keyReleased);
+        SetEvents(keyPressed, keyReleased);
 
         const UpdateAndDrawPlayer = (ctx) => {
             if (!playerRef.current) return;
@@ -77,15 +101,10 @@ export default function MathInvasors() {
         };
 
         const UpdateEnemies = () => {
-            enemiesRef.current = enemiesRef.current
-                .map((enemy) => {
-                    enemy.Move();
-                    if (enemy.Y > canvas.height) {
-                        return new Enemy(Math.random() * (canvas.width), GetRandomNumber());
-                    }
-                    return enemy;
-                })
-                .filter(Boolean);
+            enemiesRef.current = enemiesRef.current.filter((enemy) => {
+                enemy.Move();
+                return enemy.Y <= canvas.height;
+            });
         }
 
         const DrawEnemies = (ctx) => {
@@ -115,21 +134,20 @@ export default function MathInvasors() {
 
         const CheckCollisions = () => {
             let hitCorrectEnemy = false;
+            let hit = false;
             missilesRef.current = missilesRef.current.filter((missile) => {
-                let hit = false;
-
                 enemiesRef.current = enemiesRef.current.filter((enemy) => {
                     function missileIsInEnemySquare() {
-                        return missile.X < enemy.X + (enemy.Width * 1.05) &&
+                        const HitboxOffset = 1.05;
+                        return missile.X < enemy.X + (enemy.Width * HitboxOffset) &&
                             missile.X >= (enemy.X * 0.9) &&
-                            missile.Y < enemy.Y + (enemy.Height * 1.05) &&
+                            missile.Y < enemy.Y + (enemy.Height * HitboxOffset) &&
                             missile.Y >= (enemy.Y * 0.9);
                     }
-
                     if (missileIsInEnemySquare()) {
                         hit = true;
                         if (enemy.Number === Result.current) {
-                            setScore((prevScore) => prevScore + 1);
+                            SetScore((prevScore) => prevScore + 1);
                             hitCorrectEnemy = true
                         }
                         return false;
@@ -138,8 +156,7 @@ export default function MathInvasors() {
                 });
                 return !hit;
             });
-
-            if (hitCorrectEnemy) {
+            if (hit && hitCorrectEnemy) {
                 enemiesRef.current = [];
                 SpawnWave(canvas.width);
             }
@@ -151,14 +168,18 @@ export default function MathInvasors() {
             animateMissiles();
             animateEnemies();
             CheckCollisions();
-            requestAnimationFrame(animate);
+            animationFrameRef.current = requestAnimationFrame(animate);
+            if (enemiesRef.current.length === 0) {
+                SetGameOver(true);
+                SetPlaying(false);
+                UnsetEvents(keyPressed, keyReleased);
+                cancelAnimationFrame(animationFrameRef.current);
+            }
         };
         animate();
 
-        // Remover event listeners al desmontar el componente
         return () => {
-            window.removeEventListener("keydown", keyPressed);
-            window.removeEventListener("keyup", keyReleased);
+            UnsetEvents(keyPressed, keyReleased);
         };
     }, [Playing]);
 
@@ -169,8 +190,8 @@ export default function MathInvasors() {
                 <main className="flex flex-col flex-1 items-center justify-center bg-PS-main-purple">
                     <section className={"flex flex-col"}>
                         <h1 className={`text-center text-2xl ${P2Start.className} text-PS-dark-yellow`}>Math Invasors</h1>
-                        <h2 className={`text-center text-2xl ${P2Start.className} text-PS-dark-yellow`}>Score: {Score}</h2>
-                        <h2 className={`text-center text-2xl ${P2Start.className} text-PS-dark-yellow`}>Current Operation: {Operation}</h2>
+                        <h2 className={`text-center text-3xl ${P2Start.className} text-PS-dark-yellow`}>Score: {Score}</h2>
+                        <h2 className={`text-center text-3xl ${P2Start.className} text-PS-dark-yellow`}>{Info}</h2>
                     </section>
                     <section className={"flex-1 flex items-center justify-center"}>
                         <canvas
@@ -181,7 +202,11 @@ export default function MathInvasors() {
                         ></canvas>
                     </section>
                     <section className={"mb-5"}>
-                        <Button size={"large"} onClick={Start}>Start</Button>
+                        {!Playing && ( // Button only appears when user is not playing
+                            <Button id={"MainButton"} size={"large"} onClick={Start}>
+                                {ButtonText}
+                            </Button>
+                        )}
                     </section>
                 </main>
                 <Footer></Footer>
@@ -190,7 +215,8 @@ export default function MathInvasors() {
     );
 
     function Start() {
+        SetScore(0)
+        SetGameOver(false);
         SetPlaying(true);
     }
-
 }
