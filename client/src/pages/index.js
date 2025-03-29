@@ -14,11 +14,11 @@ function Index() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const games = [
-        {gameSubject: "English", isCompleted: true, medalType: "gold"},
-        {gameSubject: "Maths", isCompleted: false, medalType: "bronze"},
-        {gameSubject: "Science", isCompleted: false, medalType: "silver"},
-        {gameSubject: "Art", isCompleted: true, medalType: "silver"},
-        {gameSubject: "Art", isCompleted: false, medalType: "bronze"},
+        {gameSubject: "English", gameNumber: 1, isCompleted: true, medalType: "gold"},
+        {gameSubject: "Maths", gameNumber: 2, isCompleted: false, medalType: "bronze"},
+        {gameSubject: "Science", gameNumber: 1, isCompleted: false, medalType: "silver"},
+        {gameSubject: "Art", gameNumber: 2, isCompleted: true, medalType: "silver"},
+        {gameSubject: "Art", gameNumber: 1, isCompleted: false, medalType: "bronze"},
     ];
 
     const handleSearch = (term) => {
@@ -93,6 +93,7 @@ function Index() {
                             <PopularGameCard
                                 key={index}
                                 gameSubject={game.gameSubject}
+                                gameNumber={game.gameNumber}
                                 isCompleted={game.isCompleted}
                                 medalType={game.medalType}
                             />

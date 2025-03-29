@@ -33,21 +33,23 @@
         }, [router.isReady, router.query])
 
         useEffect(() => {
-            if (game) {
-                const foundGameData = games.find(item => item.gameName === game);
-                if (foundGameData) {
-                    setGameData(foundGameData)
-                }
-            }
-
             if (subject) {
-                const foundSubjectData = subjects.find(item => item.subjectName === subject);
+                const foundSubjectData = subjects.find(item => item.subjectName.toLowerCase() === subject.toLowerCase());
                 if (foundSubjectData) {
-                    setSubjectData(foundSubjectData)
+                    setSubjectData(foundSubjectData);
                 }
             }
-        }, [game, subject])
 
+            if (subject && game) {
+                const subjectGames = games[subject.toLowerCase()];
+                if (subjectGames) {
+                    const foundGameData = subjectGames.find(item => item.gameName === game);
+                    if (foundGameData) {
+                        setGameData(foundGameData);
+                    }
+                }
+            }
+        }, [game, subject]);
 
         const selectGameIcon = subjectData?.PreviewGameImage
         const gameDescription = gameData?.gameDescription
