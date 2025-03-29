@@ -1,4 +1,4 @@
-import { Cherry_Bomb_One, Delicious_Handrawn, Patrick_Hand, Nova_Mono, Maven_Pro, Margarine} from "next/font/google";
+import { Cherry_Bomb_One, Delicious_Handrawn, Patrick_Hand, Nova_Mono, Maven_Pro, Margarine, Press_Start_2P} from "next/font/google";
 
 export const cherryBomb = Cherry_Bomb_One({
     weight: '400',
@@ -29,3 +29,8 @@ export const margarine = Margarine({
     subsets: ["latin"],
     weight: '400',
 });
+
+export const P2Start = Press_Start_2P({
+    subsets: ["latin"],
+    weight: '400',
+})
