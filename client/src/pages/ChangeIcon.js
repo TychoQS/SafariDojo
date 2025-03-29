@@ -5,7 +5,6 @@ import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import React, {useState} from "react";
 import Link from "next/link";
-import {useProfile} from "@/pages/context/ProfileContext";
 import {useAuth} from "@/pages/context/AuthContext";
 
 const animalNames = [
@@ -13,16 +12,38 @@ const animalNames = [
 ];
 
 export default function ChangeIcon() {
-    const {isLoggedIn} = useAuth();
-    const {profile, updateProfile} = useProfile();
-    const [selectedAnimal, setSelectedAnimal] = useState(profile.icon);
+    const {user, setUser } = useAuth();
+    const [selectedAnimal, setSelectedAnimal] = useState(user.profilePhoto);
 
     const handleAnimalClick = (animalName) => {
         setSelectedAnimal(animalName);
     };
 
-    const handleSave = () => {
-        updateProfile({icon: selectedAnimal});
+    const handleSave = async () => {
+        try {
+            const response = await fetch('/api/UpdateProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: user?.email,
+                    profilePhoto: selectedAnimal,
+                }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                console.log(result.message);
+
+                setUser(prevUser => ({ ...prevUser, profilePhoto: selectedAnimal }));
+            } else {
+                console.error(result.message);
+            }
+        } catch (error) {
+            console.error("Error saving the profile: ", error);
+        }
     };
 
     return (
