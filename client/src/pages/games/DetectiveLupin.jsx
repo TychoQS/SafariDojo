@@ -1,43 +1,72 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import images from '../../../../database/jsondata/DetectiveLupin.json';
 
+
 function getImage() {
-    const max = 1;
+    const max = 9;
     const image = Math.floor(Math.random() * max);
-    return images[image];
-}
-
-function validatePicture(name, guess) {
-    if (name === guess) {
-
-    }
+    return images[image] || { Name: "", Image: "" };
 }
 
 function DetectiveLupin() {
-    const item = getImage();
+    const [guess, setGuess] = useState("");
+    const [message, setMessage] = useState("");
+    const [item, setItem] = useState({Name: "", Image: ""});
+    const [loading, setLoading] = useState(true);
+    const [next, setNext] = useState(false);
+    const [score, setScore] = useState(0);
+
+    useEffect(() => {
+        setItem(getImage());
+        setLoading(false);
+    }, []);
+
+    if (loading) return <p>Loading...</p>;
+
     const name = item.Name;
     const paint = item.Image;
-    const [guess, setGuess] = useState("");
+
+    function validatePicture(name, guess) {
+        if (name.trim().toLowerCase() === guess.trim().toLowerCase()) {
+            setMessage("Very good, I'm proud of you!!!")
+            setScore(score+100);
+        }
+        else {
+            setMessage("Nice try!");
+        }
+        setNext(true);
+    }
 
     return (
         <section className={"min-h-screen flex flex-col items-center justify-evenly bg-PS-main-purple"}>
             <div className="h-150 w-175 flex flex-col items-center justify-evenly border-4 rounded-2xl
             border-PS-dark-yellow bg-PS-light-yellow">
 
-                <div className={"w-100"}>
-                    <img src={paint} alt={name}></img>
+                <div className="max-w-80 max-h-80 flex justify-center items-center">
+                    {paint ? <img src={paint} alt={name} className="max-w-full max-h-full object-contain" /> : <p>No image available</p>}
                 </div>
 
-                {Won}
+                {message && <p className={"text-black text-xl"}>{message}</p>}
 
                     <input className={"h-7.5 w-60 border-2 rounded-lg bg-[#F2C1BB] border-[#F67C6E] text-black"}
                            placeholder={"Introduce the paint name..."} value={guess}
-                           onChange={(e) => {setGuess(e.target.value)} }/>
+                           onChange={(e) => setGuess(e.target.value)}/>
 
+                <div className="flex flex-row justify-center">
                     <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                        "text-lg border-[#F67C6E] bg-[#F2C1BB] text-black"} onClick={() => validatePicture(name, guess)}>
-                        Solve
+                        "text-lg border-[#F67C6E] bg-[#F2C1BB] text-black"}
+                            onClick={() => validatePicture(name, guess)}>
+                        Resolve
                     </button>
+
+                    {next ? <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
+                        "text-lg border-[#F67C6E] bg-[#F2C1BB] text-black"}
+                                    onClick={() => setItem(getImage()) || setGuess("") || setMessage("") || setNext(false)}>
+                        Next
+                    </button> : null};
+                </div>
+
+                <div className={"text-black text-2xl font-black"}>{score}</div>
             </div>
         </section>
     )
