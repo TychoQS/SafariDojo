@@ -11,10 +11,6 @@ export default async function handler(req, res) {
 
             const {email, profilePhoto} = req.body;
 
-            if (!email || !profilePhoto) {
-                return res.status(400).json({message: 'Missing required fields'});
-            }
-
             const userIndex = users.findIndex(user => user.email === email);
             if (userIndex === -1) {
                 return res.status(404).json({message: 'User not found'});
