@@ -1,104 +1,166 @@
 {
   "EUROPEAN_COUNTRIES": [
     {
+      "id": "ES",
       "name": "Spain",
       "realCoords": [40.4637, -3.7492],
       "svgCoords": { "x": 350, "y": 490 }
     },
     {
+      "id": "FR",
       "name": "France",
       "realCoords": [46.2276, 2.2137],
       "svgCoords": { "x": 430, "y": 410 }
     },
     {
+      "id": "DE",
       "name": "Germany",
       "realCoords": [51.1657, 10.4515],
       "svgCoords": { "x": 520, "y": 350 }
     },
     {
+      "id": "IT",
       "name": "Italy",
       "realCoords": [41.8719, 12.5674],
       "svgCoords": { "x": 550, "y": 450 }
     },
     {
+      "id": "GB",
       "name": "UK",
       "realCoords": [55.3781, -3.4360],
       "svgCoords": { "x": 380, "y": 320 }
     },
     {
+      "id": "PT",
       "name": "Portugal",
       "realCoords": [39.3999, -8.2245],
       "svgCoords": { "x": 300, "y": 500 }
     },
     {
+      "id": "NL",
       "name": "Netherlands",
       "realCoords": [52.1326, 5.2913],
       "svgCoords": { "x": 470, "y": 330 }
     },
     {
+      "id": "BE",
       "name": "Belgium",
       "realCoords": [50.5039, 4.4699],
       "svgCoords": { "x": 460, "y": 350 }
     },
     {
+      "id": "CH",
       "name": "Switzerland",
       "realCoords": [46.8182, 8.2275],
       "svgCoords": { "x": 500, "y": 405 }
     },
     {
+      "id": "AT",
       "name": "Austria",
       "realCoords": [47.5162, 14.5501],
       "svgCoords": { "x": 575, "y": 395 }
     },
     {
+      "id": "PL",
       "name": "Poland",
       "realCoords": [51.9194, 19.1451],
       "svgCoords": { "x": 620, "y": 330 }
     },
     {
+      "id": "CZ",
       "name": "Czech Republic",
       "realCoords": [49.8175, 15.4730],
       "svgCoords": { "x": 580, "y": 370 }
     },
     {
+      "id": "GR",
       "name": "Greece",
       "realCoords": [39.0742, 21.8243],
       "svgCoords": { "x": 680, "y": 500 }
     },
     {
+      "id": "NO",
       "name": "Norway",
       "realCoords": [60.4720, 8.4689],
       "svgCoords": { "x": 495, "y": 215 }
     },
     {
+      "id": "SE",
       "name": "Sweden",
       "realCoords": [60.1282, 18.6435],
       "svgCoords": { "x": 570, "y": 220 }
     },
     {
+      "id": "DK",
       "name": "Denmark",
       "realCoords": [56.2639, 9.5018],
       "svgCoords": { "x": 510, "y": 280 }
     },
     {
+      "id": "IE",
       "name": "Ireland",
       "realCoords": [53.1424, -7.6921],
       "svgCoords": { "x": 305, "y": 320 }
     },
     {
+      "id": "FI",
       "name": "Finland",
       "realCoords": [61.9241, 25.7482],
       "svgCoords": { "x": 670, "y": 200 }
     },
     {
+      "id": "RO",
       "name": "Romania",
       "realCoords": [45.9432, 24.9668],
       "svgCoords": { "x": 710, "y": 420 }
     },
     {
+      "id": "HU",
       "name": "Hungary",
       "realCoords": [47.1625, 19.5033],
       "svgCoords": { "x": 630, "y": 400 }
+    },
+    {
+      "id": "BG",
+      "name": "Bulgaria",
+      "realCoords": [42.7339, 25.4858],
+      "svgCoords": { "x": 720, "y": 460 }
+    },
+    {
+      "id": "SK",
+      "name": "Slovakia",
+      "realCoords": [48.6690, 19.6990],
+      "svgCoords": { "x": 600, "y": 380 }
+    },
+    {
+      "id": "SI",
+      "name": "Slovenia",
+      "realCoords": [46.1512, 14.9955],
+      "svgCoords": { "x": 590, "y": 410 }
+    },
+    {
+      "id": "HR",
+      "name": "Croatia",
+      "realCoords": [45.1000, 15.2000],
+      "svgCoords": { "x": 600, "y": 420 }
+    },
+    {
+      "id": "LT",
+      "name": "Lithuania",
+      "realCoords": [55.1694, 23.8813],
+      "svgCoords": { "x": 630, "y": 280 }
+    },
+    {
+      "id": "LV",
+      "name": "Latvia",
+      "realCoords": [56.8796, 24.6032],
+      "svgCoords": { "x": 640, "y": 260 }
+    },
+    {
+      "id": "EE",
+      "name": "Estonia",
+      "realCoords": [58.5953, 25.0136],
+      "svgCoords": { "x": 650, "y": 240 }
     }
   ]
 }
