@@ -2,6 +2,7 @@ import {useState, useEffect} from "react";
 import images from '../../../../database/jsondata/DetectiveMrWorldWide.json';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 
 
 function getImage() {
@@ -16,6 +17,9 @@ function DetectiveMrWorldWide() {
     const [item, setItem] = useState({Name: "", Image: ""});
     const [next, setNext] = useState(false);
     const [score, setScore] = useState(0);
+    const [bestScore, setBestScore] = useState(0);
+    const [tries, setTries] = useState(4);
+    const [finished, setFinished] = useState(false);
 
     useEffect(() => {
         setItem(getImage());
@@ -25,6 +29,10 @@ function DetectiveMrWorldWide() {
     const flag = item.Image;
 
     function validatePicture(name, guess) {
+        if (tries === 0) {
+            setFinished(true);
+            setBestScore(Math.max(bestScore, score));
+        }
         if (name.trim().toLowerCase() === guess.trim().toLowerCase()) {
             setMessage("Nice, you must be a real explorer!!!")
             setScore(score + 100);
@@ -32,6 +40,14 @@ function DetectiveMrWorldWide() {
             setMessage("Keep guessing!");
         }
         setNext(true);
+    }
+
+    function nextGame() {
+        setItem(getImage());
+        setGuess("");
+        setMessage("");
+        setNext(false);
+        setTries(tries-1);
     }
 
     return (
@@ -53,19 +69,34 @@ function DetectiveMrWorldWide() {
                            onChange={(e) => setGuess(e.target.value)}/>
 
                     <div className="flex flex-row justify-center">
-                        {!next ?
+                        {!next && !finished ?
                             <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
                                 "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
                                     onClick={() => validatePicture(name, guess)}>
                                 Resolve
                             </button> : null}
 
-                        {next ?
+                        {next && !finished ?
                             <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
                                 "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
-                                    onClick={() => setItem(getImage()) || setGuess("") || setMessage("") || setNext(false)}>
+                                    onClick={() => nextGame()}>
                                 Next
                             </button> : null}
+
+                        {finished ? <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
+                            "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
+                                            onClick={() => nextGame() || setFinished(false) || setTries(4) || setScore(0)}>
+                            Retry
+                        </button> : null}
+
+                        {finished ?
+                            <Link href={{pathname: "../GameSelectionPage", query: {Points: bestScore, Subject: "Geography"}}}>
+                                <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
+                                    "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}>
+                                    Finish game
+                                </button>
+                            </Link>
+                                : null}
                     </div>
 
                     <div className={"text-black text-2xl font-black"}>{score}</div>
