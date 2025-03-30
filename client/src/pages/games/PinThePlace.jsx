@@ -18,21 +18,20 @@ const EuropeGeographyGame = () => {
         setSelectedCountries(shuffled.slice(0,10));
     }, []);
 
+    const isCorrect = (countryId) => {
+        return countryId === selectedCountries[currentCountryIndex].id;
+    }
+
     const handleCountryClick = (countryId) => {
         if (gameFinished) return;
 
-        const currentTargetCountry = selectedCountries[currentCountryIndex];
-        const isCorrect = countryId === currentTargetCountry.id;
+        setScore(prev => prev + (isCorrect(countryId) ? 100 : -50))
+        setClickedCountries(prev => ({...prev,[countryId]: isCorrect(countryId) ? "correct" : "incorrect"}));
 
-        setScore(prev => prev + (isCorrect ? 100 : -50))
-        setClickedCountries(prev => ({...prev,[countryId]: isCorrect ? "correct" : "incorrect"}));
-
-        if (isCorrect) {
-            if (currentCountryIndex < selectedCountries.length - 1) {
+        if (currentCountryIndex < selectedCountries.length - 1) {
                 setCurrentCountryIndex(prev => prev + 1);
-            } else {
+        } else {
                 setGameFinished(true);
-            }
         }
     };
 
@@ -79,11 +78,6 @@ const EuropeGeographyGame = () => {
                         </Button>
                     </div>
                 )}
-                <Button
-                    size="large"
-                    onClick={restartGame}>
-                    Restart
-                </Button>
 
                 <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
                     <div className="mb-2 mt-2 relative flex justify-start">
@@ -91,7 +85,7 @@ const EuropeGeographyGame = () => {
                     </div>
                 </Link>
 
-                <div className="relative w-full max-w-4xl mx-auto bg-blue-700 border-4 border-black">
+                <div className="relative w-full max-w-6xl mx-auto bg-blue-700 border-4 border-black">
                     <svg version="1.2" viewBox="0 0 1000 684" width="1000"
                              xmlns="http://www.w3.org/2000/svg">
                         <path
