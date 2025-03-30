@@ -40,5 +40,11 @@
     "email": "tycho@example.com",
     "password": "Ps20242025",
     "profilePhoto": "Koala"
+  },
+  {
+    "name": "RegisterPrueba",
+    "email": "RegisterPrueba@email.com",
+    "password": "Register2",
+    "profilePhoto": "Sheep"
   }
 ]
