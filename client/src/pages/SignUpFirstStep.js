@@ -4,6 +4,17 @@ import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
 
 const SignUpFirstStep = () => {
+
+    const handleSubmit = (formData) => {
+        const { FullName, UserEmail } = formData;
+
+        const userData = {
+            name: FullName,
+            email: UserEmail,
+        };
+        sessionStorage.setItem('signupData', JSON.stringify(userData));
+    };
+
     return (
         <div className="flex flex-col min-h-screen bg-cover bg-center m-0"
              style={{backgroundImage: "url('/images/LogBackground.png')"}}>
@@ -35,6 +46,7 @@ const SignUpFirstStep = () => {
                     buttonLink="/SignUpSecondStep"
                     linkText="Already have an account?"
                     linkUrl="/LogIn"
+                    onSubmit={handleSubmit}
                 />
             </main>
             <Footer/>
