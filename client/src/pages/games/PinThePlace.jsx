@@ -69,7 +69,7 @@ const EuropeGeographyGame = () => {
                 ) : (
                     <div className="mb-2 text-center w-full max-w-md mx-auto">
                         <h2 className="text-2xl font-bold text-green-600">¡Game Over!</h2>
-                        <p className="text-xl mb-4">Final score: {Math.round(score)}</p>
+                        <p className="text-xl mb-2">Final score: {Math.round(score)}</p>
                         <Button
                             size="large"
                             onClick={restartGame}
