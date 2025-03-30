@@ -3,6 +3,7 @@ import Title from "@/components/Title";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 
 const EUROPEAN_COUNTRIES = [
     {
@@ -113,7 +114,7 @@ const calculateSVGDistance = (x1, y1, x2, y2) => {
 
 const calculateScore = (distance) => {
     const maxScore = 1000;
-    const maxDistance = 500; // Distancia máxima en pixeles del SVG
+    const maxDistance = 500;
     return Math.max(0, maxScore - (distance / maxDistance * maxScore));
 };
 
@@ -124,7 +125,7 @@ const EuropeGeographyGame = () => {
     const [score, setScore] = useState(0);
     const [gameFinished, setGameFinished] = useState(false);
 
-    // Función para seleccionar 10 países aleatorios
+
     useEffect(() => {
         const shuffled = [...EUROPEAN_COUNTRIES].sort(() => 0.5 - Math.random());
         setSelectedCountries(shuffled.slice(0, 10));
@@ -171,7 +172,6 @@ const EuropeGeographyGame = () => {
         setGameFinished(false);
     };
 
-    // No renderizar nada si los países no están seleccionados aún
     if (selectedCountries.length === 0) {
         return null;
     }
@@ -181,10 +181,14 @@ const EuropeGeographyGame = () => {
             <Header></Header>
             <div className="flex flex-col items-center p-4 bg-PS-main-purple min-h-screen">
                 <Title>Pin The Place</Title>
-
+                <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
+                    <div className="mt-4 mb-2 relative flex justify-start">
+                        <Button size="small" >Back</Button>
+                    </div>
+                </Link>
                 {!gameFinished ? (
                     <div className="mt-6 mb-10 text-center bg-PS-light-yellow rounded-full w-70 h-20 flex flex-col justify-center items-center">
-                        <p className="text-xl">Search:
+                        <p className="text-xl text-black">Search:
                             <span className="font-bold text-blue-600 ml-2">
                                 {selectedCountries[currentCountryIndex].name}
                             </span>
@@ -211,14 +215,12 @@ const EuropeGeographyGame = () => {
                         onClick={handleMapClick}
                         className="w-full h-full cursor-pointer"
                     >
-                        {/* Mapa de Europa desde archivo externo */}
                         <image
                             href="/images/Games/Geography/europe.svg"
                             width="1000"
                             height="600"
                         />
 
-                        {/* Marcadores */}
                         {markers.map((marker, index) => (
                             <React.Fragment key={index}>
                                 <circle
@@ -228,7 +230,6 @@ const EuropeGeographyGame = () => {
                                     fill="red"
                                     opacity="0.7"
                                 />
-                                {/* Línea desde la ubicación real del país */}
                                 <line
                                     x1={selectedCountries[index].svgCoords.x}
                                     y1={selectedCountries[index].svgCoords.y}

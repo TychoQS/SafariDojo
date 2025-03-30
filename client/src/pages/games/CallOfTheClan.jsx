@@ -3,6 +3,7 @@ import Title from "@/components/Title";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 
 const AnimalClassificationGame = () => {
     // Game configuration
@@ -214,24 +215,19 @@ const AnimalClassificationGame = () => {
         },
     ];
 
-    // State to store the selected random levels
     const [randomLevels, setRandomLevels] = useState([]);
 
-    // Function to select 5 random levels without repetition
     const selectRandomLevels = () => {
         const shuffled = [...allLevels].sort(() => 0.5 - Math.random());
         return shuffled.slice(0, 5);
     };
 
-    // Initialize random levels on first mount
     useEffect(() => {
         setRandomLevels(selectRandomLevels());
     }, []);
 
-    // Get current level
     const currentLevel = randomLevels[Math.min(level - 1, randomLevels.length - 1)] || allLevels[0];
 
-    // Handle player movement
     const handleKeyDown = useCallback((e) => {
         if (!gameActive) return;
 
@@ -240,7 +236,6 @@ const AnimalClassificationGame = () => {
             let newX = prev.x;
             let newY = prev.y;
 
-            // WASD or arrow keys
             switch (e.key.toLowerCase()) {
                 case 'w':
                 case 'arrowup':
@@ -266,7 +261,6 @@ const AnimalClassificationGame = () => {
         });
     }, [gameActive]);
 
-    // Set up event listeners
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
         return () => {
@@ -274,7 +268,6 @@ const AnimalClassificationGame = () => {
         };
     }, [handleKeyDown]);
 
-    // Check for collisions
     useEffect(() => {
         if (!gameActive || !currentLevel) return;
 
@@ -284,7 +277,7 @@ const AnimalClassificationGame = () => {
                 Math.pow(playerPosition.y - group.position.y, 2)
             );
 
-            if (distance < 10) { // Distance to consider collision
+            if (distance < 10) {
                 setGameActive(false);
 
                 if (group.classification === currentLevel.player.classification) {
@@ -315,7 +308,6 @@ const AnimalClassificationGame = () => {
     }, [playerPosition, gameActive, currentLevel, level, randomLevels.length]);
 
     const restartGame = () => {
-        // Select new random levels when restarting
         const newRandomLevels = selectRandomLevels();
         setRandomLevels(newRandomLevels);
         setLevel(1);
@@ -326,7 +318,6 @@ const AnimalClassificationGame = () => {
         setGameWon(false);
     };
 
-    // If randomLevels is empty (initial loading), show loading or return null
     if (randomLevels.length === 0) {
         return <div>Loading game...</div>;
     }
@@ -336,8 +327,11 @@ const AnimalClassificationGame = () => {
             <Header></Header>
             <main className="bg-PS-main-purple w-dvw h-dvh flex flex-col justify-center items-center">
                 <Title className="">Call Of The Clan</Title>
-                <div className="mt-4 mb-2 relative w-[1200px] flex justify-start"><Button size="small">Back</Button>
+                <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Science"}}}>
+                <div className="mt-4 mb-2 relative w-[1200px] flex justify-start">
+                    <Button size="small" >Back</Button>
                 </div>
+                </Link>
                 <div
                     className="relative w-[1200px] h-[800px] bg-PS-science-color rounded-lg overflow-hidden border-4 border-green-900">
                     <div
@@ -350,7 +344,6 @@ const AnimalClassificationGame = () => {
                         {message}
                     </div>
 
-                    {/* Player */}
                     <div
                         className="absolute text-5xl transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2"
                         style={{left: `${playerPosition.x}%`, top: `${playerPosition.y}%`}}
@@ -358,7 +351,6 @@ const AnimalClassificationGame = () => {
                         {currentLevel.player.emoji}
                     </div>
 
-                    {/* Animal groups */}
                     {currentLevel.groups.map((group, index) => (
                         <div
                             key={index}
@@ -374,7 +366,6 @@ const AnimalClassificationGame = () => {
                         </div>
                     ))}
 
-                    {/* Game won screen */}
                     {gameWon && (
                         <div
                             className="absolute inset-0 flex flex-col items-center justify-center bg-PS-science-color text-black">
