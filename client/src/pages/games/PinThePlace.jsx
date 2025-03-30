@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Title from "@/components/Title";
 import Button from "@/components/Button";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const EUROPEAN_COUNTRIES = [
     {
@@ -175,69 +177,73 @@ const EuropeGeographyGame = () => {
     }
 
     return (
-        <div className="flex flex-col items-center p-4 bg-PS-main-purple min-h-screen">
-            <Title>Pin The Place</Title>
+        <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
+            <Header></Header>
+            <div className="flex flex-col items-center p-4 bg-PS-main-purple min-h-screen">
+                <Title>Pin The Place</Title>
 
-            {!gameFinished ? (
-                <div className="mt-6 mb-10 text-center bg-PS-light-yellow rounded-full w-70 h-20 flex flex-col justify-center items-center">
-                    <p className="text-xl">Search:
-                        <span className="font-bold text-blue-600 ml-2">
-                            {selectedCountries[currentCountryIndex].name}
-                        </span>
-                    </p>
-                    <p className="text-sm text-gray-600">Score: {Math.round(score)} </p>
-                </div>
-            ) : (
-                <div className="mb-4 text-center w-full max-w-md mx-auto">
-                    <h2 className="text-2xl font-bold text-green-600">¡Game Over!</h2>
-                    <p className="text-xl">Final score: {Math.round(score)}</p>
-                    <Button
-                        size="large"
-                        onClick={restartGame}
-                        className="mt-10 mb-10"
+                {!gameFinished ? (
+                    <div className="mt-6 mb-10 text-center bg-PS-light-yellow rounded-full w-70 h-20 flex flex-col justify-center items-center">
+                        <p className="text-xl">Search:
+                            <span className="font-bold text-blue-600 ml-2">
+                                {selectedCountries[currentCountryIndex].name}
+                            </span>
+                        </p>
+                        <p className="text-sm text-gray-600">Score: {Math.round(score)} </p>
+                    </div>
+                ) : (
+                    <div className="mb-4 text-center w-full max-w-md mx-auto">
+                        <h2 className="text-2xl font-bold text-green-600">¡Game Over!</h2>
+                        <p className="text-xl">Final score: {Math.round(score)}</p>
+                        <Button
+                            size="large"
+                            onClick={restartGame}
+                            className="mt-10 mb-10"
+                        >
+                            Restart
+                        </Button>
+                    </div>
+                )}
+
+                <div className="relative w-full max-w-4xl h-[600px] bg-PS-light-yellow border-4">
+                    <svg
+                        viewBox="0 0 1000 600"
+                        onClick={handleMapClick}
+                        className="w-full h-full cursor-pointer"
                     >
-                        Restart
-                    </Button>
+                        {/* Mapa de Europa desde archivo externo */}
+                        <image
+                            href="/images/Games/Geography/europe.svg"
+                            width="1000"
+                            height="600"
+                        />
+
+                        {/* Marcadores */}
+                        {markers.map((marker, index) => (
+                            <React.Fragment key={index}>
+                                <circle
+                                    cx={marker.x * 1000}
+                                    cy={marker.y * 600}
+                                    r="12"
+                                    fill="red"
+                                    opacity="0.7"
+                                />
+                                {/* Línea desde la ubicación real del país */}
+                                <line
+                                    x1={selectedCountries[index].svgCoords.x}
+                                    y1={selectedCountries[index].svgCoords.y}
+                                    x2={marker.x * 1000}
+                                    y2={marker.y * 600}
+                                    stroke="green"
+                                    strokeWidth="2"
+                                    strokeDasharray="5,5"
+                                />
+                            </React.Fragment>
+                        ))}
+                    </svg>
                 </div>
-            )}
-
-            <div className="relative w-full max-w-4xl h-[600px] bg-PS-light-yellow border-4">
-                <svg
-                    viewBox="0 0 1000 600"
-                    onClick={handleMapClick}
-                    className="w-full h-full cursor-pointer"
-                >
-                    {/* Mapa de Europa desde archivo externo */}
-                    <image
-                        href="/images/Games/Geography/europe.svg"
-                        width="1000"
-                        height="600"
-                    />
-
-                    {/* Marcadores */}
-                    {markers.map((marker, index) => (
-                        <React.Fragment key={index}>
-                            <circle
-                                cx={marker.x * 1000}
-                                cy={marker.y * 600}
-                                r="12"
-                                fill="red"
-                                opacity="0.7"
-                            />
-                            {/* Línea desde la ubicación real del país */}
-                            <line
-                                x1={selectedCountries[index].svgCoords.x}
-                                y1={selectedCountries[index].svgCoords.y}
-                                x2={marker.x * 1000}
-                                y2={marker.y * 600}
-                                stroke="green"
-                                strokeWidth="2"
-                                strokeDasharray="5,5"
-                            />
-                        </React.Fragment>
-                    ))}
-                </svg>
             </div>
+            <Footer></Footer>
         </div>
     );
 };
