@@ -1,0 +1,121 @@
+{
+  "allLevels": [
+    {
+      "player": {"type": "dog", "name": "Dog", "classification": "mammal", "emoji": "🐕"},
+      "groups": [
+        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "🐸", "position": {"x": 20, "y": 20}},
+        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "🐠", "position": {"x": 80, "y": 20}},
+        {"type": "cats", "name": "Cats", "classification": "mammal", "emoji": "🐈", "position": {"x": 20, "y": 80}},
+        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "eagle", "name": "Eagle", "classification": "bird", "emoji": "🦅"},
+      "groups": [
+        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "🦋", "position": {"x": 20, "y": 20}},
+        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 20}},
+        {"type": "bats", "name": "Bats", "classification": "mammal", "emoji": "🦇", "position": {"x": 20, "y": 80}},
+        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "🐸", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "turtle", "name": "Turtle", "classification": "reptile", "emoji": "🐢"},
+      "groups": [
+        {"type": "snakes", "name": "Snakes", "classification": "reptile", "emoji": "🐍", "position": {"x": 20, "y": 20}},
+        {"type": "dolphins", "name": "Dolphins", "classification": "mammal", "emoji": "🐬", "position": {"x": 80, "y": 20}},
+        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "🦀", "position": {"x": 20, "y": 80}},
+        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "🦋", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "lobster", "name": "Lobster", "classification": "crustacean", "emoji": "🦞"},
+      "groups": [
+        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "🦀", "position": {"x": 20, "y": 20}},
+        {"type": "octopus", "name": "Octopus", "classification": "mollusk", "emoji": "🐙", "position": {"x": 80, "y": 20}},
+        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "🐠", "position": {"x": 20, "y": 80}},
+        {"type": "seahorses", "name": "Seahorses", "classification": "fish", "emoji": "🐡", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "spider", "name": "Spider", "classification": "arachnid", "emoji": "🕷️"},
+      "groups": [
+        {"type": "scorpions", "name": "Scorpions", "classification": "arachnid", "emoji": "🦂", "position": {"x": 20, "y": 20}},
+        {"type": "ants", "name": "Ants", "classification": "insect", "emoji": "🐜", "position": {"x": 80, "y": 20}},
+        {"type": "snails", "name": "Snails", "classification": "mollusk", "emoji": "🐌", "position": {"x": 20, "y": 80}},
+        {"type": "beetles", "name": "Beetles", "classification": "insect", "emoji": "🪲", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "penguin", "name": "Penguin", "classification": "bird", "emoji": "🐧"},
+      "groups": [
+        {"type": "seals", "name": "Seals", "classification": "mammal", "emoji": "🦭", "position": {"x": 20, "y": 20}},
+        {"type": "ducks", "name": "Ducks", "classification": "bird", "emoji": "🦆", "position": {"x": 80, "y": 20}},
+        {"type": "sharks", "name": "Sharks", "classification": "fish", "emoji": "🦈", "position": {"x": 20, "y": 80}},
+        {"type": "whales", "name": "Whales", "classification": "mammal", "emoji": "🐋", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "honeybee", "name": "Honeybee", "classification": "insect", "emoji": "🐝"},
+      "groups": [
+        {"type": "beetles", "name": "Beetles", "classification": "insect", "emoji": "🪲", "position": {"x": 20, "y": 20}},
+        {"type": "hummingbirds", "name": "Hummingbirds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 20}},
+        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "🦋", "position": {"x": 20, "y": 80}},
+        {"type": "bats", "name": "Bats", "classification": "mammal", "emoji": "🦇", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "crocodile", "name": "Crocodile", "classification": "reptile", "emoji": "🐊"},
+      "groups": [
+        {"type": "lizards", "name": "Lizards", "classification": "reptile", "emoji": "🦎", "position": {"x": 20, "y": 20}},
+        {"type": "alligators", "name": "Alligators", "classification": "reptile", "emoji": "🐊", "position": {"x": 80, "y": 20}},
+        {"type": "salamanders", "name": "Salamanders", "classification": "amphibian", "emoji": "🦎", "position": {"x": 20, "y": 80}},
+        {"type": "dolphins", "name": "Dolphins", "classification": "mammal", "emoji": "🐬", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "squid", "name": "Squid", "classification": "mollusk", "emoji": "🦑"},
+      "groups": [
+        {"type": "octopus", "name": "Octopus", "classification": "mollusk", "emoji": "🐙", "position": {"x": 20, "y": 20}},
+        {"type": "jellyfish", "name": "Jellyfish", "classification": "cnidarian", "emoji": "🪼", "position": {"x": 80, "y": 20}},
+        {"type": "sharks", "name": "Sharks", "classification": "fish", "emoji": "🦈", "position": {"x": 20, "y": 80}},
+        {"type": "snails", "name": "Snails", "classification": "mollusk", "emoji": "🐌", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "elephant", "name": "Elephant", "classification": "mammal", "emoji": "🐘"},
+      "groups": [
+        {"type": "giraffes", "name": "Giraffes", "classification": "mammal", "emoji": "🦒", "position": {"x": 20, "y": 20}},
+        {"type": "rhinoceros", "name": "Rhinoceros", "classification": "mammal", "emoji": "🦏", "position": {"x": 80, "y": 20}},
+        {"type": "alligators", "name": "Alligators", "classification": "reptile", "emoji": "🐊", "position": {"x": 20, "y": 80}},
+        {"type": "ostriches", "name": "Ostriches", "classification": "bird", "emoji": "🪿", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "frog", "name": "Frog", "classification": "amphibian", "emoji": "🐸"},
+      "groups": [
+        {"type": "salamanders", "name": "Salamanders", "classification": "amphibian", "emoji": "🦎", "position": {"x": 20, "y": 20}},
+        {"type": "toads", "name": "Toads", "classification": "amphibian", "emoji": "🐸", "position": {"x": 80, "y": 20}},
+        {"type": "lizards", "name": "Lizards", "classification": "reptile", "emoji": "🦎", "position": {"x": 20, "y": 80}},
+        {"type": "turtles", "name": "Turtles", "classification": "reptile", "emoji": "🐢", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "dolphin", "name": "Dolphin", "classification": "mammal", "emoji": "🐬"},
+      "groups": [
+        {"type": "sharks", "name": "Sharks", "classification": "fish", "emoji": "🦈", "position": {"x": 20, "y": 20}},
+        {"type": "seals", "name": "Seals", "classification": "mammal", "emoji": "🦭", "position": {"x": 80, "y": 20}},
+        {"type": "whales", "name": "Whales", "classification": "mammal", "emoji": "🐋", "position": {"x": 20, "y": 80}},
+        {"type": "stingrays", "name": "Stingrays", "classification": "fish", "emoji": "🐡", "position": {"x": 80, "y": 80}}
+      ]
+    },
+    {
+      "player": {"type": "butterfly", "name": "Butterfly", "classification": "insect", "emoji": "🦋"},
+      "groups": [
+        {"type": "bees", "name": "Bees", "classification": "insect", "emoji": "🐝", "position": {"x": 20, "y": 20}},
+        {"type": "hummingbirds", "name": "Hummingbirds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 20}},
+        {"type": "dragonflies", "name": "Dragonflies", "classification": "insect", "emoji": "🦋", "position": {"x": 20, "y": 80}},
+        {"type": "bats", "name": "Bats", "classification": "mammal", "emoji": "🦇", "position": {"x": 80, "y": 80}}
+      ]
+    }
+  ]
+}
