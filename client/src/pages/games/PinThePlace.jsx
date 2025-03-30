@@ -4,118 +4,26 @@ import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-
-const EUROPEAN_COUNTRIES = [
-    {
-        name: 'Spain',
-        realCoords: [40.4637, -3.7492],
-        svgCoords: { x: 350, y: 490 }
-    },
-    {
-        name: 'France',
-        realCoords: [46.2276, 2.2137],
-        svgCoords: { x: 430, y: 410 }
-    },
-    {
-        name: 'Germany',
-        realCoords: [51.1657, 10.4515],
-        svgCoords: { x: 520, y: 350 }
-    },
-    {
-        name: 'Italy',
-        realCoords: [41.8719, 12.5674],
-        svgCoords: { x: 550, y: 450 }
-    },
-    {
-        name: 'UK',
-        realCoords: [55.3781, -3.4360],
-        svgCoords: { x: 380, y: 320 }
-    },
-    {
-        name: 'Portugal',
-        realCoords: [39.3999, -8.2245],
-        svgCoords: { x: 300, y: 500 }
-    },
-    {
-        name: 'Netherlands',
-        realCoords: [52.1326, 5.2913],
-        svgCoords: { x: 470, y: 330 }
-    },
-    {
-        name: 'Belgium',
-        realCoords: [50.5039, 4.4699],
-        svgCoords: { x: 460, y: 350 }
-    },
-    {
-        name: 'Switzerland',
-        realCoords: [46.8182, 8.2275],
-        svgCoords: { x: 500, y: 405 }
-    },
-    {
-        name: 'Austria',
-        realCoords: [47.5162, 14.5501],
-        svgCoords: { x: 575, y: 395 }
-    },
-    {
-        name: 'Poland',
-        realCoords: [51.9194, 19.1451],
-        svgCoords: { x: 620, y: 330 }
-    },
-    {
-        name: 'Czech Republic',
-        realCoords: [49.8175, 15.4730],
-        svgCoords: { x: 580, y: 370 }
-    },
-    {
-        name: 'Greece',
-        realCoords: [39.0742, 21.8243],
-        svgCoords: { x: 680, y: 500 }
-    },
-    {
-        name: 'Norway',
-        realCoords: [60.4720, 8.4689],
-        svgCoords: { x: 495, y: 215 }
-    },
-    {
-        name: 'Sweden',
-        realCoords: [60.1282, 18.6435],
-        svgCoords: { x: 570, y: 220 }
-    },
-    {
-        name: 'Denmark',
-        realCoords: [56.2639, 9.5018],
-        svgCoords: { x: 510, y: 280 }
-    },
-    {
-        name: 'Ireland',
-        realCoords: [53.1424, -7.6921],
-        svgCoords: { x: 305, y: 320 }
-    },
-    {
-        name: 'Finland',
-        realCoords: [61.9241, 25.7482],
-        svgCoords: { x: 670, y: 200 }
-    },
-    {
-        name: 'Romania',
-        realCoords: [45.9432, 24.9668],
-        svgCoords: { x: 710, y: 420 }
-    },
-    {
-        name: 'Hungary',
-        realCoords: [47.1625, 19.5033],
-        svgCoords: { x: 630, y: 400 }
-    }
-];
+import gameData from "../../../../database/jsondata/PinThePlace.json";
 
 const calculateSVGDistance = (x1, y1, x2, y2) => {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 };
 
 const calculateScore = (distance) => {
-    const maxScore = 1000;
+    const maxScore = 500;
     const maxDistance = 500;
-    return Math.max(0, maxScore - (distance / maxDistance * maxScore));
+    let baseScore = Math.max(0, maxScore - (distance / maxDistance * maxScore));
+
+    if (distance < 20) {
+        baseScore += 100 * (1 - distance/20);
+    }
+
+    if (distance > 20) {
+        baseScore -= 100;
+    }
+
+    return Math.round(baseScore);
 };
 
 const EuropeGeographyGame = () => {
@@ -127,7 +35,7 @@ const EuropeGeographyGame = () => {
 
 
     useEffect(() => {
-        const shuffled = [...EUROPEAN_COUNTRIES].sort(() => 0.5 - Math.random());
+        const shuffled = [...gameData.EUROPEAN_COUNTRIES].sort(() => 0.5 - Math.random());
         setSelectedCountries(shuffled.slice(0, 10));
     }, []);
 
@@ -164,7 +72,7 @@ const EuropeGeographyGame = () => {
     };
 
     const restartGame = () => {
-        const shuffled = [...EUROPEAN_COUNTRIES].sort(() => 0.5 - Math.random());
+        const shuffled = [...gameData.EUROPEAN_COUNTRIES].sort(() => 0.5 - Math.random());
         setSelectedCountries(shuffled.slice(0, 10));
         setMarkers([]);
         setCurrentCountryIndex(0);
