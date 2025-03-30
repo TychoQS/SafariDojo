@@ -133,7 +133,7 @@ const AnimalClassificationGame = () => {
                 </div>
                 </Link>
                 <div
-                    className="relative w-[1200px] h-[800px] bg-PS-science-color rounded-lg overflow-hidden border-4 border-green-900">
+                    className="relative w-[1200px] h-[800px] bg-PS-science-color rounded-lg overflow-hidden border-4 border-green-900 mb-2">
                     <div
                         className="absolute text-2xl top-0 left-0 w-full bg-green-600 bg-opacity-70 p-2 flex justify-between">
                         <div>Level: {level}/{randomLevels.length}</div>

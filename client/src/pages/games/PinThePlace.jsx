@@ -20,7 +20,7 @@ const calculateScore = (distance) => {
     }
 
     if (distance > 20) {
-        baseScore -= 100;
+        baseScore = -100;
     }
 
     return Math.round(baseScore);
