@@ -3,7 +3,7 @@ import Title from "@/components/Title";
 import AnimalIcon from "@/components/AnimalIcon";
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {useAuth} from "@/pages/context/AuthContext";
 
@@ -12,8 +12,13 @@ const animalNames = [
 ];
 
 export default function ChangeIcon() {
-    const {user, setUser } = useAuth();
-    const [selectedAnimal, setSelectedAnimal] = useState(user.profilePhoto);
+    const {user, setUser} = useAuth();
+    const [selectedAnimal, setSelectedAnimal] = useState('');
+
+    useEffect(() => {
+        const storedPhoto = localStorage.getItem('profilePhoto');
+        setSelectedAnimal(storedPhoto || user?.profilePhoto || "default");
+    }, [user]);
 
     const handleAnimalClick = (animalName) => {
         setSelectedAnimal(animalName);
@@ -23,9 +28,7 @@ export default function ChangeIcon() {
         try {
             const response = await fetch('/api/UpdateImageProfile', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     email: user?.email,
                     profilePhoto: selectedAnimal,
@@ -35,9 +38,8 @@ export default function ChangeIcon() {
             const result = await response.json();
 
             if (response.ok) {
-                console.log(result.message);
-
-                setUser(prevUser => ({ ...prevUser, profilePhoto: selectedAnimal }));
+                setUser(prevUser => ({...prevUser, profilePhoto: selectedAnimal}));
+                localStorage.setItem('profilePhoto', selectedAnimal);
             } else {
                 console.error(result.message);
             }

@@ -35,6 +35,7 @@ export default function EditProfile() {
                     ...prevUser,
                     name: name,
                 }));
+                localStorage.setItem('name', name);
                 router.push("/MyProfile");
             } else {
                 const result = await response.json();
