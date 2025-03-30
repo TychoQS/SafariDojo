@@ -126,12 +126,13 @@ const AnimalClassificationGame = () => {
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
             <Header></Header>
             <main className="bg-PS-main-purple w-dvw h-dvh flex flex-col justify-center items-center">
-                <Title className="">Call Of The Clan</Title>
-                <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Science"}}}>
+                <Title>Call Of The Clan</Title>
+                {!gameWon && (
+                    <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Science"}}}>
                 <div className="mt-4 mb-2 relative w-[1200px] flex justify-start">
                     <Button size="small" >Back</Button>
                 </div>
-                </Link>
+                </Link> )}
                 <div
                     className="relative w-[1200px] h-[800px] bg-PS-science-color rounded-lg overflow-hidden border-4 border-green-900 mb-2">
                     <div
@@ -178,6 +179,9 @@ const AnimalClassificationGame = () => {
                             >
                                 Play Again
                             </Button>
+                            <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Science"}}} className="mt-2">
+                                <Button size="small" >Back</Button>
+                            </Link>
                         </div>
                     )}
 

@@ -89,13 +89,8 @@ const EuropeGeographyGame = () => {
             <Header></Header>
             <div className="flex flex-col items-center p-4 bg-PS-main-purple min-h-screen">
                 <Title>Pin The Place</Title>
-                <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
-                    <div className="mt-4 mb-2 relative flex justify-start">
-                        <Button size="small" >Back</Button>
-                    </div>
-                </Link>
                 {!gameFinished ? (
-                    <div className="mt-6 mb-10 text-center bg-PS-light-yellow rounded-full w-70 h-20 flex flex-col justify-center items-center">
+                    <div className="mt-2 mb-2 text-center bg-PS-light-yellow rounded-full w-70 h-20 flex flex-col justify-center items-center border-black border-4">
                         <p className="text-xl text-black">Search:
                             <span className="font-bold text-blue-600 ml-2">
                                 {selectedCountries[currentCountryIndex].name}
@@ -104,9 +99,9 @@ const EuropeGeographyGame = () => {
                         <p className="text-sm text-gray-600">Score: {Math.round(score)} </p>
                     </div>
                 ) : (
-                    <div className="mb-4 text-center w-full max-w-md mx-auto">
+                    <div className="mb-2 text-center w-full max-w-md mx-auto">
                         <h2 className="text-2xl font-bold text-green-600">¡Game Over!</h2>
-                        <p className="text-xl">Final score: {Math.round(score)}</p>
+                        <p className="text-xl mb-4">Final score: {Math.round(score)}</p>
                         <Button
                             size="large"
                             onClick={restartGame}
@@ -117,7 +112,12 @@ const EuropeGeographyGame = () => {
                     </div>
                 )}
 
-                <div className="relative w-full max-w-4xl h-[600px] bg-PS-light-yellow border-4">
+                <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
+                    <div className="mb-2 relative flex justify-start">
+                        <Button size="small" >Back</Button>
+                    </div>
+                </Link>
+                <div className="relative w-full max-w-4xl h-[600px] bg-PS-geography-color border-4 border-black">
                     <svg
                         viewBox="0 0 1000 600"
                         onClick={handleMapClick}
@@ -134,7 +134,7 @@ const EuropeGeographyGame = () => {
                                 <circle
                                     cx={marker.x * 1000}
                                     cy={marker.y * 600}
-                                    r="12"
+                                    r="8"
                                     fill="red"
                                     opacity="0.7"
                                 />
