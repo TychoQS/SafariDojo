@@ -1,104 +1,160 @@
 {
   "EUROPEAN_COUNTRIES": [
     {
-      "name": "Spain",
-      "realCoords": [40.4637, -3.7492],
-      "svgCoords": { "x": 350, "y": 490 }
+      "id": "ES",
+      "name": "Spain"
     },
     {
-      "name": "France",
-      "realCoords": [46.2276, 2.2137],
-      "svgCoords": { "x": 430, "y": 410 }
+      "id": "FR",
+      "name": "France"
     },
     {
-      "name": "Germany",
-      "realCoords": [51.1657, 10.4515],
-      "svgCoords": { "x": 520, "y": 350 }
+      "id": "DE",
+      "name": "Germany"
     },
     {
-      "name": "Italy",
-      "realCoords": [41.8719, 12.5674],
-      "svgCoords": { "x": 550, "y": 450 }
+      "id": "IT",
+      "name": "Italy"
     },
     {
-      "name": "UK",
-      "realCoords": [55.3781, -3.4360],
-      "svgCoords": { "x": 380, "y": 320 }
+      "id": "GB",
+      "name": "UK"
     },
     {
-      "name": "Portugal",
-      "realCoords": [39.3999, -8.2245],
-      "svgCoords": { "x": 300, "y": 500 }
+      "id": "PT",
+      "name": "Portugal"
     },
     {
-      "name": "Netherlands",
-      "realCoords": [52.1326, 5.2913],
-      "svgCoords": { "x": 470, "y": 330 }
+      "id": "NL",
+      "name": "Netherlands"
     },
     {
-      "name": "Belgium",
-      "realCoords": [50.5039, 4.4699],
-      "svgCoords": { "x": 460, "y": 350 }
+      "id": "BE",
+      "name": "Belgium"
     },
     {
-      "name": "Switzerland",
-      "realCoords": [46.8182, 8.2275],
-      "svgCoords": { "x": 500, "y": 405 }
+      "id": "CH",
+      "name": "Switzerland"
     },
     {
-      "name": "Austria",
-      "realCoords": [47.5162, 14.5501],
-      "svgCoords": { "x": 575, "y": 395 }
+      "id": "AT",
+      "name": "Austria"
     },
     {
-      "name": "Poland",
-      "realCoords": [51.9194, 19.1451],
-      "svgCoords": { "x": 620, "y": 330 }
+      "id": "PL",
+      "name": "Poland"
     },
     {
-      "name": "Czech Republic",
-      "realCoords": [49.8175, 15.4730],
-      "svgCoords": { "x": 580, "y": 370 }
+      "id": "CZ",
+      "name": "Czech Republic"
     },
     {
-      "name": "Greece",
-      "realCoords": [39.0742, 21.8243],
-      "svgCoords": { "x": 680, "y": 500 }
+      "id": "GR",
+      "name": "Greece"
     },
     {
-      "name": "Norway",
-      "realCoords": [60.4720, 8.4689],
-      "svgCoords": { "x": 495, "y": 215 }
+      "id": "NO",
+      "name": "Norway"
     },
     {
-      "name": "Sweden",
-      "realCoords": [60.1282, 18.6435],
-      "svgCoords": { "x": 570, "y": 220 }
+      "id": "SE",
+      "name": "Sweden"
     },
     {
-      "name": "Denmark",
-      "realCoords": [56.2639, 9.5018],
-      "svgCoords": { "x": 510, "y": 280 }
+      "id": "DK",
+      "name": "Denmark"
     },
     {
-      "name": "Ireland",
-      "realCoords": [53.1424, -7.6921],
-      "svgCoords": { "x": 305, "y": 320 }
+      "id": "IE",
+      "name": "Ireland"
     },
     {
-      "name": "Finland",
-      "realCoords": [61.9241, 25.7482],
-      "svgCoords": { "x": 670, "y": 200 }
+      "id": "FI",
+      "name": "Finland"
     },
     {
-      "name": "Romania",
-      "realCoords": [45.9432, 24.9668],
-      "svgCoords": { "x": 710, "y": 420 }
+      "id": "RO",
+      "name": "Romania"
     },
     {
-      "name": "Hungary",
-      "realCoords": [47.1625, 19.5033],
-      "svgCoords": { "x": 630, "y": 400 }
+      "id": "HU",
+      "name": "Hungary"
+    },
+    {
+      "id": "BG",
+      "name": "Bulgaria"
+    },
+    {
+      "id": "SK",
+      "name": "Slovakia"
+    },
+    {
+      "id": "SI",
+      "name": "Slovenia"
+    },
+    {
+      "id": "HR",
+      "name": "Croatia"
+    },
+    {
+      "id": "LT",
+      "name": "Lithuania"
+    },
+    {
+      "id": "LV",
+      "name": "Latvia"
+    },
+    {
+      "id": "EE",
+      "name": "Estonia"
+    },
+    {
+      "id": "AL",
+      "name": "Albania"
+    },
+    {
+      "id": "AM",
+      "name": "Armenia"
+    },
+    {
+      "id": "BY",
+      "name": "Belarus"
+    },
+    {
+      "id": "AD",
+      "name": "Andorra"
+    },
+    {
+      "id": "Cy",
+      "name": "Cyprus"
+    },
+    {
+      "id": "UA",
+      "name": "Ukraine"
+    },
+    {
+      "id": "RS",
+      "name": "Serbia"
+    },
+    {
+      "id": "IS",
+      "name": "Iceland"
+    },
+    {
+      "id": "BA",
+      "name": "Bosnia and Herzegovina"
+    },
+    {
+      "id": "ME",
+      "name": "Montenegro"
+    },
+    {
+      "id": "MD",
+      "name": "Moldova"
+    },
+    {
+      "id": "MK",
+      "name": "North Macedonia"
     }
   ]
 }

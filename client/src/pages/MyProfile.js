@@ -5,12 +5,38 @@ import Button from "@/components/Button";
 import Link from "next/link";
 import DisplayField from "@/components/DisplayField";
 import {useAuth} from "@/pages/context/AuthContext";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import AnimalIcon from "@/components/AnimalIcon";
 
 export default function MyProfile() {
     const {user} = useAuth();
+    const [profilePhoto, setProfilePhoto] = useState('');
+    const [userName, setUserName] = useState('');
+
     const currentUser = user || {name: "Unknown", email: "N/A", profilePhoto: "default"};
+
+    useEffect(() => {
+        const storedName = localStorage.getItem("name");
+        const storedPhoto = localStorage.getItem("profilePhoto");
+
+        if (storedName) setUserName(storedName);
+        if (storedPhoto) setProfilePhoto(storedPhoto);
+
+        const handleStorageChange = () => {
+            const updatedName = localStorage.getItem("name");
+            const updatedPhoto = localStorage.getItem("profilePhoto");
+
+            if (updatedName) setUserName(updatedName);
+            if (updatedPhoto) setProfilePhoto(updatedPhoto);
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+
+        return () => {
+            window.removeEventListener("storage", handleStorageChange);
+        };
+    }, []);
+
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -23,13 +49,12 @@ export default function MyProfile() {
                 </div>
 
                 <div className="col-start-2 row-start-3 flex flex-col items-end space-y-6">
-                    <DisplayField size="large" label="Name" value={currentUser.name}/>
+                    <DisplayField size="large" label="Name" value={userName || currentUser.name}/>
                     <DisplayField size="large" label="Email" value={currentUser.email}/>
                 </div>
 
                 <div className="col-start-1 row-start-2 flex justify-center items-start space-y-6 mb-[20px] relative">
-                    <AnimalIcon animalName={currentUser.profilePhoto} size="large" borderThickness={5}
-                                backgroundColor={"#FBC078"}/>
+                    <AnimalIcon animalName={profilePhoto || currentUser.profilePhoto} size="large" borderThickness={5} backgroundColor={"#FBC078"}/>
                     <Link href="/ChangeIcon"
                           className="absolute top-0 right-8 p-2 cursor-pointer hover:scale-110 transition-transform duration-300">
                         <img src="/images/EditIcon.svg" alt="Edit Icon" className="w-8 h-8"/>
