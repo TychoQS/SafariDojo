@@ -12,7 +12,7 @@ const Lifes = forwardRef((props, ref) => {
             if (firstBrokenIndex !== -1) {
                 newHearts[firstBrokenIndex] = true;
                 setHearts(newHearts);
-                setCountdown(10);
+                setCountdown(300);
             }
         } else if (hearts.some(heart => heart === false)) {
             const timer = setInterval(() => {

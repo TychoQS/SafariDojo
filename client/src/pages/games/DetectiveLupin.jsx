@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import images from '../../../../database/jsondata/DetectiveLupin.json';
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Link from "next/link";
+import Lifes from "@/components/Lifes";
 
 
 function getImage() {
@@ -21,6 +22,7 @@ function DetectiveLupin() {
     const [bestScore, setBestScore] = useState(0);
     const [tries, setTries] = useState(4);
     const [finished, setFinished] = useState(false);
+    const lifesRef = useRef(null);
 
     useEffect(() => {
         setItem(getImage());
@@ -35,6 +37,9 @@ function DetectiveLupin() {
     function validatePicture(name, guess) {
         if (tries === 0) {
             setFinished(true);
+            if (score < 300 && lifesRef.current) {
+                lifesRef.current.loseLife();
+            }
         }
         if (name.trim().toLowerCase() === guess.trim().toLowerCase()) {
             setMessage("Very good, I'm proud of you!!!")
@@ -57,8 +62,13 @@ function DetectiveLupin() {
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
             <Header></Header>
-            <section className={"min-h-screen flex flex-col items-center justify-evenly bg-PS-main-purple"}>
-                <div className="h-150 w-175 flex flex-col items-center justify-evenly border-4 rounded-2xl
+            <section className={"min-h-screen flex flex-col justify-evenly bg-PS-main-purple"}>
+
+                <div className="flex items-end justify-end">
+                    <Lifes ref={lifesRef} />
+                </div>
+
+                <div className="h-150 w-175 flex flex-col self-center items-center justify-evenly border-4 rounded-2xl
             border-PS-dark-yellow bg-PS-light-yellow">
 
                     <div className="max-w-80 max-h-80 flex justify-center items-center">
