@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import subjects from "../../../database/jsondata/Subject.json";
 import gamesData from "../../../database/jsondata/Games.json";
 import {patrickHand, cherryBomb} from "@/styles/fonts";
 import {useAuth} from "@/pages/context/AuthContext";
 
-const Card = ({gameSubject, gameNumber, isCompleted, medalType}) => {
-    const {isLoggedIn} = useAuth();
+const Card = ({gameSubject, gameNumber, medalType}) => {
+    const {isLoggedIn, user} = useAuth();
     const router = useRouter();
 
     const subject = subjects.find(subject => subject.subjectName === gameSubject);
@@ -22,11 +22,39 @@ const Card = ({gameSubject, gameNumber, isCompleted, medalType}) => {
     };
     const selectedDifficulty = difficultyMap[medalType];
 
+    const [isCompleted, setIsCompleted] = useState(false);
+
+    useEffect(() => {
+        if (isLoggedIn && user) {
+            const storedGames = JSON.parse(localStorage.getItem(`completedGames_${user.id}`)) || [];
+            setIsCompleted(storedGames.some(game =>
+                game.subject === gameSubject &&
+                game.gameName === gameName &&
+                game.difficulty === selectedDifficulty
+            ));
+        }
+    }, [isLoggedIn, user, gameSubject, gameName, selectedDifficulty]);
+
     const handleClick = () => {
         if (!isLoggedIn && (gameNumber !== 1 || selectedDifficulty !== "easy")) {
             alert("You must log in");
             router.push("/LogIn");
         } else {
+            if (isLoggedIn) {
+                const storedGames = JSON.parse(localStorage.getItem(`completedGames_${user.id}`)) || [];
+                const newGame = {subject: gameSubject, gameName, difficulty: selectedDifficulty};
+
+                if (!storedGames.some(game =>
+                    game.subject === gameSubject &&
+                    game.gameName === gameName &&
+                    game.difficulty === selectedDifficulty
+                )) {
+                    storedGames.push(newGame);
+                    localStorage.setItem(`completedGames_${user.id}`, JSON.stringify(storedGames));
+                    setIsCompleted(true);
+                }
+            }
+
             router.push({
                 pathname: "/QuizzPreview",
                 query: {Subject: gameSubject, Game: gameName, Age: selectedDifficulty}

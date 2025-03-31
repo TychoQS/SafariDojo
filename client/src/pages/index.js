@@ -1,25 +1,48 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CircleLayout from "@/components/AnimalCircleLayout";
 import PopularGameCard from "@/components/PopularGameCard";
 import SearchBar from "@/components/SearchBar";
 import FilterBar from "@/components/FilterBar";
+import gamesData from "../../../database/jsondata/Games.json";
 import {cherryBomb} from '@/styles/fonts';
 
 function Index() {
-    const [filters, setFilters] = useState({
-        filterBy: "",
-    });
+    const [filters, setFilters] = useState({filterBy: ""});
     const [searchTerm, setSearchTerm] = useState("");
+    const [shuffledGames, setShuffledGames] = useState([]);
 
-    const games = [
-        {gameSubject: "English", gameNumber: 1, isCompleted: true, medalType: "gold"},
-        {gameSubject: "Maths", gameNumber: 2, isCompleted: false, medalType: "bronze"},
-        {gameSubject: "Science", gameNumber: 1, isCompleted: false, medalType: "silver"},
-        {gameSubject: "Art", gameNumber: 2, isCompleted: true, medalType: "silver"},
-        {gameSubject: "Art", gameNumber: 1, isCompleted: false, medalType: "bronze"},
-    ];
+    const extractGames = (data) => {
+        let gamesArray = [];
+        Object.keys(data).forEach(subject => {
+            data[subject].forEach((game, index) => {
+                gamesArray.push({
+                    gameSubject: subject.charAt(0).toUpperCase() + subject.slice(1),
+                    gameNumber: index + 1,
+                    gameName: game.gameName,
+                    gameDescription: game.gameDescription,
+                    medalType: ["gold", "silver", "bronze"][Math.floor(Math.random() * 3)],
+                    isCompleted: JSON.parse(localStorage.getItem(`${subject}-${index + 1}-isCompleted`)) || false,
+                });
+            });
+        });
+        return gamesArray;
+    };
+
+    const shuffleArray = (array) => {
+        let shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    };
+
+    useEffect(() => {
+        const extractedGames = extractGames(gamesData);
+        setShuffledGames(shuffleArray(extractedGames).slice(0, 5));
+    }, []);
 
     const handleSearch = (term) => {
         setSearchTerm(term);
@@ -32,8 +55,9 @@ function Index() {
         }));
     };
 
-    const filterAndGroupGames = (games) => {
-        let filteredGames = [...games];
+    const filterAndSortGames = (gamesList) => {
+        let filteredGames = [...gamesList];
+
         if (searchTerm) {
             filteredGames = filteredGames.filter((game) =>
                 game.gameSubject.toLowerCase().includes(searchTerm.toLowerCase())
@@ -48,7 +72,6 @@ function Index() {
                 const medalOrder = {gold: 1, silver: 2, bronze: 3};
                 filteredGames.sort((a, b) => medalOrder[a.medalType] - medalOrder[b.medalType]);
                 break;
-
             case "completed":
                 filteredGames.sort((a, b) => (a.isCompleted === b.isCompleted ? 0 : a.isCompleted ? -1 : 1));
                 break;
@@ -59,7 +82,7 @@ function Index() {
         return filteredGames;
     };
 
-    const filteredGames = filterAndGroupGames(games);
+    const filteredGames = filterAndSortGames(shuffledGames);
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -67,8 +90,7 @@ function Index() {
             <section className="flex-grow flex flex-col mt-5 justify-center items-center align-middle">
                 <CircleLayout/>
                 <section
-                    className="w-full flex-grow flex flex-col relative mt-5 items-center bg-PS-light-yellow p-4 gap-6"
-                >
+                    className="w-full flex-grow flex flex-col relative mt-5 items-center bg-PS-light-yellow p-4 gap-6">
                     <div className="w-full flex flex-col items-center mt-[-10px] mb-[20px]">
                         <div
                             className={`absolute top-0 left-1/2 transform -translate-x-1/2 translate-y-[-50%]
@@ -80,7 +102,7 @@ function Index() {
                         </div>
                     </div>
                     <div className="flex justify-center items-center gap-4 w-full">
-                        <SearchBar placeholder="Buscar..." onSearch={handleSearch}/>
+                        <SearchBar placeholder="Search..." onSearch={handleSearch}/>
                         <FilterBar onFilterChange={handleFilterChange}/>
                     </div>
 
