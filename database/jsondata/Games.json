@@ -21,8 +21,8 @@
   ],
   "english": [
     {
-      "gameName": "CrossWord",
-      "gameDescription": "CrossWord is the ultimate test of your vocabulary and wit! Solve the puzzle, unlock the words, and rise to the challenge. Every clue brings you closer to victory—can you conquer them all? Only the sharpest minds will claim the crown!",
+      "gameName": "Crossword",
+      "gameDescription": "Crossword is the ultimate test of your vocabulary and wit! Solve the puzzle, unlock the words, and rise to the challenge. Every clue brings you closer to victory—can you conquer them all? Only the sharpest minds will claim the crown!",
       "difficulty": {
         "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
         "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
