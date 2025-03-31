@@ -7,6 +7,7 @@
     import {useRouter} from "next/router";
     import subjects from "../../../database/jsondata/Subject.json";
     import games from "../../../database/jsondata/Games.json";
+    import Lifes from "@/components/Lifes";
 
     function QuizzPreview() {
         const {isLoggedIn} = useAuth();
@@ -64,6 +65,9 @@
             <>
                 <div id={"QuizzPreviewComponent"} className={"app flex min-h-screen flex-col bg-PS-main-purple"}>
                     <Header/>
+                    <div className="flex items-end justify-end">
+                        <Lifes />
+                    </div>
                     <main id={"QuizPreviewMain"} className={"grid flex-grow justify-end items-end grid-cols-3 grid-rows-[1fr_auto]"}>
                         <section id={"SpeechBubbleSection"} className="col-span-3 mt-5 z-20 ">
                                 <SpeechBubble
