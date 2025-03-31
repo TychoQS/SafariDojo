@@ -161,7 +161,8 @@ export default function MathInvasors() {
             if (hit && hitCorrectEnemy) {
                 enemiesRef.current = [];
                 SpawnWave(canvas.width);
-            } else {
+            } else if (hit) {
+                console.log(lifesRef.current)
                 if (lifesRef.current) {lifesRef.current.loseLife();}
             }
         };
