@@ -35,6 +35,8 @@ export default function MathInvasors() {
     const animationFrameRef = useRef(null);
     const [Info, SetInfo] = useState("");
     const [ButtonText, SetButtonText] = useState("Start");
+    const lifesRef = useRef(null);
+
 
 
     useEffect(() => {
@@ -54,9 +56,7 @@ export default function MathInvasors() {
 
 
     useEffect(() => {
-        console.log("ENTRÉ")
         if (!Playing || GameOver) return;
-        console.log("ENTRÉ Y PASE")
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
         canvas.width = CanvasWidth;
@@ -161,6 +161,8 @@ export default function MathInvasors() {
             if (hit && hitCorrectEnemy) {
                 enemiesRef.current = [];
                 SpawnWave(canvas.width);
+            } else {
+                if (lifesRef.current) {lifesRef.current.loseLife();}
             }
         };
 
@@ -190,7 +192,7 @@ export default function MathInvasors() {
             <div id={""} className={"app flex flex-col h-screen bg-PS-main-purple"}>
                 <Header></Header>
                 <div className="flex items-end justify-end">
-                    <Lifes />
+                    <Lifes ref={lifesRef}/>
                 </div>
                 <main className="flex flex-col flex-1 items-center justify-center bg-PS-main-purple">
                     <section className={"flex flex-col"}>
