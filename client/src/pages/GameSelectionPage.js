@@ -7,43 +7,49 @@ import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {useAuth} from "@/pages/context/AuthContext";
-import Link from "next/link";
 
 function GameSelectionPage() {
     const {isLoggedIn} = useAuth();
-    const router = useRouter()
-    const [subject, setSubject] = useState(null)
-    const [subjectData, setSubjectData] = useState(null)
+    const router = useRouter();
+    const [subject, setSubject] = useState(null);
+    const [subjectData, setSubjectData] = useState(null);
 
     useEffect(() => {
         if (router.isReady) {
-            const querySubject = router.query.Subject
-            setSubject(querySubject)
+            const querySubject = router.query.Subject;
+            setSubject(querySubject);
         }
-    }, [router.isReady, router.query])
+    }, [router.isReady, router.query]);
 
     useEffect(() => {
         if (subject) {
             const foundSubjectData = animals.find(item => item.subjectName === subject);
             if (foundSubjectData) {
-                setSubjectData(foundSubjectData)
+                setSubjectData(foundSubjectData);
             }
         }
-    }, [subject])
+    }, [subject]);
 
-    const selectGameIcon = subjectData?.selectGameIcon
-    const backgroundColor = subjectData?.backgroundColor
-    const borderColor = subjectData?.borderColor
-    const firstGame = subjectData?.firstGame
-    const secondGame = subjectData?.secondGame
+    const selectGameIcon = subjectData?.selectGameIcon;
+    const backgroundColor = subjectData?.backgroundColor;
+    const borderColor = subjectData?.borderColor;
+    const firstGame = subjectData?.firstGame;
+    const secondGame = subjectData?.secondGame;
 
-    const [SelectedButton, setSelectedButton] = useState("easy")
+    const [SelectedButton, setSelectedButton] = useState("easy");
 
     const Click = (Index) => {
         setSelectedButton(Index);
-    }
+    };
 
-
+    const handleGameClick = (game, age) => {
+        if (!isLoggedIn && (game !== firstGame || age !== "easy")) {
+            alert("You must be logged in to play this game");
+            router.push("/LogIn");
+        } else {
+            router.push({pathname: "/QuizzPreview", query: {Subject: subject, Game: game, Age: age}});
+        }
+    };
 
     return (
             <div className={"app min-h-screen flex flex-col bg-PS-main-purple"}>
@@ -53,27 +59,27 @@ function GameSelectionPage() {
                 </div>
                 <main className={"flex flex-col flex-grow justify-center"}>
                 <div className={"flex flex-row justify-evenly"}>
-                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: firstGame, Age: SelectedButton}}}>
+                    <button onClick={() => handleGameClick(firstGame, SelectedButton)}>
                         <GameSelectionButton
                             Game={firstGame}
                             Subject={subject}
                             BackgroundColor={backgroundColor}
-                            BorderColor={borderColor}>
-                        </GameSelectionButton>
-                    </Link>
+                            BorderColor={borderColor}
+                        />
+                    </button>
 
-                    <Link href={{pathname: "/QuizzPreview", query: {Subject: subject, Game: secondGame, Age: SelectedButton}}}>
+                    <button onClick={() => handleGameClick(secondGame, SelectedButton)}>
                         <GameSelectionButton
                             Game={secondGame}
                             Subject={subject}
                             BackgroundColor={backgroundColor}
-                            BorderColor={borderColor}>
-                        </GameSelectionButton>
-                    </Link>
+                            BorderColor={borderColor}
+                        />
+                    </button>
                 </div>
 
                 <div className={"flex flex-row justify-center"}>
-                    <img className={"h-46 w-40"} src={selectGameIcon} alt={"platypus"}></img>
+                    <img className={"h-46 w-40"} src={selectGameIcon} alt={"platypus"}/>
                 </div>
 
                 <div className={"flex flex-row justify-evenly mb-8"}>
@@ -81,30 +87,30 @@ function GameSelectionPage() {
                         <AgeSelectorButton
                             Age={"6 - 7 years"}
                             BackgroundColor={SelectedButton === "easy" ? borderColor : backgroundColor}
-                            BorderColor={SelectedButton === "easy" ? backgroundColor : borderColor}>
-                        </AgeSelectorButton>
+                            BorderColor={SelectedButton === "easy" ? backgroundColor : borderColor}
+                        />
                     </div>
 
                     <div onClick={() => Click("medium")}>
                         <AgeSelectorButton
                             Age={"8 - 9 years"}
                             BackgroundColor={SelectedButton === "medium" ? borderColor : backgroundColor}
-                            BorderColor={SelectedButton === "medium" ? backgroundColor : borderColor}>
-                        </AgeSelectorButton>
+                            BorderColor={SelectedButton === "medium" ? backgroundColor : borderColor}
+                        />
                     </div>
 
                     <div onClick={() => Click("hard")}>
                         <AgeSelectorButton
                             Age={"10 - 11 years"}
                             BackgroundColor={SelectedButton === "hard" ? borderColor : backgroundColor}
-                            BorderColor={SelectedButton === "hard" ? backgroundColor : borderColor}>
-                        </AgeSelectorButton>
+                            BorderColor={SelectedButton === "hard" ? backgroundColor : borderColor}
+                        />
                     </div>
-                    </div>
-                </main>
-                <Footer/>
-            </div>
-    )
+                </div>
+            </main>
+            <Footer/>
+        </div>
+    );
 }
 
 export default GameSelectionPage;

@@ -4,18 +4,47 @@ import Input from "@/components/Input";
 import Title from "@/components/Title";
 import Button from "@/components/Button";
 import Link from "next/link";
-import {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useRouter} from "next/router";
 import AnimalIcon from "@/components/AnimalIcon";
 import DisplayField from "@/components/DisplayField";
 
 export default function EditProfile() {
-    const {user, setUser} = useAuth();
-    const [name, setName] = useState(user?.name || "");
-    const [profilePhoto] = useState(user?.profilePhoto || "default");
     const [error, setError] = useState("");
     const router = useRouter();
+
+    const {user, setUser} = useAuth();
+    const [name, setName] = useState(user?.name || "");
+    const [userName, setUserName] = useState(user?.name || "");
+    const [profilePhoto, setProfilePhoto] = useState(user?.profilePhoto || "default");
+
+    useEffect(() => {
+        const storedName = localStorage.getItem("name");
+        const storedPhoto = localStorage.getItem("profilePhoto");
+
+        if (storedName) {
+            setUserName(storedName);
+            setName(storedName);
+        }
+        if (storedPhoto) setProfilePhoto(storedPhoto);
+
+        const handleStorageChange = () => {
+            const updatedName = localStorage.getItem("name");
+            const updatedPhoto = localStorage.getItem("profilePhoto");
+
+            if (updatedName) {
+                setUserName(updatedName);
+                setName(updatedName);
+            }
+            if (updatedPhoto) setProfilePhoto(updatedPhoto);
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+        return () => {
+            window.removeEventListener("storage", handleStorageChange);
+        };
+    }, []);
 
     const handleSave = async () => {
         if (!error && name.trim()) {
@@ -31,11 +60,12 @@ export default function EditProfile() {
             });
 
             if (response.ok) {
+                localStorage.setItem('name', name);
                 setUser(prevUser => ({
                     ...prevUser,
                     name: name,
                 }));
-                localStorage.setItem('name', name);
+                setUserName(name);
                 router.push("/MyProfile");
             } else {
                 const result = await response.json();

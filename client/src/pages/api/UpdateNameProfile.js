@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-const usersFilePath = path.join(process.cwd(), '..', 'database', 'jsondata', 'Users.json');  // Ruta correcta al archivo JSON
+const usersFilePath = path.join(process.cwd(), '..', 'database', 'jsondata', 'Users.json');
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {

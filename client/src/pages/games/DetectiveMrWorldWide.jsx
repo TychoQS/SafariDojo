@@ -57,15 +57,15 @@ function DetectiveMrWorldWide() {
                 <div className="h-150 w-175 flex flex-col items-center justify-evenly border-4 rounded-2xl
             border-PS-dark-yellow bg-PS-light-yellow">
 
-                    <div className="max-w-80 max-h-80 flex justify-center items-center">
+                    <div className="max-w-80 max-h-80 flex justify-center items-center border-black border-4">
                         {flag ? <img src={flag} alt={name} className="max-w-full max-h-full object-contain"/> :
                             <p>No image available</p>}
                     </div>
 
                     {message && <p className={"text-black text-xl"}>{message}</p>}
 
-                    <input className={"h-7.5 w-60 border-2 rounded-lg bg-[#E8B1EC] border-[#ED6EF6] text-black"}
-                           placeholder={"Introduce the paint name..."} value={guess}
+                    <input className={"h-10 w-70 border-2 rounded-lg bg-[#E8B1EC] border-[#ED6EF6] text-black text-xl"}
+                           placeholder={"Introduce the flag name..."} value={guess}
                            onChange={(e) => setGuess(e.target.value)}/>
 
                     <div className="flex flex-row justify-center">
@@ -99,7 +99,7 @@ function DetectiveMrWorldWide() {
                                 : null}
                     </div>
 
-                    <div className={"text-black text-2xl font-black"}>{score}</div>
+                    <div className={"text-black text-2xl font-black flex justify-between"}><p className="text-gray-600 font-light">Score: {score}</p></div>
                 </div>
             </section>
             <Footer></Footer>
