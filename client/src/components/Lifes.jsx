@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { novaMono } from "@/styles/fonts";
 
-export default function Lifes() {
+const Lifes = forwardRef((props, ref) => {
     const [hearts, setHearts] = useState([true, true, true, true, true]);
-    const [countdown, setCountdown] = useState(10);
+    const [countdown, setCountdown] = useState(300);
 
     useEffect(() => {
         if (countdown === 0) {
@@ -34,6 +34,10 @@ export default function Lifes() {
         }
     };
 
+    useImperativeHandle(ref, () => ({
+        loseLife,
+    }));
+
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
@@ -61,4 +65,6 @@ export default function Lifes() {
             </div>
         </div>
     );
-}
+});
+
+export default Lifes;

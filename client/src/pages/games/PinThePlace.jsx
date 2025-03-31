@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Title from "@/components/Title";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Lifes from "@/components/Lifes";
 import Link from "next/link";
 import gameData from "../../../../database/jsondata/PinThePlace.json";
 
@@ -35,6 +36,13 @@ const EuropeGeographyGame = () => {
         }
     };
 
+    const lifesRef = useRef(null);
+    const restartFull = () => {
+        if (score < 500) {
+            if (lifesRef.current) {lifesRef.current.loseLife();}
+        }
+        restartGame();
+    }
 
     const restartGame = () => {
         const shuffled = [...gameData.EUROPEAN_COUNTRIES].sort(() => 0.5 - Math.random());
@@ -55,8 +63,12 @@ const EuropeGeographyGame = () => {
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
             <Header></Header>
+            <div className="flex items-end justify-end">
+                <Lifes ref={lifesRef}/>
+            </div>
             <div className="flex flex-col items-center p-4 bg-PS-main-purple min-h-screen">
                 <Title>Pin The Place</Title>
+
                 {!gameFinished ? (
                     <div className="mt-2 mb-2 text-center bg-PS-light-yellow rounded-full w-70 h-20 flex flex-col justify-center items-center border-black border-4">
                         <p className="text-xl text-black">Search:
@@ -72,7 +84,7 @@ const EuropeGeographyGame = () => {
                         <p className="text-xl mb-2">Final score: {Math.round(score)}</p>
                         <Button
                             size="large"
-                            onClick={restartGame}
+                            onClick={restartFull}
                         >
                             Restart
                         </Button>
