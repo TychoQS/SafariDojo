@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { P2Start } from '@/styles/fonts';
 import Player from "@/pages/games/modules/MathInvasors/Player";
 import Missile from "@/pages/games/modules/MathInvasors/Missile";
@@ -7,6 +7,8 @@ import { GetRandomOperation, GetRandomNumber } from "@/pages/games/modules/MathI
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import Lifes from "@/components/Lifes";
+import Link from "next/link";
 
 function UnsetEvents(keyPressed, keyReleased) {
     window.removeEventListener("keydown", keyPressed);
@@ -187,6 +189,9 @@ export default function MathInvasors() {
         <>
             <div id={""} className={"app flex flex-col h-screen bg-PS-main-purple"}>
                 <Header></Header>
+                <div className="flex items-end justify-end">
+                    <Lifes />
+                </div>
                 <main className="flex flex-col flex-1 items-center justify-center bg-PS-main-purple">
                     <section className={"flex flex-col"}>
                         <h1 className={`text-center text-2xl ${P2Start.className} text-PS-dark-yellow`}>Math Invasors</h1>
@@ -201,9 +206,12 @@ export default function MathInvasors() {
                             className="border-4 border-PS-dark-yellow bg-PS-light-yellow mb-4"
                         ></canvas>
                     </section>
-                    <section className={"mb-5"}>
-                        {!Playing && ( // Button only appears when user is not playing
-                            <Button id={"MainButton"} size={"large"} onClick={Start}>
+                    <section className={"flex flex-row mb-5 space-x-5"}>
+                        <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Maths"}}}>
+                            <Button size="small" >Back</Button>
+                        </Link>
+                        {!Playing && (
+                            <Button id={"MainButton"} size={"small"} onClick={Start}>
                                 {ButtonText}
                             </Button>
                         )}
