@@ -1,7 +1,8 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import images from '../../../../database/jsondata/DetectiveMrWorldWide.json';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Lifes from "@/components/Lifes";
 import Link from "next/link";
 
 
@@ -20,6 +21,7 @@ function DetectiveMrWorldWide() {
     const [bestScore, setBestScore] = useState(0);
     const [tries, setTries] = useState(4);
     const [finished, setFinished] = useState(false);
+    const lifesRef = useRef(null);
 
     useEffect(() => {
         setItem(getImage());
@@ -32,6 +34,9 @@ function DetectiveMrWorldWide() {
         if (tries === 0) {
             setFinished(true);
             setBestScore(Math.max(bestScore, score));
+            if (score < 300 && lifesRef.current) {
+                lifesRef.current.loseLife();
+            }
         }
         if (name.trim().toLowerCase() === guess.trim().toLowerCase()) {
             setMessage("Nice, you must be a real explorer!!!")
@@ -53,8 +58,13 @@ function DetectiveMrWorldWide() {
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
             <Header></Header>
-            <section className={"min-h-screen flex flex-col items-center justify-evenly bg-PS-main-purple"}>
-                <div className="h-150 w-175 flex flex-col items-center justify-evenly border-4 rounded-2xl
+            <section className={"min-h-screen flex flex-col justify-evenly bg-PS-main-purple"}>
+
+                <div className="flex items-end justify-end">
+                    <Lifes ref={lifesRef} />
+                </div>
+
+                <div className="h-150 w-175 flex flex-col self-center items-center justify-evenly border-4 rounded-2xl
             border-PS-dark-yellow bg-PS-light-yellow">
 
                     <div className="max-w-80 max-h-80 flex justify-center items-center border-black border-4">
