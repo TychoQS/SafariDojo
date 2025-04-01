@@ -1,0 +1,15 @@
+=== Dependencias de Node ===
+npm install mysql2
+
+=== Docker Command For Execute DB ===
+
+docker run --name SafariDojoDB -e MYSQL_ROOT_PASSWORD=Ps20242025 -e MYSQL_DATABASE=SafariDojoDB -p 3306:3306 -d <image>:<tag>
+docker run --name SafariDojoDB -e MYSQL_ROOT_PASSWORD=Ps20242025 -e MYSQL_DATABASE=SafariDojoDB -p 3306:3306 -d mysql:latest
+docker run --name SafariDojoDB -e MYSQL_ROOT_PASSWORD=Ps20242025 -e MYSQL_DATABASE=SafariDojoDB -v safari-dojo-db-data:/var/lib/mysql -p 3306:3306 -d mysql:latest
+
+
+docker commit <container_id> <nombre_imagen>:<tag>
+
+docker save -o <archivo>.tar <nombre_imagen>:<tag>
+
+docker load -i <archivo>.tar

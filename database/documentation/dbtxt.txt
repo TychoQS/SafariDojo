@@ -1,0 +1,74 @@
+=== Dependencias de Node ===
+npm install mysql2
+
+=== Docker Command For Execute DB ===
+
+docker volume create safari-dojo-db-data
+
+docker run --name SafariDojoDB -e MYSQL_ROOT_PASSWORD=Ps20242025 -e MYSQL_DATABASE=SafariDojoDB -v safari-dojo-db-data:/var/lib/mysql -p 3306:3306 -d mysql:latest
+
+==== Script creación usuario ===
+
+CREATE USER 'node_server'@'%' IDENTIFIED BY 'Ps20242025';
+GRANT ALL PRIVILEGES ON SafariDojoDB.* TO 'node_server'@'%';
+FLUSH PRIVILEGES;
+
+=== Comprobar Privilegios === 
+SHOW GRANTS FOR 'node_server'@'%';
+
+
+=== DB Init ===
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    profilePhoto VARCHAR(64)
+);
+
+INSERT INTO users (name, email, password, profilePhoto) VALUES
+('Nelson Monzón', 'nelson@example.com', 'Ps20242025', 'Lion'),
+('Ayman Asbai', 'ayman@example.com', 'Ps20242025', 'Pig'),
+('Alejandro De Olózaga', 'alejandro@example.com', 'Ps20242025', 'Monkey'),
+('Dylan Castrillón', 'dylan@example.com', 'Ps20242025', 'Shark'),
+('Laura Herrera', 'laura@example.com', 'Ps20242025', 'Seal'),
+('Luis Martín', 'luis@example.com', 'Ps20242025', 'Tiger'),
+('Tycho Quintana', 'tycho@example.com', 'Ps20242025', 'Koala'),
+('RegisterPrueba', 'RegisterPrueba@email.com', 'Register2', 'Sheep');
+
+CREATE TABLE subjects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    subjectName VARCHAR(100) NOT NULL UNIQUE,
+    animalName VARCHAR(255) NOT NULL UNIQUE,
+    baseIcon VARCHAR(255),
+    selectGameIcon VARCHAR(255),
+    PreviewGameImage VARCHAR(255),
+    backgroundColor VARCHAR(20),
+    borderColor VARCHAR(20),
+    firstGame VARCHAR(100),
+    secondGame VARCHAR(100),
+    password VARCHAR(255) NOT NULL,
+    profilePhoto VARCHAR(64)
+);
+
+
+=== Inserting Values Script Example === 
+
+INSERT INTO users (name, email, password, profilePhoto)
+VALUES
+    ('Juan Pérez', 'juan.perez@example.com', 'miPasswordSegura1', 'perfil1.jpg'),
+    ('Ana Gómez', 'ana.gomez@example.com', 'miPasswordSegura2', 'perfil2.jpg'),
+    ('Carlos López', 'carlos.lopez@example.com', 'miPasswordSegura3', 'perfil3.jpg'),
+    ('Luis Martínez', 'luis.martinez@example.com', 'miPasswordSegura4', 'perfil4.jpg'),
+    ('Marta Sánchez', 'marta.sanchez@example.com', 'miPasswordSegura5', 'perfil5.jpg'),
+    ('Pedro Rodríguez', 'pedro.rodriguez@example.com', 'miPasswordSegura6', 'perfil6.jpg');
+	
+	
+=== Exportar DB ===
+docker export -o safari-dojo-db-container.tar SafariDojoDB
+
+
+  
+=== Importar DB ===
+cat safari-dojo-db-container.tar | docker import - my-custom-mysql
