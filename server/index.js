@@ -6,8 +6,8 @@ const { readFile, writeFile } = require('fs');
 const {join} = require("node:path");
 
 
-
 const dbFilePath = join(__dirname, '../database/jsondata/Users.json');
+const connection = require('./database');
 
 app.use(cors());
 app.use(express.json());
@@ -38,6 +38,24 @@ app.post("/api/signup", (req, res) => {
         console.error("Error al registrar usuario:", error);
         res.status(500).json({ message: "Error interno del servidor" });
     }
+});
+
+app.post('/api/register', (req, res) => {
+    const { name, email, password, profilePhoto } = req.body;
+    console.log(email + name + profilePhoto);
+    const query = 'INSERT INTO users (name, email, password, profilePhoto) VALUES (?, ?, ?, ?)';
+    connection.query(query, [name, email, password, profilePhoto], (err, result) => {
+        if (err) {
+            console.error('Error al registrar el usuario:', err);
+            return res.status(500).json({ message: 'Error al registrar el usuario' });
+        }
+        res.status(201).json({
+            message: 'Usuario registrado exitosamente',
+            name: name,
+            email: email,
+            profilePhoto: profilePhoto
+        });
+    });
 });
 
 
