@@ -8,11 +8,12 @@ import Link from "next/link";
 import gameData from "../../../../database/jsondata/PinThePlace.json";
 import EuropeMap from "@/pages/games/modules/PinThePlace/EuropeMap";
 import AfricaMap from "@/pages/games/modules/PinThePlace/AfricaMap";
-import {setRequestMeta} from "next/dist/server/request-meta";
+import AsiaMap from "@/pages/games/modules/PinThePlace/AsiaMap";
 
 const maps = {
     EUROPEAN_COUNTRIES: EuropeMap,
     AFRICAN_COUNTRIES: AfricaMap,
+    ASIAN_COUNTRIES: AsiaMap,
 }
 
 const EuropeGeographyGame = () => {
@@ -24,7 +25,7 @@ const EuropeGeographyGame = () => {
     const [map, setMap] = useState(null);
 
     useEffect(() => {
-        const continents = ["EUROPEAN_COUNTRIES", "AFRICAN_COUNTRIES"];
+        const continents = ["EUROPEAN_COUNTRIES", "AFRICAN_COUNTRIES", "ASIAN_COUNTRIES"];
         const selectedContinent = mapSelector(continents);
         setMap(selectedContinent);
 
@@ -116,7 +117,7 @@ const EuropeGeographyGame = () => {
                     </div>
                 </Link>
 
-                <div className="relative w-full max-w-6xl mx-auto bg-blue-700 border-4 border-black">
+                <div className="flex justify-center items-center w-full max-w-6xl mx-auto bg-blue-700 border-4 border-black">
                     {MapComponent && <MapComponent
                         getCountryColor={getCountryColor}
                         handleCountryClick={handleCountryClick} />}
