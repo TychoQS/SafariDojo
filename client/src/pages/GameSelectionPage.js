@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {useAuth} from "@/pages/context/AuthContext";
+import {cherryBomb} from "@/styles/fonts";
 
 function GameSelectionPage() {
     const {isLoggedIn} = useAuth();
@@ -52,61 +53,84 @@ function GameSelectionPage() {
     };
 
     return (
-            <div className={"app min-h-screen flex flex-col bg-PS-main-purple"}>
+            <div className={"app min-h-screen flex flex-col bg-PS-main-purple relative"}>
                 <Header/>
                 <div className="flex items-end justify-end">
                     <Lifes />
                 </div>
-                <main className={"flex flex-col flex-grow justify-center"}>
-                <div className={"flex flex-row justify-evenly"}>
-                    <button onClick={() => handleGameClick(firstGame, SelectedButton)}>
-                        <GameSelectionButton
-                            Game={firstGame}
-                            Subject={subject}
-                            BackgroundColor={backgroundColor}
-                            BorderColor={borderColor}
-                        />
-                    </button>
-
-                    <button onClick={() => handleGameClick(secondGame, SelectedButton)}>
-                        <GameSelectionButton
-                            Game={secondGame}
-                            Subject={subject}
-                            BackgroundColor={backgroundColor}
-                            BorderColor={borderColor}
-                        />
-                    </button>
-                </div>
-
-                <div className={"flex flex-row justify-center"}>
+                <div className={"flex justify-center"}>
                     <img className={"h-46 w-40"} src={selectGameIcon} alt={"platypus"}/>
                 </div>
+                <main className={"flex flex-grow justify-center"}>
+                    <div className="w-[90%] bg-[#E4EFED] rounded-sm">
+                        <div className={"flex flex-row justify-evenly mb-8 mt-8"}>
+                            <div onClick={() => Click("easy")}>
+                                <AgeSelectorButton
+                                    Age={"Easy"}
+                                    BackgroundColor={SelectedButton === "easy" ? borderColor : backgroundColor}
+                                    BorderColor={SelectedButton === "easy" ? backgroundColor : borderColor}
+                                />
+                            </div>
 
-                <div className={"flex flex-row justify-evenly mb-8"}>
-                    <div onClick={() => Click("easy")}>
-                        <AgeSelectorButton
-                            Age={"6 - 7 years"}
-                            BackgroundColor={SelectedButton === "easy" ? borderColor : backgroundColor}
-                            BorderColor={SelectedButton === "easy" ? backgroundColor : borderColor}
-                        />
-                    </div>
+                            <div onClick={() => Click("medium")}>
+                                <AgeSelectorButton
+                                    Age={"Medium"}
+                                    BackgroundColor={SelectedButton === "medium" ? borderColor : backgroundColor}
+                                    BorderColor={SelectedButton === "medium" ? backgroundColor : borderColor}
+                                />
+                            </div>
 
-                    <div onClick={() => Click("medium")}>
-                        <AgeSelectorButton
-                            Age={"8 - 9 years"}
-                            BackgroundColor={SelectedButton === "medium" ? borderColor : backgroundColor}
-                            BorderColor={SelectedButton === "medium" ? backgroundColor : borderColor}
-                        />
-                    </div>
+                            <div onClick={() => Click("hard")}>
+                                <AgeSelectorButton
+                                    Age={"Hard"}
+                                    BackgroundColor={SelectedButton === "hard" ? borderColor : backgroundColor}
+                                    BorderColor={SelectedButton === "hard" ? backgroundColor : borderColor}
+                                />
+                            </div>
+                        </div>
 
-                    <div onClick={() => Click("hard")}>
-                        <AgeSelectorButton
-                            Age={"10 - 11 years"}
-                            BackgroundColor={SelectedButton === "hard" ? borderColor : backgroundColor}
-                            BorderColor={SelectedButton === "hard" ? backgroundColor : borderColor}
-                        />
+                        <div className={"flex justify-center items-center m-4"}>
+                            <div className="flex-grow h-px bg-black opacity-100"></div>
+                            <h2 className={`${cherryBomb.className} font-bold text-[4rem] text-black ml-[2rem] mr-[2rem]`}>Games Catalog</h2>
+                            <div className="flex-grow h-px bg-black opacity-100"></div>
+
+                        </div>
+
+                        <div className={"flex flex-row justify-evenly"}>
+                            <div>
+                                <button onClick={() => handleGameClick(firstGame, SelectedButton)}>
+                                    <GameSelectionButton
+                                        Game={firstGame}
+                                        Subject={subject}
+                                        BackgroundColor={backgroundColor}
+                                        BorderColor={borderColor}
+                                    />
+                                </button>
+                            </div>
+
+                            <div>
+                                <button onClick={() => handleGameClick(secondGame, SelectedButton)}>
+                                    <GameSelectionButton
+                                        Game={secondGame}
+                                        Subject={subject}
+                                        BackgroundColor={backgroundColor}
+                                        BorderColor={borderColor}
+                                    />
+                                </button>
+                            </div>
+
+                            <div>
+                                <button onClick={() => handleGameClick(firstGame, SelectedButton)}>
+                                    <GameSelectionButton
+                                        Game={firstGame}
+                                        Subject={subject}
+                                        BackgroundColor={backgroundColor}
+                                        BorderColor={borderColor}
+                                    />
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
             </main>
             <Footer/>
         </div>
