@@ -1,7 +1,7 @@
 import React from "react";
 
 const AfricaMap = ({getCountryColor, handleCountryClick}) => (
-    <svg version="1.2" viewBox="0 0 1000 1001" width="1000"
+    <svg version="1.2" viewBox="0 0 1000 1001" width="1000" className="stroke-black"
          xmlns="http://www.w3.org/2000/svg">
         <path
             id="AO" name="Angola"

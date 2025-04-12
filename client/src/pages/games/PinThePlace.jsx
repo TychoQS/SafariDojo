@@ -26,14 +26,14 @@ const EuropeGeographyGame = () => {
     const [map, setMap] = useState(null);
 
     useEffect(() => {
-        const selectedMap = mapSelector();
+        const selectedMap = selectRandomMap();
         setMap(selectedMap);
 
-        const shuffled = [...gameData[selectedMap]].sort(() => 0.5 - Math.random());
-        setSelectedCountries(shuffled.slice(0, 10));
+        const gameCountries = [...gameData[selectedMap]].sort(() => 0.5 - Math.random());
+        setSelectedCountries(gameCountries.slice(0, 10));
     }, [map]);
 
-    const mapSelector = () => {
+    const selectRandomMap = () => {
         return continents[Math.floor(Math.random() * continents.length)];
     };
 
@@ -46,7 +46,7 @@ const EuropeGeographyGame = () => {
     const handleCountryClick = (countryId) => {
         if (gameFinished) return;
 
-        setScore(prev => prev + (isCorrect(countryId) ? 100 : -50))
+        setScore(prev => prev + (isCorrect(countryId) ? 5 : -3))
         setClickedCountries(prev => ({...prev, [countryId]: isCorrect(countryId) ? "correct" : "incorrect"}));
 
         if (currentCountryIndex < selectedCountries.length - 1) {
@@ -67,7 +67,7 @@ const EuropeGeographyGame = () => {
     }
 
     const restartGame = () => {
-        const selectedMap = mapSelector();
+        const selectedMap = selectRandomMap();
         setMap(selectedMap);
         const shuffled = [...gameData[selectedMap]].sort(() => 0.5 - Math.random());
         setSelectedCountries(shuffled.slice(0, 10));
@@ -86,42 +86,62 @@ const EuropeGeographyGame = () => {
 
     return (<div className="app min-h-screen flex flex-col bg-PS-main-purple ">
         <Header></Header>
-        <div className="flex items-end justify-end">
-            <Lifes ref={lifesRef}/>
+        <div className={"flex items-center w-full m-2 mt-[2rem] relative h-full"}>
+            <div className="absolute left-0">
+                {!gameFinished && (
+                    <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
+                        <div className="mb-2 mt-2 flex justify-start">
+                            <Button size="small">Back</Button>
+                        </div>
+                    </Link>
+                )}
+            </div>
+            <div className="absolute right-0">
+                <Lifes ref={lifesRef}/>
+            </div>
         </div>
         <div className="flex flex-col items-center p-4 bg-PS-main-purple min-h-screen">
             <Title>Pin The Place</Title>
 
-            {!gameFinished ? (<div
-                className="mt-2 mb-2 text-center bg-PS-light-yellow rounded-full w-70 h-20 flex flex-col justify-center items-center border-black border-4">
-                <p className="text-xl text-black">Search:
-                    <span className="font-bold text-blue-600 ml-2">
-                                {selectedCountries[currentCountryIndex].name}
-                            </span>
-                </p>
-                <p className="text-sm text-gray-600">Score: {Math.round(score)} </p>
-            </div>) : (<div className="mb-2 text-center w-full max-w-md mx-auto">
-                <h2 className="text-2xl font-bold text-green-600">¡Game Over!</h2>
-                <p className="text-xl mb-2">Final score: {Math.round(score)}</p>
-                <Button
-                    size="large"
-                    onClick={restartFull}
-                >
-                    Restart
-                </Button>
-            </div>)}
-
-            <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
-                <div className="mb-2 mt-2 relative flex justify-start">
-                    <Button size="small">Back</Button>
+            <div className="w-[100rem] max-w-6xl mx-auto">
+                <div className="relative flex justify-center items-center bg-blue-700 text-[#eaeaea] h-[4rem] border-4 border-b-0 border-black font-bold text-[1rem]">
+                    {gameFinished ? (
+                        <div className="flex flex-col justify-center items-center">
+                            <h2 className="text-2xl font-bold">Game Over!</h2>
+                            <p className="text-sm">Final score: <span className="font-bold"> {Math.round(score)}</span></p>
+                        </div>
+                    ) : (
+                        <div className="flex items-center">
+                            <p className="absolute left-0 p-[2rem]">{currentCountryIndex+1}/{selectedCountries.length}</p>
+                            <div className="flex flex-col justify-center items-center text-xl">
+                                <p>Search:</p>
+                                <p className="font-bold text-PS-dark-yellow text-[1.5rem]">{selectedCountries[currentCountryIndex].name}</p>
+                            </div>
+                            <p className="absolute right-0 text-[1rem] p-[2rem]">Score: {Math.round(score)} </p>
+                        </div>
+                    )}
                 </div>
-            </Link>
-
-            <div
-                className="flex justify-center items-center w-full max-w-6xl mx-auto bg-blue-700 border-4 border-black">
-                {MapComponent && <MapComponent
-                    getCountryColor={getCountryColor}
-                    handleCountryClick={handleCountryClick}/>}
+                <div className="flex justify-center items-center  bg-blue-400 border-4 border-t-0 border-black">
+                    {MapComponent && <MapComponent
+                        getCountryColor={getCountryColor}
+                        handleCountryClick={handleCountryClick}/>}
+                </div>
+                {gameFinished && (
+                    <div className="flex justify-center items-center mt-2">
+                        <div className="m-2">
+                            <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
+                                <Button size="small">Back</Button>
+                            </Link>
+                        </div>
+                        <div className="m-2">
+                            <Button
+                                size="large"
+                                onClick={restartFull}>
+                                Restart
+                            </Button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
         <Footer></Footer>
