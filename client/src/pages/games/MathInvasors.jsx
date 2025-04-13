@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import Lifes from "@/components/Lifes";
 import Link from "next/link";
+import {router} from "next/client";
 
 function UnsetEvents(keyPressed, keyReleased) {
     window.removeEventListener("keydown", keyPressed);
@@ -36,8 +37,9 @@ export default function MathInvasors() {
     const [Info, SetInfo] = useState("");
     const [ButtonText, SetButtonText] = useState("Start");
     const lifesRef = useRef(null);
-
-
+    const [age, setAge] = useState(null) // TODO Get Difficult when it passed to the game
+    const Difficulty = 0;
+    const Magnitude = Difficulty+1;
 
     useEffect(() => {
         if (Playing) SetGameOver(false);
@@ -64,11 +66,11 @@ export default function MathInvasors() {
         playerRef.current = new Player(canvas.width, canvas.height);
 
         function SpawnWave(CanvasWidth) {
-            const { operand1, operand2, operator, result } = GetRandomOperation();
+            const { operand1, operand2, operator, result } = GetRandomOperation(Difficulty);
             const newOperation = `${operand1} ${operator} ${operand2}`;
             SetOperation(newOperation)
             Result.current = result;
-            const EnemiesWave = [GetRandomNumber(), GetRandomNumber(), result].sort(() => Math.random() - 0.5);
+            const EnemiesWave = [GetRandomNumber(Magnitude), GetRandomNumber(Magnitude), result].sort(() => Math.random() - 0.5);
             enemiesRef.current = generateEnemies(CanvasWidth, EnemiesWave);
         }
 
