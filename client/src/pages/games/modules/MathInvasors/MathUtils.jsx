@@ -1,15 +1,42 @@
-export const GetRandomNumber = (Difficulty) => {
-    const randomNumber = Math.floor(Math.random() * 9) + 1;
-    const sign = Math.random() < 0.5 ? 1 : -1;
-    return randomNumber * sign;
+export const GetRandomNumber = (Magnitude) => {
+    let BaseNumber = Math.pow(10, Magnitude);
+    const RandomFactor = Math.floor(Math.random() * 9) + 1;
+    const RandomOffset = Math.floor(Math.random() * 9) + 1;
+    const Sign = Math.random() < 0.5 ? 1 : -1;
+    const RandomNumber = (BaseNumber * RandomFactor) + RandomOffset;
+    return RandomNumber * Sign;
 }
 
-export const GetRandomOperation = (Difficulty) => {
+function GetNumbersMagnitude(DifficultyLevel) {
+    return  DifficultyLevel+1;
+}
+
+function GetOperatorRange(DifficultyLevel) {
+    let range;
+    switch(DifficultyLevel) {
+        case 0:
+            range = 2;
+            break;
+        case 1:
+            range = 3;
+            break;
+        default:
+            range = 4;
+            break;
+    }
+    return range;
+}
+
+export const GetRandomOperation = (DifficultyLevel) => {
+    let Magnitude = GetNumbersMagnitude(DifficultyLevel);
+    let OperatorRange = GetOperatorRange(DifficultyLevel);
     const operators = ["+", "-", "*", "/"]
-    let operand1 = GetRandomNumber();
+    let operand1 = GetRandomNumber(Magnitude);
+    console.log(DifficultyLevel);
+    console.log(OperatorRange);
     let operand2;
-    const operator = operators[Math.floor(Math.random() * 4)]
-    if (operator !== "/") operand2 = GetRandomNumber();
+    const operator = operators[Math.floor(Math.random() * OperatorRange)]
+    if (operator !== "/") operand2 = GetRandomNumber(Magnitude);
     let result = operand1
     switch (operator) {
         case "+":
