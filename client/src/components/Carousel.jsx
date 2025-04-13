@@ -26,7 +26,7 @@ const Carousel = ({ carouselData, difficulty}) => {
             alert("You must be logged in to play this game");
             router.push("/LogIn");
         } else {
-            router.push({pathname: "/QuizzPreview", query: {subject: subject, Game: game, Age: difficulty}});
+            router.push({pathname: "/QuizzPreview", query: {Subject: subject, Game: game, Age: difficulty}});
         }
     };
 
