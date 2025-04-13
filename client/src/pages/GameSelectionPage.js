@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import Lifes from "@/components/Lifes";
-import GameSelectionButton from '@/components/GameSelectorButton';
 import animals from "../../../database/jsondata/Subject.json";
 import AgeSelectorButton from "@/components/AgeSelectorButton";
 import Footer from "@/components/Footer";
@@ -8,6 +7,7 @@ import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {useAuth} from "@/pages/context/AuthContext";
 import {cherryBomb} from "@/styles/fonts";
+import Carousel from "@/components/Carousel";
 
 function GameSelectionPage() {
     const {isLoggedIn} = useAuth();
@@ -37,20 +37,18 @@ function GameSelectionPage() {
     const firstGame = subjectData?.firstGame;
     const secondGame = subjectData?.secondGame;
 
-    const [SelectedButton, setSelectedButton] = useState("easy");
+    const [selectedButton, setSelectedButton] = useState("easy");
 
     const Click = (Index) => {
         setSelectedButton(Index);
     };
 
-    const handleGameClick = (game, age) => {
-        if (!isLoggedIn && (game !== firstGame || age !== "easy")) {
-            alert("You must be logged in to play this game");
-            router.push("/LogIn");
-        } else {
-            router.push({pathname: "/QuizzPreview", query: {Subject: subject, Game: game, Age: age}});
-        }
-    };
+
+    const carouselData = [
+        {id: 1, game: firstGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
+        {id: 2, game: secondGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
+        {id: 3, game: firstGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
+    ]
 
     return (
             <div className={"app min-h-screen flex flex-col bg-PS-main-purple relative"}>
@@ -67,24 +65,24 @@ function GameSelectionPage() {
                             <div onClick={() => Click("easy")}>
                                 <AgeSelectorButton
                                     Age={"Easy"}
-                                    BackgroundColor={SelectedButton === "easy" ? borderColor : backgroundColor}
-                                    BorderColor={SelectedButton === "easy" ? backgroundColor : borderColor}
+                                    BackgroundColor={selectedButton === "easy" ? borderColor : backgroundColor}
+                                    BorderColor={selectedButton === "easy" ? backgroundColor : borderColor}
                                 />
                             </div>
 
                             <div onClick={() => Click("medium")}>
                                 <AgeSelectorButton
                                     Age={"Medium"}
-                                    BackgroundColor={SelectedButton === "medium" ? borderColor : backgroundColor}
-                                    BorderColor={SelectedButton === "medium" ? backgroundColor : borderColor}
+                                    BackgroundColor={selectedButton === "medium" ? borderColor : backgroundColor}
+                                    BorderColor={selectedButton === "medium" ? backgroundColor : borderColor}
                                 />
                             </div>
 
                             <div onClick={() => Click("hard")}>
                                 <AgeSelectorButton
                                     Age={"Hard"}
-                                    BackgroundColor={SelectedButton === "hard" ? borderColor : backgroundColor}
-                                    BorderColor={SelectedButton === "hard" ? backgroundColor : borderColor}
+                                    BackgroundColor={selectedButton === "hard" ? borderColor : backgroundColor}
+                                    BorderColor={selectedButton === "hard" ? backgroundColor : borderColor}
                                 />
                             </div>
                         </div>
@@ -93,42 +91,11 @@ function GameSelectionPage() {
                             <div className="flex-grow h-px bg-black opacity-100"></div>
                             <h2 className={`${cherryBomb.className} font-bold text-[4rem] text-black ml-[2rem] mr-[2rem]`}>Games Catalog</h2>
                             <div className="flex-grow h-px bg-black opacity-100"></div>
-
                         </div>
 
                         <div className={"flex flex-row justify-evenly"}>
-                            <div>
-                                <button onClick={() => handleGameClick(firstGame, SelectedButton)}>
-                                    <GameSelectionButton
-                                        Game={firstGame}
-                                        Subject={subject}
-                                        BackgroundColor={backgroundColor}
-                                        BorderColor={borderColor}
-                                    />
-                                </button>
-                            </div>
-
-                            <div>
-                                <button onClick={() => handleGameClick(secondGame, SelectedButton)}>
-                                    <GameSelectionButton
-                                        Game={secondGame}
-                                        Subject={subject}
-                                        BackgroundColor={backgroundColor}
-                                        BorderColor={borderColor}
-                                    />
-                                </button>
-                            </div>
-
-                            <div>
-                                <button onClick={() => handleGameClick(firstGame, SelectedButton)}>
-                                    <GameSelectionButton
-                                        Game={firstGame}
-                                        Subject={subject}
-                                        BackgroundColor={backgroundColor}
-                                        BorderColor={borderColor}
-                                    />
-                                </button>
-                            </div>
+                            <Carousel
+                                carouselData={carouselData} difficulty={selectedButton}/>
                         </div>
                     </div>
             </main>
