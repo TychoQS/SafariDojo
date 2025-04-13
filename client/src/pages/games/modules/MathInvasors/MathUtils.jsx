@@ -6,9 +6,10 @@ export const GetRandomNumber = (Difficulty) => {
 
 export const GetRandomOperation = (Difficulty) => {
     const operators = ["+", "-", "*", "/"]
-    const operand1 = GetRandomNumber();
-    let operand2 = GetRandomNumber();
-    const operator = operators[Math.floor(Math.random() * 3)]
+    let operand1 = GetRandomNumber();
+    let operand2;
+    const operator = operators[Math.floor(Math.random() * 4)]
+    if (operator !== "/") operand2 = GetRandomNumber();
     let result = operand1
     switch (operator) {
         case "+":
@@ -21,12 +22,19 @@ export const GetRandomOperation = (Difficulty) => {
             result = operand1 * operand2;
             break;
         case "/":
-            if (operand2 === 0) {
-                result = operand1;
-                operand2 = 1;
-            } else {
-                result = operand1 / operand2;
+            const absOperand1 = Math.abs(operand1);
+            const divisors = [];
+            for (let i = 1; i <= absOperand1; i++) {
+                if (absOperand1 % i === 0) {
+                    divisors.push(i);
+                    divisors.push(-i);
+                }
             }
+            operand2 = divisors[Math.floor(Math.random() * divisors.length)];
+            if (operand2 === 0) {
+                operand2 = 1;
+            }
+            result = operand1 / operand2;
             break;
     }
     return {
