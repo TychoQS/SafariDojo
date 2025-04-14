@@ -47,10 +47,9 @@ export default function MathInvasors() {
 
     useEffect(() => {
         if (Playing) {
-            SetGameOver(false);
-            SetWin(false);
             Round = 1;
             enemiesRef.current = [];
+            missilesRef.current = [];
         }
     }, [Playing]);
 
@@ -94,6 +93,9 @@ export default function MathInvasors() {
     }
 
     useEffect(() => {
+        console.log("Playing" , Playing);
+        console.log("GameOver" , GameOver);
+        console.log("========================");
         if (!Playing || GameOver) return;
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
@@ -261,7 +263,13 @@ export default function MathInvasors() {
     );
 
     function Start() {
+        // Need to initializate full state here
+        // Otherwise, some Restarts will not work
+        // Due to some useEffect being executed
+        // Before others
         SetScore(0)
+        SetGameOver(false);
+        SetWin(false);
         SetPlaying(true);
     }
 }
