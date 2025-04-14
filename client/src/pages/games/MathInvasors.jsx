@@ -23,6 +23,8 @@ function SetEvents(keyPressed, keyReleased) {
 
 const MaxRounds = 11;
 const RestartButtonText = "Restart";
+
+
 export default function MathInvasors() {
     const canvasRef = useRef(null);
     const playerRef = useRef(null);
@@ -35,6 +37,7 @@ export default function MathInvasors() {
     let Result = useRef(0);
     const [Playing, SetPlaying] = useState(false);
     const [GameOver, SetGameOver] = useState(false);
+    const [LifesAvailable, SetLifesAvailable] = useState(true);
     const [Win, SetWin] = useState(false);
     const animationFrameRef = useRef(null);
     const [Info, SetInfo] = useState("");
@@ -71,7 +74,28 @@ export default function MathInvasors() {
         }
     }, [Operation, Win]);
 
+    useEffect(() => {
+        const NoLivesMessage = "You've run out of lives!";
+        const GameOverMessage = "GAME OVER";
+        if (!LifesAvailable) {
+            SetScore(0)
+            SetInfo(GameOverMessage + ":" + NoLivesMessage)
+            SetButtonText("Life Store")
+        } else {
+            Start();
+        }
+    }, [LifesAvailable]);
 
+    function IfNotLivesGameOver(lifesRef, SetGameOver, SetPlaying, keyPressed, keyReleased, animationFrameRef, ctx, canvas) {
+        if (lifesRef.current.getRemainingLives() === 0) {
+            SetGameOver(true);
+            SetPlaying(false);
+            UnsetEvents(keyPressed, keyReleased);
+            cancelAnimationFrame(animationFrameRef.current);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            SetLifesAvailable(false);
+        }
+    }
     function IfAllEnemiesPassYouGameOver(keyPressed, keyReleased, ctx, canvas) {
         if (enemiesRef.current.length === 0) {
             SetGameOver(true);
@@ -93,10 +117,8 @@ export default function MathInvasors() {
     }
 
     useEffect(() => {
-        console.log("Playing" , Playing);
-        console.log("GameOver" , GameOver);
-        console.log("========================");
         if (!Playing || GameOver) return;
+        if (!LifesAvailable) return;
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
         canvas.width = CanvasWidth;
@@ -203,7 +225,7 @@ export default function MathInvasors() {
                 enemiesRef.current = [];
                 SpawnWave(canvas.width);
             } else if (hit) {
-                if (lifesRef.current) {lifesRef.current.loseLife();}
+                if (lifesRef.current) { lifesRef.current.loseLife();}
             }
         };
 
@@ -216,7 +238,7 @@ export default function MathInvasors() {
             animationFrameRef.current = requestAnimationFrame(animate);
             IfAllRoundsDoneWin(keyPressed, keyReleased, ctx, canvas);
             IfAllEnemiesPassYouGameOver(keyPressed, keyReleased, ctx, canvas);
-
+            IfNotLivesGameOver(lifesRef, SetGameOver, SetPlaying, keyPressed, keyReleased, animationFrameRef, ctx, canvas);
         };
         animate();
 
@@ -250,7 +272,7 @@ export default function MathInvasors() {
                         <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Maths"}}}>
                             <Button size="small" >Back</Button>
                         </Link>
-                        {!Playing && (
+                        {!Playing && LifesAvailable && (
                             <Button id={"MainButton"} size={"large"} onClick={Start}>
                                 {ButtonText}
                             </Button>
@@ -263,7 +285,7 @@ export default function MathInvasors() {
     );
 
     function Start() {
-        // Need to initializate full state here
+        // Need to initialize full state here
         // Otherwise, some Restarts will not work
         // Due to some useEffect being executed
         // Before others
