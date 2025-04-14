@@ -87,6 +87,7 @@ export default function MathInvasors() {
     }, [LifesAvailable]);
 
     function IfNotLivesGameOver(lifesRef, SetGameOver, SetPlaying, keyPressed, keyReleased, animationFrameRef, ctx, canvas) {
+        if (!lifesRef.current) return;
         if (lifesRef.current.getRemainingLives() === 0) {
             SetGameOver(true);
             SetPlaying(false);
