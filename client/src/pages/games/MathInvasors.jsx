@@ -46,7 +46,12 @@ export default function MathInvasors() {
     let Round = 1
 
     useEffect(() => {
-        if (Playing) SetGameOver(false);
+        if (Playing) {
+            SetGameOver(false);
+            SetWin(false);
+            Round = 1;
+            enemiesRef.current = [];
+        }
     }, [Playing]);
 
     useEffect(() => {
@@ -196,7 +201,6 @@ export default function MathInvasors() {
                 enemiesRef.current = [];
                 SpawnWave(canvas.width);
             } else if (hit) {
-                console.log(lifesRef.current)
                 if (lifesRef.current) {lifesRef.current.loseLife();}
             }
         };
