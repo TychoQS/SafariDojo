@@ -5,12 +5,10 @@ import AgeSelectorButton from "@/components/AgeSelectorButton";
 import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {useAuth} from "@/pages/context/AuthContext";
 import {cherryBomb} from "@/styles/fonts";
 import Carousel from "@/components/Carousel";
 
 function GameSelectionPage() {
-    const {isLoggedIn} = useAuth();
     const router = useRouter();
     const [subject, setSubject] = useState(null);
     const [subjectData, setSubjectData] = useState(null);
@@ -60,7 +58,7 @@ function GameSelectionPage() {
                     <img className={"h-46 w-40"} src={selectGameIcon} alt={"platypus"}/>
                 </div>
                 <main className={"flex flex-grow justify-center"}>
-                    <div className="w-[90%] bg-[#E4EFED] rounded-sm">
+                    <div className="w-[90%] bg-[#E4EFED] rounded-sm rounded-b-none">
                         <div className={"flex flex-row justify-evenly mb-8 mt-8"}>
                             <div onClick={() => Click("easy")}>
                                 <AgeSelectorButton
