@@ -1,3 +1,4 @@
+const ShootingSfxSource = "http://localhost:8080/sfx/shoot.wav";
 export default class Missile {
     constructor(x, y) {
         const horizontalOffset = 15;
@@ -9,6 +10,7 @@ export default class Missile {
         this.Radius = 5;
         this.Speed = 6;
         this.Color = "purple";
+        new Audio(ShootingSfxSource).play();
     }
 
     Move() {
