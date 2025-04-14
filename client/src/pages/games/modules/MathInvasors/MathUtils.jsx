@@ -7,10 +7,6 @@ export const GetRandomNumber = (Magnitude) => {
     return RandomNumber * Sign;
 }
 
-function GetNumbersMagnitude(DifficultyLevel) {
-    return  DifficultyLevel+1;
-}
-
 function GetOperatorRange(DifficultyLevel) {
     let range;
     switch(DifficultyLevel) {
@@ -28,7 +24,7 @@ function GetOperatorRange(DifficultyLevel) {
 }
 
 export const GetRandomOperation = (DifficultyLevel) => {
-    let Magnitude = GetNumbersMagnitude(DifficultyLevel);
+    let Magnitude = DifficultyLevel;
     let OperatorRange = GetOperatorRange(DifficultyLevel);
     const operators = ["+", "-", "*", "/"]
     let operand1 = GetRandomNumber(Magnitude);
