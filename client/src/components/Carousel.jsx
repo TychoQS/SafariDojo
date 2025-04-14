@@ -51,7 +51,7 @@ const Carousel = ({ carouselData, difficulty}) => {
 	            <g><polygon points="6.8,23.7 5.4,22.3 15.7,12 5.4,1.7 6.8,0.3 18.5,12"/></g>
             </svg>
 
-            <div className={"flex justify-between bg-blue-700 w-[80%]"}>
+            <div className={"flex justify-between w-[80%]"}>
                 <div className={"flex"}>
                     {carouselData.slice(getPrevious(), getPrevious()+1).map(() => (
                         <div className={""}>
@@ -66,7 +66,7 @@ const Carousel = ({ carouselData, difficulty}) => {
                         </div>
                     ))}
                 </div>
-                <div className={"flex pt-[4rem] h-[35rem]"}>
+                <div className={"flex pt-[4rem] h-[37rem]"}>
                     {carouselData.slice(currentIndex, currentIndex+1).map(() => (
                         <div className={""}>
                             <button onClick={() => handleGameClick(game)}>
