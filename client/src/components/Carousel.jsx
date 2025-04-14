@@ -12,13 +12,20 @@ const Carousel = ({ carouselData, difficulty}) => {
     const backgroundColor = carouselData[currentIndex].backgroundColor;
     const borderColor = carouselData[currentIndex].borderColor;
 
+    const getNext = () => {
+        return (currentIndex + 1) % carouselData.length;
+    }
+
+    const getPrevious = () => {
+        return (currentIndex === 0) ? carouselData.length - 1 : Math.abs(currentIndex - 1) % carouselData.length;
+    }
+
     const nextSlide = () => {
-        setCurrentIndex((currentIndex + 1) % carouselData.length);
+        setCurrentIndex(getNext());
     }
 
     const prevSlide = () => {
-        setCurrentIndex(Math.abs(currentIndex - 1) % carouselData.length);
-        if (currentIndex === 0) setCurrentIndex(carouselData.length - 1);
+        setCurrentIndex(getPrevious());
     }
 
     const handleGameClick = (game) => {
@@ -31,7 +38,7 @@ const Carousel = ({ carouselData, difficulty}) => {
     };
 
     return (
-        <div className={"flex justify-center relative bg-green-500 w-[90%]"}>
+        <div className={"flex justify-center relative w-full"}>
             <svg fill="#000000" height="2rem" width="3rem" version="1.1" xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 24 24" className={"cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2"}
                 onClick={prevSlide}>
@@ -44,19 +51,49 @@ const Carousel = ({ carouselData, difficulty}) => {
 	            <g><polygon points="6.8,23.7 5.4,22.3 15.7,12 5.4,1.7 6.8,0.3 18.5,12"/></g>
             </svg>
 
-            <div className={"flex"}>
-                {carouselData.slice(currentIndex, currentIndex+1).map(() => (
-                    <div className={""}>
-                        <button onClick={() => handleGameClick(game)}>
-                            <GameSelectionButton
-                                Game={game}
-                                Subject={subject}
-                                BackgroundColor={backgroundColor}
-                                BorderColor={borderColor}
-                            />
-                        </button>
-                    </div>
-                ))}
+            <div className={"flex justify-between bg-blue-700 w-[80%]"}>
+                <div className={"flex"}>
+                    {carouselData.slice(getPrevious(), getPrevious()+1).map(() => (
+                        <div className={""}>
+                            <button onClick={() => handleGameClick(game)}>
+                                <GameSelectionButton
+                                    Game={carouselData[getPrevious()].game}
+                                    Subject={subject}
+                                    BackgroundColor={backgroundColor}
+                                    BorderColor={borderColor}
+                                />
+                            </button>
+                        </div>
+                    ))}
+                </div>
+                <div className={"flex pt-[4rem] h-[35rem]"}>
+                    {carouselData.slice(currentIndex, currentIndex+1).map(() => (
+                        <div className={""}>
+                            <button onClick={() => handleGameClick(game)}>
+                                <GameSelectionButton
+                                    Game={carouselData[currentIndex].game}
+                                    Subject={subject}
+                                    BackgroundColor={backgroundColor}
+                                    BorderColor={borderColor}
+                                />
+                            </button>
+                        </div>
+                    ))}
+                </div>
+                <div>
+                    {carouselData.slice(getNext(), getNext()+1).map(() => (
+                        <div className={""}>
+                            <button onClick={() => handleGameClick(game)}>
+                                <GameSelectionButton
+                                    Game={carouselData[getNext()].game}
+                                    Subject={subject}
+                                    BackgroundColor={backgroundColor}
+                                    BorderColor={borderColor}
+                                />
+                            </button>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
