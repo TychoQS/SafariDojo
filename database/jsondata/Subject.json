@@ -8,7 +8,8 @@
     "backgroundColor": "#FDFFCE",
     "borderColor": "#EFF66E",
     "firstGame": "Crossword",
-    "secondGame": "Chinese Scribblenauts"
+    "secondGame": "Chinese Scribblenauts",
+    "thirdGame": "Mahjong"
   },
   {
     "subjectName": "Geography",
@@ -19,7 +20,8 @@
     "backgroundColor": "#E8B1EC",
     "borderColor": "#ED6EF6",
     "firstGame": "Pin the place",
-    "secondGame": "Detective Mr WorldWide"
+    "secondGame": "Detective Mr WorldWide",
+    "thirdGame": "Where Is My Country?"
   },
   {
     "subjectName": "Maths",
@@ -30,7 +32,8 @@
     "backgroundColor": "#9BD6EF",
     "borderColor": "#1BA8E4",
     "firstGame": "Math Invasors",
-    "secondGame": "Crash Stopper"
+    "secondGame": "Cross Math",
+    "thirdGame": "Mistery Doors"
   },
   {
     "subjectName": "Science",
@@ -41,7 +44,8 @@
     "backgroundColor": "#C9F1D2",
     "borderColor": "#6EF68B",
     "firstGame": "Call of the clan",
-    "secondGame": "Snake maze"
+    "secondGame": "Snake maze",
+    "thirdGame": "Memory"
   },
   {
     "subjectName": "Art",
@@ -52,6 +56,7 @@
     "backgroundColor": "#F2C1BB",
     "borderColor": "#F67C6E",
     "firstGame": "Detective Lupin",
-    "secondGame": "Make the film"
+    "secondGame": "Make the film",
+    "thirdGame": "Domino Master"
   }
 ]

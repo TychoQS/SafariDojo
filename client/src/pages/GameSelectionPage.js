@@ -34,6 +34,7 @@ function GameSelectionPage() {
     const borderColor = subjectData?.borderColor;
     const firstGame = subjectData?.firstGame;
     const secondGame = subjectData?.secondGame;
+    const thirdGame = subjectData?.thirdGame;
 
     const [selectedButton, setSelectedButton] = useState("easy");
 
@@ -45,7 +46,7 @@ function GameSelectionPage() {
     const carouselData = [
         {id: 1, game: firstGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
         {id: 2, game: secondGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
-        {id: 3, game: firstGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
+        {id: 3, game: thirdGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
     ]
 
     return (

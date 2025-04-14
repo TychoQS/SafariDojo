@@ -8,7 +8,6 @@ const Carousel = ({ carouselData, difficulty}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const subject = carouselData[currentIndex].subject;
-    const game = carouselData[currentIndex].game;
     const backgroundColor = carouselData[currentIndex].backgroundColor;
     const borderColor = carouselData[currentIndex].borderColor;
 
@@ -20,6 +19,10 @@ const Carousel = ({ carouselData, difficulty}) => {
         return (currentIndex === 0) ? carouselData.length - 1 : Math.abs(currentIndex - 1) % carouselData.length;
     }
 
+    const currentGame = carouselData[currentIndex].game;
+    const previousGame = carouselData[getPrevious()].game;
+    const nextGame = carouselData[getNext()].game;
+
     const nextSlide = () => {
         setCurrentIndex(getNext());
     }
@@ -28,12 +31,12 @@ const Carousel = ({ carouselData, difficulty}) => {
         setCurrentIndex(getPrevious());
     }
 
-    const handleGameClick = (game) => {
-        if (!isLoggedIn && (game !== carouselData[0].game || difficulty !== "easy")) {
+    const handleGameClick = (currentGame) => {
+        if (!isLoggedIn && (currentGame !== carouselData[0].game || difficulty !== "easy")) {
             alert("You must be logged in to play this game");
             router.push("/LogIn");
         } else {
-            router.push({pathname: "/QuizzPreview", query: {Subject: subject, Game: game, Age: difficulty}});
+            router.push({pathname: "/QuizzPreview", query: {Subject: subject, Game: currentGame, Age: difficulty}});
         }
     };
 
@@ -55,7 +58,7 @@ const Carousel = ({ carouselData, difficulty}) => {
                 <div className={"flex"}>
                     {carouselData.slice(getPrevious(), getPrevious()+1).map(() => (
                         <div className={""}>
-                            <button onClick={() => handleGameClick(game)}>
+                            <button onClick={() => handleGameClick(previousGame)}>
                                 <GameSelectionButton
                                     Game={carouselData[getPrevious()].game}
                                     Subject={subject}
@@ -69,7 +72,7 @@ const Carousel = ({ carouselData, difficulty}) => {
                 <div className={"flex pt-[4rem] h-[37rem]"}>
                     {carouselData.slice(currentIndex, currentIndex+1).map(() => (
                         <div className={""}>
-                            <button onClick={() => handleGameClick(game)}>
+                            <button onClick={() => handleGameClick(currentGame)}>
                                 <GameSelectionButton
                                     Game={carouselData[currentIndex].game}
                                     Subject={subject}
@@ -83,7 +86,7 @@ const Carousel = ({ carouselData, difficulty}) => {
                 <div>
                     {carouselData.slice(getNext(), getNext()+1).map(() => (
                         <div className={""}>
-                            <button onClick={() => handleGameClick(game)}>
+                            <button onClick={() => handleGameClick(nextGame)}>
                                 <GameSelectionButton
                                     Game={carouselData[getNext()].game}
                                     Subject={subject}
