@@ -32,8 +32,6 @@ export const GetRandomOperation = (DifficultyLevel) => {
     let OperatorRange = GetOperatorRange(DifficultyLevel);
     const operators = ["+", "-", "*", "/"]
     let operand1 = GetRandomNumber(Magnitude);
-    console.log(DifficultyLevel);
-    console.log(OperatorRange);
     let operand2;
     const operator = operators[Math.floor(Math.random() * OperatorRange)]
     if (operator !== "/") operand2 = GetRandomNumber(Magnitude);
