@@ -25,6 +25,7 @@ const MaxRounds = 11;
 const RestartButtonText = "Restart";
 
 
+const RightAnswerPoints = 5;
 export default function MathInvasors() {
     const canvasRef = useRef(null);
     const playerRef = useRef(null);
@@ -212,7 +213,7 @@ export default function MathInvasors() {
                     if (missileIsInEnemySquare()) {
                         hit = true;
                         if (enemy.Number === Result.current) {
-                            SetScore((prevScore) => prevScore + 1);
+                            SetScore((prevScore) => prevScore + RightAnswerPoints);
                             hitCorrectEnemy = true
                         }
                         return false;
