@@ -21,6 +21,8 @@ function SetEvents(keyPressed, keyReleased) {
     window.addEventListener("keyup", keyReleased);
 }
 
+const MaxRounds = 11;
+const RestartButtonText = "Restart";
 export default function MathInvasors() {
     const canvasRef = useRef(null);
     const playerRef = useRef(null);
@@ -33,6 +35,7 @@ export default function MathInvasors() {
     let Result = useRef(0);
     const [Playing, SetPlaying] = useState(false);
     const [GameOver, SetGameOver] = useState(false);
+    const [Win, SetWin] = useState(false);
     const animationFrameRef = useRef(null);
     const [Info, SetInfo] = useState("");
     const [ButtonText, SetButtonText] = useState("Start");
@@ -40,22 +43,50 @@ export default function MathInvasors() {
     const [age, setAge] = useState(null) // TODO Get Difficult when it passed to the game
     const Difficulty = 0;
     const Magnitude = Difficulty+1;
+    let Round = 1
 
     useEffect(() => {
         if (Playing) SetGameOver(false);
     }, [Playing]);
 
     useEffect(() => {
+        const GameOverMessage = "GAME OVER";
         if (GameOver) {
-            SetInfo("GAME OVER")
-            SetButtonText("Restart")
+            SetInfo(GameOverMessage)
+            SetButtonText(RestartButtonText)
         }
     }, [GameOver]);
 
     useEffect(() => {
-        SetInfo(Operation ? `Current Operation: ${Operation}` : "");
-    }, [Operation]);
+        const WinMessage = "You won!";
+        if (Win) {
+            SetInfo(WinMessage)
+            SetButtonText(RestartButtonText)
+        } else {
+            SetInfo(Operation ? `Current Operation: ${Operation}` : "");
+        }
+    }, [Operation, Win]);
 
+
+    function IfAllEnemiesPassYouGameOver(keyPressed, keyReleased, ctx, canvas) {
+        if (enemiesRef.current.length === 0) {
+            SetGameOver(true);
+            SetPlaying(false);
+            UnsetEvents(keyPressed, keyReleased);
+            cancelAnimationFrame(animationFrameRef.current);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    function IfAllRoundsDoneWin(keyPressed, keyReleased, ctx, canvas) {
+        if (Round === MaxRounds) {
+            SetWin(true);
+            SetPlaying(false);
+            UnsetEvents(keyPressed, keyReleased);
+            cancelAnimationFrame(animationFrameRef.current);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
 
     useEffect(() => {
         if (!Playing || GameOver) return;
@@ -161,6 +192,7 @@ export default function MathInvasors() {
                 return !hit;
             });
             if (hit && hitCorrectEnemy) {
+                Round++;
                 enemiesRef.current = [];
                 SpawnWave(canvas.width);
             } else if (hit) {
@@ -176,12 +208,9 @@ export default function MathInvasors() {
             animateEnemies();
             CheckCollisions();
             animationFrameRef.current = requestAnimationFrame(animate);
-            if (enemiesRef.current.length === 0) {
-                SetGameOver(true);
-                SetPlaying(false);
-                UnsetEvents(keyPressed, keyReleased);
-                cancelAnimationFrame(animationFrameRef.current);
-            }
+            IfAllRoundsDoneWin(keyPressed, keyReleased, ctx, canvas);
+            IfAllEnemiesPassYouGameOver(keyPressed, keyReleased, ctx, canvas);
+
         };
         animate();
 
@@ -216,7 +245,7 @@ export default function MathInvasors() {
                             <Button size="small" >Back</Button>
                         </Link>
                         {!Playing && (
-                            <Button id={"MainButton"} size={"small"} onClick={Start}>
+                            <Button id={"MainButton"} size={"large"} onClick={Start}>
                                 {ButtonText}
                             </Button>
                         )}
@@ -229,7 +258,6 @@ export default function MathInvasors() {
 
     function Start() {
         SetScore(0)
-        SetGameOver(false);
         SetPlaying(true);
     }
 }
