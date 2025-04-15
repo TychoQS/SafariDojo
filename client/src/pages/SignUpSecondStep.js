@@ -25,8 +25,8 @@ const SignUpSecondStep = () => {
         const HashedPassword = await hashPassword(Password);
         const userData = {
             ...PreviousData,
-            password: Password,
-            profilePhoto: "Sheep"
+            Password: HashedPassword,
+            ProfilePhoto: "Sheep"
         };
         try {
             const response = await fetch("http://localhost:8080/api/register", {
