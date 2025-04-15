@@ -41,19 +41,19 @@ app.post("/api/signup", (req, res) => {
 });
 
 app.post('/api/register', (req, res) => {
-    const { name, email, password, profilePhoto } = req.body;
-    console.log(email + name + profilePhoto);
-    const query = 'INSERT INTO users (name, email, password, profilePhoto) VALUES (?, ?, ?, ?)';
-    connection.query(query, [name, email, password, profilePhoto], (err, result) => {
+    const { Name, Email, Password, ProfilePhoto } = req.body;
+    console.log(Email + Name + ProfilePhoto);
+    const query = 'INSERT INTO Users (Name, Email, Password) VALUES (?, ?, ?)';
+    connection.query(query, [Name, Email, Password], (err, result) => {
         if (err) {
             console.error('Error al registrar el usuario:', err);
             return res.status(500).json({ message: 'Error al registrar el usuario' });
         }
         res.status(201).json({
             message: 'Usuario registrado exitosamente',
-            name: name,
-            email: email,
-            profilePhoto: profilePhoto
+            name: Name,
+            email: Email,
+            profilePhoto: ProfilePhoto
         });
     });
 });
