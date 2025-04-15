@@ -43,8 +43,8 @@ const SignUpFirstStep = () => {
         }
 
         const userData = {
-            name: FullName,
-            email: UserEmail,
+            Name: FullName,
+            Email: UserEmail,
         };
         sessionStorage.setItem('signupData', JSON.stringify(userData));
         router.push("/SignUpSecondStep");
