@@ -1,12 +1,18 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
-import users from "../../../database/jsondata/Users.json";
 import {useRouter} from "next/router";
 
 const SignUpFirstStep = () => {
     const router = useRouter();
+
+    useEffect(() => {
+        const emailInput = document.getElementById("UserEmail");
+        if (emailInput) {
+            emailInput.addEventListener("input", () => clearErrors(emailInput));
+        }
+    }, []);
 
     const clearErrors = (emailInput) => {
         const existingError = document.getElementById("custom-email-error");
@@ -16,29 +22,34 @@ const SignUpFirstStep = () => {
         emailInput.classList.remove('border-red-500');
     };
 
-    function handleUsedEmail() {
+    function handleUsedEmail(message) {
         const emailInput = document.getElementById("UserEmail");
-        emailInput.addEventListener("input", () => clearErrors(emailInput));
         const parentDiv = emailInput.closest('div');
         const existingError = document.getElementById("custom-email-error");
         if (existingError) {
-            existingError.textContent = "This email is already taken! Try to log in.";
+            existingError.textContent = message;
         } else {
-            console.log("PASE POR AQUI")
             const errorElement = document.createElement('p');
             errorElement.id = "custom-email-error";
-            errorElement.textContent = "This email is already taken! Try to log in.";
+            errorElement.textContent = message;
             errorElement.className = "text-red-500 text-sm mt-1 text-center";
             emailInput.classList.add('border-red-500');
             parentDiv.appendChild(errorElement);
         }
     }
 
-    const handleSubmit = (formData) => {
-        const { FullName, UserEmail } = formData;
-        const userExists = users.find(user => user.email === UserEmail);
-        if (userExists) {
-            handleUsedEmail();
+    const handleSubmit = async (formData) => {
+        const {FullName, UserEmail} = formData;
+        const Response = await fetch("http://localhost:8080/api/email", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({Email: UserEmail}),
+        });
+        if (!Response.ok) {
+            const ResponseMessage = await Response.json()
+            handleUsedEmail(ResponseMessage.message);
             return;
         }
 
