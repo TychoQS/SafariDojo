@@ -4,8 +4,6 @@ import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
 import { useRouter } from "next/router";
 import { useAuth } from "@/pages/context/AuthContext";
-import users from "../../../database/jsondata/Users.json";
-import {copyNextErrorCode} from "next/dist/lib/error-telemetry-utils";
 
 
 const LogIn = () => {

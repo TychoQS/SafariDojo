@@ -2,8 +2,6 @@ import React, {useRef} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
-import users from "../../../database/jsondata/Users.json";
-import logIn from "@/pages/LogIn";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useRouter} from "next/router";
 

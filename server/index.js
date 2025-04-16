@@ -6,7 +6,6 @@ const { readFile, writeFile } = require('fs');
 const {join} = require("node:path");
 
 
-const dbFilePath = join(__dirname, '../database/jsondata/Users.json');
 const dbConnection = require('./database');
 const {query} = require("express");
 
