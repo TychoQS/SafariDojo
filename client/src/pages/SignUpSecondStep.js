@@ -40,7 +40,7 @@ const SignUpSecondStep = () => {
             const data = await response.json();
             if (response.ok) {
                 const token = `fakeTokenForUser-${Date.now()}`;
-                logIn(token, userData);
+                logIn(token, data);
                 router.push("/");
             } else {
                 console.error("Error en la respuesta:", data.message);
