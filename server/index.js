@@ -87,6 +87,19 @@ app.post('/api/email', (req, res) => {
     })
 })
 
+app.post('/api/update-profile-image', (req, res) => {
+    const { email, profilePhoto } = req.body;
+    const Query = 'UPDATE Users SET ProfileIcon = ? WHERE Email = ?';
+    dbConnection.query(Query, [profilePhoto, email], (err, result) => {
+        if (err) {
+            return res.status(500).json({message: 'Something went wrong'});
+        } else {
+            console.log("ni tan mal")
+            return res.status(200).json({ message: 'Profile updated successfully' });
+        }
+    })
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
