@@ -48,14 +48,12 @@ export default function EditProfile() {
 
     const handleSave = async () => {
         if (!error && name.trim()) {
-            const response = await fetch('/api/UpdateNameProfile', {
+            const response = await fetch('http://localhost:8080/api/update-profile-data', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     email: user?.email,
-                    name,
+                    name: name,
                 }),
             });
 
