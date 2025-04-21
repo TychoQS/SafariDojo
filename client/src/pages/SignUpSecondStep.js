@@ -2,8 +2,6 @@ import React, {useRef} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
-import users from "../../../database/jsondata/Users.json";
-import logIn from "@/pages/LogIn";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useRouter} from "next/router";
 
@@ -25,11 +23,11 @@ const SignUpSecondStep = () => {
         const HashedPassword = await hashPassword(Password);
         const userData = {
             ...PreviousData,
-            password: Password,
-            profilePhoto: "Sheep"
+            Password: HashedPassword,
+            ProfilePhoto: "Sheep"
         };
         try {
-            const response = await fetch("http://localhost:8080/api/signup", {
+            const response = await fetch("http://localhost:8080/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -40,7 +38,7 @@ const SignUpSecondStep = () => {
             const data = await response.json();
             if (response.ok) {
                 const token = `fakeTokenForUser-${Date.now()}`;
-                logIn(token, userData);
+                logIn(token, data);
                 router.push("/");
             } else {
                 console.error("Error en la respuesta:", data.message);

@@ -4,26 +4,42 @@ import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
 import { useRouter } from "next/router";
 import { useAuth } from "@/pages/context/AuthContext";
-import users from "../../../database/jsondata/Users.json";
+
 
 const LogIn = () => {
     const { logIn } = useAuth();
     const router = useRouter();
 
-    const handleLogin = (data) => {
-        console.log("Form data:", data);
+    const hashPassword = async (password) => {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
+    };
 
-        const userExists = users.find(user =>
-            user.email === data.UserEmail && user.password === data.PasswordLogIn
-        );
+    const handleLogin = async (data) => {
+        const UserData = {
+            Email: data.UserEmail,
+            Password: await hashPassword(data.PasswordLogIn),
+        }
 
-        if (userExists) {
-            const token = `fakeTokenForUser-${userExists.id}`;
-            logIn(token, userExists);
+        const Response = await fetch("http://localhost:8080/api/login", {
+           method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(UserData),
+        });
 
+        const ResponseData = await Response.json();
+        if (Response.ok) {
+            console.log("Response data:", ResponseData);
+            const token = `fakeTokenForUser-${Date.now()}`;
+            logIn(token, ResponseData);
             router.push("..");
         } else {
-            alert("Invalid credentials, please try again.");
+            alert(ResponseData.message);
         }
     };
 

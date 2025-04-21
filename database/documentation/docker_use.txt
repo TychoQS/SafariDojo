@@ -1,0 +1,27 @@
+=== Dependencias de Node ===
+npm install mysql2
+
+=== Docker Commands ===
+docker run --name SafariDojoDB -e MYSQL_ROOT_PASSWORD=Ps20242025 -e MYSQL_DATABASE=SafariDojoDB -v safari-dojo-db-data:/var/lib/mysql -p 3306:3306 -d mysql:latest // Generar el contenedos (solo es necesario una vez)
+docker start SafariDojoDB // Para arrancar el contenedor
+
+=== Para importar la base de datos ===
+Ir al apartado de "Volumes" en docker desktop, seleccionar uno de ellos
+y clickar en el mismo. Tras esto, nos debe de llevar a una ventana con información
+del volumen, donde arriba a la derecha hay un botón azul que pone import.
+Clickas en esa opción e importas desde la opción "Local File" y seleccionas el fichero
+.tar.gz de la base de datos.
+
+Si es la primera vez, primero debes de crear un contenedor que este vinculado a este
+volumen. Para ello ejecuta desde la terminal:
+docker run --name SafariDojoDB -e MYSQL_ROOT_PASSWORD=Ps20242025 -e MYSQL_DATABASE=SafariDojoDB -v safari-dojo-db-data:/var/lib/mysql -p 3306:3306 -d mysql:latest
+Te creara el contenedor "SafariDojoDB" asociado al volumen "safari-dojo-db-data" (si no existe lo creo si no recuerdo mal)
+
+Tras esto ya tendrías la BD disponible y/o actualizada.
+
+=== Para exportar la base de datos ===
+Hay que estar logeados en DockerDesktop, y simplente clickar
+en unon de los volumenes, darle al botón de "Exports" que nos
+llevará a otro menu, luego a "Quick Export", y finalmente eligiendo
+"Local File" dentro de la ventana  "Local or Hub storage" elegimos donde
+queremos exportar el volumen como archivo .tar.gz
