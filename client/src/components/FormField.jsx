@@ -80,10 +80,8 @@ export default function FormField({
                             onChange={handleChange}
                             rules={input.rules}
                             onError={handleError}
+                            error={isSubmitted ? errors[input.id] : ""}
                         />
-                        {isSubmitted && errors[input.id] && (
-                            <p className="text-red-500 text-sm">{errors[input.id]}</p>
-                        )}
                     </div>
                 ))}
                 <p className={`text-[1.5rem] mt-[1rem] text-PS-dark-yellow ${deliciousHandDrawn.className}`}>

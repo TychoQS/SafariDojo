@@ -16,7 +16,6 @@
 
  */
 
-import React, { useState, useEffect } from "react";
 import { deliciousHandDrawn } from "@/styles/fonts";
 
 export default function Input({
@@ -26,51 +25,20 @@ export default function Input({
                                   placeholder,
                                   value,
                                   onChange,
-                                  rules,
-                                  onError,
+                                  error,
                               }) {
-    const [error, setError] = useState("");
-
     const sizeClasses = {
         medium: "w-40 h-12 text-2xl",
         large: "w-64 h-12 text-2xl",
     };
 
-    const borderColor = size === "medium" ? "border-PS-dark-yellow" : "border-PS-light-black";
+    const borderColor = error
+        ? "border-red-500"
+        : size === "medium"
+            ? "border-PS-dark-yellow"
+            : "border-PS-light-black";
     const inputSizeClass = sizeClasses[size] || sizeClasses.medium;
     const labelColor = id === "recovery" ? "text-PS-dark-yellow" : "text-PS-light-black";
-
-    const validate = (value) => {
-        let errorMsg = "";
-
-        if (rules?.required && !value) {
-            errorMsg = `${label} is required.`;
-        }
-
-        if (rules?.minLength && value.length < rules.minLength.value) {
-            errorMsg = rules.minLength.message || `${label} must have at least ${rules.minLength.value} characters.`;
-        }
-
-        if (rules?.pattern && !rules.pattern.value.test(value)) {
-            errorMsg = rules.pattern.message || `${label} is not valid.`;
-        }
-
-        if (id === "Password" && rules?.password && !/[A-Z]/.test(value)) {
-            errorMsg = "Password must contain at least one uppercase letter.";
-        }
-        if (id === "Password" && rules?.password && !/\d/.test(value)) {
-            errorMsg = "Password must contain at least one number.";
-        }
-
-        setError(errorMsg);
-        if (onError) {
-            onError(id, errorMsg);
-        }
-    };
-
-    useEffect(() => {
-        validate(value);
-    }, [value]);
 
     return (
         <div className="flex flex-col items-center">
