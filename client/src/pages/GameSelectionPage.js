@@ -94,7 +94,7 @@ function GameSelectionPage() {
                         <div className="flex-grow h-px bg-black opacity-100"></div>
                     </div>
 
-                    <div className={"flex flex-row justify-evenly"}>
+                    <div className={"flex flex-row justify-evenly h-[43rem]"}>
                         <Carousel
                             carouselData={carouselData} difficulty={selectedButton}/>
                     </div>
