@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  safari-dojo-db:
+    build:
+      context: .
+    container_name: SafariDojoDB
+    environment:
+      - MYSQL_ROOT_PASSWORD=Ps20242025
+      - MYSQL_DATABASE=SafariDojoDB
+    ports:
+      - "3306:3306"
+    volumes:
+      - safari-dojo-db-data:/var/lib/mysql
+
+volumes:
+  safari-dojo-db-data:
