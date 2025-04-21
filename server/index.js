@@ -99,6 +99,22 @@ app.post('/api/update-profile-image', (req, res) => {
     })
 })
 
+app.post('/api/update-profile-data', (req, res) => {
+    const { email: Email, name: Name } = req.body;
+    const Query = 'UPDATE Users SET Name = ? WHERE Email = ?';
+    dbConnection.query(Query, [Name, Email], (err, result) => {
+        console.log("Error: ", err);
+        if (err) {
+            return res.status(500).json({message: 'Something went wrong'});
+        } else {
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ mensaje: "User not found" });
+            }
+            return res.status(200).json({ message: 'Profile updated successfully' });
+        }
+    })
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
