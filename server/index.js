@@ -103,7 +103,6 @@ app.post('/api/update-profile-data', (req, res) => {
     const { email: Email, name: Name } = req.body;
     const Query = 'UPDATE Users SET Name = ? WHERE Email = ?';
     dbConnection.query(Query, [Name, Email], (err, result) => {
-        console.log("Error: ", err);
         if (err) {
             return res.status(500).json({message: 'Something went wrong'});
         } else {
