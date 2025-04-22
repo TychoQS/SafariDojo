@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS SafariDojoDB;
 USE SafariDojoDB;
 SET sql_notes = 0;
     /* First we remove all in order to evade errors of "already exists" when creating the DB*/
