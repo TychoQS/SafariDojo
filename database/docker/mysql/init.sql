@@ -153,45 +153,52 @@ CREATE TABLE SubjectQuizzes (
                                 FOREIGN KEY (SubjectId) REFERENCES Subjects(Id),
                                 FOREIGN KEY (QuizId) REFERENCES Quizzes(Id)
 );
-SET SQL_SAFE_UPDATES = 0;
-DELIMITER //
-CREATE PROCEDURE FillSubjectQuizzes()
-BEGIN
-    DECLARE subjectId INT;
-    DECLARE quizId INT;
-    DECLARE difficulty INT;
-DELETE FROM SubjectQuizzes;
-SET quizId = 1;
-    WHILE quizId <= 15 DO
-        SET subjectId = 1;
-        WHILE subjectId <= 5 DO
-            SET difficulty = 0;
-            WHILE difficulty <= 2 DO
-                INSERT INTO SubjectQuizzes (SubjectId, QuizId, Difficulty) VALUES (subjectId, quizId, difficulty);
-                SET difficulty = difficulty + 1;
-END WHILE;
-            SET subjectId = subjectId + 1;
-END WHILE;
-        SET quizId = quizId + 1;
-END WHILE;
-END//
-DELIMITER ;
-CALL FillSubjectQuizzes();
-SET SQL_SAFE_UPDATES = 1;
 
-DELIMITER //
-
-CREATE TRIGGER PostSubjectAddition
-    AFTER INSERT ON Subjects
-    FOR EACH ROW
-BEGIN
-    INSERT INTO SubjectQuizzes (SubjectId, QuizId, Difficulty)
-    SELECT NEW.Id, q.Id, d.Difficulty
-    FROM Quizzes q
-             CROSS JOIN (SELECT 0 AS Difficulty UNION ALL SELECT 1 UNION ALL SELECT 2) d;
-END //
-
-DELIMITER ;
+INSERT INTO SubjectQuizzes(SubjectId, QuizId, Difficulty) VALUES (1, 5, 0),
+                                                              (1, 5, 1),
+                                                              (1, 5, 2),
+                                                              (1, 6, 0),
+                                                              (1, 6, 1),
+                                                              (1, 6, 2),
+                                                              (1, 4, 0),
+                                                              (1, 4, 1),
+                                                              (1, 4, 2),
+                                                              (2, 13, 0),
+                                                              (2, 13, 1),
+                                                              (2, 13, 2),
+                                                              (2, 14, 0),
+                                                              (2, 14, 1),
+                                                              (2, 14, 2),
+                                                              (2, 15, 0),
+                                                              (2, 15, 1),
+                                                              (2, 15, 2),
+                                                              (3, 7, 0),
+                                                              (3, 7, 1),
+                                                              (3, 7, 2),
+                                                              (3, 8, 0),
+                                                              (3, 8, 1),
+                                                              (3, 8, 2),
+                                                              (3, 9, 0),
+                                                              (3, 9, 1),
+                                                              (3, 9, 2),
+                                                              (4, 1, 0),
+                                                              (4, 1, 1),
+                                                              (4, 1, 2),
+                                                              (4, 2, 0),
+                                                              (4, 2, 1),
+                                                              (4, 2, 2),
+                                                              (4, 3, 0),
+                                                              (4, 3, 1),
+                                                              (4, 3, 2),
+                                                              (5, 10, 0),
+                                                              (5, 10, 1),
+                                                              (5, 10, 2),
+                                                              (5, 12, 0),
+                                                              (5, 12, 1),
+                                                              (5, 12, 2),
+                                                              (5, 11, 0),
+                                                              (5, 11, 1),
+                                                              (5, 11, 2);
 
 DELIMITER //
 
