@@ -41,7 +41,6 @@ export default function AnimalIcon({
     const borderColor = subjectData ? subjectData.borderColor : "#FBB000";
 
     let sizeClasses = "";
-
     switch (size) {
         case "medium":
             sizeClasses = "md:w-32 md:h-32";
@@ -54,14 +53,16 @@ export default function AnimalIcon({
             break;
     }
 
-    const iconContent = (
-        <div className="absolute" style={style}>
+    const content = (
+        <div className="absolute group flex flex-col items-center" style={style}>
             <div
-                className={`rounded-full overflow-hidden ${sizeClasses}`}
+                className={`rounded-full overflow-hidden border-solid transition-transform duration-300 ease-in-out 
+                            group-hover:scale-130 group-hover:shadow-xl cursor-pointer ${sizeClasses}`}
                 style={{
                     backgroundColor,
                     borderColor,
                     borderWidth: borderThickness,
+                    borderStyle: 'solid'
                 }}
             >
                 <img
@@ -70,14 +71,21 @@ export default function AnimalIcon({
                     className="w-full h-full object-cover"
                 />
             </div>
+
+            {/* Texto a mostrar, se modificará */}
+            {subject && (
+                <div className="mt-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {subject}
+                </div>
+            )}
         </div>
     );
 
     return link ? (
-        <Link href={{pathname: "/GameSelectionPage", query: {Subject: subject}}}>
-            {iconContent}
+        <Link href={{ pathname: "/GameSelectionPage", query: { Subject: subject } }}>
+            {content}
         </Link>
     ) : (
-        iconContent
+        content
     );
 }
