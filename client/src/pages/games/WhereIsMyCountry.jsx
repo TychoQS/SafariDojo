@@ -9,23 +9,57 @@ function WhereIsMyCountry() {
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
     const [tries, setTries] = useState(4);
-    const [finished, setFinished] = useState(false);
+    const [gameFinished, setGameFinished] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [gameCountries, setGameCountries] = useState([]);
-    const [randomCountries, setRandomCountries] = useState([]);
+    const [optionCountries, setOptionCountries] = useState([]);
     const lifesRef = useRef(null);
 
     useEffect(() => {
         setGameCountries(getRandomCountries(5));
-        console.log("CURRENT ACTUAL: ", gameCountries[currentIndex]);
-
-        shuffle();
     }, []);
 
+    useEffect(() => {
+        if (gameCountries.length > 0) {
+            generateOptionCountries();
+        }
+    }, [gameCountries, currentIndex]);
 
-    function getRandomCountries(upperBound) {
-        const countries = [...gameData].sort(() => 0.5 - Math.random());
-        return countries.slice(0, upperBound);
+    useEffect(() => {
+        if (optionCountries.length > 0) {
+            setGameFinished(false);
+        }
+    }, [optionCountries]);
+
+    function getRandomCountries(countriesNumber) {
+        let lowerBound = Math.floor(Math.random() * gameData.length);
+        let upperBound = Math.floor(Math.random() * gameData.length);
+
+
+        if (lowerBound > upperBound) {
+            [lowerBound, upperBound] = [upperBound, lowerBound];
+        } else if (lowerBound === upperBound) {
+            upperBound = Math.min(lowerBound + 1, length);
+        }
+
+        const countries = gameData
+            .slice(lowerBound, upperBound)
+            .sort(() => 0.5 - Math.random());
+        return countries.slice(0, countriesNumber);
+    }
+
+    function generateOptionCountries() {
+        let shuffledCountries = getRandomCountries(4);
+        let shuffled = [];
+
+        if (shuffledCountries.includes(gameCountries[currentIndex])) {
+            shuffled = shuffledCountries;
+        } else if (!shuffledCountries.includes(gameCountries[currentIndex])) {
+            shuffled = shuffledCountries.slice(1);
+            shuffled.push(gameCountries[currentIndex]);
+        }
+        shuffled.sort(() => 0.5 - Math.random());
+        setOptionCountries(shuffled);
     }
 
     function getCountryName() {
@@ -34,19 +68,6 @@ function WhereIsMyCountry() {
 
     function getCountryHint() {
         return gameCountries[currentIndex]?.hint || "";
-    }
-
-    function shuffle() {
-        const  randomCountries = getRandomCountries(4);
-        console.log("RANDOM: ", randomCountries);
-        console.log("CURRENT: ", gameCountries[currentIndex]);
-        const shuffledCountries = [randomCountries, gameCountries[currentIndex]]
-            .sort(() => 0.5 - Math.random());
-        console.log("PRUEBA 2: ", shuffledCountries);
-        shuffledCountries.splice(shuffledCountries.indexOf(gameCountries[currentIndex])+1, 0);
-
-
-        setRandomCountries(shuffledCountries);
     }
 
     function validatePicture(name, guess) {
@@ -89,20 +110,22 @@ function WhereIsMyCountry() {
                                     fill="#000000"/>
                             </svg>
                         </div>
-                        <div className={"w-[50%] text-black"}>
-                            <div className={"flex flex-row justify-between"}>
-                                <AnswerOption
-                                    country={"c"}/>
-                                <AnswerOption
-                                    country={"c"}/>
+                        {!gameFinished && (
+                            <div className={"flex flex-col w-[50%] text-black gap-[2rem]"}>
+                                <div className={"flex flex-row justify-between"}>
+                                    <AnswerOption
+                                        country={optionCountries[0].name}/>
+                                    <AnswerOption
+                                        country={optionCountries[1].name}/>
+                                </div>
+                                <div className={"flex flex-row justify-between"}>
+                                    <AnswerOption
+                                        country={optionCountries[2].name}/>
+                                    <AnswerOption
+                                        country={optionCountries[3].name}/>
+                                </div>
                             </div>
-                            <div className={"flex flex-row justify-between"}>
-                                <AnswerOption
-                                    country={"p"}/>
-                                <AnswerOption
-                                    country={"pepe"}/>
-                            </div>
-                        </div>
+                        )}
                     </div>
 
 
