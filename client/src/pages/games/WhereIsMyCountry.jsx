@@ -2,7 +2,7 @@ import {useState, useEffect, useRef} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
-import gameData from "../../../../database/jsondata/WhereIsMyCountry.json";
+import gameData from "../../../../database/jsondata/Geography.json";
 import AnswerOption from "@/pages/games/modules/WhereIsMyCountry/AnswerOption";
 
 function WhereIsMyCountry() {
@@ -17,9 +17,16 @@ function WhereIsMyCountry() {
 
     useEffect(() => {
         setGameCountries(getRandomCountries(5));
+        console.log("CURRENT ACTUAL: ", gameCountries[currentIndex]);
 
         shuffle();
     }, []);
+
+
+    function getRandomCountries(upperBound) {
+        const countries = [...gameData].sort(() => 0.5 - Math.random());
+        return countries.slice(0, upperBound);
+    }
 
     function getCountryName() {
         return gameCountries[currentIndex]?.name || "";
@@ -29,17 +36,15 @@ function WhereIsMyCountry() {
         return gameCountries[currentIndex]?.hint || "";
     }
 
-    function getRandomCountries(upperBound) {
-        const countries = [...gameData["EASY_COUNTRIES"]].sort(() => 0.5 - Math.random());
-        return countries.slice(0, upperBound);
-    }
-
     function shuffle() {
-        if (!gameCountries || gameCountries.length === 0) return;
-
-        const shuffledCountries = [...getRandomCountries(4), gameCountries[currentIndex]]
+        const  randomCountries = getRandomCountries(4);
+        console.log("RANDOM: ", randomCountries);
+        console.log("CURRENT: ", gameCountries[currentIndex]);
+        const shuffledCountries = [randomCountries, gameCountries[currentIndex]]
             .sort(() => 0.5 - Math.random());
-        console.log(shuffledCountries)
+        console.log("PRUEBA 2: ", shuffledCountries);
+        shuffledCountries.splice(shuffledCountries.indexOf(gameCountries[currentIndex])+1, 0);
+
 
         setRandomCountries(shuffledCountries);
     }
@@ -87,9 +92,9 @@ function WhereIsMyCountry() {
                         <div className={"w-[50%] text-black"}>
                             <div className={"flex flex-row justify-between"}>
                                 <AnswerOption
-                                    country={"p"}/>
+                                    country={"c"}/>
                                 <AnswerOption
-                                    country={"p"}/>
+                                    country={"c"}/>
                             </div>
                             <div className={"flex flex-row justify-between"}>
                                 <AnswerOption
