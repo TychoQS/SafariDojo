@@ -222,14 +222,36 @@ CREATE TABLE Multimedia (
                             Type VARCHAR(50) NOT NULL
 );
 
+INSERT INTO Multimedia (Name, URL, Alt, Type) VALUES
+                                                  ('BaseIconEnglish', '/images/SubjectAnimals/Owl.png', 'OwlingBase', 'Image'),
+                                                  ('BaseIconMath', '/images/SubjectAnimals/Elephant.png', 'EmilyBase', 'Image'),
+                                                  ('BaseIconGeography', '/images/SubjectAnimals/Kangaroo.png', 'KanyeBase', 'Image'),
+                                                  ('BaseIconScience', '/images/SubjectAnimals/Frog.png', 'FreddyBase', 'Image'),
+                                                  ('BaseIconArt', '/images/SubjectAnimals/Platypus.png', 'PerryBase', 'Image'),
+
+                                                  ('SelectGameIconEnglish', '/images/SubjectAnimals/Owl2.png', 'OwlingSelectGame', 'Image'),
+                                                  ('SelectGameIconMath', '/images/SubjectAnimals/Elephant2.png', 'EmilySelectGame', 'Image'),
+                                                  ('SelectGameIconGeography', '/images/SubjectAnimals/Kangaroo2.png', 'KanyeSelectGame', 'Image'),
+                                                  ('SelectGameIconScience', '/images/SubjectAnimals/Frog2.png', 'FreddySelectGame', 'Image'),
+                                                  ('SelectGameIconArt', '/images/SubjectAnimals/Platypus2.png', 'PerrySelectGame', 'Image'),
+
+                                                  ('PreviewGameIconEnglish', '/images/SubjectAnimals/Preview/PreviewOwl.png', 'OwlingPreviewGame', 'Image'),
+                                                  ('PreviewGameIconMath', '/images/SubjectAnimals/Preview/PreviewElephant.png', 'EmilyPreviewGame', 'Image'),
+                                                  ('PreviewGameIconGeography', '/images/SubjectAnimals/Preview/PreviewKangaroo.png', 'KanyePreviewGame', 'Image'),
+                                                  ('PreviewGameIconScience', '/images/SubjectAnimals/Preview/PreviewFrog.png', 'FreddyPreviewGame', 'Image'),
+                                                  ('PreviewGameIconArt', '/images/SubjectAnimals/Preview/PreviewPlatypus.png', 'PerryPreviewGame', 'Image');
+
 CREATE TABLE MultimediaSubjects (
-                                    PageName VARCHAR(255),
+                                    Id INT AUTO_INCREMENT PRIMARY KEY,
+                                    IdMultimedia INT,
                                     IdSubject INT,
-                                    URL VARCHAR(2048) NOT NULL,
-                                    Alt VARCHAR(100),
-                                    PRIMARY KEY (PageName, IdSubject),
-                                    FOREIGN KEY (IdSubject) REFERENCES Subjects(Id)
+                                    FOREIGN KEY (IdSubject) REFERENCES Subjects(Id),
+                                    FOREIGN KEY (IdMultimedia) REFERENCES Multimedia(Id)
 );
+
+/*
+INSERT INTO MultimediaSubjects (IdMultimedia, IdSubject) VALUES ();
+*/
 
 CREATE TABLE PinThePlace (
                              CountryId INT PRIMARY KEY,
