@@ -1,12 +1,11 @@
 import React from "react";
 
-export default function AnswerOption({countryName, onClick}) {
+export default function AnswerOption({countryName, onClick, color}) {
     const handleClick = () => {
         if (onClick) {
             onClick(countryName);
         }
     };
-
 
     return (
         <button className="flex justify-center items-center w-[15rem] h-[5rem] border-2 border-black rounded-lg

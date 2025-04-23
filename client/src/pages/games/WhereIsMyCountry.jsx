@@ -15,6 +15,7 @@ function WhereIsMyCountry() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [gameCountries, setGameCountries] = useState([]);
     const [optionCountries, setOptionCountries] = useState([]);
+    const [clickedCountries, setClickedCountries] = useState([]);
     const lifesRef = useRef(null);
 
     useEffect(() => {
@@ -72,7 +73,13 @@ function WhereIsMyCountry() {
 
 
     function handleAnswerSelection(countryName) {
-        if (countryName === gameCountries[currentIndex]?.name) setScore(prevScore => prevScore + 5);
+        if (gameStatus === "finished") return;
+
+        setClickedCountries(prev => ({...prev, [countryName]: isCorrect(countryName) ? "correct" : "incorrect"}));
+
+        if ((countryName === gameCountries[currentIndex]?.name) && (gameStatus === "active")) {
+            setScore(prevScore => prevScore + 5);
+        }
 
         if (currentIndex + 1 < gameCountries.length) {
             setGameStatus("waiting");
@@ -83,12 +90,22 @@ function WhereIsMyCountry() {
         }
     }
 
+    const isCorrect = (countryName) => {
+        return countryName === getCountryName();
+    }
+
+    function getColor(countryName) {
+        if (!clickedCountries[countryName]) return "#FFFFFF";
+        return clickedCountries[countryName] === "correct" ? "green" : "red";
+    }
+
     function nextGame() {
         if (currentIndex + 1 < gameCountries.length) {
             setCurrentIndex(prevIndex => prevIndex + 1);
             setGameStatus("active");
         }
     }
+
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
@@ -98,12 +115,12 @@ function WhereIsMyCountry() {
                     <Lifes ref={lifesRef}/>
                 </div>
 
-                <div className="w-175 flex flex-col self-center items-center justify-center border-4 rounded-2xl
+                <div className="w-175 flex flex-col self-center items-center justify-center border-4 rounded-3xl
             border-PS-dark-yellow bg-PS-light-yellow">
                     <div className="flex items-center justify-center w-full h-[5rem] bg-gray-500 rounded-t-2xl relative">
                         {(gameStatus !== "finished") ? (
-                                <div className={"text-black text-2xl font-black flex justify-center"}>
-                                    <p className="text-gray-600 font-light">Score: {score}</p>
+                                <div className={"text-black text-2xl flex justify-center"}>
+                                    <p className="text-gray-600 font-light">Score: <span className={"font-bold text-black"}>{score}</span></p>
                                     <p className={"flex absolute right-4"}>{currentIndex+1}/{gameCountries.length}</p>
                                     <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
                                         <div className="flex absolute left-4 top-4">
@@ -112,7 +129,7 @@ function WhereIsMyCountry() {
                                     </Link>
                                 </div>
                             ) :
-                            <div className={"text-black text-2xl font-black flex justify-center text-center flex-col"}>
+                            <div className={"text-black text-2xl flex justify-center text-center flex-col"}>
                                 <p className={"font-bold text-2xl"}>GAME OVER</p>
                                 <div className={"flex flex-row gap-[2rem] text-xl"}>
                                     <p>Final Score: <span>{score}</span></p>
@@ -139,18 +156,22 @@ function WhereIsMyCountry() {
                                 <div className={"flex flex-row justify-between gap-[2rem]"}>
                                     <AnswerOption
                                         countryName={optionCountries[0]?.name || ""}
-                                        onClick={() => handleAnswerSelection(optionCountries[0]?.name)}/>
+                                        onClick={() => handleAnswerSelection(optionCountries[0]?.name)}
+                                        color={() => (getColor())}/>
                                     <AnswerOption
                                         countryName={optionCountries[1]?.name || ""}
-                                        onClick={() => handleAnswerSelection(optionCountries[1]?.name)}/>
+                                        onClick={() => handleAnswerSelection(optionCountries[1]?.name)}
+                                        color={() => (getColor())}/>
                                 </div>
                                 <div className={"flex flex-row justify-between gap-[2rem]"}>
                                     <AnswerOption
                                         countryName={optionCountries[2]?.name || ""}
-                                        onClick={() => handleAnswerSelection(optionCountries[2]?.name)}/>
+                                        onClick={() => handleAnswerSelection(optionCountries[2]?.name)}
+                                        color={() => (getColor())}/>
                                     <AnswerOption
                                         countryName={optionCountries[3]?.name || ""}
-                                        onClick={() => handleAnswerSelection(optionCountries[3]?.name)}/>
+                                        onClick={() => handleAnswerSelection(optionCountries[3]?.name)}
+                                        color={() => (getColor())}/>
                                 </div>
                             </div>
                         {gameStatus === "waiting" && (
