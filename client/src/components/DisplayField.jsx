@@ -24,22 +24,12 @@ export default function DisplayField({ size = 'medium', label, value }) {
         <div>
             {label && (
                 <label
-                    className={`block text-PS-light-black text-center w-full text-2xl ${deliciousHandDrawn.className}`}
-                    style={{
-                        cursor: 'default',
-                        userSelect: 'none',
-                    }}
-                >
+                    className={`block text-PS-light-black text-center w-full text-2xl ${deliciousHandDrawn.className}`}>
                     {label}
                 </label>
             )}
             <div
-                className={`text-[#000000] bg-[#FFFFFF] ${borderColor} rounded-2xl px-4 py-2 border-2 border-b-6 ${displaySizeClass} ${deliciousHandDrawn.className}`}
-                style={{
-                    cursor: 'default',
-                    userSelect: 'none',
-                }}
-            >
+                className={`text-[#000000] bg-[#FFFFFF] ${borderColor} rounded-2xl px-4 py-2 border-2 border-b-6 ${displaySizeClass} ${deliciousHandDrawn.className}`}>
                 {value}
             </div>
         </div>

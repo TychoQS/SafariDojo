@@ -9,6 +9,7 @@ import AnimalIcon from "@/components/AnimalIcon";
 import {deliciousHandDrawn} from "@/styles/fonts";
 import {useRouter} from "next/router";
 import {useProfile} from "@/pages/context/ProfileContext";
+import ModalButton from "@/components/ModalButton";
 
 export default function MyProfile() {
     const {profile, updateProfile} = useProfile();
@@ -16,6 +17,7 @@ export default function MyProfile() {
     const [userName, setUserName] = useState('');
     const [showPremiumModal, setShowPremiumModal] = useState(false);
     const router = useRouter();
+    const [confirmLeave, setConfirmLeave] = useState(false);
 
     const currentUser = profile || {name: "Unknown", email: "N/A", profilePhoto: "default", isPremium: false};
 
@@ -42,6 +44,7 @@ export default function MyProfile() {
     }, []);
 
     const handlePremiumToggle = async () => {
+        setShowPremiumModal(false);
         try {
             const newPremiumStatus = !currentUser.isPremium;
             updateProfile({...currentUser, isPremium: newPremiumStatus});
@@ -66,12 +69,10 @@ export default function MyProfile() {
             if (!currentUser.isPremium && newPremiumStatus) {
                 await router.push("/BillingForm");
             }
-            
+
         } catch (error) {
             console.error('Error updating premium status:', error);
         }
-
-        setShowPremiumModal(false);
     };
 
     return (
@@ -159,33 +160,52 @@ export default function MyProfile() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
                     <div
                         className="bg-white p-6 rounded-2xl shadow-2xl w-[90%] max-w-md text-center space-y-4 animate-fade-in">
-                        <h2 className="text-2xl font-semibold text-gray-800">
-                            {currentUser.isPremium
-                                ? "Do you want to leave the elite?"
-                                : "Do you want to join the elite?"}
-                        </h2>
-                        <p className="text-lg text-gray-600 mt-2">
-                            {currentUser.isPremium
-                                ? "You will lose all your elite user advantages."
-                                : "The subscription price is €14.99 per month."}
-                        </p>
-                        <div className="flex justify-center gap-6 mt-6">
-                            <button
-                                onClick={handlePremiumToggle}
-                                className={`px-6 py-2 rounded-lg transition ${currentUser.isPremium
-                                    ? "bg-red-500 text-white hover:bg-red-600"
-                                    : "bg-green-500 text-white hover:bg-green-600"
-                                }`}
-                            >
-                                Sí
-                            </button>
-                            <button
-                                onClick={() => setShowPremiumModal(false)}
-                                className="bg-gray-300 px-6 py-2 rounded-lg hover:bg-gray-400 transition"
-                            >
-                                No
-                            </button>
-                        </div>
+                        {currentUser.isPremium ? (
+                            <>
+                                <h2 className="text-2xl font-semibold text-gray-800">You belong to the elite!</h2>
+                                <p  className={`text-lg text-gray-600 mt-2 ${!confirmLeave ? 'hover:underline cursor-pointer' : ''}`}
+                                    onClick={() => setConfirmLeave(true)}
+                                >
+                                    Leave the elite.
+                                </p>
+
+                                {confirmLeave ? (
+                                    <>
+                                        <p className="text-md text-red-500" >
+                                            Are you sure? You will lose all your elite advantages.
+                                        </p>
+                                        <div className="flex justify-center space-x-4">
+                                            <ModalButton text="Yes" color="red" onClick={handlePremiumToggle}/>
+                                            <ModalButton text="No" color="gray" onClick={() => {
+                                                setConfirmLeave(false);
+                                                setShowPremiumModal(false);
+                                            }}/>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <ModalButton text="Close" color="gray" onClick={() => setShowPremiumModal(false)}/>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <h2 className="text-2xl font-semibold text-gray-800">Do you want to join the elite?</h2>
+                                <p className="text-lg text-gray-600 mt-2">
+                                    The subscription price is €14.99 per month.
+                                </p>
+                                <div className="flex justify-center gap-6 mt-6">
+                                    <ModalButton
+                                        text="Yes"
+                                        color={currentUser.isPremium ? "red" : "green"}
+                                        onClick={handlePremiumToggle}
+                                    />
+                                    <ModalButton
+                                        text="No"
+                                        color="gray"
+                                        onClick={() => setShowPremiumModal(false)}
+                                    />
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             )}

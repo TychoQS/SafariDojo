@@ -32,4 +32,6 @@ h1 {
   margin-top: 2rem;
 }
 
-
+* {
+  user-select: none;
+}
