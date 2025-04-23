@@ -30,7 +30,10 @@ export default function AnimalIcon({
                                        borderThickness = 6,
                                        animalName,
                                        size = "medium",
-                                       link = false
+                                       link = false,
+                                       hoverText,
+                                       onHoverChange,
+                                       hoveredSubject
                                    }) {
     const subjectData = animals.find(item => item.subjectName === subject);
 
@@ -54,10 +57,18 @@ export default function AnimalIcon({
     }
 
     const content = (
-        <div className="absolute group flex flex-col items-center" style={style}>
-            <div
+        <div
+            className={`absolute group flex flex-col items-center transition-all duration-300
+                ${ hoveredSubject && subject !== hoveredSubject ? 'opacity-90 grayscale' : '' }
+            `}
+            style={ style }
+            onMouseEnter={() => onHoverChange?.(true)}
+            onMouseLeave={() => onHoverChange?.(false)}
+        >
+
+        <div
                 className={`rounded-full overflow-hidden border-solid transition-transform duration-300 ease-in-out 
-                            group-hover:scale-130 group-hover:shadow-xl cursor-pointer ${sizeClasses}`}
+                            group-hover:scale-130 group-hover:shadow-xl cursor-pointer ${ sizeClasses }`}
                 style={{
                     backgroundColor,
                     borderColor,
@@ -72,10 +83,12 @@ export default function AnimalIcon({
                 />
             </div>
 
-            {/* Texto a mostrar, se modificará */}
-            {subject && (
-                <div className="mt-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {subject}
+            {hoverText && (
+                <div
+                    className="mt-5 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center whitespace-nowrap"
+                    style={{ color: borderColor }}
+                >
+                    { hoverText }
                 </div>
             )}
         </div>
