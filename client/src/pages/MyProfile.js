@@ -4,17 +4,20 @@ import Title from "@/components/Title";
 import Button from "@/components/Button";
 import Link from "next/link";
 import DisplayField from "@/components/DisplayField";
-import {useAuth} from "@/pages/context/AuthContext";
 import React, {useEffect, useState} from "react";
 import AnimalIcon from "@/components/AnimalIcon";
 import {deliciousHandDrawn} from "@/styles/fonts";
+import {useRouter} from "next/router";
+import {useProfile} from "@/pages/context/ProfileContext";
 
 export default function MyProfile() {
-    const {user} = useAuth();
+    const {profile, updateProfile} = useProfile();
     const [profilePhoto, setProfilePhoto] = useState('');
     const [userName, setUserName] = useState('');
+    const [showPremiumModal, setShowPremiumModal] = useState(false);
+    const router = useRouter();
 
-    const currentUser = user || {name: "Unknown", email: "N/A", profilePhoto: "default", isPremium: false};
+    const currentUser = profile || {name: "Unknown", email: "N/A", profilePhoto: "default", isPremium: false};
 
     useEffect(() => {
         const storedName = localStorage.getItem("name");
@@ -38,21 +41,54 @@ export default function MyProfile() {
         };
     }, []);
 
+    const handlePremiumToggle = async () => {
+        try {
+            const newPremiumStatus = !currentUser.isPremium;
+            updateProfile({...currentUser, isPremium: newPremiumStatus});
+
+            const response = await fetch('/api/UpdateEliteSuscription', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: currentUser?.email,
+                    isPremium: newPremiumStatus,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error('Error updating user:', data.message);
+            }
+
+            if (!currentUser.isPremium && newPremiumStatus) {
+                await router.push("/BillingForm");
+            }
+            
+        } catch (error) {
+            console.error('Error updating premium status:', error);
+        }
+
+        setShowPremiumModal(false);
+    };
+
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header/>
             <section
-                className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6"
-            >
+                className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
                 <div className="col-span-2 flex justify-center items-center gap-4">
                     <Title>My profile</Title>
                     <div className="relative group flex items-center justify-center">
                         <svg
+                            onClick={() => setShowPremiumModal(true)}
                             width="800px"
                             height="800px"
                             viewBox="0 0 24 24"
                             fill={currentUser.isPremium ? "#FBAF00" : "#1C274C"}
-                            className="w-12 h-12 ml-4 mt-8 animate-pulse hover:scale-250 transition-transform duration-200"
+                            className="w-12 h-12 ml-4 mt-8 animate-pulse hover:scale-250 transition-transform duration-200 cursor-pointer"
                         >
                             <path
                                 opacity="0.5"
@@ -71,7 +107,8 @@ export default function MyProfile() {
                                 d="M4.84862 18.25C4.75064 17.7997 4.67228 17.2952 4.60254 16.75H19.3968C19.327 17.2952 19.2487 17.7997 19.1507 18.25H4.84862Z"
                             />
                         </svg>
-                        <div className={`absolute top-full mt-4 text-PS-light-black text-lg px-3 py-1 bg-transparent rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 whitespace-nowrap ${deliciousHandDrawn.className}`}>
+                        <div
+                            className={`absolute top-full mt-4 text-PS-light-black text-lg px-3 py-1 bg-transparent rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 whitespace-nowrap ${deliciousHandDrawn.className}`}>
                             {currentUser.isPremium ? "You belong to elite!" : "Become premium to stand out!"}
                         </div>
                     </div>
@@ -83,7 +120,8 @@ export default function MyProfile() {
                 </div>
 
                 <div className="col-start-1 row-start-2 flex justify-center items-start space-y-6 mb-[20px] relative">
-                    <AnimalIcon animalName={profilePhoto || currentUser.profilePhoto} size="large" borderThickness={5} backgroundColor={"#FBC078"}/>
+                    <AnimalIcon animalName={profilePhoto || currentUser.profilePhoto} size="large" borderThickness={5}
+                                backgroundColor={"#FBC078"}/>
                     <Link href="/ChangeIcon"
                           className="absolute top-0 right-8 p-2 cursor-pointer hover:scale-110 transition-transform duration-300">
                         <img src="/images/EditIcon.svg" alt="Edit Icon" className="w-8 h-8"/>
@@ -116,6 +154,42 @@ export default function MyProfile() {
                     </Button>
                 </div>
             </section>
+
+            {showPremiumModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
+                    <div
+                        className="bg-white p-6 rounded-2xl shadow-2xl w-[90%] max-w-md text-center space-y-4 animate-fade-in">
+                        <h2 className="text-2xl font-semibold text-gray-800">
+                            {currentUser.isPremium
+                                ? "Do you want to leave the elite?"
+                                : "Do you want to join the elite?"}
+                        </h2>
+                        <p className="text-lg text-gray-600 mt-2">
+                            {currentUser.isPremium
+                                ? "You will lose all your elite user advantages."
+                                : "The subscription price is €14.99 per month."}
+                        </p>
+                        <div className="flex justify-center gap-6 mt-6">
+                            <button
+                                onClick={handlePremiumToggle}
+                                className={`px-6 py-2 rounded-lg transition ${currentUser.isPremium
+                                    ? "bg-red-500 text-white hover:bg-red-600"
+                                    : "bg-green-500 text-white hover:bg-green-600"
+                                }`}
+                            >
+                                Sí
+                            </button>
+                            <button
+                                onClick={() => setShowPremiumModal(false)}
+                                className="bg-gray-300 px-6 py-2 rounded-lg hover:bg-gray-400 transition"
+                            >
+                                No
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <Footer/>
         </div>
     );

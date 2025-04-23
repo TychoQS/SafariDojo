@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 
 const ProfileContext = createContext();
 
@@ -9,13 +9,23 @@ export const ProfileProvider = ({ children }) => {
         name: 'John Doe',
         email: 'john@doe.com',
         icon: 'Sheep',
+        isPremium: false,
     });
 
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem('user_data'));
+        if (storedUser) {
+            setProfile(storedUser);
+        }
+    }, []);
+
     const updateProfile = (newProfile) => {
-        setProfile((prevProfile) => ({
-            ...prevProfile,
+        const updated = {
+            ...profile,
             ...newProfile,
-        }));
+        };
+        setProfile(updated);
+        localStorage.setItem('user_data', JSON.stringify(updated));
     };
 
     return (
@@ -24,3 +34,4 @@ export const ProfileProvider = ({ children }) => {
         </ProfileContext.Provider>
     );
 };
+
