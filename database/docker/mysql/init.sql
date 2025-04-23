@@ -249,9 +249,21 @@ CREATE TABLE MultimediaSubjects (
                                     FOREIGN KEY (IdMultimedia) REFERENCES Multimedia(Id)
 );
 
-/*
-INSERT INTO MultimediaSubjects (IdMultimedia, IdSubject) VALUES ();
-*/
+INSERT INTO MultimediaSubjects (IdMultimedia, IdSubject) VALUES (1, 5),
+                                                                (2, 3),
+                                                                (3, 4),
+                                                                (4, 2),
+                                                                (5, 1),
+                                                                (6, 5),
+                                                                (7, 3),
+                                                                (8, 4),
+                                                                (9, 2),
+                                                                (10, 1),
+                                                                (11, 5),
+                                                                (12, 3),
+                                                                (13, 4),
+                                                                (14, 2),
+                                                                (15, 1);
 
 CREATE TABLE PinThePlace (
                              CountryId INT PRIMARY KEY,
