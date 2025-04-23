@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {CreditCard, Calendar, Lock, User, ChevronRight} from 'lucide-react';
+import { useRouter } from 'next/router';
 
 export default function PaymentGateway() {
     const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ export default function PaymentGateway() {
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const router = useRouter();
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -103,6 +105,7 @@ export default function PaymentGateway() {
                     <p className="text-gray-600 mb-6">Your purchase has been successfully processed.</p>
                     <button
                         onClick={() => {
+                            router.back();
                             setSuccess(false);
                             setFormData({
                                 cardNumber: '',
@@ -111,7 +114,7 @@ export default function PaymentGateway() {
                                 name: '',
                             });
                         }}
-                        className="bg-[#FBAF00] text-gray-800 font-medium py-2 px-4 rounded hover:bg-[#FBAF00] transition-colors"
+                        className="bg-[#FBAF00] text-gray-800 font-medium py-2 px-4 rounded hover:bg-[#FBAF00] transition-colors cursor-pointer"
                     >
                         Close
                     </button>
@@ -227,33 +230,38 @@ export default function PaymentGateway() {
                         <input
                             id="saveInfo"
                             type="checkbox"
-                            className="h-4 w-4 text-[#FBAF00] focus:ring-[#FBAF00] border-gray-300 rounded"
+                            className="h-4 w-4 text-[#FBAF00] focus:ring-[#FBAF00] border-gray-300 rounded cursor-pointer"
                         />
-                        <label htmlFor="saveInfo" className="ml-2 block text-sm text-gray-700">
+                        <label htmlFor="saveInfo" className="ml-2 block text-sm text-gray-700 cursor-pointer">
                             Save info for future purchases
                         </label>
                     </div>
 
-                    <div className="flex justify-between items-center">
-                        <div className="ml-auto">
-                            <button
-                                type="submit"
-                                className="bg-[#FBAF00] text-gray-800 font-medium py-2 px-4 rounded hover:bg-[#FBAF00] transition-colors flex items-center"
-                                disabled={loading}
-                            >
-                                {loading ? (
-                                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-800"
-                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                                strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor"
-                                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                ) : null}
-                                Pay now
-                                {!loading && <ChevronRight className="ml-1 h-4 w-4"/>}
-                            </button>
-                        </div>
+                    <div className="flex justify-between items-center mt-4">
+                        <button
+                            type="button"
+                            onClick={() => router.back()}
+                            className="text-sm text-gray-600 hover:underline cursor-pointer "
+                        >
+                            ← Back
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-[#FBAF00] text-gray-800 font-medium py-2 px-4 rounded hover:bg-[#FBAF00] transition-colors flex items-center cursor-pointer"
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-800"
+                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor"
+                                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            ) : null}
+                            Pay now
+                            {!loading && <ChevronRight className="ml-1 h-4 w-4"/>}
+                        </button>
                     </div>
 
                     <div className="mt-6 flex items-center justify-center">
