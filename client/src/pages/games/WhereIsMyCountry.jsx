@@ -1,22 +1,24 @@
-import {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
 import gameData from "../../../../database/jsondata/Geography.json";
 import AnswerOption from "@/pages/games/modules/WhereIsMyCountry/AnswerOption";
+import Link from "next/link";
+import Button from "@/components/Button";
 
 function WhereIsMyCountry() {
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
     const [tries, setTries] = useState(4);
-    const [gameFinished, setGameFinished] = useState(true);
+    const [gameStatus, setGameStatus] = useState("loading");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [gameCountries, setGameCountries] = useState([]);
     const [optionCountries, setOptionCountries] = useState([]);
     const lifesRef = useRef(null);
 
     useEffect(() => {
-        setGameCountries(getRandomCountries(5));
+        initializeGame();
     }, []);
 
     useEffect(() => {
@@ -27,9 +29,18 @@ function WhereIsMyCountry() {
 
     useEffect(() => {
         if (optionCountries.length > 0) {
-            setGameFinished(false);
+            generateOptionCountries();
+            setGameStatus("active");
         }
-    }, [optionCountries]);
+    }, [gameCountries, currentIndex]);
+
+    const initializeGame= () => {
+        const selectedCountries = getRandomCountries(10);
+        setGameCountries(selectedCountries);
+        setCurrentIndex(0);
+        setScore(0);
+        setGameStatus("loading");
+    }
 
     function getRandomCountries(upperBound) {
         const countries = [...gameData].sort(() => 0.5 - Math.random());
@@ -37,17 +48,18 @@ function WhereIsMyCountry() {
     }
 
     function generateOptionCountries() {
-        let shuffledCountries = getRandomCountries(4);
-        let shuffled = [];
-
-        if (shuffledCountries.includes(gameCountries[currentIndex])) {
-            shuffled = shuffledCountries;
-        } else if (!shuffledCountries.includes(gameCountries[currentIndex])) {
-            shuffled = shuffledCountries.slice(1);
-            shuffled.push(gameCountries[currentIndex]);
+        if (currentIndex >= gameCountries.length) {
+            setGameStatus("finished");
+            return;
         }
-        shuffled.sort(() => 0.5 - Math.random());
-        setOptionCountries(shuffled);
+
+        const currentCountry = gameCountries[currentIndex];
+        const otherCountries = gameData.filter(country => country.id !== currentCountry.id)
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 3);
+        const options = [...otherCountries, currentCountry].sort(() => 0.5 - Math.random());
+
+        setOptionCountries(options);
     }
 
     function getCountryName() {
@@ -58,23 +70,25 @@ function WhereIsMyCountry() {
         return gameCountries[currentIndex]?.hint || "";
     }
 
-    function validatePicture(name, guess) {
-        if (tries === 0) {
-            setFinished(true);
-            setBestScore(Math.max(bestScore, score));
-            if (score < 30 && lifesRef.current) {
-                lifesRef.current.loseLife();
-            }
+
+    function handleAnswerSelection(countryName) {
+        if (countryName === gameCountries[currentIndex]?.name) setScore(prevScore => prevScore + 5);
+
+        if (currentIndex + 1 < gameCountries.length) {
+            setGameStatus("waiting");
         }
-        if (name.trim().toLowerCase() === guess.trim().toLowerCase()) {
-            setMessage("Great guess!")
-            setScore(score + 5);
-        } else {
-            setMessage("Nope.");
+        else {
+            setGameStatus("finished");
+            setBestScore(prevBest => Math.max(prevBest, score))
         }
-        setNext(true);
     }
 
+    function nextGame() {
+        if (currentIndex + 1 < gameCountries.length) {
+            setCurrentIndex(prevIndex => prevIndex + 1);
+            setGameStatus("active");
+        }
+    }
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
@@ -84,9 +98,33 @@ function WhereIsMyCountry() {
                     <Lifes ref={lifesRef}/>
                 </div>
 
-                <div className="h-150 w-175 flex flex-col self-center items-center justify-center border-4 rounded-2xl
+                <div className="w-175 flex flex-col self-center items-center justify-center border-4 rounded-2xl
             border-PS-dark-yellow bg-PS-light-yellow">
-                    <div className={"flex items-center justify-center flex-col gap-[1rem]"}>
+                    <div className="flex items-center justify-center w-full h-[5rem] bg-gray-500 rounded-t-2xl relative">
+                        {(gameStatus !== "finished") ? (
+                                <div className={"text-black text-2xl font-black flex justify-center"}>
+                                    <p className="text-gray-600 font-light">Score: {score}</p>
+                                    <p className={"flex absolute right-4"}>{currentIndex+1}/{gameCountries.length}</p>
+                                    <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
+                                        <div className="flex absolute left-4 top-4">
+                                            <Button size="small">Back</Button>
+                                        </div>
+                                    </Link>
+                                </div>
+                            ) :
+                            <div className={"text-black text-2xl font-black flex justify-center text-center flex-col"}>
+                                <p className={"font-bold text-2xl"}>GAME OVER</p>
+                                <div className={"flex flex-row gap-[2rem] text-xl"}>
+                                    <p>Final Score: <span>{score}</span></p>
+                                    <p>Best Score: <span>{bestScore}</span></p>
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+                    <div className={"flex items-center justify-center flex-col gap-[1rem] m-10"}>
+
                         <div className={"flex w-[80%] h-40 text-[2rem] items-center justify-center self-center m-2"}>
                             <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" role="img">
                                 <path
@@ -96,28 +134,34 @@ function WhereIsMyCountry() {
                             <p className={"text-center text-black"}>{getCountryHint()}</p>
                         </div>
 
-                        {!gameFinished && (
-                            <div className={"flex flex-col w-[50%] text-black gap-[2rem]"}>
+
+                            <div className={"flex flex-col justify-center gap-[2rem]"}>
                                 <div className={"flex flex-row justify-between gap-[2rem]"}>
                                     <AnswerOption
-                                        countryName={optionCountries[0].name}/>
+                                        countryName={optionCountries[0]?.name || ""}
+                                        onClick={() => handleAnswerSelection(optionCountries[0]?.name)}/>
                                     <AnswerOption
-                                        countryName={optionCountries[1].name}/>
+                                        countryName={optionCountries[1]?.name || ""}
+                                        onClick={() => handleAnswerSelection(optionCountries[1]?.name)}/>
                                 </div>
                                 <div className={"flex flex-row justify-between gap-[2rem]"}>
                                     <AnswerOption
-                                        countryName={optionCountries[2].name}/>
+                                        countryName={optionCountries[2]?.name || ""}
+                                        onClick={() => handleAnswerSelection(optionCountries[2]?.name)}/>
                                     <AnswerOption
-                                        countryName={optionCountries[3].name}/>
+                                        countryName={optionCountries[3]?.name || ""}
+                                        onClick={() => handleAnswerSelection(optionCountries[3]?.name)}/>
+                                </div>
+                            </div>
+                        {gameStatus === "waiting" && (
+                            <div>
+                                <div className="flex">
+                                    <Button size="small" onClick={() => nextGame()}>Next</Button>
                                 </div>
                             </div>
                         )}
-
-                        <div className={"text-black text-2xl font-black flex justify-between"}>
-                            <p className="text-gray-600 font-light">Score: {score}</p>
-                        </div>
-
                     </div>
+
 
                 </div>
             </section>
