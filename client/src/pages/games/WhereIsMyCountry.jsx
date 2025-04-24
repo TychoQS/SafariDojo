@@ -95,8 +95,9 @@ function WhereIsMyCountry() {
     }
 
     function getColor(countryName) {
-        if (!clickedCountries[countryName]) return "#FFFFFF";
-        return clickedCountries[countryName] === "correct" ? "green" : "red";
+        if (gameStatus !== "active" && countryName === getCountryName()) return "bg-green-600";
+        if (!clickedCountries[countryName]) return "bg-white";
+        return clickedCountries[countryName] === "correct" ? "bg-green-600" : "bg-red-700";
     }
 
     function nextGame() {
@@ -104,6 +105,8 @@ function WhereIsMyCountry() {
             setCurrentIndex(prevIndex => prevIndex + 1);
             setGameStatus("active");
         }
+
+        setClickedCountries([]);
     }
 
 
@@ -154,24 +157,29 @@ function WhereIsMyCountry() {
 
                             <div className={"flex flex-col justify-center gap-[2rem]"}>
                                 <div className={"flex flex-row justify-between gap-[2rem]"}>
-                                    <AnswerOption
-                                        countryName={optionCountries[0]?.name || ""}
+                                    <button
+                                        className={`${getColor(optionCountries[0]?.name || "")} cursor-pointer flex justify-center items-center w-[15rem] h-[5rem] border-2 " +
+                                            "border-black rounded-lg transition-colors text-[1.5rem]`}
                                         onClick={() => handleAnswerSelection(optionCountries[0]?.name)}
-                                        color={() => (getColor())}/>
-                                    <AnswerOption
-                                        countryName={optionCountries[1]?.name || ""}
+                                    >{optionCountries[0]?.name || ""}</button>
+
+                                    <button
+                                        className={`${getColor(optionCountries[1]?.name || "")} cursor-pointer flex justify-center items-center w-[15rem] h-[5rem] border-2 " +
+                                            "border-black rounded-lg transition-colors text-[1.5rem]`}
                                         onClick={() => handleAnswerSelection(optionCountries[1]?.name)}
-                                        color={() => (getColor())}/>
+                                    >{optionCountries[1]?.name || ""}</button>
                                 </div>
                                 <div className={"flex flex-row justify-between gap-[2rem]"}>
-                                    <AnswerOption
-                                        countryName={optionCountries[2]?.name || ""}
+                                    <button
+                                        className={`${getColor(optionCountries[2]?.name || "")} cursor-pointer flex justify-center items-center w-[15rem] h-[5rem] border-2 " +
+                                            "border-black rounded-lg transition-colors text-[1.5rem]`}
                                         onClick={() => handleAnswerSelection(optionCountries[2]?.name)}
-                                        color={() => (getColor())}/>
-                                    <AnswerOption
-                                        countryName={optionCountries[3]?.name || ""}
+                                    >{optionCountries[2]?.name || ""}</button>
+                                    <button
+                                        className={`${getColor(optionCountries[3]?.name || "")} cursor-pointer flex justify-center items-center w-[15rem] h-[5rem] border-2 " +
+                                            "border-black rounded-lg transition-colors text-[1.5rem]`}
                                         onClick={() => handleAnswerSelection(optionCountries[3]?.name)}
-                                        color={() => (getColor())}/>
+                                    >{optionCountries[3]?.name || ""}</button>
                                 </div>
                             </div>
                         {gameStatus === "waiting" && (
