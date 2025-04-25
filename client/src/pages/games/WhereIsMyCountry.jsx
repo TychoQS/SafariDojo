@@ -37,10 +37,11 @@ function WhereIsMyCountry() {
 
     const initializeGame= () => {
         const selectedCountries = getRandomCountries(10);
+        setGameStatus("loading");
         setGameCountries(selectedCountries);
         setCurrentIndex(0);
+        setClickedCountries([]);
         setScore(0);
-        setGameStatus("loading");
     }
 
     function getRandomCountries(upperBound) {
@@ -95,7 +96,7 @@ function WhereIsMyCountry() {
     }
 
     function getColor(countryName) {
-        if (gameStatus !== "active" && countryName === getCountryName()) return "bg-green-600";
+        if ((gameStatus === "waiting" || gameStatus === "finished") && countryName === getCountryName()) return "bg-green-600";
         if (!clickedCountries[countryName]) return "bg-white";
         return clickedCountries[countryName] === "correct" ? "bg-green-600" : "bg-red-700";
     }
@@ -108,7 +109,6 @@ function WhereIsMyCountry() {
 
         setClickedCountries([]);
     }
-
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
@@ -157,30 +157,32 @@ function WhereIsMyCountry() {
 
                             <div className={"flex flex-col justify-center gap-[2rem]"}>
                                 <div className={"flex flex-row justify-between gap-[2rem]"}>
-                                    <button
-                                        className={`${getColor(optionCountries[0]?.name || "")} cursor-pointer flex justify-center items-center w-[15rem] h-[5rem] border-2 " +
-                                            "border-black rounded-lg transition-colors text-[1.5rem]`}
+                                    <AnswerOption
+                                        countryName={optionCountries[0]?.name || ""}
                                         onClick={() => handleAnswerSelection(optionCountries[0]?.name)}
-                                    >{optionCountries[0]?.name || ""}</button>
-
-                                    <button
-                                        className={`${getColor(optionCountries[1]?.name || "")} cursor-pointer flex justify-center items-center w-[15rem] h-[5rem] border-2 " +
-                                            "border-black rounded-lg transition-colors text-[1.5rem]`}
+                                        gameStatus={gameStatus}
+                                        correctCountryName={getCountryName()}
+                                        clickedCountries={clickedCountries}/>
+                                    <AnswerOption
+                                        countryName={optionCountries[1]?.name || ""}
                                         onClick={() => handleAnswerSelection(optionCountries[1]?.name)}
-                                    >{optionCountries[1]?.name || ""}</button>
+                                        gameStatus={gameStatus}
+                                        correctCountryName={getCountryName()}
+                                        clickedCountries={clickedCountries}/>
                                 </div>
                                 <div className={"flex flex-row justify-between gap-[2rem]"}>
-                                    <button
-                                        className={`${getColor(optionCountries[2]?.name || "")} cursor-pointer flex justify-center items-center w-[15rem] h-[5rem] border-2 " +
-                                            "border-black rounded-lg transition-colors text-[1.5rem]`}
+                                    <AnswerOption
+                                        countryName={optionCountries[2]?.name || ""}
                                         onClick={() => handleAnswerSelection(optionCountries[2]?.name)}
-                                    >{optionCountries[2]?.name || ""}</button>
-                                    <button
-                                        className={`${getColor(optionCountries[3]?.name || "")} cursor-pointer flex justify-center items-center w-[15rem] h-[5rem] border-2 " +
-                                            "border-black rounded-lg transition-colors text-[1.5rem]`}
+                                        gameStatus={gameStatus}
+                                        correctCountryName={getCountryName()}
+                                        clickedCountries={clickedCountries}/>
+                                    <AnswerOption
+                                        countryName={optionCountries[3]?.name || ""}
                                         onClick={() => handleAnswerSelection(optionCountries[3]?.name)}
-
-                                    >{optionCountries[3]?.name || ""}</button>
+                                        gameStatus={gameStatus}
+                                        correctCountryName={getCountryName()}
+                                        clickedCountries={clickedCountries}/>
                                 </div>
                             </div>
                         {gameStatus === "waiting" && (
@@ -191,7 +193,11 @@ function WhereIsMyCountry() {
                             </div>
                         )}
                     </div>
-
+                    <Button
+                        size="large"
+                        onClick={isCorrect()}>
+                        Retry
+                    </Button>
 
                 </div>
             </section>
