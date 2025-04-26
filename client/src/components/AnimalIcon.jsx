@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function AnimalIcon({
@@ -9,7 +9,6 @@ export default function AnimalIcon({
                                        animalName,
                                        size = "medium",
                                        link = false,
-                                       hoverText,
                                        onHoverChange,
                                        hoveredSubject
                                    }) {
@@ -24,7 +23,7 @@ export default function AnimalIcon({
                     subject: subject
                 }), {
                     method: 'GET',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                 });
 
                 if (!response.ok) {
@@ -66,8 +65,8 @@ export default function AnimalIcon({
             className={`absolute group flex flex-col items-center transition-all duration-300
         ${hoveredSubject && subject !== hoveredSubject ? 'opacity-90 grayscale' : ''}`}
             style={style}
-            onMouseEnter={() => onHoverChange?.(true)}
-            onMouseLeave={() => onHoverChange?.(false)}
+            onMouseEnter={() => onHoverChange?.(subject, baseIcon)}
+            onMouseLeave={() => onHoverChange?.(null, null)}
         >
             <div
                 className={`rounded-full overflow-hidden border-solid transition-transform duration-300 ease-in-out 
@@ -85,20 +84,11 @@ export default function AnimalIcon({
                     className="w-full h-full object-cover"
                 />
             </div>
-
-            {hoverText && (
-                <div
-                    className="mt-5 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center whitespace-nowrap"
-                    style={{color: newBorderColor}}
-                >
-                    {hoverText}
-                </div>
-            )}
         </div>
     );
 
     return link ? (
-        <Link href={{pathname: "/GameSelectionPage", query: {Subject: subject}}}>
+        <Link href={{ pathname: "/GameSelectionPage", query: { Subject: subject } }}>
             {content}
         </Link>
     ) : (
