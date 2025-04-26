@@ -11,30 +11,31 @@ export default function Header({ showButtons = true }) {
         router.push("/LogOut");
     };
 
+    const isOnMyProfilePage = router.pathname === "/MyProfile";
+
+    const renderProfileLink = () => {
+        if (isLoggedIn && !isOnMyProfilePage) {
+            return (
+                <li>
+                    <a href="/MyProfile">Profile</a>
+                </li>
+            );
+        }
+        return null;
+    };
+
     const renderButtons = () => {
         if (!showButtons) {
             return null;
         }
 
-        const isOnMyProfilePage = router.pathname === "/MyProfile";
-
         if (isLoggedIn) {
             return (
-                <>
-                    {!isOnMyProfilePage && (
-                        <a href="/MyProfile" className="text-black">
-                            <button
-                                className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
-                                My Profile
-                            </button>
-                        </a>
-                    )}
-                    <button
-                        onClick={handleLogOut}
-                        className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
-                        Log Out
-                    </button>
-                </>
+                <button
+                    onClick={handleLogOut}
+                    className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
+                    Log Out
+                </button>
             );
         } else {
             return (
@@ -61,6 +62,7 @@ export default function Header({ showButtons = true }) {
                     <li>
                         <a href="..">Home</a>
                     </li>
+                    {renderProfileLink()}
                 </ul>
             </nav>
             <div className="ml-auto flex items-center gap-4">
