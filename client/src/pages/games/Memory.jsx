@@ -5,14 +5,33 @@ import Lifes from "@/components/Lifes";
 import Link from "next/link";
 
 
-const initialCards = () => {
-    const pairs = [
-        { id: 1, content: "🐶", match: "Perro" },
-        { id: 2, content: "🐱", match: "Gato" },
-        { id: 3, content: "🚗", match: "Coche" },
-        { id: 4, content: "🍎", match: "Manzana" },
-        { id: 5, content: "✈️", match: "Avión" },
+const initialCards = (difficulty = "hard") => {
+    const allPairs = [
+        { id: 1, content: "🖐️", match: "Mano" },
+        { id: 2, content: "👣", match: "Pie" },
+        { id: 3, content: "👂", match: "Oreja" },
+        { id: 4, content: "👃", match: "Nariz" },
+        { id: 5, content: "👁️", match: "Ojo" },
+        { id: 6, content: "👄", match: "Boca" },
+        { id: 7, content: "🦶", match: "Tobillo" },
+        { id: 8, content: "🦵", match: "Pierna" },
+        { id: 9, content: "💪", match: "Brazo" },
+        { id: 10, content: "🧠", match: "Cerebro" },
+        { id: 11, content: "🫀", match: "Corazón" }
     ];
+
+    const shuffled = [...allPairs].sort(() => Math.random() - 0.5);
+
+    let numberOfPairs;
+        if (difficulty === "hard") {
+            numberOfPairs = 6;
+        } else if (difficulty === "medium") {
+            numberOfPairs = 5;
+        } else {
+            numberOfPairs = 4;
+        }
+
+    const pairs = shuffled.slice(0, numberOfPairs);
 
     let cards = [];
     pairs.forEach((pair, index) => {
@@ -55,7 +74,7 @@ export default function MemoryGame() {
     }, [selected]);
 
     useEffect(() => {
-        if (mistakes === 5) {
+        if (mistakes === 10) {
             setGameOver(true);
             loseSound.current.play();
             lifesRef.current.loseLife();
@@ -71,7 +90,7 @@ export default function MemoryGame() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setPreview(false);
-        }, 3000);
+        }, 5000);
 
         return () => clearTimeout(timer);
     }, []);
@@ -96,15 +115,16 @@ export default function MemoryGame() {
             <Header />
             <main className="flex-1 flex flex-col justify-start px-4 relative">
             <div className="flex items-center justify-between">
-                <div className={`ml-20 text-4xl 
-                ${5 - mistakes <= 1 ? "text-red-500 animate-bounce" : "text-white animate-pulse"}`}>
-                    Tries remain: {5-mistakes}
+                <div className={`ml-8 mt-6 text-4xl 
+                ${10 - mistakes <= 3 ? "text-red-500 animate-bounce" : "text-white animate-pulse"}`}>
+                    Tries remain: {10-mistakes}
                 </div>
                 <Lifes ref={lifesRef} lives={lives} />
             </div>
 
                 {isClient && (
-                    <div className="grid grid-cols-5 gap-10 justify-items-center">
+                    <div className={`mb-8 grid justify-items-center 
+                    ${cards === 4 ? "grid-cols-4" : cards === 5 ? "grid-cols-5" : "grid-cols-6"}`}>
                         {cards.map((card) => {
                             const isFlipped =
                                 selected.includes(card) || matched.includes(card.pairId) || preview;
