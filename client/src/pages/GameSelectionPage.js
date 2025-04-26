@@ -25,7 +25,7 @@ function GameSelectionPage() {
         const fetchData = async () => {
             if (subject) {
                 try {
-                    const response = await fetch(`http://localhost:8080/api/game-selection-assets?` + new URLSearchParams({
+                    const response = await fetch(`http://localhost:8080/api/gameSelectionAssets?` + new URLSearchParams({
                         subject: subject
                     }), {
                         method: 'GET',

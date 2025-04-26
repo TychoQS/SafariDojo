@@ -48,7 +48,7 @@ export default function EditProfile() {
 
     const handleSave = async () => {
         if (!error && name.trim()) {
-            const response = await fetch('http://localhost:8080/api/update-profile-data', {
+            const response = await fetch('http://localhost:8080/api/updateProfileData', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

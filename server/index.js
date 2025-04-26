@@ -87,7 +87,7 @@ app.post('/api/email', (req, res) => {
     })
 })
 
-app.post('/api/update-profile-image', (req, res) => {
+app.post('/api/updateProfileImage', (req, res) => {
     const { email, profilePhoto } = req.body;
     const Query = 'UPDATE Users SET ProfileIcon = ? WHERE Email = ?';
     dbConnection.query(Query, [profilePhoto, email], (err, result) => {
@@ -99,7 +99,7 @@ app.post('/api/update-profile-image', (req, res) => {
     })
 })
 
-app.post('/api/update-profile-data', (req, res) => {
+app.post('/api/updateProfileData', (req, res) => {
     const { email: Email, name: Name } = req.body;
     const Query = 'UPDATE Users SET Name = ? WHERE Email = ?';
     dbConnection.query(Query, [Name, Email], (err, result) => {
@@ -114,7 +114,7 @@ app.post('/api/update-profile-data', (req, res) => {
     })
 })
 
-app.get('/api/game-selection-assets', (req, res) => { // TODO REFACTOR
+app.get('/api/gameSelectionAssets', (req, res) => {
     const Subject = req.query.subject;
     const multimediaQuery = '\tSELECT DISTINCT \n' +
         '    s.Id AS SubjectId,\n' +
