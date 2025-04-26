@@ -9,7 +9,9 @@ import {cherryBomb} from '@/styles/fonts';
 function Index() {
     const [searchTerm, setSearchTerm] = useState("");
     const [popularGames, setPopularGames] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searching, setSearching] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -17,7 +19,6 @@ function Index() {
             try {
                 setLoading(true);
                 const response = await fetch('http://localhost:8080/api/popularGames');
-                console.log(response);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
@@ -28,6 +29,7 @@ function Index() {
                     return {
                         gameSubject: game.Name,
                         gameNumber: game.QuizId,
+                        gameName: game.QuizName,
                         isCompleted: false,
                     };
                 });
@@ -36,7 +38,7 @@ function Index() {
                 setLoading(false);
             } catch (err) {
                 console.error("Error fetching popular games:", err);
-                setError("Failed to load popular games. Please try again later.");
+                setError("No se pudieron cargar los juegos populares. Por favor, inténtalo más tarde.");
                 setLoading(false);
             }
         };
@@ -44,15 +46,43 @@ function Index() {
         fetchPopularGames();
     }, []);
 
-    const handleSearch = (term) => {
+    const handleSearch = async (term) => {
         setSearchTerm(term);
+
+        if (!term.trim()) {
+            setSearchResults([]);
+            return;
+        }
+
+        try {
+            setSearching(true);
+            const response = await fetch(`http://localhost:8080/api/searchGames?query=${encodeURIComponent(term)}`);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            const formattedResults = data.games.map(game => {
+                return {
+                    gameSubject: game.Name,
+                    gameNumber: game.QuizId,
+                    gameName: game.QuizName,
+                    isCompleted: false,
+                };
+            });
+
+            setSearchResults(formattedResults);
+            setSearching(false);
+        } catch (err) {
+            console.error("Error searching games:", err);
+            setError("Error al buscar juegos. Por favor, inténtalo más tarde.");
+            setSearching(false);
+        }
     };
 
-    const filteredGames = popularGames.filter(game =>
-        searchTerm ? game.gameSubject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            game.gameName.toLowerCase().includes(searchTerm.toLowerCase())
-            : true
-    );
+    const displayGames = searchTerm ? searchResults : popularGames;
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -73,27 +103,30 @@ function Index() {
                             text-PS-light-black text-5xl font-bold py-2 px-4 rounded-lg shadow-md w-200 
                             items-center flex justify-center ${cherryBomb.className}`}
                         >
-                            Most Popular Games
+                            {searchTerm ? "Resultados de búsqueda" : "Most Popular Games"}
                         </div>
                     </div>
                     <div className="flex justify-center items-center gap-4 w-full">
-                        <SearchBar placeholder="Search..." onSearch={handleSearch}/>
+                        <SearchBar placeholder="Buscar por nombre o tema..." onSearch={handleSearch}/>
                     </div>
 
-                    {loading ? (
+                    {loading || searching ? (
                         <div className="text-PS-dark-yellow font-bold text-xl">
-                            Loading popular games...
+                            {searching ? "Buscando juegos..." : "Cargando juegos populares..."}
                         </div>
                     ) : error ? (
                         <div className="text-red-500 font-bold text-xl">
                             {error}
                         </div>
-                    ) : filteredGames.length === 0 ? (
+                    ) : displayGames.length === 0 ? (
                         <div className="text-PS-dark-yellow font-bold text-xl">
-                            No games found. Try adjusting your search.
+                            {searchTerm
+                                ? "No se encontraron juegos con ese término. Prueba con otra búsqueda."
+                                : "No hay juegos populares disponibles en este momento."
+                            }
                         </div>
                     ) : (
-                        filteredGames.map((game, index) => (
+                        displayGames.map((game, index) => (
                             <PopularGameCard
                                 key={index}
                                 gameSubject={game.gameSubject}

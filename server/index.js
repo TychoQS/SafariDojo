@@ -226,7 +226,6 @@ app.get('/api/popularGames', (req, res) => {
             return res.status(404).json({ message: "No popular games found" });
         }
         res.status(200).json({
-            message: 'Popular games fetched successfully',
             popularGames: result
         });
     });
@@ -248,7 +247,6 @@ app.get('/api/getQuizName', (req, res) => {
         }
 
         res.status(200).json({
-            message: 'Quiz name fetched successfully',
             quizName: result[0].QuizName
         });
     });
@@ -270,12 +268,48 @@ app.get('/api/getPrimaryColor', (req, res) => {
         }
 
         res.status(200).json({
-            message: 'Primary color fetched successfully',
             primaryColor: result[0].PrimaryColor
         });
     });
 });
 
+app.get('/api/searchGames', (req, res) => {
+    const { query } = req.query;
+
+    if (!query) {
+        return res.status(400).json({
+            message: 'You must type a term of searching games'
+        });
+    }
+
+    const searchQuery = `
+        SELECT DISTINCT
+            sq.QuizId,
+            q.QuizName,
+            s.Name
+        FROM SubjectQuizzes sq
+        LEFT JOIN Quizzes q ON q.Id = sq.QuizId
+        LEFT JOIN Subjects s ON s.Id = sq.SubjectId
+        WHERE q.QuizName LIKE ? OR s.Name LIKE ?
+        ORDER BY q.QuizName
+        LIMIT 10;
+    `;
+
+    const searchTerm = `%${query}%`;
+
+    dbConnection.query(searchQuery, [searchTerm, searchTerm], (err, result) => {
+        if (err) {
+            console.error("Error searching games:", err);
+            return res.status(500).json({
+                message: ""
+            });
+        }
+
+        res.status(200).json({
+            games: result
+        });
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
