@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import Lifes from "@/components/Lifes";
-import animals from "../../../database/jsondata/Subject.json";
 import AgeSelectorButton from "@/components/AgeSelectorButton";
 import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
@@ -38,10 +37,6 @@ function GameSelectionPage() {
                     }
                 } catch (error) {
                     console.error("Error fetching subject data:", error);
-                    const foundSubjectData = animals.find(item => item.subjectName === subject);
-                    if (foundSubjectData) {
-                        setSubjectData(foundSubjectData);
-                    }
                 }
             }
         };
