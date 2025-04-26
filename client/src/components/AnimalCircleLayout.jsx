@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import AnimalIcon from "@/components/AnimalIcon";
 
 export default function CircleLayout() {
     const [hoveredSubject, setHoveredSubject] = useState({subject: null, image: null, hoverText: null});
+    const [subjectData, setSubjectData] = useState(null);
 
     const radius = 180;
     const centerX = 200;
@@ -28,6 +29,35 @@ export default function CircleLayout() {
         }
     ];
 
+    useEffect(() => {
+        if (!hoveredSubject.subject) {
+            setSubjectData(null);
+            return;
+        }
+
+        const fetchSubjectData = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/gameSelectionAssets?` + new URLSearchParams({
+                    subject: hoveredSubject.subject
+                }), {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'},
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch subject data. Status: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                setSubjectData(data);
+            } catch (error) {
+                console.error('Error fetching subject data:', error);
+            }
+        };
+
+        fetchSubjectData();
+    }, [hoveredSubject.subject]);
+
     return (
         <>
             <div className="fixed inset-0 bg-black transition-opacity duration-500 pointer-events-none z-10"
@@ -35,7 +65,6 @@ export default function CircleLayout() {
             />
 
             <div className="relative z-20 flex justify-center items-center w-full h-screen overflow-hidden">
-
                 <div
                     className="relative flex justify-center items-center w-[400px] h-[400px] transition-all duration-700 ease-in-out"
                     style={{
@@ -83,29 +112,26 @@ export default function CircleLayout() {
                         paddingTop: '30px',
                     }}
                 >
-                    {hoveredSubject.image && (
+                    {subjectData && hoveredSubject.subject && (
                         <div className="relative flex flex-col items-center">
                             {hoveredSubject.hoverText && (
                                 <div className="relative mb-6">
                                     <div
                                         className="bg-white text-black text-center text-lg px-6 py-4 rounded-lg shadow-lg relative max-w-xs break-words">
                                         {hoveredSubject.hoverText}
-                                        {/* Flechita */}
                                         <div
                                             className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-t-8 border-t-white border-x-8 border-x-transparent"></div>
                                     </div>
                                 </div>
                             )}
-
                             <img
-                                src={hoveredSubject.image}
+                                src={subjectData.selectGameIcon}
                                 alt="Animal Preview"
-                                className="w-64 h-64 object-cover rounded-lg transition-all duration-700 ease-in-out"
+                                className="rounded-lg transition-all duration-700 ease-in-out"
                             />
                         </div>
                     )}
                 </div>
-
             </div>
         </>
     );
