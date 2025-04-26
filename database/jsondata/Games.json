@@ -10,6 +10,15 @@
       }
     },
     {
+      "gameName": "Mistery Doors",
+      "gameDescription": "Mistery Doors is a maths game where players must solve equations to progress through different levels inside a dungeon. Each level presents a math problem and three doors with possible answers, where players must choose the door with the correct answer to advance. Watch out! There is a time limit for each level to enhance the challenge.",
+      "difficulty": {
+        "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+        "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+        "hard": "Para ganar necesitas superar los 2 puntos!!!"
+      }
+    },
+    {
       "gameName": "Crash Stopper",
       "gameDescription": "Crash Stopper puts you behind the wheel of a high-speed math race! Answer correctly to accelerate, but the faster you go, the closer you are to crashing. Push your limits, outpace your rivals, and see where you land when the dust settles!",
       "difficulty": {
