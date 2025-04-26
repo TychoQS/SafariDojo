@@ -22,7 +22,6 @@ function GameSelectionPage() {
     }, [router.isReady, router.query]);
 
     useEffect(() => {
-
         const fetchData = async () => {
             if (subject) {
                 try {
@@ -50,8 +49,8 @@ function GameSelectionPage() {
     }, [subject]);
 
     const selectGameIcon = subjectData?.selectGameIcon;
-    const backgroundColor = subjectData?.backgroundColor;
-    const borderColor = subjectData?.borderColor;
+    const primaryColor = subjectData?.primaryColor;
+    const secondaryColor = subjectData?.secondaryColor;
     const firstGame = subjectData?.firstGame;
     const secondGame = subjectData?.secondGame;
     const thirdGame = subjectData?.thirdGame;
@@ -62,12 +61,11 @@ function GameSelectionPage() {
         setSelectedButton(Index);
     };
 
-
     const carouselData = [
-        {id: 1, game: firstGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
-        {id: 2, game: secondGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
+        {id: 1, game: firstGame, subject: subject, backgroundColor: primaryColor, borderColor: secondaryColor},
+        {id: 2, game: secondGame, subject: subject, backgroundColor: primaryColor, borderColor: secondaryColor},
         {id: 4, game: "Comming soon...", subject: subject, backgroundColor: "#cccccc", borderColor: "#999999"},
-        {id: 3, game: thirdGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
+        {id: 3, game: thirdGame, subject: subject, backgroundColor: primaryColor, borderColor: secondaryColor},
     ]
 
     return (!subjectData
@@ -86,24 +84,24 @@ function GameSelectionPage() {
                         <div onClick={() => Click("easy")}>
                             <AgeSelectorButton
                                 Age={"Easy"}
-                                BackgroundColor={selectedButton === "easy" ? borderColor : backgroundColor}
-                                BorderColor={selectedButton === "easy" ? backgroundColor : borderColor}
+                                BackgroundColor={selectedButton === "easy" ? secondaryColor : primaryColor}
+                                BorderColor={selectedButton === "easy" ? primaryColor : secondaryColor}
                             />
                         </div>
 
                         <div onClick={() => Click("medium")}>
                             <AgeSelectorButton
                                 Age={"Medium"}
-                                BackgroundColor={selectedButton === "medium" ? borderColor : backgroundColor}
-                                BorderColor={selectedButton === "medium" ? backgroundColor : borderColor}
+                                BackgroundColor={selectedButton === "medium" ? secondaryColor : primaryColor}
+                                BorderColor={selectedButton === "medium" ? primaryColor : secondaryColor}
                             />
                         </div>
 
                         <div onClick={() => Click("hard")}>
                             <AgeSelectorButton
                                 Age={"Hard"}
-                                BackgroundColor={selectedButton === "hard" ? borderColor : backgroundColor}
-                                BorderColor={selectedButton === "hard" ? backgroundColor : borderColor}
+                                BackgroundColor={selectedButton === "hard" ? secondaryColor : primaryColor}
+                                BorderColor={selectedButton === "hard" ? primaryColor : secondaryColor}
                             />
                         </div>
                     </div>

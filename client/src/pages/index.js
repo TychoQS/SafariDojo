@@ -1,93 +1,98 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CircleLayout from "@/components/AnimalCircleLayout";
 import PopularGameCard from "@/components/PopularGameCard";
 import SearchBar from "@/components/SearchBar";
-import FilterBar from "@/components/FilterBar";
-import gamesData from "../../../database/jsondata/Games.json";
 import {cherryBomb} from '@/styles/fonts';
 
 function Index() {
-    const [filters, setFilters] = useState({filterBy: ""});
     const [searchTerm, setSearchTerm] = useState("");
-    const [shuffledGames, setShuffledGames] = useState([]);
-
-    const extractGames = (data) => {
-        let gamesArray = [];
-        Object.keys(data).forEach(subject => {
-            data[subject].forEach((game, index) => {
-                gamesArray.push({
-                    gameSubject: subject.charAt(0).toUpperCase() + subject.slice(1),
-                    gameNumber: index + 1,
-                    gameName: game.gameName,
-                    gameDescription: game.gameDescription,
-                    medalType: ["gold", "silver", "bronze"][Math.floor(Math.random() * 3)],
-                    isCompleted: JSON.parse(localStorage.getItem(`${subject}-${index + 1}-isCompleted`)) || false,
-                });
-            });
-        });
-        return gamesArray;
-    };
-
-    const shuffleArray = (array) => {
-        let shuffled = [...array];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        return shuffled;
-    };
+    const [popularGames, setPopularGames] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searching, setSearching] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const extractedGames = extractGames(gamesData);
-        setShuffledGames(shuffleArray(extractedGames).slice(0, 5));
+        const fetchPopularGames = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch('http://localhost:8080/api/popularGames');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                const formattedGames = data.popularGames.map(game => {
+                    return {
+                        gameSubject: game.Name,
+                        gameNumber: game.QuizId,
+                        gameName: game.QuizName,
+                        isCompleted: false,
+                    };
+                });
+
+                setPopularGames(formattedGames);
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching popular games:", err);
+                setError("No se pudieron cargar los juegos populares. Por favor, inténtalo más tarde.");
+                setLoading(false);
+            }
+        };
+
+        fetchPopularGames();
     }, []);
 
-    const handleSearch = (term) => {
+    const handleSearch = async (term) => {
         setSearchTerm(term);
-    };
 
-    const handleFilterChange = (value) => {
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            filterBy: value,
-        }));
-    };
-
-    const filterAndSortGames = (gamesList) => {
-        let filteredGames = [...gamesList];
-
-        if (searchTerm) {
-            filteredGames = filteredGames.filter((game) =>
-                game.gameSubject.toLowerCase().includes(searchTerm.toLowerCase())
-            );
+        if (!term.trim()) {
+            setSearchResults([]);
+            return;
         }
 
-        switch (filters.filterBy) {
-            case "subject":
-                filteredGames.sort((a, b) => a.gameSubject.localeCompare(b.gameSubject));
-                break;
-            case "medal":
-                const medalOrder = {gold: 1, silver: 2, bronze: 3};
-                filteredGames.sort((a, b) => medalOrder[a.medalType] - medalOrder[b.medalType]);
-                break;
-            case "completed":
-                filteredGames.sort((a, b) => (a.isCompleted === b.isCompleted ? 0 : a.isCompleted ? -1 : 1));
-                break;
-            default:
-                break;
-        }
+        try {
+            setSearching(true);
+            const response = await fetch(`http://localhost:8080/api/searchGames?query=${encodeURIComponent(term)}`);
 
-        return filteredGames;
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            const formattedResults = data.games.map(game => {
+                return {
+                    gameSubject: game.Name,
+                    gameNumber: game.QuizId,
+                    gameName: game.QuizName,
+                    isCompleted: false,
+                };
+            });
+
+            setSearchResults(formattedResults);
+            setSearching(false);
+        } catch (err) {
+            console.error("Error searching games:", err);
+            setError("Error al buscar juegos. Por favor, inténtalo más tarde.");
+            setSearching(false);
+        }
     };
 
-    const filteredGames = filterAndSortGames(shuffledGames);
+    const displayGames = searchTerm ? searchResults : popularGames;
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header/>
             <section className="flex-grow flex flex-col mt-5 justify-center items-center align-middle">
+                <div className={`text-PS-dark-yellow text-5xl font-bold py-1 px-4 
+                                items-center flex justify-center ${cherryBomb.className}`}
+                >
+                    Choose any Master!
+                </div>
                 <CircleLayout/>
                 <section
                     className="w-full flex-grow flex flex-col relative mt-5 items-center bg-PS-light-yellow p-4 gap-6">
@@ -98,26 +103,35 @@ function Index() {
                             text-PS-light-black text-5xl font-bold py-2 px-4 rounded-lg shadow-md w-200 
                             items-center flex justify-center ${cherryBomb.className}`}
                         >
-                            Most Popular Games
+                            {searchTerm ? "Resultados de búsqueda" : "Most Popular Games"}
                         </div>
                     </div>
                     <div className="flex justify-center items-center gap-4 w-full">
-                        <SearchBar placeholder="Search..." onSearch={handleSearch}/>
-                        <FilterBar onFilterChange={handleFilterChange}/>
+                        <SearchBar placeholder="Buscar por nombre o tema..." onSearch={handleSearch}/>
                     </div>
 
-                    {filteredGames.length === 0 ? (
+                    {loading || searching ? (
                         <div className="text-PS-dark-yellow font-bold text-xl">
-                            No games found. Try adjusting the filters.
+                            {searching ? "Buscando juegos..." : "Cargando juegos populares..."}
+                        </div>
+                    ) : error ? (
+                        <div className="text-red-500 font-bold text-xl">
+                            {error}
+                        </div>
+                    ) : displayGames.length === 0 ? (
+                        <div className="text-PS-dark-yellow font-bold text-xl">
+                            {searchTerm
+                                ? "No se encontraron juegos con ese término. Prueba con otra búsqueda."
+                                : "No hay juegos populares disponibles en este momento."
+                            }
                         </div>
                     ) : (
-                        filteredGames.map((game, index) => (
+                        displayGames.map((game, index) => (
                             <PopularGameCard
                                 key={index}
                                 gameSubject={game.gameSubject}
                                 gameNumber={game.gameNumber}
                                 isCompleted={game.isCompleted}
-                                medalType={game.medalType}
                             />
                         ))
                     )}

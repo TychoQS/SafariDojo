@@ -149,57 +149,67 @@
                                     SubjectId INT,
                                     QuizId INT,
                                     Difficulty TINYINT NOT NULL,  -- 0: easy, 1: normal, 2: hard
-                                    CompletedCount INT DEFAULT 0,
+                                    CompletedCount INT DEFAULT 1,
                                     PRIMARY KEY (SubjectId, QuizId, Difficulty),
                                     FOREIGN KEY (SubjectId) REFERENCES Subjects(Id),
                                     FOREIGN KEY (QuizId) REFERENCES Quizzes(Id)
     );
 
-    INSERT INTO SubjectQuizzes(SubjectId, QuizId, Difficulty) VALUES (1, 5, 0),
-                                                                  (1, 5, 1),
-                                                                  (1, 5, 2),
-                                                                  (1, 6, 0),
-                                                                  (1, 6, 1),
-                                                                  (1, 6, 2),
-                                                                  (1, 4, 0),
-                                                                  (1, 4, 1),
-                                                                  (1, 4, 2),
-                                                                  (2, 13, 0),
-                                                                  (2, 13, 1),
-                                                                  (2, 13, 2),
-                                                                  (2, 14, 0),
-                                                                  (2, 14, 1),
-                                                                  (2, 14, 2),
-                                                                  (2, 15, 0),
-                                                                  (2, 15, 1),
-                                                                  (2, 15, 2),
-                                                                  (3, 7, 0),
-                                                                  (3, 7, 1),
-                                                                  (3, 7, 2),
-                                                                  (3, 8, 0),
-                                                                  (3, 8, 1),
-                                                                  (3, 8, 2),
-                                                                  (3, 9, 0),
-                                                                  (3, 9, 1),
-                                                                  (3, 9, 2),
-                                                                  (4, 1, 0),
-                                                                  (4, 1, 1),
-                                                                  (4, 1, 2),
-                                                                  (4, 2, 0),
-                                                                  (4, 2, 1),
-                                                                  (4, 2, 2),
-                                                                  (4, 3, 0),
-                                                                  (4, 3, 1),
-                                                                  (4, 3, 2),
-                                                                  (5, 10, 0),
-                                                                  (5, 10, 1),
-                                                                  (5, 10, 2),
-                                                                  (5, 12, 0),
-                                                                  (5, 12, 1),
-                                                                  (5, 12, 2),
-                                                                  (5, 11, 0),
-                                                                  (5, 11, 1),
-                                                                  (5, 11, 2);
+    INSERT INTO SubjectQuizzes(SubjectId, QuizId, Difficulty, CompletedCount) VALUES
+                                                                                  -- Subject 1
+                                                                                  (1, 5, 0, 87), -- Detective Lupin
+                                                                                  (1, 5, 1, 81),
+                                                                                  (1, 5, 2, 74),
+                                                                                  (1, 6, 0, 82), -- Make the Film
+                                                                                  (1, 6, 1, 75),
+                                                                                  (1, 6, 2, 68),
+                                                                                  (1, 4, 0, 50), -- Domino Master
+                                                                                  (1, 4, 1, 44),
+                                                                                  (1, 4, 2, 38),
+
+                                                                                  -- Subject 2
+                                                                                  (2, 13, 0, 98), -- Call of the Clan
+                                                                                  (2, 13, 1, 93),
+                                                                                  (2, 13, 2, 87),
+                                                                                  (2, 14, 0, 83), -- Snake Maze
+                                                                                  (2, 14, 1, 76),
+                                                                                  (2, 14, 2, 70),
+                                                                                  (2, 15, 0, 49), -- Memory
+                                                                                  (2, 15, 1, 42),
+                                                                                  (2, 15, 2, 35),
+
+                                                                                  -- Subject 3
+                                                                                  (3, 7, 0, 97), -- Math Invasors
+                                                                                  (3, 7, 1, 91),
+                                                                                  (3, 7, 2, 84),
+                                                                                  (3, 8, 0, 48), -- Mistery Doors
+                                                                                  (3, 8, 1, 42),
+                                                                                  (3, 8, 2, 36),
+                                                                                  (3, 9, 0, 88), -- Cross Math
+                                                                                  (3, 9, 1, 80),
+                                                                                  (3, 9, 2, 70),
+
+                                                                                  -- Subject 4
+                                                                                  (4, 2, 0, 77), -- Detective MrWorldwide
+                                                                                  (4, 2, 1, 70),
+                                                                                  (4, 2, 2, 63),
+                                                                                  (4, 1, 0, 85), -- Pin the Place
+                                                                                  (4, 1, 1, 78),
+                                                                                  (4, 1, 2, 70),
+                                                                                  (4, 3, 0, 95), -- Where is my country
+                                                                                  (4, 3, 1, 89),
+                                                                                  (4, 3, 2, 82),
+
+                                                                                  -- Subject 5
+                                                                                  (5, 10, 0, 79), -- Crossword
+                                                                                  (5, 10, 1, 72),
+                                                                                  (5, 10, 2, 75),
+                                                                                  (5, 11, 0, 79), -- Letter Soup
+                                                                                  (5, 11, 1, 73),
+                                                                                  (5, 11, 2, 66),
+                                                                                  (5, 12, 0, 99), -- Mahjong
+                                                                                  (5, 12, 1, 94),
+                                                                                  (5, 12, 2, 88);
 
     DELIMITER //
 

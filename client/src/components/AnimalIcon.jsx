@@ -1,26 +1,4 @@
-/*
-======================== USAGE ====================
-Subject animals
-        <AnimalIcon
-            subject={"Math"}
-            style={{ top: "50px", left: "100px" }}
-            borderThickness={8}
-            link = true
-            size="small">
-        </AnimalIcon>
-
-Profile animals
-        <AnimalIcon
-            animalName="Lion"
-            style={{ top: "150px", left: "200px" }}
-            backgroundColor="#FBC078"
-            borderThickness={5}
-        />
-
-*/
-
-import React from "react";
-import animals from "../../../database/jsondata/Subject.json";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function AnimalIcon({
@@ -30,18 +8,46 @@ export default function AnimalIcon({
                                        borderThickness = 6,
                                        animalName,
                                        size = "medium",
-                                       link = false
+                                       link = false,
+                                       onHoverChange,
+                                       hoveredSubject
                                    }) {
-    const subjectData = animals.find(item => item.subjectName === subject);
+    const [subjectData, setSubjectData] = useState(null);
+
+    useEffect(() => {
+        if (!subject) return;
+
+        const fetchSubjectData = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/gameSelectionAssets?` + new URLSearchParams({
+                    subject: subject
+                }), {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch subject data. Status: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                setSubjectData(data);
+            } catch (error) {
+                console.error('Error fetching subject data:', error);
+            }
+        };
+
+        fetchSubjectData();
+    }, [subject]);
 
     const baseIcon = subjectData
         ? subjectData.baseIcon
         : `/images/ProfileAnimals/${animalName}.png`;
 
-    const borderColor = subjectData ? subjectData.borderColor : "#FBB000";
+    const newBackgroundColor = subjectData ? subjectData.secondaryColor : backgroundColor;
+    const newBorderColor = subjectData ? subjectData.primaryColor : "#FBB000";
 
     let sizeClasses = "";
-
     switch (size) {
         case "medium":
             sizeClasses = "md:w-32 md:h-32";
@@ -54,14 +60,22 @@ export default function AnimalIcon({
             break;
     }
 
-    const iconContent = (
-        <div className="absolute" style={style}>
+    const content = (
+        <div
+            className={`absolute group flex flex-col items-center transition-all duration-300
+        ${hoveredSubject && subject !== hoveredSubject ? 'opacity-90 grayscale' : ''}`}
+            style={style}
+            onMouseEnter={() => onHoverChange?.(subject, baseIcon)}
+            onMouseLeave={() => onHoverChange?.(null, null)}
+        >
             <div
-                className={`rounded-full overflow-hidden ${sizeClasses}`}
+                className={`rounded-full overflow-hidden border-solid transition-transform duration-300 ease-in-out 
+                    group-hover:scale-130 group-hover:shadow-xl cursor-pointer ${sizeClasses}`}
                 style={{
-                    backgroundColor,
-                    borderColor,
+                    backgroundColor: newBackgroundColor,
+                    borderColor: newBorderColor,
                     borderWidth: borderThickness,
+                    borderStyle: 'solid'
                 }}
             >
                 <img
@@ -74,10 +88,10 @@ export default function AnimalIcon({
     );
 
     return link ? (
-        <Link href={{pathname: "/GameSelectionPage", query: {Subject: subject}}}>
-            {iconContent}
+        <Link href={{ pathname: "/GameSelectionPage", query: { Subject: subject } }}>
+            {content}
         </Link>
     ) : (
-        iconContent
+        content
     );
 }
