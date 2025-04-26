@@ -7,37 +7,6 @@ import {useRouter} from "next/router";
 const SignUpFirstStep = () => {
     const router = useRouter();
 
-    useEffect(() => {
-        const emailInput = document.getElementById("UserEmail");
-        if (emailInput) {
-            emailInput.addEventListener("input", () => clearErrors(emailInput));
-        }
-    }, []);
-
-    const clearErrors = (emailInput) => {
-        const existingError = document.getElementById("custom-email-error");
-        if (existingError) {
-            existingError.remove();
-        }
-        emailInput.classList.remove('border-red-500');
-    };
-
-    function handleUsedEmail(message) {
-        const emailInput = document.getElementById("UserEmail");
-        const parentDiv = emailInput.closest('div');
-        const existingError = document.getElementById("custom-email-error");
-        if (existingError) {
-            existingError.textContent = message;
-        } else {
-            const errorElement = document.createElement('p');
-            errorElement.id = "custom-email-error";
-            errorElement.textContent = message;
-            errorElement.className = "text-red-500 text-sm mt-1 text-center";
-            emailInput.classList.add('border-red-500');
-            parentDiv.appendChild(errorElement);
-        }
-    }
-
     const handleSubmit = async (formData) => {
         const {FullName, UserEmail} = formData;
         const Response = await fetch("http://localhost:8080/api/email", {
