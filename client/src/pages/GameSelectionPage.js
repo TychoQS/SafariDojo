@@ -7,6 +7,7 @@ import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {cherryBomb} from "@/styles/fonts";
 import Carousel from "@/components/Carousel";
+import LoadingPage from "@/components/LoadingPage";
 
 function GameSelectionPage() {
     const router = useRouter();
@@ -69,7 +70,8 @@ function GameSelectionPage() {
         {id: 3, game: thirdGame, subject: subject, backgroundColor: backgroundColor, borderColor: borderColor},
     ]
 
-    return (
+    return (!subjectData
+            ? <LoadingPage/> :
         <div className={"app min-h-screen flex flex-col bg-PS-main-purple relative"}>
             <Header/>
             <div className="flex items-end justify-end">
