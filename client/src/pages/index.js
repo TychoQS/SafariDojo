@@ -1,88 +1,58 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CircleLayout from "@/components/AnimalCircleLayout";
 import PopularGameCard from "@/components/PopularGameCard";
 import SearchBar from "@/components/SearchBar";
-import FilterBar from "@/components/FilterBar";
-import gamesData from "../../../database/jsondata/Games.json";
 import {cherryBomb} from '@/styles/fonts';
 
 function Index() {
-    const [filters, setFilters] = useState({filterBy: ""});
     const [searchTerm, setSearchTerm] = useState("");
-    const [shuffledGames, setShuffledGames] = useState([]);
-
-    const extractGames = (data) => {
-        let gamesArray = [];
-        Object.keys(data).forEach(subject => {
-            data[subject].forEach((game, index) => {
-                gamesArray.push({
-                    gameSubject: subject.charAt(0).toUpperCase() + subject.slice(1),
-                    gameNumber: index + 1,
-                    gameName: game.gameName,
-                    gameDescription: game.gameDescription,
-                    medalType: ["gold", "silver", "bronze"][Math.floor(Math.random() * 3)],
-                    isCompleted: JSON.parse(localStorage.getItem(`${subject}-${index + 1}-isCompleted`)) || false,
-                });
-            });
-        });
-        return gamesArray;
-    };
-
-    const shuffleArray = (array) => {
-        let shuffled = [...array];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        return shuffled;
-    };
+    const [popularGames, setPopularGames] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const extractedGames = extractGames(gamesData);
-        setShuffledGames(shuffleArray(extractedGames).slice(0, 5));
+        const fetchPopularGames = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch('http://localhost:8080/api/popularGames');
+                console.log(response);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                const formattedGames = data.popularGames.map(game => {
+                    return {
+                        gameSubject: game.Name,
+                        gameNumber: game.QuizId,
+                        isCompleted: false,
+                    };
+                });
+
+                setPopularGames(formattedGames);
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching popular games:", err);
+                setError("Failed to load popular games. Please try again later.");
+                setLoading(false);
+            }
+        };
+
+        fetchPopularGames();
     }, []);
 
     const handleSearch = (term) => {
         setSearchTerm(term);
     };
 
-    const handleFilterChange = (value) => {
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            filterBy: value,
-        }));
-    };
-
-    const filterAndSortGames = (gamesList) => {
-        let filteredGames = [...gamesList];
-
-        if (searchTerm) {
-            filteredGames = filteredGames.filter((game) =>
-                game.gameSubject.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-        }
-
-        switch (filters.filterBy) {
-            case "subject":
-                filteredGames.sort((a, b) => a.gameSubject.localeCompare(b.gameSubject));
-                break;
-            case "medal":
-                const medalOrder = {gold: 1, silver: 2, bronze: 3};
-                filteredGames.sort((a, b) => medalOrder[a.medalType] - medalOrder[b.medalType]);
-                break;
-            case "completed":
-                filteredGames.sort((a, b) => (a.isCompleted === b.isCompleted ? 0 : a.isCompleted ? -1 : 1));
-                break;
-            default:
-                break;
-        }
-
-        return filteredGames;
-    };
-
-    const filteredGames = filterAndSortGames(shuffledGames);
+    const filteredGames = popularGames.filter(game =>
+        searchTerm ? game.gameSubject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            game.gameName.toLowerCase().includes(searchTerm.toLowerCase())
+            : true
+    );
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -103,12 +73,19 @@ function Index() {
                     </div>
                     <div className="flex justify-center items-center gap-4 w-full">
                         <SearchBar placeholder="Search..." onSearch={handleSearch}/>
-                        <FilterBar onFilterChange={handleFilterChange}/>
                     </div>
 
-                    {filteredGames.length === 0 ? (
+                    {loading ? (
                         <div className="text-PS-dark-yellow font-bold text-xl">
-                            No games found. Try adjusting the filters.
+                            Loading popular games...
+                        </div>
+                    ) : error ? (
+                        <div className="text-red-500 font-bold text-xl">
+                            {error}
+                        </div>
+                    ) : filteredGames.length === 0 ? (
+                        <div className="text-PS-dark-yellow font-bold text-xl">
+                            No games found. Try adjusting your search.
                         </div>
                     ) : (
                         filteredGames.map((game, index) => (
@@ -117,7 +94,6 @@ function Index() {
                                 gameSubject={game.gameSubject}
                                 gameNumber={game.gameNumber}
                                 isCompleted={game.isCompleted}
-                                medalType={game.medalType}
                             />
                         ))
                     )}

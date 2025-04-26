@@ -202,6 +202,80 @@ app.post("/api/updatePremium", (req, res) => {
     });
 });
 
+app.get('/api/popularGames', (req, res) => {
+    const query = `
+        SELECT DISTINCT
+            sq.QuizId,
+            q.QuizName,
+            s.Name,
+            SUM(sq.CompletedCount) AS CompletedCount
+        FROM SubjectQuizzes sq
+                 LEFT JOIN Quizzes q ON q.Id = sq.QuizId
+                 LEFT JOIN Subjects s ON s.Id = sq.SubjectId
+        GROUP BY sq.QuizId, q.QuizName, s.Name
+        ORDER BY CompletedCount DESC
+            LIMIT 5;
+`;
+    dbConnection.query(query, (err, result) => {
+        if (err) {
+            console.error("Error fetching popular games:", err);
+            return res.status(500).json({ message: "Something went wrong while fetching popular games" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "No popular games found" });
+        }
+        res.status(200).json({
+            message: 'Popular games fetched successfully',
+            popularGames: result
+        });
+    });
+});
+
+app.get('/api/getQuizName', (req, res) => {
+    const { quizId } = req.query;
+
+    const query = 'SELECT QuizName FROM Quizzes WHERE Id = ?';
+
+    dbConnection.query(query, [quizId], (err, result) => {
+        if (err) {
+            console.error("Error fetching quiz name:", err);
+            return res.status(500).json({ message: "Something went wrong while fetching quiz name" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Quiz not found" });
+        }
+
+        res.status(200).json({
+            message: 'Quiz name fetched successfully',
+            quizName: result[0].QuizName
+        });
+    });
+});
+
+app.get('/api/getPrimaryColor', (req, res) => {
+    const { subjectName } = req.query;
+
+    const query = 'SELECT PrimaryColor FROM Subjects WHERE Name = ?';
+
+    dbConnection.query(query, [subjectName], (err, result) => {
+        if (err) {
+            console.error("Error fetching primary color:", err);
+            return res.status(500).json({ message: "Something went wrong while fetching primary color" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Subject not found" });
+        }
+
+        res.status(200).json({
+            message: 'Primary color fetched successfully',
+            primaryColor: result[0].PrimaryColor
+        });
+    });
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
