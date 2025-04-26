@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
+import Link from "next/link";
+
 
 const initialCards = () => {
     const pairs = [
@@ -28,10 +30,13 @@ export default function MemoryGame() {
     const [mistakes, setMistakes] = useState(0);
     const [lives, setLives] = useState(3);
     const [gameOver, setGameOver] = useState(false);
+    const [preview, setPreview] = useState(true);
+    const [isClient, setIsClient] = useState(false);
 
     const successSound = useRef(null);
     const failSound = useRef(null);
     const winSound = useRef(null);
+    const loseSound = useRef(null);
     const lifesRef = useRef(null);
 
     useEffect(() => {
@@ -52,6 +57,7 @@ export default function MemoryGame() {
     useEffect(() => {
         if (mistakes === 5) {
             setGameOver(true);
+            loseSound.current.play();
             lifesRef.current.loseLife();
         }
     }, [mistakes]);
@@ -61,6 +67,18 @@ export default function MemoryGame() {
             setTimeout(() => winSound.current.play(), 500);
         }
     }, [matched]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setPreview(false);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const handleClick = (card) => {
         if (
@@ -76,7 +94,7 @@ export default function MemoryGame() {
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header />
-            <main className="flex-1 flex flex-col justify-start px-4">
+            <main className="flex-1 flex flex-col justify-start px-4 relative">
             <div className="flex items-center justify-between">
                 <div className={`ml-20 text-4xl 
                 ${5 - mistakes <= 1 ? "text-red-500 animate-bounce" : "text-white animate-pulse"}`}>
@@ -85,46 +103,63 @@ export default function MemoryGame() {
                 <Lifes ref={lifesRef} lives={lives} />
             </div>
 
-            <div className="grid grid-cols-5 gap-10 justify-items-center">
-                {cards.map((card) => {
-                    const isFlipped =
-                        selected.includes(card) || matched.includes(card.pairId);
-                    const isMatched = matched.includes(card.pairId);
+                {isClient && (
+                    <div className="grid grid-cols-5 gap-10 justify-items-center">
+                        {cards.map((card) => {
+                            const isFlipped =
+                                selected.includes(card) || matched.includes(card.pairId) || preview;
+                            const isMatched = matched.includes(card.pairId);
 
-                    return (
-                        <div
-                            key={card.id}
-                            onClick={() => handleClick(card)}
-                            className={`cursor-pointer mt-8 flex items-center justify-center w-75 h-90 border rounded-xl text-xl 
+                            return (
+                                <div
+                                    key={card.id}
+                                    onClick={() => handleClick(card)}
+                                    className={`cursor-pointer mt-8 flex items-center justify-center w-44 h-60 border rounded-xl text-xl 
                             shadow-md transition-transform duration-300 ease-in-out transform text-black ${
-                                isFlipped ? "rotate-y-360 bg-white" : "bg-gray-300"
-                            } ${isMatched ? "opacity-0 scale-75" : "hover:scale-105"}`}
-                            style={{
-                                perspective: "1000px",
-                                transition: "all 0.8s ease",
-                            }}
-                        >
-                            {isFlipped ? card.value : "?"}
+                                        isFlipped ? "rotate-y-360 bg-white" : "bg-gray-300"
+                                    } ${isMatched ? "opacity-0 scale-75" : "hover:scale-105"}`}
+                                    style={{
+                                        perspective: "1000px",
+                                        transition: "all 0.8s ease",
+                                    }}
+                                >
+                                    {isFlipped ? card.value : "?"}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+
+                {(matched.length === cards.length / 2 || gameOver) && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-main-purple bg-opacity-90 z-50">
+                        {matched.length === cards.length / 2 && (
+                            <div className="text-center text-green-600 font-bold text-3xl animate-bounce">
+                                🏅 ¡Felicidades! Has ganado una medalla.
+                            </div>
+                        )}
+
+                        {gameOver && (
+                            <div className="text-center text-red-500 font-bold text-3xl animate-pulse">
+                                💀 ¡Has perdido! Vuelve a intentarlo.
+                            </div>
+                        )}
+                        <div className={"mt-8 space-x-8 flex flex-row"}>
+                            <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none text-lg " +
+                                "border-[#6EF68B] bg-[#C9F1D2] text-black"} onClick={() => window.location.reload()}>
+                                Play again
+                            </button>
+                            <Link href={{pathname: "../GameSelectionPage"}}>
+                                <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
+                                    "text-lg border-[#6EF68B] bg-[#C9F1D2] text-black"}>Finish game</button>
+                            </Link>
                         </div>
-                    );
-                })}
-            </div>
-
-            {matched.length === cards.length / 2 && (
-                <div className="text-center mt-6 text-green-600 font-bold text-xl animate-bounce">
-                    🏅 ¡Felicidades! Has ganado una medalla de élite.
-                </div>
-            )}
-
-            {gameOver && (
-                <div className="text-center mt-6 text-red-500 font-bold text-xl animate-pulse">
-                    💀 ¡Has perdido! Vuelve a intentarlo.
-                </div>
-            )}
+                    </div>
+                )}
 
             <audio ref={successSound} src="/sounds/correct_answer.mp3" preload="auto" />
             <audio ref={failSound} src="/sounds/fail_answer.mp3" preload="auto" />
             <audio ref={winSound} src="/sounds/win_game.mp3" preload="auto" />
+            <audio ref={loseSound} src="/sounds/lose_game.mp3" preload="auto" />
             </main>
 
             <Footer />
