@@ -1,58 +1,79 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/pages/context/AuthContext";
 import { useRouter } from "next/router";
-import games from "../../../database/jsondata/Games.json";
 import Lifes from "@/components/Lifes";
 import Button from "@/components/Button";
 import Title from "@/components/Title";
-import {cherryBomb} from "@/styles/fonts";
+import { cherryBomb } from "@/styles/fonts";
 
 function QuizzPreview() {
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn, userId } = useAuth();
     const router = useRouter();
 
     const [subject, setSubject] = useState(null);
     const [subjectData, setSubjectData] = useState(null);
-
-    const [game, setGame] = useState(null);
     const [gameData, setGameData] = useState(null);
-
-    const [age, setAge] = useState(null);
+    const [age, setDifficulty] = useState(null); // Dificultad
     const [bestScore, setBestScore] = useState(0);
 
     useEffect(() => {
         if (router.isReady) {
             const querySubject = router.query.Subject;
             const queryGame = router.query.Game;
-            const queryAge = router.query.Age;
+            const queryDifficulty = router.query.Difficulty;
             setSubject(querySubject);
-            setGame(queryGame);
-            setAge(queryAge);
+            setGameData(queryGame);
+            setDifficulty(queryDifficulty);
         }
     }, [router.isReady, router.query]);
 
     async function fetchSubjectData() {
         if (subject) {
-            const foundSubjectData = await fetch(`http://localhost:8080/api/gameSelectionAssets?` + new URLSearchParams({
-                subject: subject
-            }), {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-            });
-            if (foundSubjectData) {
-                const quizPreviewSubjectData = await foundSubjectData.json();
-                setSubjectData(quizPreviewSubjectData);
+            const response = await fetch(`http://localhost:8080/api/gameSelectionAssets?subject=${subject}`);
+            if (response.ok) {
+                const data = await response.json();
+                setSubjectData(data);
+            } else {
+                console.error("Error fetching subject data");
             }
         }
     }
 
     async function fetchBestScore() {
-        if (game) {
-            const storedScore = localStorage.getItem(`${game}_bestScore`);
+        if (gameData && subject && age) {
+            const storedScore = localStorage.getItem(`${gameData}_${age}_bestScore`);
             if (storedScore) {
                 setBestScore(parseInt(storedScore));
+            } else {
+                const response = await fetch(`http://localhost:8080/api/getBestScore?userId=${userId}&quizId=${gameData}&difficulty=${age}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setBestScore(data.bestScore);
+                }
+            }
+        }
+    }
+
+    async function updateBestScore(newScore) {
+        if (gameData && subject && age) {
+            const response = await fetch('http://localhost:8080/api/updateBestScore', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: userId,
+                    quizId: gameData,
+                    difficulty: age,
+                    bestScore: newScore
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message);
+            } else {
+                console.log("Error updating best score");
             }
         }
     }
@@ -61,30 +82,28 @@ function QuizzPreview() {
         const fetchData = async () => {
             await fetchSubjectData();
             await fetchBestScore();
-        }
+        };
         fetchData();
-
-        if (subject && game) {
-            const subjectGames = games[subject.toLowerCase()];
-            if (subjectGames) {
-                const foundGameData = subjectGames.find(item => item.gameName === game);
-                if (foundGameData) {
-                    setGameData(foundGameData);
-                }
-            }
-        }
-    }, [game, subject]);
+    }, [gameData, subject, age]);
 
     const selectGameIcon = subjectData?.PreviewGameImage;
     const youtubeLink = gameData?.youtubePreview || "https://www.youtube.com/embed/dQw4w9WgXcQ";
 
     function startGame() {
-        if (game) {
-            const decodedGame = decodeURIComponent(game);
+        if (gameData) {
+            const decodedGame = decodeURIComponent(gameData);
             const formattedGame = decodedGame.replace(/(?:^|\s)\w/g, (match) => match.toUpperCase()).replace(/\s+/g, '');
             window.location.href = `/games/${formattedGame}`;
         } else {
             console.log("The param 'Game' is not in the URL.");
+        }
+    }
+
+    function finishGame(score) {
+        if (score > bestScore) {
+            setBestScore(score);
+            localStorage.setItem(`${gameData}_${age}_bestScore`, score);
+            updateBestScore(score);
         }
     }
 
@@ -97,7 +116,7 @@ function QuizzPreview() {
 
             <main className="flex-grow flex flex-col items-center justify-center p-6 space-y-16">
                 <div className="flex flex-col items-center w-full space-y-8">
-                    <Title className="text-white text-3xl font-bold">{game}</Title>
+                    <Title className="text-white text-3xl font-bold">{gameData}</Title>
 
                     <div className="flex flex-col md:flex-row w-full max-w-7xl items-center justify-center gap-16 m-4">
                         <div className="w-full relative" style={{ paddingTop: '40%' }}>
@@ -121,9 +140,11 @@ function QuizzPreview() {
                 </div>
 
                 <div className="flex flex-row items-center gap-16">
-                    <div className={`w-64 h-12 text-2xl text-PS-dark-yellow bg-PS-light-black p-4 rounded-2xl shadow-md flex items-center justify-center font-black ${cherryBomb.className}`}>
-                        🏆 Best Score: {bestScore}
-                    </div>
+                    {isLoggedIn && (
+                        <div className={`w-64 h-12 text-2xl text-PS-dark-yellow bg-PS-light-black p-4 rounded-2xl shadow-md flex items-center justify-center font-black ${cherryBomb.className}`}>
+                            🏆 Best Score: {bestScore}
+                        </div>
+                    )}
                     <Button size="large" onClick={startGame}>Start</Button>
                 </div>
 

@@ -311,6 +311,88 @@ app.get('/api/searchGames', (req, res) => {
     });
 });
 
+app.get('/api/getBestScore', (req, res) => {
+    const { userId, quizId, difficulty } = req.query;
+
+    if (!userId || !quizId || !difficulty) {
+        return res.status(400).json({ message: 'Missing parameters: userId, quizId, and difficulty are required' });
+    }
+
+    let column = '';
+    if (difficulty === 'easy') {
+        column = 'BestScoreEasy';
+    } else if (difficulty === 'medium') {
+        column = 'BestScoreMedium';
+    } else if (difficulty === 'difficult') {
+        column = 'BestScoreDifficult';
+    } else {
+        return res.status(400).json({ message: 'Invalid difficulty' });
+    }
+
+    const query = `SELECT ${column} FROM UserQuizzes WHERE UserId = ? AND QuizId = ?`;
+
+    dbConnection.query(query, [userId, quizId], (err, result) => {
+        if (err) {
+            console.error("Error fetching best score:", err);
+            return res.status(500).json({ message: 'Something went wrong while fetching best score' });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'Best score not found for this user and quiz' });
+        }
+
+        const bestScore = result[0][column];
+        res.status(200).json({ bestScore });
+    });
+});
+
+
+app.post('/api/updateBestScore', (req, res) => {
+    const { UserId, QuizId, Difficulty, Score } = req.body;
+
+    let column = '';
+    if (Difficulty === 'easy') {
+        column = 'BestScoreEasy';
+    } else if (Difficulty === 'medium') {
+        column = 'BestScoreMedium';
+    } else if (Difficulty === 'difficult') {
+        column = 'BestScoreDifficult';
+    } else {
+        return res.status(400).json({ message: "Invalid difficulty" });
+    }
+
+    const selectQuery = `SELECT ${column} FROM UserQuizzes WHERE UserId = ? AND QuizId = ?`;
+
+    dbConnection.query(selectQuery, [UserId, QuizId], (err, result) => {
+        if (err) {
+            console.error("Error fetching current best score:", err);
+            return res.status(500).json({ message: "Something went wrong while fetching best score" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Quiz not found for the user" });
+        }
+
+        const currentBestScore = result[0][column];
+
+        if (Score > currentBestScore) {
+            const updateQuery = `UPDATE UserQuizzes SET ${column} = ? WHERE UserId = ? AND QuizId = ?`;
+
+            dbConnection.query(updateQuery, [Score, UserId, QuizId], (updateErr, updateResult) => {
+                if (updateErr) {
+                    console.error("Error updating best score:", updateErr);
+                    return res.status(500).json({ message: "Error updating best score" });
+                }
+
+                return res.status(200).json({ message: "Best score updated successfully" });
+            });
+        } else {
+            return res.status(200).json({ message: "New score is not higher than the current best score" });
+        }
+    });
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
