@@ -28,7 +28,8 @@
                            ProfileIcon VARCHAR(64) DEFAULT 'Sheep',
                            Premium BOOLEAN DEFAULT FALSE,
                            Lifes TINYINT DEFAULT 5,
-                           RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                           RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                           LastLogoutTime TIMESTAMP DEFAULT NULL
     );
 
     INSERT INTO Users (Name, Email, Password, ProfileIcon) VALUES
