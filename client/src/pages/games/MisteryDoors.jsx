@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import levelsData from "../../../../database/jsondata/MisteryDoors.json"
+import {cherryBomb} from "@/styles/fonts";
 
 const MisteryDoorsGame = () => {
     const [gameState, setGameState] = useState('playing');
@@ -121,10 +122,10 @@ const MisteryDoorsGame = () => {
                     setLevel(level + 1);
                     startLevel();
                 }
-            }, 1500);
+            }, 3000);
         } else {
             setLives(lives - 1);
-            setFeedbackMessage(`Nice try... It was ${problem.correctAnswer}`);
+            setFeedbackMessage(`Not at all... Think about it again!`);
             setShowFeedback(true);
 
             setTimeout(() => {
@@ -133,7 +134,7 @@ const MisteryDoorsGame = () => {
                 } else {
                     startLevel();
                 }
-            }, 1500);
+            }, 3000);
         }
     };
 
@@ -195,12 +196,12 @@ const MisteryDoorsGame = () => {
                         </div>
                     </Link>
                 )}
-                <div className="relative w-[1200px] h-[800px] bg-PS-math-color rounded-lg overflow-hidden border-4 border-purple-900 mb-2">
+                <div className="relative w-[1200px] h-[968px] bg-violet-700 rounded-lg overflow-hidden border-4 border-stone-700 mb-5">
                     {gameState === 'playing' && (
                         <>
-                            <div className="absolute text-2xl top-0 left-0 w-full bg-purple-600 bg-opacity-70 p-2 flex justify-between">
-                                <div>Level: {level}/{MAX_LEVELS}</div>
-                                <div>Score: {score}</div>
+                            <div className="absolute text-2xl top-0 left-0 w-full bg-purple-900 bg-opacity-70 p-2 flex justify-between">
+                                <div className="font-bold">Level: {level}/{MAX_LEVELS}</div>
+                                <div className="font-bold">Score: {score}</div>
                                 <div className="flex items-center">
                                     <div className="text-red-500 font-bold mr-2">
                                         {Array(lives).fill('❤️').join(' ')}
@@ -208,11 +209,11 @@ const MisteryDoorsGame = () => {
                                 </div>
                             </div>
 
-                            <div className="absolute text-xl top-12 left-0 w-full text-center bg-purple-600 bg-opacity-70 p-2">
+                            <div className="absolute text-xl top-12 left-0 w-full text-center font-bold bg-purple-900 bg-opacity-70 p-2">
                                 {showFeedback ? feedbackMessage : 'Which door has the correct answer?'}
                             </div>
 
-                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-3/4">
+                            <div className="absolute mt-8 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-3/4">
                                 <div className="text-4xl font-bold text-white text-center mb-8">
                                     {problem && problem.text}
                                 </div>
@@ -234,6 +235,10 @@ const MisteryDoorsGame = () => {
                                     </div>
                                 )}
                             </div>
+
+                            <div className="absolute text-xs bottom-4 right-4 bg-gray-600 bg-opacity-70 p-2 rounded text-white">
+                                Note: Click on the door with the correct answer
+                            </div>
                         </>
                     )}
 
@@ -244,13 +249,25 @@ const MisteryDoorsGame = () => {
                                 <p className="text-white text-lg mb-6">You have 2 options:</p>
 
                                 <div className="flex justify-center gap-8 mb-8">
-                                    <Button size="large" onClick={takeSmallReward}>
+                                    <button
+                                        className={`cursor-pointer w-64 h-20 text-2xl rounded-2xl border-2 border-b-8
+                                            border-PS-light-black hover:bg-orange-400 hover:border-none 
+                                            bg-PS-dark-yellow font-black shadow-md text-PS-light-black
+                                            focus:outline-none ${cherryBomb.className}`}
+                                        onClick={takeSmallReward}
+                                    >
                                         Take {score} points and leave
-                                    </Button>
+                                    </button>
                                     <div className="text-white text-2xl font-bold flex items-center">OR</div>
-                                    <Button size="large" onClick={() => {}}>
+                                    <button
+                                        className={`cursor-pointer w-64 h-20 text-2xl rounded-2xl border-2 border-b-8
+                                            border-PS-light-black hover:bg-orange-400 hover:border-none 
+                                            bg-PS-dark-yellow font-black shadow-md text-PS-light-black
+                                            focus:outline-none ${cherryBomb.className}`}
+                                        onClick={() => {}}
+                                    >
                                         Try opening the safe (+100 points)
-                                    </Button>
+                                    </button>
                                 </div>
 
                                 <div className="bg-stone-600 p-6 rounded-lg">
@@ -286,7 +303,7 @@ const MisteryDoorsGame = () => {
                     )}
 
                     {gameState === 'win' && (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-math-color text-black">
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-violet-700 text-white">
                             <h2 className="text-4xl font-bold mb-4">You Win!</h2>
                             <p className="text-2xl mb-6">{feedbackMessage}</p>
                             <p className="text-xl mb-8">Final score: {score}</p>
@@ -318,10 +335,6 @@ const MisteryDoorsGame = () => {
                             </Link>
                         </div>
                     )}
-
-                    <div className="absolute bottom-4 right-4 bg-white bg-opacity-70 p-2 rounded text-black">
-                        Click on the door with the correct answer
-                    </div>
                 </div>
             </main>
             <Footer></Footer>
