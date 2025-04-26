@@ -30,7 +30,10 @@ export default function AnimalIcon({
                                        borderThickness = 6,
                                        animalName,
                                        size = "medium",
-                                       link = false
+                                       link = false,
+                                       hoverText,
+                                       onHoverChange,
+                                       hoveredSubject
                                    }) {
     const subjectData = animals.find(item => item.subjectName === subject);
 
@@ -41,7 +44,6 @@ export default function AnimalIcon({
     const borderColor = subjectData ? subjectData.borderColor : "#FBB000";
 
     let sizeClasses = "";
-
     switch (size) {
         case "medium":
             sizeClasses = "md:w-32 md:h-32";
@@ -54,14 +56,24 @@ export default function AnimalIcon({
             break;
     }
 
-    const iconContent = (
-        <div className="absolute" style={style}>
-            <div
-                className={`rounded-full overflow-hidden ${sizeClasses}`}
+    const content = (
+        <div
+            className={`absolute group flex flex-col items-center transition-all duration-300
+                ${ hoveredSubject && subject !== hoveredSubject ? 'opacity-90 grayscale' : '' }
+            `}
+            style={ style }
+            onMouseEnter={() => onHoverChange?.(true)}
+            onMouseLeave={() => onHoverChange?.(false)}
+        >
+
+        <div
+                className={`rounded-full overflow-hidden border-solid transition-transform duration-300 ease-in-out 
+                            group-hover:scale-130 group-hover:shadow-xl cursor-pointer ${ sizeClasses }`}
                 style={{
                     backgroundColor,
                     borderColor,
                     borderWidth: borderThickness,
+                    borderStyle: 'solid'
                 }}
             >
                 <img
@@ -70,14 +82,23 @@ export default function AnimalIcon({
                     className="w-full h-full object-cover"
                 />
             </div>
+
+            {hoverText && (
+                <div
+                    className="mt-5 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center whitespace-nowrap"
+                    style={{ color: borderColor }}
+                >
+                    { hoverText }
+                </div>
+            )}
         </div>
     );
 
     return link ? (
-        <Link href={{pathname: "/GameSelectionPage", query: {Subject: subject}}}>
-            {iconContent}
+        <Link href={{ pathname: "/GameSelectionPage", query: { Subject: subject } }}>
+            {content}
         </Link>
     ) : (
-        iconContent
+        content
     );
 }
