@@ -121,8 +121,8 @@ app.get('/api/gameSelectionAssets', (req, res) => {
         '    m.Id AS MultimediaID,\n' +
         '    s.Name AS subjectName,\n' +
         '    s.Mascot AS animalName,\n' +
-        '    CONCAT(\'#\', s.PrimaryColor) AS backgroundColor,\n' +
-        '    CONCAT(\'#\', s.SecondaryColor) AS borderColor,\n' +
+        '    CONCAT(\'#\', s.PrimaryColor) AS primaryColor,\n' +
+        '    CONCAT(\'#\', s.SecondaryColor) AS secondaryColor,\n' +
         '    m.URL AS imageURL,\n' +
         '    m.Name AS imageName,\n' +
         '    m.Alt AS imageAlt\n' +
@@ -158,13 +158,13 @@ app.get('/api/gameSelectionAssets', (req, res) => {
 
     Promise.all([getMultimedia(), getGames()])
         .then(([multimediaResult, gamesResult]) => {
-        if(multimediaResult.length === 0) return res.status(404).json({ message:  "Unrecognized subject" });
+            if(multimediaResult.length === 0) return res.status(404).json({ message:  "Unrecognized subject" });
 
             const response = {
                 subjectName: multimediaResult[0].subjectName,
                 animalName: multimediaResult[0].animalName,
-                backgroundColor: multimediaResult[0].backgroundColor,
-                borderColor: multimediaResult[0].borderColor
+                primaryColor: multimediaResult[0].primaryColor,
+                secondaryColor: multimediaResult[0].secondaryColor
             };
 
             multimediaResult.forEach(item => {

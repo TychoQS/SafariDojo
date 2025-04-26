@@ -1,26 +1,4 @@
-/*
-======================== USAGE ====================
-Subject animals
-        <AnimalIcon
-            subject={"Math"}
-            style={{ top: "50px", left: "100px" }}
-            borderThickness={8}
-            link = true
-            size="small">
-        </AnimalIcon>
-
-Profile animals
-        <AnimalIcon
-            animalName="Lion"
-            style={{ top: "150px", left: "200px" }}
-            backgroundColor="#FBC078"
-            borderThickness={5}
-        />
-
-*/
-
-import React from "react";
-import animals from "../../../database/jsondata/Subject.json";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 
 export default function AnimalIcon({
@@ -35,13 +13,40 @@ export default function AnimalIcon({
                                        onHoverChange,
                                        hoveredSubject
                                    }) {
-    const subjectData = animals.find(item => item.subjectName === subject);
+    const [subjectData, setSubjectData] = useState(null);
+
+    useEffect(() => {
+        if (!subject) return;
+
+        const fetchSubjectData = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/gameSelectionAssets?` + new URLSearchParams({
+                    subject: subject
+                }), {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'},
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch subject data. Status: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                setSubjectData(data);
+            } catch (error) {
+                console.error('Error fetching subject data:', error);
+            }
+        };
+
+        fetchSubjectData();
+    }, [subject]);
 
     const baseIcon = subjectData
         ? subjectData.baseIcon
         : `/images/ProfileAnimals/${animalName}.png`;
 
-    const borderColor = subjectData ? subjectData.borderColor : "#FBB000";
+    const newBackgroundColor = subjectData ? subjectData.secondaryColor : backgroundColor;
+    const newBorderColor = subjectData ? subjectData.primaryColor : "#FBB000";
 
     let sizeClasses = "";
     switch (size) {
@@ -59,19 +64,17 @@ export default function AnimalIcon({
     const content = (
         <div
             className={`absolute group flex flex-col items-center transition-all duration-300
-                ${ hoveredSubject && subject !== hoveredSubject ? 'opacity-90 grayscale' : '' }
-            `}
-            style={ style }
+        ${hoveredSubject && subject !== hoveredSubject ? 'opacity-90 grayscale' : ''}`}
+            style={style}
             onMouseEnter={() => onHoverChange?.(true)}
             onMouseLeave={() => onHoverChange?.(false)}
         >
-
-        <div
+            <div
                 className={`rounded-full overflow-hidden border-solid transition-transform duration-300 ease-in-out 
-                            group-hover:scale-130 group-hover:shadow-xl cursor-pointer ${ sizeClasses }`}
+                    group-hover:scale-130 group-hover:shadow-xl cursor-pointer ${sizeClasses}`}
                 style={{
-                    backgroundColor,
-                    borderColor,
+                    backgroundColor: newBackgroundColor,
+                    borderColor: newBorderColor,
                     borderWidth: borderThickness,
                     borderStyle: 'solid'
                 }}
@@ -86,16 +89,16 @@ export default function AnimalIcon({
             {hoverText && (
                 <div
                     className="mt-5 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center whitespace-nowrap"
-                    style={{ color: borderColor }}
+                    style={{color: newBorderColor}}
                 >
-                    { hoverText }
+                    {hoverText}
                 </div>
             )}
         </div>
     );
 
     return link ? (
-        <Link href={{ pathname: "/GameSelectionPage", query: { Subject: subject } }}>
+        <Link href={{pathname: "/GameSelectionPage", query: {Subject: subject}}}>
             {content}
         </Link>
     ) : (
