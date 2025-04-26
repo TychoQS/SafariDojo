@@ -3,48 +3,56 @@
     "name": "Nelson Monzón",
     "email": "nelson@example.com",
     "password": "Ps20242025",
-    "profilePhoto": "Lion"
+    "profilePhoto": "Lion",
+    "isPremium": true
   },
   {
     "name": "Ayman Asbai",
     "email": "ayman@example.com",
     "password": "Ps20242025",
-    "profilePhoto": "Pig"
+    "profilePhoto": "Pig",
+    "isPremium": true
   },
   {
     "name": "Alejandro De Olózaga",
     "email": "alejandro@example.com",
     "password": "Ps20242025",
-    "profilePhoto": "Monkey"
+    "profilePhoto": "Monkey",
+    "isPremium": false
   },
   {
     "name": "Dylan Castrillón",
     "email": "dylan@example.com",
     "password": "Ps20242025",
-    "profilePhoto": "Shark"
+    "profilePhoto": "Shark",
+    "isPremium": false
   },
   {
     "name": "Laura Herrera",
     "email": "laura@example.com",
     "password": "Ps20242025",
-    "profilePhoto": "Seal"
+    "profilePhoto": "Seal",
+    "isPremium": true
   },
   {
     "name": "Luis Martín",
     "email": "luis@example.com",
     "password": "Ps20242025",
-    "profilePhoto": "Tiger"
+    "profilePhoto": "Tiger",
+    "isPremium": false
   },
   {
     "name": "Tycho Quintana",
     "email": "tycho@example.com",
     "password": "Ps20242025",
-    "profilePhoto": "Koala"
+    "profilePhoto": "Koala",
+    "isPremium": true
   },
   {
     "name": "RegisterPrueba",
     "email": "RegisterPrueba@email.com",
     "password": "Register2",
-    "profilePhoto": "Sheep"
+    "profilePhoto": "Sheep",
+    "isPremium": false
   }
 ]
