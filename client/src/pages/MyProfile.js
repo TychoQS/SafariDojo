@@ -45,33 +45,38 @@ export default function MyProfile() {
 
     const handlePremiumToggle = async () => {
         setShowPremiumModal(false);
-        try {
-            const newPremiumStatus = !currentUser.isPremium;
-            updateProfile({...currentUser, isPremium: newPremiumStatus});
 
-            const response = await fetch('/api/UpdateEliteSuscription', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: currentUser?.email,
-                    isPremium: newPremiumStatus,
-                }),
-            });
+        if (currentUser.isPremium) {
+            try {
+                updateProfile({...currentUser, isPremium: false});
 
-            const data = await response.json();
+                const requestBody = {
+                    Email: currentUser.email,
+                    Premium: false,
+                };
 
-            if (!response.ok) {
-                console.error('Error updating user:', data.message);
+                const response = await fetch("http://localhost:8080/api/updatePremium", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(requestBody),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.error("Error updating user:", data.message);
+                    alert(data.message);
+                } else {
+                    console.log("Premium status updated successfully:", data);
+                }
+            } catch (error) {
+                console.error('Error updating premium status:', error);
+                alert("An unexpected error occurred.");
             }
-
-            if (!currentUser.isPremium && newPremiumStatus) {
-                await router.push("/BillingForm");
-            }
-
-        } catch (error) {
-            console.error('Error updating premium status:', error);
+        } else {
+            await router.push("/BillingForm");
         }
     };
 

@@ -1,8 +1,9 @@
+// components/PaymentForm.jsx
 import {useState} from 'react';
 import {CreditCard, Calendar, Lock, User, ChevronRight} from 'lucide-react';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
-export default function PaymentGateway() {
+export default function PaymentForm() {
     const [formData, setFormData] = useState({
         cardNumber: '',
         expiryDate: '',
@@ -11,67 +12,28 @@ export default function PaymentGateway() {
     });
 
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
     const router = useRouter();
 
     const handleChange = (e) => {
         const {name, value} = e.target;
 
         if (name === 'cardNumber') {
-            const formattedValue = value
-                .replace(/\s/g, '')
-                .replace(/(\d{4})/g, '$1 ')
-                .trim()
-                .slice(0, 19);
-
-            setFormData({
-                ...formData,
-                [name]: formattedValue
-            });
+            const formattedValue = value.replace(/\s/g, '').replace(/(\d{4})/g, '$1 ').trim().slice(0, 19);
+            setFormData({...formData, [name]: formattedValue});
             return;
         }
 
         if (name === 'expiryDate') {
             const cleaned = value.replace(/\D/g, '');
             let formattedValue = cleaned;
-
             if (cleaned.length > 2) {
                 formattedValue = `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}`;
             }
-
-            setFormData({
-                ...formData,
-                [name]: formattedValue
-            });
+            setFormData({...formData, [name]: formattedValue});
             return;
         }
 
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
-
-    const processPayment = () => {
-        setLoading(true);
-
-        setTimeout(() => {
-            setLoading(false);
-            setSuccess(true);
-        }, 2000);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const { cardNumber, expiryDate, cvc, name } = formData;
-
-        if (!cardNumber || !expiryDate || !cvc || !name) {
-            alert("Please complete all fields before proceeding with the payment.");
-            return;
-        }
-
-        processPayment();
+        setFormData({...formData, [name]: value});
     };
 
     const cardTypes = {
@@ -91,37 +53,21 @@ export default function PaymentGateway() {
         return null;
     };
 
-    if (success) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-100">
-                <div className="text-center">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                  d="M5 13l4 4L19 7"></path>
-                        </svg>
-                    </div>
-                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Payment Completed!</h2>
-                    <p className="text-gray-600 mb-6">Your purchase has been successfully processed.</p>
-                    <button
-                        onClick={() => {
-                            router.back();
-                            setSuccess(false);
-                            setFormData({
-                                cardNumber: '',
-                                expiryDate: '',
-                                cvc: '',
-                                name: '',
-                            });
-                        }}
-                        className="bg-[#FBAF00] text-gray-800 font-medium py-2 px-4 rounded hover:bg-[#FBAF00] transition-colors cursor-pointer"
-                    >
-                        Close
-                    </button>
-                </div>
-            </div>
-        );
-    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const {cardNumber, expiryDate, cvc, name} = formData;
+
+        if (!cardNumber || !expiryDate || !cvc || !name) {
+            alert("Please complete all fields before proceeding with the payment.");
+            return;
+        }
+
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            router.push('/PaymentCompleted');
+        }, 2000);
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -140,11 +86,11 @@ export default function PaymentGateway() {
                                 <CreditCard className="h-5 w-5 text-gray-400"/>
                             </div>
                             <input
-                                className="w-full pl-10 pr-3 py-2 border text-gray-700 placeholder-gray-400 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FBAF00]"
                                 id="cardNumber"
                                 name="cardNumber"
                                 type="text"
                                 placeholder="1234 5678 9012 3456"
+                                className="w-full pl-10 pr-3 py-2 border text-gray-700 placeholder-gray-400 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FBAF00]"
                                 value={formData.cardNumber}
                                 onChange={handleChange}
                                 maxLength="19"
@@ -153,8 +99,8 @@ export default function PaymentGateway() {
                             {getCardType() && (
                                 <span
                                     className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm font-medium text-gray-600">
-                                {getCardType()}
-                            </span>
+                                    {getCardType()}
+                                </span>
                             )}
                         </div>
                     </div>
@@ -169,11 +115,11 @@ export default function PaymentGateway() {
                                     <Calendar className="h-5 w-5 text-gray-400"/>
                                 </div>
                                 <input
-                                    className="w-full pl-10 pr-3 py-2 border text-gray-700 placeholder-gray-400 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FBAF00]"
                                     id="expiryDate"
                                     name="expiryDate"
                                     type="text"
                                     placeholder="MM/YY"
+                                    className="w-full pl-10 pr-3 py-2 border text-gray-700 placeholder-gray-400 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FBAF00]"
                                     value={formData.expiryDate}
                                     onChange={handleChange}
                                     maxLength="5"
@@ -191,11 +137,11 @@ export default function PaymentGateway() {
                                     <Lock className="h-5 w-5 text-gray-400"/>
                                 </div>
                                 <input
-                                    className="w-full pl-10 pr-3 py-2 border text-gray-700 placeholder-gray-400 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FBAF00]"
                                     id="cvc"
                                     name="cvc"
                                     type="text"
                                     placeholder="123"
+                                    className="w-full pl-10 pr-3 py-2 border text-gray-700 placeholder-gray-400 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FBAF00]"
                                     value={formData.cvc}
                                     onChange={handleChange}
                                     maxLength="4"
@@ -214,11 +160,11 @@ export default function PaymentGateway() {
                                 <User className="h-5 w-5 text-gray-400"/>
                             </div>
                             <input
-                                className="w-full pl-10 pr-3 py-2 border text-gray-700 placeholder-gray-400 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FBAF00]"
                                 id="name"
                                 name="name"
                                 type="text"
-                                placeholder="John Doe Doe"
+                                placeholder="John Doe"
+                                className="w-full pl-10 pr-3 py-2 border text-gray-700 placeholder-gray-400 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FBAF00]"
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
@@ -245,10 +191,11 @@ export default function PaymentGateway() {
                         >
                             ← Back
                         </button>
+
                         <button
                             type="submit"
-                            className="bg-[#FBAF00] text-gray-800 font-medium py-2 px-4 rounded hover:bg-[#FBAF00] transition-colors flex items-center cursor-pointer"
                             disabled={loading}
+                            className="bg-[#FBAF00] text-gray-800 font-medium py-2 px-4 rounded hover:bg-[#FBAF00] transition-colors flex items-center cursor-pointer"
                         >
                             {loading ? (
                                 <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-800"

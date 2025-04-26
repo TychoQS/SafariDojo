@@ -186,6 +186,23 @@ app.get('/api/game-selection-assets', (req, res) => { // TODO REFACTOR
         });
 })
 
+app.post("/api/updatePremium", (req, res) => {
+    const { Email, Premium } = req.body;
+
+    const query = "UPDATE Users SET Premium = ? WHERE Email = ?";
+    dbConnection.query(query, [Premium ? 1 : 0, Email], (err, result) => {
+        if (err) {
+            console.error("Error updating premium status:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ message: "Premium status updated successfully" });
+    });
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
