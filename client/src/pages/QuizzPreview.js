@@ -5,11 +5,10 @@
     import GameCard from "@/components/GameCard";
     import {useAuth} from "@/pages/context/AuthContext";
     import {useRouter} from "next/router";
-    import subjects from "../../../database/jsondata/Subject.json";
     import games from "../../../database/jsondata/Games.json";
     import Lifes from "@/components/Lifes";
 
-    function QuizzPreview() {
+    function QuizzPreview() { // TODO Redesing and think how to store game data information
         const {isLoggedIn} = useAuth();
         const router = useRouter();
 
@@ -29,18 +28,29 @@
                 setSubject(querySubject)
                 setGame(queryGame)
                 setAge(queryAge)
-                console.log(querySubject)
             }
         }, [router.isReady, router.query])
 
-        useEffect(() => {
+        async function fetchSubjectData() {
             if (subject) {
-                const foundSubjectData = subjects.find(item => item.subjectName.toLowerCase() === subject.toLowerCase());
+                const foundSubjectData = await fetch(`http://localhost:8080/api/gameSelectionAssets?` + new URLSearchParams({
+                    subject: subject
+                }), {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'},
+                });
                 if (foundSubjectData) {
-                    setSubjectData(foundSubjectData);
+                    const quizPreviewSubjectData = await foundSubjectData.json();
+                    setSubjectData(quizPreviewSubjectData);
                 }
             }
+        }
 
+        useEffect( () => {
+            const fetchData = async () => {
+                await fetchSubjectData().then();
+            }
+            fetchData();
             if (subject && game) {
                 const subjectGames = games[subject.toLowerCase()];
                 if (subjectGames) {
