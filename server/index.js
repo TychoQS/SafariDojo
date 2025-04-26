@@ -7,7 +7,7 @@ const {join} = require("node:path");
 
 
 const dbConnection = require('./database');
-const {query} = require("express");
+const {query, response} = require("express");
 
 app.use(cors());
 app.use(express.json());
@@ -112,6 +112,78 @@ app.post('/api/update-profile-data', (req, res) => {
             return res.status(200).json({ message: 'Profile updated successfully' });
         }
     })
+})
+
+app.get('/api/game-selection-assets', (req, res) => { // TODO REFACTOR
+    const Subject = req.query.subject;
+    const multimediaQuery = '\tSELECT DISTINCT \n' +
+        '    s.Id AS SubjectId,\n' +
+        '    m.Id AS MultimediaID,\n' +
+        '    s.Name AS subjectName,\n' +
+        '    s.Mascot AS animalName,\n' +
+        '    CONCAT(\'#\', s.PrimaryColor) AS backgroundColor,\n' +
+        '    CONCAT(\'#\', s.SecondaryColor) AS borderColor,\n' +
+        '    m.URL AS imageURL,\n' +
+        '    m.Name AS imageName,\n' +
+        '    m.Alt AS imageAlt\n' +
+        'FROM \n' +
+        '    Subjects s\n' +
+        'LEFT JOIN MultimediaSubjects ms ON s.Id = ms.IdSubject\n' +
+        'LEFT JOIN Multimedia m ON ms.IdMultimedia = m.Id\n' +
+        'WHERE \n' +
+        '    s.Name = ? ORDER BY length(imageName);';
+    const gameQuery = 'SELECT DISTINCT QuizName\n' +
+        'FROM SubjectQuizzes sq\n' +
+        'LEFT JOIN Quizzes q ON q.Id = sq.QuizId\n' +
+        'LEFT JOIN Subjects s on s.Id = SubjectId\n' +
+        'WHERE s.Name = ?\n' +
+        'ORDER BY QuizName;'
+    const getMultimedia = () => {
+        return new Promise((resolve, reject) => {
+            dbConnection.query(multimediaQuery, [Subject], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            })
+        })
+    }
+
+    const getGames = () => {
+        return new Promise((resolve, reject) => {
+            dbConnection.query(gameQuery, [Subject], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            })
+        })
+    }
+
+    Promise.all([getMultimedia(), getGames()])
+        .then(([multimediaResult, gamesResult]) => {
+        if(multimediaResult.length === 0) return res.status(404).json({ message:  "Unrecognized subject" });
+
+            const response = {
+                subjectName: multimediaResult[0].subjectName,
+                animalName: multimediaResult[0].animalName,
+                backgroundColor: multimediaResult[0].backgroundColor,
+                borderColor: multimediaResult[0].borderColor
+            };
+
+            multimediaResult.forEach(item => {
+                if (item.imageName.includes('BaseIcon')) {
+                    response.baseIcon = item.imageURL;
+                } else if (item.imageName.includes('SelectGameIcon')) {
+                    response.selectGameIcon = item.imageURL;
+                } else if (item.imageName.includes('PreviewGameIcon')) {
+                    response.PreviewGameImage = item.imageURL;
+                }
+            });
+
+            gamesResult.forEach((game, index) => {
+                if (index === 0) response.firstGame = game.QuizName;
+                else if (index === 1) response.secondGame = game.QuizName;
+                else if (index === 2) response.thirdGame = game.QuizName;
+            });
+            return res.status(200).json(response);
+        });
 })
 
 app.listen(PORT, () => {

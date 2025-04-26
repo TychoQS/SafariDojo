@@ -21,12 +21,31 @@ function GameSelectionPage() {
     }, [router.isReady, router.query]);
 
     useEffect(() => {
-        if (subject) {
-            const foundSubjectData = animals.find(item => item.subjectName === subject);
-            if (foundSubjectData) {
-                setSubjectData(foundSubjectData);
+
+        const fetchData = async () => {
+            if (subject) {
+                try {
+                    const response = await fetch(`http://localhost:8080/api/game-selection-assets?` + new URLSearchParams({
+                        subject: subject
+                    }), {
+                        method: 'GET',
+                        headers: {'Content-Type': 'application/json'},
+                    });
+
+                    if (response.ok) {
+                        const gameSelectionSubjectData = await response.json();
+                        setSubjectData(gameSelectionSubjectData);
+                    }
+                } catch (error) {
+                    console.error("Error fetching subject data:", error);
+                    const foundSubjectData = animals.find(item => item.subjectName === subject);
+                    if (foundSubjectData) {
+                        setSubjectData(foundSubjectData);
+                    }
+                }
             }
-        }
+        };
+        fetchData();
     }, [subject]);
 
     const selectGameIcon = subjectData?.selectGameIcon;
