@@ -64,7 +64,7 @@ export default function CircleLayout() {
                  style={{opacity: hoveredSubject.subject ? 0.5 : 0}}
             />
 
-            <div className="relative z-20 flex justify-center items-center w-full h-screen overflow-hidden">
+            <div className="relative z-20 flex justify-center items-center w-full h-[600px] overflow-hidden">
                 <div
                     className="relative flex justify-center items-center w-[400px] h-[400px] transition-all duration-700 ease-in-out"
                     style={{

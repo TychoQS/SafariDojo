@@ -107,7 +107,7 @@ function Index() {
                         </div>
                     </div>
                     <div className="flex justify-center items-center gap-4 w-full">
-                        <SearchBar placeholder="Buscar por nombre o tema..." onSearch={handleSearch}/>
+                        <SearchBar placeholder="Search..." onSearch={handleSearch}/>
                     </div>
 
                     {loading || searching ? (
