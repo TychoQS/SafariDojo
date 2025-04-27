@@ -50,6 +50,7 @@ function QuizzPreview() {
                 const response = await fetch(`http://localhost:8080/api/getBestScore?userId=${user.userId}&quizId=${gameData}&difficulty=${age}`);
                 if (response.ok) {
                     const data = await response.json();
+                    localStorage.setItem(`${gameData}_${age}_bestScore`, data.bestScore)
                     setBestScore(data.bestScore);
                 }
             }
