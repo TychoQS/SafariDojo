@@ -68,6 +68,7 @@ function logIn(Email, Password, res) {
         } else {
             const User = result[0];
             res.status(200).json({
+                userId: User.Id,
                 name: User.Name,
                 email: User.Email,
                 profilePhoto: User.ProfileIcon,
@@ -318,19 +319,19 @@ app.get('/api/getBestScore', (req, res) => {
         return res.status(400).json({ message: 'Missing parameters: userId, quizId, and difficulty are required' });
     }
 
+
     let column = '';
     if (difficulty === 'easy') {
         column = 'BestScoreEasy';
     } else if (difficulty === 'medium') {
         column = 'BestScoreMedium';
-    } else if (difficulty === 'difficult') {
+    } else if (difficulty === 'hard') {
         column = 'BestScoreDifficult';
     } else {
         return res.status(400).json({ message: 'Invalid difficulty' });
     }
 
-    const query = `SELECT ${column} FROM UserQuizzes WHERE UserId = ? AND QuizId = ?`;
-
+    const query = `SELECT ${column} FROM UserQuizzes uq, Quizzes q WHERE UserId = ? AND QuizName = ? AND uq.QuizId = q.Id`;
     dbConnection.query(query, [userId, quizId], (err, result) => {
         if (err) {
             console.error("Error fetching best score:", err);
@@ -340,7 +341,6 @@ app.get('/api/getBestScore', (req, res) => {
         if (result.length === 0) {
             return res.status(404).json({ message: 'Best score not found for this user and quiz' });
         }
-
         const bestScore = result[0][column];
         res.status(200).json({ bestScore });
     });
