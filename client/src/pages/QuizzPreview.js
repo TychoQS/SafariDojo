@@ -9,7 +9,7 @@ import Title from "@/components/Title";
 import { cherryBomb } from "@/styles/fonts";
 
 function QuizzPreview() {
-    const { isLoggedIn, userId } = useAuth();
+    const { isLoggedIn, user } = useAuth();
     const router = useRouter();
 
     const [subject, setSubject] = useState(null);
@@ -22,7 +22,7 @@ function QuizzPreview() {
         if (router.isReady) {
             const querySubject = router.query.Subject;
             const queryGame = router.query.Game;
-            const queryDifficulty = router.query.Difficulty;
+            const queryDifficulty = router.query.Age;
             setSubject(querySubject);
             setGameData(queryGame);
             setDifficulty(queryDifficulty);
@@ -47,7 +47,7 @@ function QuizzPreview() {
             if (storedScore) {
                 setBestScore(parseInt(storedScore));
             } else {
-                const response = await fetch(`http://localhost:8080/api/getBestScore?userId=${userId}&quizId=${gameData}&difficulty=${age}`);
+                const response = await fetch(`http://localhost:8080/api/getBestScore?userId=${user.userId}&quizId=${gameData}&difficulty=${age}`);
                 if (response.ok) {
                     const data = await response.json();
                     setBestScore(data.bestScore);
@@ -62,7 +62,7 @@ function QuizzPreview() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    userId: userId,
+                    userId: user.userId,
                     quizId: gameData,
                     difficulty: age,
                     bestScore: newScore
