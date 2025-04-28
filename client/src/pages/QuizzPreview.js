@@ -57,28 +57,6 @@ function QuizzPreview() {
         }
     }
 
-    async function updateBestScore(newScore) {
-        if (gameData && subject && age) {
-            const response = await fetch('http://localhost:8080/api/updateBestScore', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId: user.userId,
-                    quizId: gameData,
-                    difficulty: age,
-                    bestScore: newScore
-                }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data.message);
-            } else {
-                console.log("Error updating best score");
-            }
-        }
-    }
-
     useEffect(() => {
         const fetchData = async () => {
             await fetchSubjectData();
