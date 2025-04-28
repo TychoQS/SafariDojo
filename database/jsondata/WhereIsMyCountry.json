@@ -1,0 +1,40 @@
+{
+  "EASY_COUNTRIES": [
+    { "name": "Spain", "hint": "Famous for flamenco, paella, and bullfighting." },
+    { "name": "France", "hint": "Home to the Eiffel Tower and croissants." },
+    { "name": "Germany", "hint": "Known for beer, sausages, and the Autobahn." },
+    { "name": "Italy", "hint": "Pizza, pasta, and the Colosseum are from here." },
+    { "name": "United States", "hint": "Hollywood, burgers, and the Statue of Liberty." },
+    { "name": "United Kingdom", "hint": "Big Ben, tea time, and the royal family." },
+    { "name": "Japan", "hint": "Land of sushi, anime, and Mount Fuji." },
+    { "name": "China", "hint": "Great Wall, pandas, and ancient dynasties." },
+    { "name": "Brazil", "hint": "Carnival, samba, and the Amazon Rainforest." },
+    { "name": "Mexico", "hint": "Tacos, mariachi, and Day of the Dead." }
+  ],
+
+  "MEDIUM_COUNTRIES": [
+    { "name": "Turkey", "hint": "A country that bridges Europe and Asia." },
+    { "name": "South Korea", "hint": "K-pop, kimchi, and cutting-edge tech." },
+    { "name": "Argentina", "hint": "Birthplace of tango and famous for beef." },
+    { "name": "Thailand", "hint": "Known for spicy food, temples, and beaches." },
+    { "name": "Egypt", "hint": "Pyramids, pharaohs, and the Nile River." },
+    { "name": "Canada", "hint": "Maple syrup, ice hockey, and vast forests." },
+    { "name": "Australia", "hint": "Kangaroos, the Outback, and the Sydney Opera House." },
+    { "name": "Portugal", "hint": "Famous for Fado music and custard tarts." },
+    { "name": "Vietnam", "hint": "Pho soup, rice fields, and war history." },
+    { "name": "Greece", "hint": "Birthplace of democracy and ancient mythology." }
+  ],
+
+  "HARD_COUNTRIES": [
+    { "name": "Bhutan", "hint": "Himalayan kingdom that values Gross National Happiness." },
+    { "name": "Kyrgyzstan", "hint": "Central Asian country with yurts and nomadic traditions." },
+    { "name": "Eswatini", "hint": "One of the last absolute monarchies in Africa, formerly Swaziland." },
+    { "name": "Djibouti", "hint": "Tiny country in the Horn of Africa near the Red Sea." },
+    { "name": "Suriname", "hint": "Dutch-speaking country in South America." },
+    { "name": "Comoros", "hint": "Island nation off the eastern coast of Africa, near Madagascar." },
+    { "name": "Moldova", "hint": "Landlocked Eastern European country between Romania and Ukraine." },
+    { "name": "Brunei", "hint": "Tiny, oil-rich sultanate on the island of Borneo." },
+    { "name": "Timor-Leste", "hint": "Also known as East Timor, one of the youngest countries in Southeast Asia." },
+    { "name": "Lesotho", "hint": "A country entirely surrounded by South Africa, high in the mountains." }
+  ]
+}

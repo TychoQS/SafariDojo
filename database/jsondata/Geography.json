@@ -1,0 +1,1343 @@
+[
+  {
+    "id": "ES",
+    "name": "Spain",
+    "capital": "Madrid",
+    "continent": "Europe",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Known for flamenco dancing and bullfighting."
+  },
+  {
+    "id": "FR",
+    "name": "France",
+    "capital": "Paris",
+    "continent": "Europe",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Famous for the Eiffel Tower and fine wines."
+  },
+  {
+    "id": "DE",
+    "name": "Germany",
+    "capital": "Berlin",
+    "continent": "Europe",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Home to Oktoberfest and historic castles."
+  },
+  {
+    "id": "IT",
+    "name": "Italy",
+    "capital": "Rome",
+    "continent": "Europe",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Birthplace of pizza and the Colosseum."
+  },
+  {
+    "id": "GB",
+    "name": "UK",
+    "capital": "London",
+    "continent": "Europe",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Famous for Big Ben and the Royal Family."
+  },
+  {
+    "id": "PT",
+    "name": "Portugal",
+    "capital": "Lisbon",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Renowned for port wine and explorers like Vasco da Gama."
+  },
+  {
+    "id": "NL",
+    "name": "Netherlands",
+    "capital": "Amsterdam",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Known for tulips and extensive canal systems."
+  },
+  {
+    "id": "BE",
+    "name": "Belgium",
+    "capital": "Brussels",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for chocolate and waffles."
+  },
+  {
+    "id": "CH",
+    "name": "Switzerland",
+    "capital": "Bern",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Renowned for the Alps and luxury watches."
+  },
+  {
+    "id": "AT",
+    "name": "Austria",
+    "capital": "Vienna",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Birthplace of Mozart and alpine skiing."
+  },
+  {
+    "id": "PL",
+    "name": "Poland",
+    "capital": "Warsaw",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Known for pierogi and historic salt mines."
+  },
+  {
+    "id": "CZ",
+    "name": "Czech Republic",
+    "capital": "Prague",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for its fairy-tale castles and beer."
+  },
+  {
+    "id": "GR",
+    "name": "Greece",
+    "capital": "Athens",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Cradle of Western civilization and ancient ruins."
+  },
+  {
+    "id": "NO",
+    "name": "Norway",
+    "capital": "Oslo",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Known for fjords and the Northern Lights."
+  },
+  {
+    "id": "SE",
+    "name": "Sweden",
+    "capital": "Stockholm",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for IKEA and ABBA."
+  },
+  {
+    "id": "DK",
+    "name": "Denmark",
+    "capital": "Copenhagen",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Home to LEGO and Viking history."
+  },
+  {
+    "id": "IE",
+    "name": "Ireland",
+    "capital": "Dublin",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Known for St. Patrick’s Day and lush green landscapes."
+  },
+  {
+    "id": "FI",
+    "name": "Finland",
+    "capital": "Helsinki",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for saunas and Santa Claus."
+  },
+  {
+    "id": "RO",
+    "name": "Romania",
+    "capital": "Bucharest",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to Transylvania and Dracula legends."
+  },
+  {
+    "id": "HU",
+    "name": "Hungary",
+    "capital": "Budapest",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for thermal baths and paprika."
+  },
+  {
+    "id": "BG",
+    "name": "Bulgaria",
+    "capital": "Sofia",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for rose oil and ancient Thracian ruins."
+  },
+  {
+    "id": "SK",
+    "name": "Slovakia",
+    "capital": "Bratislava",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its medieval castles and Carpathian Mountains."
+  },
+  {
+    "id": "SI",
+    "name": "Slovenia",
+    "capital": "Ljubljana",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for Lake Bled and alpine scenery."
+  },
+  {
+    "id": "HR",
+    "name": "Croatia",
+    "capital": "Zagreb",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its Adriatic coastline and Dubrovnik."
+  },
+  {
+    "id": "LT",
+    "name": "Lithuania",
+    "capital": "Vilnius",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for its Baltic heritage and amber."
+  },
+  {
+    "id": "LV",
+    "name": "Latvia",
+    "capital": "Riga",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for Art Nouveau architecture and folk songs."
+  },
+  {
+    "id": "EE",
+    "name": "Estonia",
+    "capital": "Tallinn",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for its medieval old town and digital innovation."
+  },
+  {
+    "id": "AL",
+    "name": "Albania",
+    "capital": "Tirana",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its rugged mountains and Ottoman heritage."
+  },
+  {
+    "id": "AM",
+    "name": "Armenia",
+    "capital": "Yerevan",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to ancient monasteries and Mount Ararat."
+  },
+  {
+    "id": "BY",
+    "name": "Belarus",
+    "capital": "Minsk",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its Soviet-era architecture and vast forests."
+  },
+  {
+    "id": "AD",
+    "name": "Andorra",
+    "capital": "Andorra la Vella",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A tiny principality nestled in the Pyrenees."
+  },
+  {
+    "id": "CY",
+    "name": "Cyprus",
+    "capital": "Nicosia",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its beaches and ancient Greek ruins."
+  },
+  {
+    "id": "UA",
+    "name": "Ukraine",
+    "capital": "Kyiv",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for borscht and the Carpathian Mountains."
+  },
+  {
+    "id": "RS",
+    "name": "Serbia",
+    "capital": "Belgrade",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its vibrant nightlife and Orthodox monasteries."
+  },
+  {
+    "id": "IS",
+    "name": "Iceland",
+    "capital": "Reykjavik",
+    "continent": "Europe",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Land of geysers, volcanoes, and the Blue Lagoon."
+  },
+  {
+    "id": "BA",
+    "name": "Bosnia and Herzegovina",
+    "capital": "Sarajevo",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its Ottoman bridge and diverse cultures."
+  },
+  {
+    "id": "ME",
+    "name": "Montenegro",
+    "capital": "Podgorica",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for its dramatic coastline and Bay of Kotor."
+  },
+  {
+    "id": "MD",
+    "name": "Moldova",
+    "capital": "Chișinău",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its wine tours and Soviet history."
+  },
+  {
+    "id": "MK",
+    "name": "North Macedonia",
+    "capital": "Skopje",
+    "continent": "Europe",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to Lake Ohrid and ancient monasteries."
+  },
+  {
+    "id": "AO",
+    "name": "Angola",
+    "capital": "Luanda",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its oil wealth and Atlantic coastline."
+  },
+  {
+    "id": "BI",
+    "name": "Burundi",
+    "capital": "Gitega",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Located near Lake Tanganyika with a coffee culture."
+  },
+  {
+    "id": "BJ",
+    "name": "Benin",
+    "capital": "Porto-Novo",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Birthplace of voodoo and home to stilt villages."
+  },
+  {
+    "id": "BF",
+    "name": "Burkina Faso",
+    "capital": "Ouagadougou",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its vibrant music and film festivals."
+  },
+  {
+    "id": "BW",
+    "name": "Botswana",
+    "capital": "Gaborone",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for the Okavango Delta and diamond mines."
+  },
+  {
+    "id": "CF",
+    "name": "Central African Rep.",
+    "capital": "Bangui",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to dense rainforests and pygmy cultures."
+  },
+  {
+    "id": "CI",
+    "name": "Côte d'Ivoire",
+    "capital": "Yamoussoukro",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for cocoa production and basilica architecture."
+  },
+  {
+    "id": "CM",
+    "name": "Cameroon",
+    "capital": "Yaoundé",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Called 'Africa in miniature' for its diverse landscapes."
+  },
+  {
+    "id": "CD",
+    "name": "Dem. Rep. Congo",
+    "capital": "Kinshasa",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to the Congo River and vast rainforests."
+  },
+  {
+    "id": "CG",
+    "name": "Congo",
+    "capital": "Brazzaville",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its oil industry and Sapo National Park."
+  },
+  {
+    "id": "DJ",
+    "name": "Djibouti",
+    "capital": "Djibouti",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Located at the Horn of Africa with salt lakes."
+  },
+  {
+    "id": "DZ",
+    "name": "Algeria",
+    "capital": "Algiers",
+    "continent": "Africa",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Largest country in Africa with Sahara Desert ruins."
+  },
+  {
+    "id": "EG",
+    "name": "Egypt",
+    "capital": "Cairo",
+    "continent": "Africa",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Famous for the Pyramids and the Nile River."
+  },
+  {
+    "id": "ER",
+    "name": "Eritrea",
+    "capital": "Asmara",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its Italian colonial architecture."
+  },
+  {
+    "id": "ET",
+    "name": "Ethiopia",
+    "capital": "Addis Ababa",
+    "continent": "Africa",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Cradle of coffee and ancient rock-hewn churches."
+  },
+  {
+    "id": "GA",
+    "name": "Gabon",
+    "capital": "Libreville",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its rainforests and gorilla sanctuaries."
+  },
+  {
+    "id": "GH",
+    "name": "Ghana",
+    "capital": "Accra",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for gold and the Ashanti Kingdom."
+  },
+  {
+    "id": "GN",
+    "name": "Guinea",
+    "capital": "Conakry",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its bauxite reserves and Mount Nimba."
+  },
+  {
+    "id": "GM",
+    "name": "Gambia",
+    "capital": "Banjul",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A narrow country surrounding the Gambia River."
+  },
+  {
+    "id": "GW",
+    "name": "Guinea-Bissau",
+    "capital": "Bissau",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its cashew exports and Bijagos Islands."
+  },
+  {
+    "id": "GQ",
+    "name": "Eq. Guinea",
+    "capital": "Malabo",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "An oil-rich nation with volcanic islands."
+  },
+  {
+    "id": "KE",
+    "name": "Kenya",
+    "capital": "Nairobi",
+    "continent": "Africa",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for safaris and Mount Kilimanjaro views."
+  },
+  {
+    "id": "LR",
+    "name": "Liberia",
+    "capital": "Monrovia",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Founded by freed American slaves."
+  },
+  {
+    "id": "LY",
+    "name": "Libya",
+    "capital": "Tripoli",
+    "continent": "Africa",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Home to ancient Roman ruins and desert oases."
+  },
+  {
+    "id": "LS",
+    "name": "Lesotho",
+    "capital": "Maseru",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A mountainous kingdom surrounded by South Africa."
+  },
+  {
+    "id": "MA",
+    "name": "Morocco",
+    "capital": "Rabat",
+    "continent": "Africa",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for its souks and the Atlas Mountains."
+  },
+  {
+    "id": "MG",
+    "name": "Madagascar",
+    "capital": "Antananarivo",
+    "continent": "Africa",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Island nation with unique wildlife like lemurs."
+  },
+  {
+    "id": "ML",
+    "name": "Mali",
+    "capital": "Bamako",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to the ancient city of Timbuktu."
+  },
+  {
+    "id": "MZ",
+    "name": "Mozambique",
+    "capital": "Maputo",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its Indian Ocean beaches and prawns."
+  },
+  {
+    "id": "MR",
+    "name": "Mauritania",
+    "capital": "Nouakchott",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A desert nation with ancient caravan routes."
+  },
+  {
+    "id": "MW",
+    "name": "Malawi",
+    "capital": "Lilongwe",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known as the 'Warm Heart of Africa' with Lake Malawi."
+  },
+  {
+    "id": "NA",
+    "name": "Namibia",
+    "capital": "Windhoek",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for the Namib Desert and Skeleton Coast."
+  },
+  {
+    "id": "NE",
+    "name": "Niger",
+    "capital": "Niamey",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its Sahel landscapes and uranium mines."
+  },
+  {
+    "id": "NG",
+    "name": "Nigeria",
+    "capital": "Abuja",
+    "continent": "Africa",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Africa’s most populous nation with Nollywood films."
+  },
+  {
+    "id": "RW",
+    "name": "Rwanda",
+    "capital": "Kigali",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known as the 'Land of a Thousand Hills' with gorillas."
+  },
+  {
+    "id": "EH",
+    "name": "W. Sahara",
+    "capital": "El Aaiún",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A disputed territory with vast desert landscapes."
+  },
+  {
+    "id": "SD",
+    "name": "Sudan",
+    "capital": "Khartoum",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to ancient Nubian pyramids and the Nile."
+  },
+  {
+    "id": "SS",
+    "name": "S. Sudan",
+    "capital": "Juba",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "World’s youngest nation with vast wetlands."
+  },
+  {
+    "id": "SN",
+    "name": "Senegal",
+    "capital": "Dakar",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its music and the Pink Lake."
+  },
+  {
+    "id": "SL",
+    "name": "Sierra Leone",
+    "capital": "Freetown",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for its beaches and diamond trade."
+  },
+  {
+    "id": "SZ",
+    "name": "Swaziland",
+    "capital": "Mbabane",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its traditional monarchy and reed dance."
+  },
+  {
+    "id": "TD",
+    "name": "Chad",
+    "capital": "N'Djamena",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to Lake Chad and Sahara Desert nomads."
+  },
+  {
+    "id": "TG",
+    "name": "Togo",
+    "capital": "Lomé",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its palm-lined beaches and coffee."
+  },
+  {
+    "id": "TN",
+    "name": "Tunisia",
+    "capital": "Tunis",
+    "continent": "Africa",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for its Roman ruins and Mediterranean coast."
+  },
+  {
+    "id": "TZ",
+    "name": "Tanzania",
+    "capital": "Dodoma",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to Serengeti safaris and Zanzibar."
+  },
+  {
+    "id": "UG",
+    "name": "Uganda",
+    "capital": "Kampala",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known as the 'Pearl of Africa' with gorilla trekking."
+  },
+  {
+    "id": "ZA",
+    "name": "South Africa",
+    "capital": "Pretoria",
+    "continent": "Africa",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for Table Mountain and Nelson Mandela."
+  },
+  {
+    "id": "ZM",
+    "name": "Zambia",
+    "capital": "Lusaka",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to Victoria Falls and safari reserves."
+  },
+  {
+    "id": "ZW",
+    "name": "Zimbabwe",
+    "capital": "Harare",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for Great Zimbabwe ruins and wildlife."
+  },
+  {
+    "id": "SO",
+    "name": "Somalia",
+    "capital": "Mogadishu",
+    "continent": "Africa",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Located on the Horn of Africa with ancient ports."
+  },
+  {
+    "id": "RU",
+    "name": "Russia",
+    "capital": "Moscow",
+    "continent": "Asia",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Largest country in the world with the Kremlin."
+  },
+  {
+    "id": "AE",
+    "name": "United Arab Emirates",
+    "capital": "Abu Dhabi",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Home to the Burj Khalifa and desert dunes."
+  },
+  {
+    "id": "AF",
+    "name": "Afghanistan",
+    "capital": "Kabul",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Known for its rugged mountains and ancient trade routes."
+  },
+  {
+    "id": "AS",
+    "name": "American Samoa",
+    "capital": "Pago Pago",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A Pacific island with Polynesian culture."
+  },
+  {
+    "id": "BD",
+    "name": "Bangladesh",
+    "capital": "Dhaka",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for the Sundarbans mangrove forest."
+  },
+  {
+    "id": "BH",
+    "name": "Bahrain",
+    "capital": "Manama",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "An island nation famous for pearl diving."
+  },
+  {
+    "id": "BN",
+    "name": "Brunei",
+    "capital": "Bandar Seri Begawan",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A small sultanate with vast oil wealth."
+  },
+  {
+    "id": "BT",
+    "name": "Bhutan",
+    "capital": "Thimphu",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its Gross National Happiness index."
+  },
+  {
+    "id": "CC",
+    "name": "Cocos (Keeling) Islands",
+    "capital": "West Island",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Remote islands with coral atolls in the Indian Ocean."
+  },
+  {
+    "id": "CN",
+    "name": "China",
+    "capital": "Beijing",
+    "continent": "Asia",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Famous for the Great Wall and pandas."
+  },
+  {
+    "id": "CX",
+    "name": "Christmas Island",
+    "capital": "Flying Fish Cove",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its red crab migrations."
+  },
+  {
+    "id": "FM",
+    "name": "Micronesia",
+    "capital": "Palikir",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A Pacific nation with ancient stone money."
+  },
+  {
+    "id": "GU",
+    "name": "Guam",
+    "capital": "Hagåtña",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A U.S. territory with Chamorro culture."
+  },
+  {
+    "id": "HK",
+    "name": "Hong Kong",
+    "capital": "Hong Kong",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for its skyline and dim sum."
+  },
+  {
+    "id": "ID",
+    "name": "Indonesia",
+    "capital": "Jakarta",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "World’s largest archipelago with Bali’s beaches."
+  },
+  {
+    "id": "IL",
+    "name": "Israel",
+    "capital": "Jerusalem",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Home to the Dead Sea and holy sites."
+  },
+  {
+    "id": "IN",
+    "name": "India",
+    "capital": "New Delhi",
+    "continent": "Asia",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Famous for the Taj Mahal and Bollywood."
+  },
+  {
+    "id": "IQ",
+    "name": "Iraq",
+    "capital": "Baghdad",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Cradle of Mesopotamia with ancient ziggurats."
+  },
+  {
+    "id": "IR",
+    "name": "Iran",
+    "capital": "Tehran",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Known for Persian carpets and ancient Persepolis."
+  },
+  {
+    "id": "JO",
+    "name": "Jordan",
+    "capital": "Amman",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to Petra and the Jordan River."
+  },
+  {
+    "id": "JP",
+    "name": "Japan",
+    "capital": "Tokyo",
+    "continent": "Asia",
+    "difficulty": "Easy",
+    "image": "",
+    "hint": "Famous for sushi and cherry blossoms."
+  },
+  {
+    "id": "KG",
+    "name": "Kyrgyzstan",
+    "capital": "Bishkek",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its nomadic culture and Tian Shan mountains."
+  },
+  {
+    "id": "KH",
+    "name": "Cambodia",
+    "capital": "Phnom Penh",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Home to Angkor Wat and Khmer culture."
+  },
+  {
+    "id": "KP",
+    "name": "North Korea",
+    "capital": "Pyongyang",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Known for its secretive regime and mass games."
+  },
+  {
+    "id": "KR",
+    "name": "South Korea",
+    "capital": "Seoul",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for K-pop and kimchi."
+  },
+  {
+    "id": "KW",
+    "name": "Kuwait",
+    "capital": "Kuwait City",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "An oil-rich nation with modern skyscrapers."
+  },
+  {
+    "id": "KZ",
+    "name": "Kazakhstan",
+    "capital": "Astana",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its steppes and spaceport Baikonur."
+  },
+  {
+    "id": "LA",
+    "name": "Laos",
+    "capital": "Vientiane",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for its Buddhist temples and Mekong River."
+  },
+  {
+    "id": "LB",
+    "name": "Lebanon",
+    "capital": "Beirut",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its cedar trees and ancient Phoenician cities."
+  },
+  {
+    "id": "LK",
+    "name": "Sri Lanka",
+    "capital": "Sri Jayawardenepura Kotte",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for tea plantations and ancient Sigiriya."
+  },
+  {
+    "id": "MH",
+    "name": "Marshall Islands",
+    "capital": "Majuro",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A Pacific nation with World War II history."
+  },
+  {
+    "id": "MO",
+    "name": "Macau",
+    "capital": "Macau",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known as the 'Las Vegas of Asia' with Portuguese influence."
+  },
+  {
+    "id": "MM",
+    "name": "Myanmar",
+    "capital": "Naypyidaw",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for its golden pagodas and Bagan temples."
+  },
+  {
+    "id": "MN",
+    "name": "Mongolia",
+    "capital": "Ulaanbaatar",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for Genghis Khan and vast steppes."
+  },
+  {
+    "id": "MP",
+    "name": "Northern Mariana Islands",
+    "capital": "Saipan",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A U.S. territory with Pacific island beaches."
+  },
+  {
+    "id": "MU",
+    "name": "Mauritius",
+    "capital": "Port Louis",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "An island nation with coral reefs and dodo history."
+  },
+  {
+    "id": "MV",
+    "name": "Maldives",
+    "capital": "Malé",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for its overwater bungalows and coral islands."
+  },
+  {
+    "id": "MY",
+    "name": "Malaysia",
+    "capital": "Kuala Lumpur",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Home to the Petronas Towers and rainforests."
+  },
+  {
+    "id": "NP",
+    "name": "Nepal",
+    "capital": "Kathmandu",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Known for Mount Everest and Buddhist stupas."
+  },
+  {
+    "id": "NR",
+    "name": "Nauru",
+    "capital": "Yaren District",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "One of the smallest nations with phosphate mining."
+  },
+  {
+    "id": "NU",
+    "name": "Niue",
+    "capital": "Alofi",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A tiny Pacific island known as the 'Rock of Polynesia.'"
+  },
+  {
+    "id": "OM",
+    "name": "Oman",
+    "capital": "Muscat",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Famous for its frankincense and desert forts."
+  },
+  {
+    "id": "PG",
+    "name": "Papua New Guinea",
+    "capital": "Port Moresby",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its tribal diversity and coral reefs."
+  },
+  {
+    "id": "PH",
+    "name": "Philippines",
+    "capital": "Manila",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "An archipelago with over 7,000 islands and rice terraces."
+  },
+  {
+    "id": "PK",
+    "name": "Pakistan",
+    "capital": "Islamabad",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Home to the Karakoram Highway and ancient Indus cities."
+  },
+  {
+    "id": "PS",
+    "name": "Palestine",
+    "capital": "Ramallah",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its olive groves and historic Bethlehem."
+  },
+  {
+    "id": "PW",
+    "name": "Palau",
+    "capital": "Ngerulmud",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A Pacific nation with world-class diving and jellyfish lakes."
+  },
+  {
+    "id": "QA",
+    "name": "Qatar",
+    "capital": "Doha",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "An oil-rich nation with futuristic skyscrapers."
+  },
+  {
+    "id": "SA",
+    "name": "Saudi Arabia",
+    "capital": "Riyadh",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Home to Mecca and vast desert landscapes."
+  },
+  {
+    "id": "SB",
+    "name": "Solomon Islands",
+    "capital": "Honiara",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A Pacific nation with World War II relics."
+  },
+  {
+    "id": "SC",
+    "name": "Seychelles",
+    "capital": "Victoria",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "An island paradise with giant tortoises."
+  },
+  {
+    "id": "SG",
+    "name": "Singapore",
+    "capital": "Singapore",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for Marina Bay Sands and hawker food."
+  },
+  {
+    "id": "SY",
+    "name": "Syria",
+    "capital": "Damascus",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "One of the oldest cities with ancient souks."
+  },
+  {
+    "id": "TH",
+    "name": "Thailand",
+    "capital": "Bangkok",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Known for its temples and spicy cuisine."
+  },
+  {
+    "id": "TJ",
+    "name": "Tajikistan",
+    "capital": "Dushanbe",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for the Pamir Highway and Silk Road history."
+  },
+  {
+    "id": "TK",
+    "name": "Tokelau",
+    "capital": "Nukunonu",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A remote Pacific territory with coral atolls."
+  },
+  {
+    "id": "TL",
+    "name": "Timor-Leste",
+    "capital": "Dili",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "A young nation with rugged mountains and reefs."
+  },
+  {
+    "id": "TM",
+    "name": "Turkmenistan",
+    "capital": "Ashgabat",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "Known for its white marble city and gas reserves."
+  },
+  {
+    "id": "TV",
+    "name": "Tuvalu",
+    "capital": "Funafuti",
+    "continent": "Asia",
+    "difficulty": "Hard",
+    "image": "",
+    "hint": "One of the smallest nations with Pacific lagoons."
+  },
+  {
+    "id": "TW",
+    "name": "Taiwan",
+    "capital": "Taipei",
+    "continent": "Asia",
+    "difficulty": "Medium",
+    "image": "",
+    "hint": "Famous for night markets and Taipei 101."
+  }
+]
