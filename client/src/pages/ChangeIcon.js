@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {useAuth} from "@/pages/context/AuthContext";
+import {router} from "next/client";
 
 const animalNames = [
     "Giraffe", "Sheep", "Lion", "Tiger", "Monkey", "Pig", "Shark", "Seal", "Koala"
@@ -24,9 +25,10 @@ export default function ChangeIcon() {
         setSelectedAnimal(animalName);
     };
 
-    const handleSave = async () => {
+    const handleSave = async (e) => {
+        e.preventDefault();
         try {
-            const response = await fetch('/api/UpdateImageProfile', {
+            const response = await fetch('http://localhost:8080/api/update-profile-image', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -34,12 +36,11 @@ export default function ChangeIcon() {
                     profilePhoto: selectedAnimal,
                 }),
             });
-
             const result = await response.json();
-
             if (response.ok) {
                 setUser(prevUser => ({...prevUser, profilePhoto: selectedAnimal}));
                 localStorage.setItem('profilePhoto', selectedAnimal);
+                router.push('MyProfile');
             } else {
                 console.error(result.message);
             }

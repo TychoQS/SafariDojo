@@ -6,8 +6,8 @@ const { readFile, writeFile } = require('fs');
 const {join} = require("node:path");
 
 
-
-const dbFilePath = join(__dirname, '../database/jsondata/Users.json');
+const dbConnection = require('./database');
+const {query} = require("express");
 
 app.use(cors());
 app.use(express.json());
@@ -16,7 +16,7 @@ app.get("/api/home", (req, res) => {
     res.json({message: "Hello World!"});
 })
 
-app.post("/api/signup", (req, res) => {
+app.post("/api/signup", (req, res) => { // DEPRECATED U SHOULD USE DB INSTEAD
     try {
         let userData = req.body;
         const dbFilePath = join(__dirname, '../database/jsondata/Users.json');
@@ -40,6 +40,79 @@ app.post("/api/signup", (req, res) => {
     }
 });
 
+app.post('/api/register', (req, res) => {
+    const { Name, Email, Password, ProfilePhoto } = req.body;
+    const query = 'INSERT INTO Users (Name, Email, Password) VALUES (?, ?, ?)';
+    dbConnection.query(query, [Name, Email, Password], (err, result) => {
+        if (err) {
+            console.error('Error while register:', err);
+            return res.status(500).json({ message: 'Something went wrong' });
+        }
+        logIn(Email, Password, res);
+    });
+});
+
+app.post('/api/login', (req, res) => {
+    const {Email, Password} = req.body;
+    logIn(Email, Password, res);
+})
+
+function logIn(Email, Password, res) {
+    const Query = 'SELECT * FROM Users WHERE Email = ? AND Password = ?';
+    dbConnection.query(Query, [Email, Password], (err, result) => {
+        if (err) {
+            return res.status(500).json({message: 'Something went wrong'});
+        }
+        if (result.length <= 0) {
+            return res.status(401).json({message: 'Invalid credentials, please try again.'});
+        } else {
+            const User = result[0];
+            res.status(200).json({
+                name: User.Name,
+                email: User.Email,
+                profilePhoto: User.ProfileIcon,
+                lifes: User.Lifes,
+                isPremium: User.Premium
+            });
+        }
+    })
+}
+
+app.post('/api/email', (req, res) => {
+    const { Email } = req.body;
+    const Query = 'SELECT * FROM Users WHERE Email = ?';
+    dbConnection.query(Query, [Email], (err, result) => {
+        if (result.length <= 0) return res.status(200).json({message: 'Available email'});
+        else return res.status(409).json({ message: 'Email already registered, try to log in!' });
+    })
+})
+
+app.post('/api/update-profile-image', (req, res) => {
+    const { email, profilePhoto } = req.body;
+    const Query = 'UPDATE Users SET ProfileIcon = ? WHERE Email = ?';
+    dbConnection.query(Query, [profilePhoto, email], (err, result) => {
+        if (err) {
+            return res.status(500).json({message: 'Something went wrong'});
+        } else {
+            return res.status(200).json({ message: 'Profile updated successfully' });
+        }
+    })
+})
+
+app.post('/api/update-profile-data', (req, res) => {
+    const { email: Email, name: Name } = req.body;
+    const Query = 'UPDATE Users SET Name = ? WHERE Email = ?';
+    dbConnection.query(Query, [Name, Email], (err, result) => {
+        if (err) {
+            return res.status(500).json({message: 'Something went wrong'});
+        } else {
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ mensaje: "User not found" });
+            }
+            return res.status(200).json({ message: 'Profile updated successfully' });
+        }
+    })
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

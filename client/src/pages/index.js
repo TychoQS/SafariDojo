@@ -88,6 +88,11 @@ function Index() {
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header/>
             <section className="flex-grow flex flex-col mt-5 justify-center items-center align-middle">
+                <div className={`text-PS-dark-yellow text-5xl font-bold py-1 px-4 
+                                items-center flex justify-center ${cherryBomb.className}`}
+                >
+                    Choose any Master!
+                </div>
                 <CircleLayout/>
                 <section
                     className="w-full flex-grow flex flex-col relative mt-5 items-center bg-PS-light-yellow p-4 gap-6">
