@@ -1,0 +1,188 @@
+import React, { useState, useEffect, useRef } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import Lifes from "@/components/Lifes";
+import Link from "next/link";
+
+
+const initialCards = (difficulty = "hard") => {
+    const allPairs = [
+        { id: 1, content: "🖐️", match: "Mano" },
+        { id: 2, content: "👣", match: "Pie" },
+        { id: 3, content: "👂", match: "Oreja" },
+        { id: 4, content: "👃", match: "Nariz" },
+        { id: 5, content: "👁️", match: "Ojo" },
+        { id: 6, content: "👄", match: "Boca" },
+        { id: 7, content: "🦶", match: "Tobillo" },
+        { id: 8, content: "🦵", match: "Pierna" },
+        { id: 9, content: "💪", match: "Brazo" },
+        { id: 10, content: "🧠", match: "Cerebro" },
+        { id: 11, content: "🫀", match: "Corazón" }
+    ];
+
+    const shuffled = [...allPairs].sort(() => Math.random() - 0.5);
+
+    let numberOfPairs;
+        if (difficulty === "hard") {
+            numberOfPairs = 6;
+        } else if (difficulty === "medium") {
+            numberOfPairs = 5;
+        } else {
+            numberOfPairs = 4;
+        }
+
+    const pairs = shuffled.slice(0, numberOfPairs);
+
+    let cards = [];
+    pairs.forEach((pair, index) => {
+        cards.push({ id: index * 2, value: pair.content, pairId: index });
+        cards.push({ id: index * 2 + 1, value: pair.match, pairId: index });
+    });
+
+    return cards.sort(() => Math.random() - 0.5);
+};
+
+export default function MemoryGame() {
+    const [cards, setCards] = useState(initialCards);
+    const [selected, setSelected] = useState([]);
+    const [matched, setMatched] = useState([]);
+    const [mistakes, setMistakes] = useState(0);
+    const [lives, setLives] = useState(3);
+    const [gameOver, setGameOver] = useState(false);
+    const [preview, setPreview] = useState(true);
+    const [isClient, setIsClient] = useState(false);
+
+    const successSound = useRef(null);
+    const failSound = useRef(null);
+    const winSound = useRef(null);
+    const loseSound = useRef(null);
+    const lifesRef = useRef(null);
+
+    useEffect(() => {
+        if (selected.length === 2) {
+            const [first, second] = selected;
+            if (first.pairId === second.pairId) {
+                successSound.current.play();
+                setMatched((prev) => [...prev, first.pairId]);
+                setTimeout(() => setSelected([]), 500);
+            } else {
+                failSound.current.play();
+                setMistakes((prev) => prev + 1);
+                setTimeout(() => setSelected([]), 800);
+            }
+        }
+    }, [selected]);
+
+    useEffect(() => {
+        if (mistakes === 10) {
+            setGameOver(true);
+            loseSound.current.play();
+            lifesRef.current.loseLife();
+        }
+    }, [mistakes]);
+
+    useEffect(() => {
+        if (matched.length === cards.length / 2) {
+            setTimeout(() => winSound.current.play(), 500);
+        }
+    }, [matched]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setPreview(false);
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    const handleClick = (card) => {
+        if (
+            selected.length < 2 &&
+            !selected.includes(card) &&
+            !matched.includes(card.pairId) &&
+            !gameOver
+        ) {
+            setSelected((prev) => [...prev, card]);
+        }
+    };
+
+    return (
+        <div className="app min-h-screen flex flex-col bg-PS-main-purple">
+            <Header />
+            <main className="flex-1 flex flex-col justify-start px-4 relative">
+            <div className="flex items-center justify-between">
+                <div className={`ml-8 mt-6 text-4xl 
+                ${10 - mistakes <= 3 ? "text-red-500 animate-bounce" : "text-white animate-pulse"}`}>
+                    Tries remain: {10-mistakes}
+                </div>
+                <Lifes ref={lifesRef} lives={lives} />
+            </div>
+
+                {isClient && (
+                    <div className={`mb-8 grid justify-items-center 
+                    ${cards === 4 ? "grid-cols-4" : cards === 5 ? "grid-cols-5" : "grid-cols-6"}`}>
+                        {cards.map((card) => {
+                            const isFlipped =
+                                selected.includes(card) || matched.includes(card.pairId) || preview;
+                            const isMatched = matched.includes(card.pairId);
+
+                            return (
+                                <div
+                                    key={card.id}
+                                    onClick={() => handleClick(card)}
+                                    className={`cursor-pointer mt-8 flex items-center justify-center w-44 h-60 border rounded-xl text-xl 
+                            shadow-md transition-transform duration-300 ease-in-out transform text-black ${
+                                        isFlipped ? "rotate-y-360 bg-white" : "bg-gray-300"
+                                    } ${isMatched ? "opacity-0 scale-75" : "hover:scale-105"}`}
+                                    style={{
+                                        perspective: "1000px",
+                                        transition: "all 0.8s ease",
+                                    }}
+                                >
+                                    {isFlipped ? card.value : "?"}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+
+                {(matched.length === cards.length / 2 || gameOver) && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-main-purple bg-opacity-90 z-50">
+                        {matched.length === cards.length / 2 && (
+                            <div className="text-center text-green-600 font-bold text-3xl animate-bounce">
+                                🏅 ¡Felicidades! Has ganado una medalla.
+                            </div>
+                        )}
+
+                        {gameOver && (
+                            <div className="text-center text-red-500 font-bold text-3xl animate-pulse">
+                                💀 ¡Has perdido! Vuelve a intentarlo.
+                            </div>
+                        )}
+                        <div className={"mt-8 space-x-8 flex flex-row"}>
+                            <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none text-lg " +
+                                "border-[#6EF68B] bg-[#C9F1D2] text-black"} onClick={() => window.location.reload()}>
+                                Play again
+                            </button>
+                            <Link href={{pathname: "../GameSelectionPage"}}>
+                                <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
+                                    "text-lg border-[#6EF68B] bg-[#C9F1D2] text-black"}>Finish game</button>
+                            </Link>
+                        </div>
+                    </div>
+                )}
+
+            <audio ref={successSound} src="/sounds/correct_answer.mp3" preload="auto" />
+            <audio ref={failSound} src="/sounds/fail_answer.mp3" preload="auto" />
+            <audio ref={winSound} src="/sounds/win_game.mp3" preload="auto" />
+            <audio ref={loseSound} src="/sounds/lose_game.mp3" preload="auto" />
+            </main>
+
+            <Footer />
+        </div>
+    );
+}
