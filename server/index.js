@@ -4,6 +4,7 @@ const PORT = 8080;
 const cors = require('cors');
 const { readFile, writeFile } = require('fs');
 const {join} = require("node:path");
+const path = require("node:path");
 
 
 const dbConnection = require('./database');
@@ -11,6 +12,7 @@ const {query, response} = require("express");
 
 app.use(cors());
 app.use(express.json());
+app.use('/sfx', express.static(path.join(__dirname, 'public/sfx')));
 
 app.get("/api/home", (req, res) => {
     res.json({message: "Hello World!"});
