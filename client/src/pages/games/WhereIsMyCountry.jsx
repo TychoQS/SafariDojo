@@ -10,7 +10,6 @@ import Button from "@/components/Button";
 function WhereIsMyCountry() {
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
-    const [tries, setTries] = useState(4);
     const [gameStatus, setGameStatus] = useState("loading");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [gameCountries, setGameCountries] = useState([]);
@@ -93,12 +92,6 @@ function WhereIsMyCountry() {
 
     const isCorrect = (countryName) => {
         return countryName === getCountryName();
-    }
-
-    function getColor(countryName) {
-        if ((gameStatus === "waiting" || gameStatus === "finished") && countryName === getCountryName()) return "bg-green-600";
-        if (!clickedCountries[countryName]) return "bg-white";
-        return clickedCountries[countryName] === "correct" ? "bg-green-600" : "bg-red-700";
     }
 
     function nextGame() {
@@ -187,17 +180,21 @@ function WhereIsMyCountry() {
                             </div>
                         {gameStatus === "waiting" && (
                             <div>
-                                <div className="flex">
+                                <div className="mt-[2rem]">
                                     <Button size="small" onClick={() => nextGame()}>Next</Button>
                                 </div>
                             </div>
                         )}
+                        {gameStatus === "finished" && (
+                            <div className={"mt-[2rem]"}>
+                                <Button
+                                    size="large"
+                                    onClick={() => initializeGame()}>
+                                    Retry
+                                </Button>
+                            </div>
+                        )}
                     </div>
-                    <Button
-                        size="large"
-                        onClick={isCorrect()}>
-                        Retry
-                    </Button>
 
                 </div>
             </section>
