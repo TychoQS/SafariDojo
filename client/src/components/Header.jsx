@@ -1,9 +1,10 @@
 import React from "react";
-import { useAuth } from "@/pages/context/AuthContext";
-import { useRouter } from "next/router";
+import {useAuth} from "@/pages/context/AuthContext";
+import {useRouter} from "next/router";
+import LanguageSelector from "@/components/LanguajeSelector";
 
-export default function Header({ showButtons = true }) {
-    const { isLoggedIn, logOut, user } = useAuth();
+export default function Header({showButtons = true}) {
+    const {isLoggedIn, logOut, user} = useAuth();
     const router = useRouter();
 
     const handleLogOut = () => {
@@ -13,43 +14,8 @@ export default function Header({ showButtons = true }) {
 
     const isOnMyProfilePage = router.pathname === "/MyProfile";
 
-    const renderProfileLink = () => {
-        if (isLoggedIn && !isOnMyProfilePage) {
-            return (
-                <li>
-                    <a href="/MyProfile">Profile</a>
-                </li>
-            );
-        }
-        return null;
-    };
-
-    const renderButtons = () => {
-        if (!showButtons) {
-            return null;
-        }
-
-        if (isLoggedIn) {
-            return (
-                <button
-                    onClick={handleLogOut}
-                    className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
-                    Log Out
-                </button>
-            );
-        } else {
-            return (
-                <>
-                    <a href="/SignUpFirstStep" className="text-black">Sign Up</a>
-                    <a href="/LogIn">
-                        <button
-                            className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
-                            Log In
-                        </button>
-                    </a>
-                </>
-            );
-        }
+    const handleLanguageChange = (langCode) => {
+        console.log("Idioma seleccionado:", langCode);
     };
 
     return (
@@ -58,16 +24,41 @@ export default function Header({ showButtons = true }) {
                 <img src="/images/logo.svg" alt="Logo" className="m-4"/>
             </a>
             <nav className="ml-4">
-                <ul className="flex gap-6 list-none m-0 p-0 text-black">
+                <ul className="flex gap-6 list-none m-0 p-0 text-black items-center">
                     <li>
                         <a href="..">Home</a>
                     </li>
-                    {renderProfileLink()}
+                    {isLoggedIn && !isOnMyProfilePage && (
+                        <li>
+                            <a href="/MyProfile">Profile</a>
+                        </li>
+                    )}
+                    <li>
+                        <LanguageSelector onLanguageChange={handleLanguageChange}/>
+                    </li>
                 </ul>
             </nav>
-            <div className="ml-auto flex items-center gap-4">
-                {renderButtons()}
-            </div>
+            {showButtons && (
+                <div className="ml-auto flex items-center gap-4">
+                    {isLoggedIn ? (
+                        <button
+                            onClick={handleLogOut}
+                            className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
+                            Log Out
+                        </button>
+                    ) : (
+                        <>
+                            <a href="/SignUpFirstStep" className="text-black">Sign Up</a>
+                            <a href="/LogIn">
+                                <button
+                                    className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
+                                    Log In
+                                </button>
+                            </a>
+                        </>
+                    )}
+                </div>
+            )}
         </header>
     );
 }
