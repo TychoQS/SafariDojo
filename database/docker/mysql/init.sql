@@ -1,4 +1,7 @@
-    CREATE DATABASE IF NOT EXISTS SafariDojoDB;
+CREATE USER 'node_server'@'%' IDENTIFIED BY 'Ps20242025';
+GRANT ALL PRIVILEGES ON SafariDojoDB.* TO 'node_server'@'%';
+FLUSH PRIVILEGES;
+CREATE DATABASE IF NOT EXISTS SafariDojoDB;
     USE SafariDojoDB;
     SET sql_notes = 0;
         /* First we remove all in order to evade errors of "already exists" when creating the DB*/
