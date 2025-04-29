@@ -39,7 +39,7 @@ const MahjongPairs = ({dataSets, title}) => {
     );
 };
 
-const App = () => {
+const Mahjong = () => {
     const verbs = [
         {form1: "be", form2: "was/were"},
         {form1: "begin", form2: "began"},
@@ -72,4 +72,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default Mahjong;
