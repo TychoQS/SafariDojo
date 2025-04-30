@@ -183,7 +183,6 @@ app.get('/api/gameSelectionAssets', (req, res) => {
                 else if (index === 1) response.secondGame = game.QuizName;
                 else if (index === 2) response.thirdGame = game.QuizName;
             });
-            console.log(response)
             return res.status(200).json(response);
         });
 })
