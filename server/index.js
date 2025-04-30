@@ -133,12 +133,10 @@ app.get('/api/gameSelectionAssets', (req, res) => {
         'LEFT JOIN Multimedia m ON ms.IdMultimedia = m.Id\n' +
         'WHERE \n' +
         '    s.Name = ? ORDER BY length(imageName);';
-    const gameQuery = 'SELECT DISTINCT QuizName\n' +
-        'FROM SubjectQuizzes sq\n' +
-        'LEFT JOIN Quizzes q ON q.Id = sq.QuizId\n' +
-        'LEFT JOIN Subjects s on s.Id = SubjectId\n' +
-        'WHERE s.Name = ?\n' +
-        'ORDER BY QuizName;'
+    const gameQuery = 'SELECT QuizName\n' +
+        'FROM AllSubjectQuizzes\n' +
+        'WHERE SubjectName = ?\n' +
+        'ORDER BY Priority;'
     const getMultimedia = () => {
         return new Promise((resolve, reject) => {
             dbConnection.query(multimediaQuery, [Subject], (err, result) => {
@@ -183,6 +181,7 @@ app.get('/api/gameSelectionAssets', (req, res) => {
                 else if (index === 1) response.secondGame = game.QuizName;
                 else if (index === 2) response.thirdGame = game.QuizName;
             });
+            console.log(response)
             return res.status(200).json(response);
         });
 })
