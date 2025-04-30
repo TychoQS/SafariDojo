@@ -67,15 +67,15 @@ const AnimalClassificationGame = () => {
                     break;
                 case 's':
                 case 'arrowdown':
-                    newY = Math.min(100, prev.y + speed);
+                    newY = Math.min(96, prev.y + speed);
                     break;
                 case 'a':
                 case 'arrowleft':
-                    newX = Math.max(0, prev.x - speed);
+                    newX = Math.max(3, prev.x - speed);
                     break;
                 case 'd':
                 case 'arrowright':
-                    newX = Math.min(100, prev.x + speed);
+                    newX = Math.min(97, prev.x + speed);
                     break;
             }
 
@@ -158,13 +158,13 @@ const AnimalClassificationGame = () => {
             <Header />
 
             <main className="flex flex-col items-center bg-PS-main-purple">
-                <div className="relative w-[1000px] h-[600px] bg-green-200 rounded-lg overflow-hidden border-4 border-green-950 mt-5 mb-10">
-                    <div className="absolute text-2xl justify-between p-1.5 w-full text-black border-green-700 bg-opacity-70 flex">
+                <div className="relative w-[1000px] h-[600px] bg-blue-200 rounded-lg overflow-hidden border-4 border-blue-950 mt-5 mb-10">
+                    <div className="text-2xl justify-between p-1.5 w-full text-black flex">
                         <div>Level: {level}/{randomLevels.length}</div>
                         <div>Score: {score}</div>
                     </div>
 
-                    <div className="absolute text-xl top-12 w-full text-center bg-green-700
+                    <div className="absolute text-xl top-12 w-full text-center bg-blue-700
                      bg-opacity-70 p-2">
                         {message}
                     </div>
@@ -192,10 +192,12 @@ const AnimalClassificationGame = () => {
                     ))}
 
                     {(gameWon && gameFinished) && (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-science-color text-black">
-                            <h2 className="text-4xl font-bold mb-4">Congratulations!</h2>
-                            <p className="text-2xl mb-6">You won a medal!</p>
-                            <p className="text-xl mb-8">Final score: {score}</p>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-blue-400 text-black">
+                            <div className={"flex flex-col items-center justify-between w-80 h-50 mb-5 bg-sky-500 border-sky-600 border-4 rounded-2xl"}>
+                                <h2 className="text-4xl font-bold mt-4 animate-bounce">Congratulations!</h2>
+                                <p className="text-2xl mb-6 animate-pulse">You won a medal! 🏅</p>
+                                <p className="text-xl mb-8 text-green-800">Final score: {score}</p>
+                            </div>
                             <Button size="large" onClick={restartGame}>Play Again</Button>
                             <Link href={{ pathname: "../GameSelectionPage", query: { Subject: "Science", bestScore: maxScore} }} className="mt-2">
                                 <Button size="large">Finish game</Button>
@@ -204,10 +206,12 @@ const AnimalClassificationGame = () => {
                     )}
 
                     {(!gameWon && gameFinished) && (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-science-color text-black">
-                            <h2 className="text-4xl font-bold mb-4">Game Over!</h2>
-                            <p className="text-2xl mb-6">Keep trying!</p>
-                            <p className="text-xl mb-8">Final score: {score}</p>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-blue-400 text-black">
+                            <div className={"flex flex-col items-center justify-between w-80 h-50 mb-7 bg-sky-500 border-sky-600 border-4 rounded-2xl"}>
+                                <h2 className="text-4xl font-bold mt-4">Game Over</h2>
+                                <p className="text-2xl mb-6 animate-pulse">Keep trying!</p>
+                                <p className="text-xl mb-8 text-red-600">Final score: {score}</p>
+                            </div>
                             <Button size="large" onClick={restartGame}>Try Again</Button>
                             <Link href={{ pathname: "../GameSelectionPage", query: { Subject: "Science", bestScore: maxScore} }} className="mt-2">
                                 <Button size="large">Finish game</Button>
