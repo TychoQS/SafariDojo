@@ -22,7 +22,7 @@ function QuizzPreview() {
     const [bestScore, setBestScore] = useState();
     const [gamePremium, setGamePremium] = useState(false);
     const [showPremiumModal, setShowPremiumModal] = useState(false);
-
+    const [gameRequiresRegister, setGameRequiresRegister] = useState(false); // 👈 nuevo estado
 
     useEffect(() => {
         if (router.isReady) {
@@ -43,6 +43,18 @@ function QuizzPreview() {
                 setGamePremium(data.isPremium);
             } else {
                 console.error("Error fetching premium status");
+            }
+        }
+    }
+
+    async function fetchIsRegisterGame() {
+        if (gameData) {
+            const response = await fetch(`http://localhost:8080/api/isRegisterGame?quizName=${gameData}`);
+            if (response.ok) {
+                const data = await response.json();
+                setGameRequiresRegister(data.isRegister);
+            } else {
+                console.error("Error fetching register status");
             }
         }
     }
@@ -78,10 +90,12 @@ function QuizzPreview() {
     useEffect(() => {
         const fetchData = async () => {
             await fetchSubjectData();
+            await fetchIsPremium();
+            await fetchIsRegisterGame();
+
             if (isLoggedIn && (!gamePremium || (gamePremium && profile.isPremium))) {
                 await fetchBestScore();
             }
-            await fetchIsPremium();
         };
         fetchData();
     }, [gameData, subject, age]);
@@ -96,7 +110,7 @@ function QuizzPreview() {
         }
     };
 
-    function startGame() {
+    async function startGame() {
         if (!gameData) {
             console.log("The param 'Game' is not in the URL.");
             return;
@@ -105,7 +119,12 @@ function QuizzPreview() {
         const isGamePremium = gamePremium;
         const isUserPremium = user?.isPremium;
 
-        if (isGamePremium && !isUserPremium) {
+        if (( gamePremium|| gameRequiresRegister) && !isLoggedIn) {
+            await router.push("/LogIn");
+            return;
+        }
+
+        if (isGamePremium && !isUserPremium && isLoggedIn) {
             setShowPremiumModal(true);
             return;
         }

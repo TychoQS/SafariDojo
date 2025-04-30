@@ -417,6 +417,31 @@ app.get('/api/isPremiumGame', (req, res) => {
     });
 });
 
+app.get('/api/isRegisterGame', (req, res) => {
+    const { quizName } = req.query;
+
+    if (!quizName) {
+        return res.status(400).json({ message: "Missing required parameter: quizName" });
+    }
+
+    const query = 'SELECT Register FROM Quizzes WHERE QuizName = ?';
+
+    dbConnection.query(query, [quizName], (err, result) => {
+        if (err) {
+            console.error("Error checking register status:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Quiz not found" });
+        }
+        const isRegister = !!result[0].Register;
+
+        res.status(200).json({ isRegister });
+    });
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

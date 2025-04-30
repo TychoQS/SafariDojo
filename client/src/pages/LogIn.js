@@ -37,7 +37,7 @@ const LogIn = () => {
             console.log("Response data:", ResponseData);
             const token = `fakeTokenForUser-${Date.now()}`;
             logIn(token, ResponseData);
-            router.push("..");
+            window.history.go(-1);
         } else {
             alert(ResponseData.message);
         }
