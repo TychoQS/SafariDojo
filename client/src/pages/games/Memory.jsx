@@ -176,10 +176,10 @@ export default function MemoryGame() {
                     </div>
                 )}
 
-            <audio ref={successSound} src="/sounds/correct_answer.mp3" preload="auto" />
-            <audio ref={failSound} src="/sounds/fail_answer.mp3" preload="auto" />
-            <audio ref={winSound} src="/sounds/win_game.mp3" preload="auto" />
-            <audio ref={loseSound} src="/sounds/lose_game.mp3" preload="auto" />
+            <audio ref={successSound} src="/sounds/Memory/correct_answer.mp3" preload="auto" />
+            <audio ref={failSound} src="/sounds/Memory/fail_answer.mp3" preload="auto" />
+            <audio ref={winSound} src="/sounds/Memory/win_game.mp3" preload="auto" />
+            <audio ref={loseSound} src="/sounds/Memory/lose_game.mp3" preload="auto" />
             </main>
 
             <Footer />

@@ -1,25 +1,43 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import Title from "@/components/Title";
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import levelsData from "../../../../database/jsondata/CallOfTheClan.json"
+import levelsData from "../../../../database/jsondata/CallOfTheClan.json";
+import {useRouter} from "next/router";
+
 
 const AnimalClassificationGame = () => {
     const [level, setLevel] = useState(1);
     const [score, setScore] = useState(0);
+    const [maxScore, setMaxScore] = useState(0);
     const [gameActive, setGameActive] = useState(true);
-    const [message, setMessage] = useState('Move your animal to the correct group!');
+    const [gameFinished, setGameFinished] = useState(false);
     const [gameWon, setGameWon] = useState(false);
-
-    const [playerPosition, setPlayerPosition] = useState({x: 50, y: 50});
+    const [message, setMessage] = useState('Move your animal to the correct group!');
+    const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 50 });
     const allLevels = levelsData.allLevels;
     const [randomLevels, setRandomLevels] = useState([]);
 
+    const newLevelSound = useRef(null);
+    const failSound = useRef(null);
+    const winSound = useRef(null);
+    const loseSound = useRef(null);
+
+    const router = useRouter();
+    const { difficulty = "easy" } = router.query;
+
     const selectRandomLevels = () => {
         const shuffled = [...allLevels].sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, 5);
+        if (difficulty === "hard") {
+            return shuffled.slice(0, 6);
+        }
+
+        if (difficulty === "medium") {
+            return shuffled.slice(0, 5);
+        }
+
+        return shuffled.slice(0, 4);
     };
 
     useEffect(() => {
@@ -31,7 +49,13 @@ const AnimalClassificationGame = () => {
     const handleKeyDown = useCallback((e) => {
         if (!gameActive) return;
 
-        const speed = 10;
+        const speed = 5;
+        const key = e.key.toLowerCase();
+
+        if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) {
+            e.preventDefault();
+        }
+
         setPlayerPosition(prev => {
             let newX = prev.x;
             let newY = prev.y;
@@ -39,7 +63,7 @@ const AnimalClassificationGame = () => {
             switch (e.key.toLowerCase()) {
                 case 'w':
                 case 'arrowup':
-                    newY = Math.max(0, prev.y - speed);
+                    newY = Math.max(18, prev.y - speed);
                     break;
                 case 's':
                 case 'arrowdown':
@@ -53,54 +77,63 @@ const AnimalClassificationGame = () => {
                 case 'arrowright':
                     newX = Math.min(100, prev.x + speed);
                     break;
-                default:
-                    break;
             }
 
-            return {x: newX, y: newY};
+            return { x: newX, y: newY };
         });
     }, [gameActive]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
+        return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
     useEffect(() => {
         if (!gameActive || !currentLevel) return;
 
         currentLevel.groups.forEach(group => {
-            const distance = Math.sqrt(
-                Math.pow(playerPosition.x - group.position.x, 2) +
-                Math.pow(playerPosition.y - group.position.y, 2)
-            );
+            const distance = Math.hypot(playerPosition.x - group.position.x, playerPosition.y - group.position.y);
 
             if (distance < 10) {
                 setGameActive(false);
 
-                if (group.classification === currentLevel.player.classification) {
+                const correct = group.classification === currentLevel.player.classification;
+
+                if (correct) {
                     setMessage(`Correct! ${currentLevel.player.name} and ${group.name} are ${group.classification}s.`);
                     setScore(prev => prev + 100);
 
                     if (level === randomLevels.length) {
-                        setGameWon(true);
+                        setGameFinished(true);
+                        if (score > maxScore) {
+                            setMaxScore(score);
+                        }
+                        if ((score >= 200 && difficulty === "easy") ||
+                            (score > 300 && difficulty === "medium") ||
+                            (score > 450 && difficulty === "hard")) {
+                            setGameWon(true);
+                            winSound.current.play();
+                            }
+                        else {
+                            loseSound.current.play();
+                        }
                     } else {
                         setTimeout(() => {
                             setLevel(prev => prev + 1);
-                            setPlayerPosition({x: 50, y: 50});
+                            setPlayerPosition({ x: 50, y: 50 });
                             setGameActive(true);
+                            newLevelSound.current.play()
                             setMessage('Move your animal to the correct group!');
                         }, 2000);
                     }
                 } else {
                     setMessage(`Incorrect! ${currentLevel.player.name} is a ${currentLevel.player.classification}, but ${group.name} are ${group.classification}s.`);
+                    setScore(prev => prev - 50);
                     setTimeout(() => {
-                        setPlayerPosition({x: 50, y: 50});
+                        setPlayerPosition({ x: 50, y: 50 });
                         setGameActive(true);
+                        failSound.current.play()
                         setMessage('Try again! Find the correct group.');
-                        setScore(prev => prev - 50)
                     }, 2000);
                 }
             }
@@ -108,46 +141,37 @@ const AnimalClassificationGame = () => {
     }, [playerPosition, gameActive, currentLevel, level, randomLevels.length]);
 
     const restartGame = () => {
-        const newRandomLevels = selectRandomLevels();
-        setRandomLevels(newRandomLevels);
+        setRandomLevels(selectRandomLevels());
         setLevel(1);
         setScore(0);
-        setPlayerPosition({x: 50, y: 50});
+        setPlayerPosition({ x: 50, y: 50 });
         setGameActive(true);
         setMessage('Move your animal to the correct group!');
+        setGameFinished(false);
         setGameWon(false);
     };
 
-    if (randomLevels.length === 0) {
-        return <div>Loading game...</div>;
-    }
+    if (randomLevels.length === 0) return <div>Loading game...</div>;
 
     return (
-        <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
-            <Header></Header>
-            <main className="bg-PS-main-purple w-dvw h-dvh flex flex-col justify-center items-center">
-                <Title>Call Of The Clan</Title>
-                {!gameWon && (
-                    <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Science"}}}>
-                <div className="mt-4 mb-2 relative w-[1200px] flex justify-start">
-                    <Button size="small" >Back</Button>
-                </div>
-                </Link> )}
-                <div
-                    className="relative w-[1200px] h-[800px] bg-PS-science-color rounded-lg overflow-hidden border-4 border-green-900 mb-2">
-                    <div
-                        className="absolute text-2xl top-0 left-0 w-full bg-green-600 bg-opacity-70 p-2 flex justify-between">
+        <section className="app flex flex-col bg-PS-main-purple">
+            <Header />
+
+            <main className="flex flex-col items-center bg-PS-main-purple">
+                <div className="relative w-[1000px] h-[600px] bg-green-200 rounded-lg overflow-hidden border-4 border-green-950 mt-5 mb-10">
+                    <div className="absolute text-2xl justify-between p-1.5 w-full text-black border-green-700 bg-opacity-70 flex">
                         <div>Level: {level}/{randomLevels.length}</div>
                         <div>Score: {score}</div>
                     </div>
 
-                    <div className="absolute text-xl top-12 left-0 w-full text-center bg-green-600 bg-opacity-70 p-2">
+                    <div className="absolute text-xl top-12 w-full text-center bg-green-700
+                     bg-opacity-70 p-2">
                         {message}
                     </div>
 
                     <div
                         className="absolute text-5xl transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2"
-                        style={{left: `${playerPosition.x}%`, top: `${playerPosition.y}%`}}
+                        style={{ left: `${playerPosition.x}%`, top: `${playerPosition.y}%` }}
                     >
                         {currentLevel.player.emoji}
                     </div>
@@ -156,42 +180,57 @@ const AnimalClassificationGame = () => {
                         <div
                             key={index}
                             className="absolute text-5xl transform -translate-x-1/2 -translate-y-1/2"
-                            style={{left: `${group.position.x}%`, top: `${group.position.y}%`}}
+                            style={{ left: `${group.position.x}%`, top: `${group.position.y}%` }}
                         >
                             <div className="flex flex-col items-center text-black">
                                 <span className="text-6xl mb-2">{group.emoji}</span>
                                 <span className="bg-white bg-opacity-70 px-2 py-1 rounded text-sm">
-                                {group.name}
-                            </span>
+                  {group.name}
+                </span>
                             </div>
                         </div>
                     ))}
 
-                    {gameWon && (
-                        <div
-                            className="absolute inset-0 flex flex-col items-center justify-center bg-PS-science-color text-black">
-                            <h2 className="text-4xl font-bold mb-4">Game Over!</h2>
-                            <p className="text-2xl mb-6">You've completed all 5 levels!</p>
+                    {(gameWon && gameFinished) && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-science-color text-black">
+                            <h2 className="text-4xl font-bold mb-4">Congratulations!</h2>
+                            <p className="text-2xl mb-6">You won a medal!</p>
                             <p className="text-xl mb-8">Final score: {score}</p>
-                            <Button
-                                size={"large"}
-                                onClick={restartGame}
-                            >
-                                Play Again
-                            </Button>
-                            <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Science"}}} className="mt-2">
-                                <Button size="small" >Back</Button>
+                            <Button size="large" onClick={restartGame}>Play Again</Button>
+                            <Link href={{ pathname: "../GameSelectionPage", query: { Subject: "Science", bestScore: maxScore} }} className="mt-2">
+                                <Button size="large">Finish game</Button>
                             </Link>
                         </div>
                     )}
 
-                    <div className="absolute bottom-4 right-4 bg-white bg-opacity-70 p-2 rounded text-black">
-                        Use WASD or Arrow keys to move
-                    </div>
+                    {(!gameWon && gameFinished) && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-science-color text-black">
+                            <h2 className="text-4xl font-bold mb-4">Game Over!</h2>
+                            <p className="text-2xl mb-6">Keep trying!</p>
+                            <p className="text-xl mb-8">Final score: {score}</p>
+                            <Button size="large" onClick={restartGame}>Try Again</Button>
+                            <Link href={{ pathname: "../GameSelectionPage", query: { Subject: "Science", bestScore: maxScore} }} className="mt-2">
+                                <Button size="large">Finish game</Button>
+                            </Link>
+                        </div>
+                    )}
+
                 </div>
+                {!gameFinished && (
+                    <Link href={{ pathname: "../GameSelectionPage", query: { Subject: "Science" } }}>
+                        <div className="mt-4 mb-2 relative flex">
+                            <Button size="small">Back</Button>
+                        </div>
+                    </Link>
+                )}
+                <audio ref={newLevelSound} src="/sounds/CallOfTheClan/newlevel-calloftheclan.mp3" preload="auto" />
+                <audio ref={failSound} src="/sounds/CallOfTheClan/fail-calloftheclan.mp3" preload="auto" />
+                <audio ref={winSound} src="/sounds/CallOfTheClan/won-calloftheclan.mp3" preload="auto" />
+                <audio ref={loseSound} src="/sounds/CallOfTheClan/lost-calloftheclan.mp3" preload="auto" />
             </main>
-            <Footer></Footer>
-        </div>
+
+            <Footer />
+        </section>
     );
 };
 
