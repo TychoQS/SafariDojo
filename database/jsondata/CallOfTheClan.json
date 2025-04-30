@@ -1,57 +1,57 @@
 {
   "allLevels": [
     {
-      "player": {"type": "dog", "name": "Dog", "classification": "mammal", "emoji": "🐕"},
+      "player": {"type": "dog", "name": "Dog", "classification": "mammal", "emoji": "/images/Games/Science/dog.svg"},
       "groups": [
-        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "🐸", "position": {"x": 20, "y": 30}},
-        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "🐠", "position": {"x": 80, "y": 30}},
-        {"type": "cats", "name": "Cats", "classification": "mammal", "emoji": "🐈", "position": {"x": 20, "y": 70}},
-        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 70}}
+        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "/images/Games/Science/frog.svg", "position": {"x": 20, "y": 30}},
+        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "/images/Games/Science/fish.svg", "position": {"x": 80, "y": 30}},
+        {"type": "cats", "name": "Cats", "classification": "mammal", "emoji": "/images/Games/Science/cat.svg", "position": {"x": 20, "y": 70}},
+        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "/images/Games/Science/bird.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "eagle", "name": "Eagle", "classification": "bird", "emoji": "🦅"},
+      "player": {"type": "eagle", "name": "Eagle", "classification": "bird", "emoji": "/images/Games/Science/eagle.svg"},
       "groups": [
-        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "🦋", "position": {"x": 20, "y": 30}},
-        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 30}},
-        {"type": "bats", "name": "Bats", "classification": "mammal", "emoji": "🦇", "position": {"x": 20, "y": 70}},
-        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "🐸", "position": {"x": 80, "y": 70}}
+        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "/images/Games/Science/butterfly.svg", "position": {"x": 20, "y": 30}},
+        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "/images/Games/Science/bird.svg", "position": {"x": 80, "y": 30}},
+        {"type": "bats", "name": "Bats", "classification": "mammal", "emoji": "/images/Games/Science/bat.svg", "position": {"x": 20, "y": 70}},
+        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "/images/Games/Science/frog.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "turtle", "name": "Turtle", "classification": "reptile", "emoji": "🐢"},
+      "player": {"type": "turtle", "name": "Turtle", "classification": "reptile", "emoji": "/images/Games/Science/turtle.svg"},
       "groups": [
-        {"type": "snakes", "name": "Snakes", "classification": "reptile", "emoji": "🐍", "position": {"x": 20, "y": 30}},
-        {"type": "dolphins", "name": "Dolphins", "classification": "mammal", "emoji": "🐬", "position": {"x": 80, "y": 30}},
-        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "🦀", "position": {"x": 20, "y": 70}},
-        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "🦋", "position": {"x": 80, "y": 70}}
+        {"type": "snakes", "name": "Snakes", "classification": "reptile", "emoji": "/images/Games/Science/snake.svg", "position": {"x": 20, "y": 30}},
+        {"type": "dolphins", "name": "Dolphins", "classification": "mammal", "emoji": "/images/Games/Science/dolphin.svg", "position": {"x": 80, "y": 30}},
+        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "/images/Games/Science/crab.svg", "position": {"x": 20, "y": 70}},
+        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "/images/Games/Science/butterfly.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "lobster", "name": "Lobster", "classification": "crustacean", "emoji": "🦞"},
+      "player": {"type": "lobster", "name": "Lobster", "classification": "crustacean", "emoji": "/images/Games/Science/lobster.svg"},
       "groups": [
-        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "🦀", "position": {"x": 20, "y": 30}},
-        {"type": "octopus", "name": "Octopus", "classification": "mollusk", "emoji": "🐙", "position": {"x": 80, "y": 30}},
-        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "🐠", "position": {"x": 20, "y": 70}},
-        {"type": "seahorses", "name": "Seahorses", "classification": "fish", "emoji": "🐡", "position": {"x": 80, "y": 70}}
+        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "/images/Games/Science/crab.svg", "position": {"x": 20, "y": 30}},
+        {"type": "octopus", "name": "Octopus", "classification": "mollusk", "emoji": "/images/Games/Science/octopus.svg", "position": {"x": 80, "y": 30}},
+        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "/images/Games/Science/fish.svg", "position": {"x": 20, "y": 70}},
+        {"type": "seahorses", "name": "Seahorses", "classification": "fish", "emoji": "/images/Games/Science/seahorse.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "spider", "name": "Spider", "classification": "arachnid", "emoji": "🕷️"},
+      "player": {"type": "spider", "name": "Spider", "classification": "arachnid", "emoji": "/images/Games/Science/spider.svg"},
       "groups": [
-        {"type": "scorpions", "name": "Scorpions", "classification": "arachnid", "emoji": "🦂", "position": {"x": 20, "y": 30}},
-        {"type": "ants", "name": "Ants", "classification": "insect", "emoji": "🐜", "position": {"x": 80, "y": 30}},
-        {"type": "snails", "name": "Snails", "classification": "mollusk", "emoji": "🐌", "position": {"x": 20, "y": 70}},
-        {"type": "beetles", "name": "Beetles", "classification": "insect", "emoji": "🪲", "position": {"x": 80, "y": 70}}
+        {"type": "scorpions", "name": "Scorpions", "classification": "arachnid", "emoji": "/images/Games/Science/scorpion.svg", "position": {"x": 20, "y": 30}},
+        {"type": "ants", "name": "Ants", "classification": "insect", "emoji": "/images/Games/Science/ant.svg", "position": {"x": 80, "y": 30}},
+        {"type": "snails", "name": "Snails", "classification": "mollusk", "emoji": "/images/Games/Science/snail.svg", "position": {"x": 20, "y": 70}},
+        {"type": "beetles", "name": "Beetles", "classification": "insect", "emoji": "/images/Games/Science/beetle.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "penguin", "name": "Penguin", "classification": "bird", "emoji": "🐧"},
+      "player": {"type": "penguin", "name": "Penguin", "classification": "bird", "emoji": "/images/Games/Science/penguin.svg"},
       "groups": [
-        {"type": "seals", "name": "Seals", "classification": "mammal", "emoji": "🦭", "position": {"x": 20, "y": 30}},
-        {"type": "ducks", "name": "Ducks", "classification": "bird", "emoji": "🦆", "position": {"x": 80, "y": 30}},
-        {"type": "sharks", "name": "Sharks", "classification": "fish", "emoji": "🦈", "position": {"x": 20, "y": 70}},
-        {"type": "whales", "name": "Whales", "classification": "mammal", "emoji": "🐋", "position": {"x": 80, "y": 70}}
+        {"type": "seals", "name": "Seals", "classification": "mammal", "emoji": "/images/Games/Science/seal.svg", "position": {"x": 20, "y": 30}},
+        {"type": "ducks", "name": "Ducks", "classification": "bird", "emoji": "/images/Games/Science/duck.svg", "position": {"x": 80, "y": 30}},
+        {"type": "sharks", "name": "Sharks", "classification": "fish", "emoji": "/images/Games/Science/shark.svg", "position": {"x": 20, "y": 70}},
+        {"type": "whales", "name": "Whales", "classification": "mammal", "emoji": "/images/Games/Science/whale.svg", "position": {"x": 80, "y": 70}}
       ]
     }
   ]

@@ -1,3 +1,4 @@
+import {cherryBomb} from '@/styles/fonts';
 import React, {useState, useEffect, useCallback, useRef} from 'react';
 import Button from "@/components/Button";
 import Header from "@/components/Header";
@@ -101,16 +102,17 @@ const AnimalClassificationGame = () => {
 
                 if (correct) {
                     setMessage(`Correct! ${currentLevel.player.name} and ${group.name} are ${group.classification}s.`);
-                    setScore(prev => prev + 100);
+                    const newScore = score + 100;
+                    setScore(newScore);
 
                     if (level === randomLevels.length) {
                         setGameFinished(true);
-                        if (score > maxScore) {
-                            setMaxScore(score);
+                        if (newScore > maxScore) {
+                            setMaxScore(newScore);
                         }
-                        if ((score >= 200 && difficulty === "easy") ||
-                            (score > 300 && difficulty === "medium") ||
-                            (score > 450 && difficulty === "hard")) {
+                        if ((newScore >= 200 && difficulty === "easy") ||
+                            (newScore >= 300 && difficulty === "medium") ||
+                            (newScore >= 450 && difficulty === "hard")) {
                             setGameWon(true);
                             winSound.current.play();
                             }
@@ -154,18 +156,18 @@ const AnimalClassificationGame = () => {
     if (randomLevels.length === 0) return <div>Loading game...</div>;
 
     return (
-        <section className="app flex flex-col bg-PS-main-purple">
+        <section className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header />
 
-            <main className="flex flex-col items-center bg-PS-main-purple">
-                <div className="relative w-[1000px] h-[600px] bg-blue-200 rounded-lg overflow-hidden border-4 border-blue-950 mt-5 mb-10">
-                    <div className="text-2xl justify-between p-1.5 w-full text-black flex">
+            <main className="flex-1 flex flex-col items-center px-4 relative">
+                <div className="relative w-[1000px] h-[600px] bg-blue-200 rounded-lg overflow-hidden border-4 border-blue-950 mt-5 mb-3">
+                    <div className={`text-2xl justify-between p-1.5 w-full text-black flex ${cherryBomb.className}`}>
                         <div>Level: {level}/{randomLevels.length}</div>
                         <div>Score: {score}</div>
                     </div>
 
-                    <div className="absolute text-xl top-12 w-full text-center bg-blue-700
-                     bg-opacity-70 p-2">
+                    <div className={`absolute text-xl top-12 w-full text-center bg-blue-700
+                     bg-opacity-70 p-2`}>
                         {message}
                     </div>
 
@@ -173,7 +175,7 @@ const AnimalClassificationGame = () => {
                         className="absolute text-5xl transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2"
                         style={{ left: `${playerPosition.x}%`, top: `${playerPosition.y}%` }}
                     >
-                        {currentLevel.player.emoji}
+                        <img src={currentLevel.player.emoji} alt={currentLevel.player.name} className={"w16 h-16"}/>
                     </div>
 
                     {currentLevel.groups.map((group, index) => (
@@ -183,7 +185,8 @@ const AnimalClassificationGame = () => {
                             style={{ left: `${group.position.x}%`, top: `${group.position.y}%` }}
                         >
                             <div className="flex flex-col items-center text-black">
-                                <span className="text-6xl mb-2">{group.emoji}</span>
+
+                                <span className="text-6xl mb-2"><img src={group.emoji} alt={group.name} className={"w16 h-16"}/></span>
                                 <span className="bg-white bg-opacity-70 px-2 py-1 rounded text-sm">
                   {group.name}
                 </span>
@@ -194,7 +197,7 @@ const AnimalClassificationGame = () => {
                     {(gameWon && gameFinished) && (
                         <div className="absolute inset-0 flex flex-col items-center justify-center bg-blue-400 text-black">
                             <div className={"flex flex-col items-center justify-between w-80 h-50 mb-5 bg-sky-500 border-sky-600 border-4 rounded-2xl"}>
-                                <h2 className="text-4xl font-bold mt-4 animate-bounce">Congratulations!</h2>
+                                <h2 className={`text-4xl font-bold mt-4 animate-bounce ${cherryBomb.className}`}>Congratulations!</h2>
                                 <p className="text-2xl mb-6 animate-pulse">You won a medal! 🏅</p>
                                 <p className="text-xl mb-8 text-green-800">Final score: {score}</p>
                             </div>
@@ -208,7 +211,7 @@ const AnimalClassificationGame = () => {
                     {(!gameWon && gameFinished) && (
                         <div className="absolute inset-0 flex flex-col items-center justify-center bg-blue-400 text-black">
                             <div className={"flex flex-col items-center justify-between w-80 h-50 mb-7 bg-sky-500 border-sky-600 border-4 rounded-2xl"}>
-                                <h2 className="text-4xl font-bold mt-4">Game Over</h2>
+                                <h2 className={`text-4xl font-bold mt-4 ${cherryBomb.className}`}>Game Over</h2>
                                 <p className="text-2xl mb-6 animate-pulse">Keep trying!</p>
                                 <p className="text-xl mb-8 text-red-600">Final score: {score}</p>
                             </div>
