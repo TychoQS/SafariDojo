@@ -1,44 +1,51 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import subjects from "../../../database/jsondata/Subject.json";
-import gamesData from "../../../database/jsondata/Games.json";
 import {patrickHand, cherryBomb} from "@/styles/fonts";
 import {useAuth} from "@/pages/context/AuthContext";
 
-const Card = ({gameSubject, gameNumber, medalType}) => {
+const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) => {
     const {isLoggedIn, user} = useAuth();
     const router = useRouter();
+    const [gameName, setGameName] = useState(null);
 
-    const subject = subjects.find(subject => subject.subjectName === gameSubject);
-    const {subjectName, baseIcon, borderColor} = subject || {};
-
-    const gamesList = gamesData[gameSubject.toLowerCase()] || [];
-    const gameName = gamesList[gameNumber - 1]?.gameName;
-
-    const difficultyMap = {
-        bronze: "easy",
-        silver: "medium",
-        gold: "hard"
-    };
-    const selectedDifficulty = difficultyMap[medalType];
-
-    const [isCompleted, setIsCompleted] = useState(false);
+    const [selectedDifficulty, setSelectedDifficulty] = useState(null);
+    const [isCompleted, setIsCompleted] = useState(isCompletedProp);
+    const [primaryColor, setPrimaryColor] = useState(null);
 
     useEffect(() => {
-        if (isLoggedIn && user) {
-            const storedGames = JSON.parse(localStorage.getItem(`completedGames_${user.id}`)) || [];
-            setIsCompleted(storedGames.some(game =>
-                game.subject === gameSubject &&
-                game.gameName === gameName &&
-                game.difficulty === selectedDifficulty
-            ));
-        }
-    }, [isLoggedIn, user, gameSubject, gameName, selectedDifficulty]);
+        const fetchData = async () => {
+            try {
+                const [colorRes, nameRes] = await Promise.all([
+                    fetch(`http://localhost:8080/api/getPrimaryColor?subjectName=${gameSubject}`),
+                    fetch(`http://localhost:8080/api/getQuizName?quizId=${gameNumber}`)
+                ]);
 
-    const handleClick = () => {
+                if (colorRes.ok) {
+                    const { primaryColor } = await colorRes.json();
+                    setPrimaryColor(primaryColor);
+                }
+                if (nameRes.ok) {
+                    const { quizName } = await nameRes.json();
+                    setGameName(quizName);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        if (gameSubject && gameNumber) fetchData();
+    }, [gameSubject, gameNumber]);
+
+
+    const handleClick = async () => {
+        if (selectedDifficulty === null) {
+            alert("Please select a difficulty before proceeding.");
+            return;
+        }
+
         if (!isLoggedIn && (gameNumber !== 1 || selectedDifficulty !== "easy")) {
             alert("You must log in");
-            router.push("/LogIn");
+            await router.push("/LogIn");
         } else {
             if (isLoggedIn) {
                 const storedGames = JSON.parse(localStorage.getItem(`completedGames_${user.id}`)) || [];
@@ -55,48 +62,75 @@ const Card = ({gameSubject, gameNumber, medalType}) => {
                 }
             }
 
-            router.push({
+            await router.push({
                 pathname: "/QuizzPreview",
                 query: {Subject: gameSubject, Game: gameName, Age: selectedDifficulty}
             });
         }
     };
 
+    const handleDifficultyChange = (difficulty) => {
+        if (selectedDifficulty === difficulty) {
+            setSelectedDifficulty(null);
+        } else {
+            setSelectedDifficulty(difficulty);
+        }
+    };
+
     return (
         <div
-            className="relative flex items-center w-150 h-15 bg-white border-3 border-PS-light-black rounded-lg overflow-hidden shadow-lg cursor-pointer"
+            className="relative flex items-center justify-between w-150 h-20 bg-white border-2 border-PS-light-black rounded-lg overflow-hidden shadow-md p-4 cursor-pointer"
             onClick={handleClick}
         >
-            <div className="flex items-center px-4 py-2 w-full">
-                <div className="flex flex-col justify-center items-center w-20">
+            <div className="flex items-center gap-4">
+                <div className="flex flex-col justify-center items-center w-10">
                     <span className={`text-PS-light-black text-xs ${patrickHand.className}`}>
-                        {subjectName}
+                        {gameSubject}
                     </span>
-                    <div className="w-5 h-5 rounded-full" style={{backgroundColor: borderColor}}/>
+                    <div className="w-5 h-5 rounded-full" style={{backgroundColor: `#${primaryColor}`}} />
                 </div>
 
-                <div className={`text-3xl text-PS-light-black mr-2 ${cherryBomb.className}`}>
-                    <span>{gameName}</span>
-                </div>
-
-                <div
-                    className="absolute right-25 -translate-x-1/2 top-1/2 transform -translate-y-1/2 w-10 h-10 flex justify-center items-center">
-                    <img
-                        src={`/images/Medals/${medalType}Medal.png`}
-                        alt={`${medalType} medal`}
-                        className="w-full h-full object-contain"
-                    />
-                    <img
-                        src={baseIcon}
-                        alt="Base Icon"
-                        className="absolute mb-1 left-[20%] transform -translate-x-1/2 w-4 h-4 object-contain"
-                    />
-                    <span className={`ml-2 text-lg font-bold text-PS-light-black ${patrickHand.className}`}>+1</span>
+                <div className={`text-2xl text-PS-light-black ${cherryBomb.className}`}>
+                    {gameName}
                 </div>
             </div>
 
+            <div className="absolute right-18 flex items-center gap-2">
+                {["Easy", "Medium", "Hard"].map((difficulty) => {
+                    const buttonColors = {
+                        Easy: "bg-green-50 hover:bg-green-300",
+                        Medium: "bg-yellow-50 hover:bg-yellow-300",
+                        Hard: "bg-red-50 hover:bg-red-300",
+                    };
+
+                    const activeColors = {
+                        Easy: "bg-green-500",
+                        Medium: "bg-yellow-500",
+                        Hard: "bg-red-500",
+                    };
+
+                    return (
+                        <button
+                            key={difficulty}
+                            type="button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleDifficultyChange(difficulty);
+                            }}
+                            className={`px-2 py-1 rounded-full text-xs border transition duration-300 ease-in-out ${
+                                selectedDifficulty === difficulty
+                                    ? `${activeColors[difficulty]} text-white`
+                                    : `${buttonColors[difficulty]} text-gray-600`
+                            }`}
+                        >
+                            {difficulty}
+                        </button>
+                    );
+                })}
+            </div>
+
             <div
-                className={`absolute right-0 -translate-x-1/2 top-1/2 transform -translate-y-1/2 w-10 h-10 flex justify-center items-center text-lg rounded-full ${isCompleted ? 'bg-green-500' : 'bg-gray-400'}`}
+                className={`flex justify-center items-center w-8 h-8 rounded-full text-lg ${isCompleted ? 'bg-green-500' : 'bg-gray-400'}`}
             >
                 {isCompleted ? '✓' : '♦'}
             </div>

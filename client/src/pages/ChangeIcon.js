@@ -28,7 +28,7 @@ export default function ChangeIcon() {
     const handleSave = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/api/update-profile-image', {
+            const response = await fetch('http://localhost:8080/api/updateProfileImage', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

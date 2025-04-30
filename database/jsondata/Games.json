@@ -10,8 +10,17 @@
       }
     },
     {
-      "gameName": "Crash Stopper",
-      "gameDescription": "Crash Stopper puts you behind the wheel of a high-speed math race! Answer correctly to accelerate, but the faster you go, the closer you are to crashing. Push your limits, outpace your rivals, and see where you land when the dust settles!",
+      "gameName": "Cross Math",
+      "gameDescription": "",
+      "difficulty": {
+        "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+        "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+        "hard": "Para ganar necesitas superar los 2 puntos!!!"
+      }
+    },
+    {
+      "gameName": "Mistery Doors",
+      "gameDescription": "",
       "difficulty": {
         "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
         "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -37,6 +46,15 @@
         "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
         "hard": "Para ganar necesitas superar los 2 puntos!!!"
       }
+    },
+    {
+      "gameName": "Mahjong",
+      "gameDescription": "",
+      "difficulty": {
+        "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+        "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+        "hard": "Para ganar necesitas superar los 2 puntos!!!"
+      }
     }
   ],
   "art": [
@@ -52,6 +70,15 @@
     {
       "gameName": "Make the film",
       "gameDescription": "Jump into the world of storytelling magic where you become a story detective! Take a classic tale that's been mixed up and help put its scenes back in the right order. Drag and drop the story cards to create the perfect sequence. When you get it right, watch as a special animation or a surprising alternate ending brings your storytelling skills to life!",
+      "difficulty": {
+        "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+        "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+        "hard": "Para ganar necesitas superar los 2 puntos!!!"
+      }
+    },
+    {
+      "gameName": "Domino Master",
+      "gameDescription": "",
       "difficulty": {
         "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
         "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
@@ -77,6 +104,15 @@
         "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
         "hard": "Para ganar necesitas superar los 2 puntos!!!"
       }
+    },
+    {
+      "gameName": "Memory",
+      "gameDescription": "",
+      "difficulty": {
+        "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+        "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+        "hard": "Para ganar necesitas superar los 2 puntos!!!"
+      }
     }
   ],
   "geography": [
@@ -92,6 +128,15 @@
     {
       "gameName": "Detective Mr WorldWide",
       "gameDescription": "Look, you get a map or a flag, and you have to guess the country. Maybe they show you just the outline of a country, or just its flag. You've got to use your smarts and geographic knowledge to figure out which place it is. The faster and more accurately you guess, the more points you win. It's like being a world detective, uncovering the identity of countries with just a few clues! Are you Mr. Worldwide because you know every place on Earth, or do you know every place on Earth because you're Mr. Worldwide?",
+      "difficulty": {
+        "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
+        "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
+        "hard": "Para ganar necesitas superar los 2 puntos!!!"
+      }
+    },
+    {
+      "gameName": "Where Is My Country?",
+      "gameDescription": "Hello",
       "difficulty": {
         "easy": "Para ganar necesitas alcanzar solo 10000000 puntos",
         "medium": "Para ganar necesitas alcanzar hasta 99999999 puntos",
