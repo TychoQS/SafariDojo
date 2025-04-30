@@ -1,6 +1,11 @@
     CREATE DATABASE IF NOT EXISTS SafariDojoDB;
     USE SafariDojoDB;
     SET sql_notes = 0;
+        /* Node server user in the database */
+    CREATE USER 'node_server'@'%' IDENTIFIED BY 'Ps20242025';
+    GRANT ALL PRIVILEGES ON SafariDojoDB.* TO 'node_server'@'%';
+    FLUSH PRIVILEGES;
+
         /* First we remove all in order to evade errors of "already exists" when creating the DB*/
     DROP TABLE IF EXISTS UserQuizzes;
     DROP TABLE IF EXISTS UserWeeklyGoals;
@@ -11,6 +16,7 @@
     DROP TABLE IF EXISTS MultimediaSubjects;
     DROP TABLE IF EXISTS Multimedia;
     DROP TABLE IF EXISTS Subjects;
+    DROP VIEW IF EXISTS AllSubjectQuizzes;
     DROP TABLE IF EXISTS Users;
     DROP TABLE IF EXISTS Quizzes;
     DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
@@ -226,6 +232,20 @@
     END //
 
     DELIMITER ;
+
+    CREATE VIEW AllSubjectQuizzes AS
+    SELECT
+        s.Name AS SubjectName,
+        q.QuizName,
+        MIN(CASE
+                WHEN q.Premium = 0 AND q.Register = 1 THEN 1
+                WHEN q.Premium = 0 AND q.Register = 0 THEN 2
+                WHEN q.Premium = 1 AND q.Register = 0 THEN 3
+            END) AS Priority
+    FROM SubjectQuizzes sq
+             LEFT JOIN Quizzes q ON q.Id = sq.QuizId
+             LEFT JOIN Subjects s ON s.Id = SubjectId
+    GROUP BY s.Name, q.QuizName;
 
     CREATE TABLE Multimedia (
                                 Id INT AUTO_INCREMENT PRIMARY KEY,
