@@ -23,7 +23,7 @@ function QuizzPreview() {
     const [bestScore, setBestScore] = useState();
     const [gamePremium, setGamePremium] = useState(false);
     const [showPremiumModal, setShowPremiumModal] = useState(false);
-    const [gameRequiresRegister, setGameRequiresRegister] = useState(false); // 👈 nuevo estado
+    const [gameRequiresRegister, setGameRequiresRegister] = useState(false);
 
     useEffect(() => {
         if (router.isReady) {

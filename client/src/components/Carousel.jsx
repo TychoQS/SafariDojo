@@ -6,7 +6,7 @@ import GameModal from "@/components/GameModal";
 import SoonModal from "@/components/SoonModal";
 
 const Carousel = ({carouselData, difficulty}) => {
-    const {isLoggedIn} = useAuth();
+    const {isLoggedIn, user} = useAuth();
     const [currentIndex, setCurrentIndex] = useState(0);
     const startX = useRef(0);
     const isDragging = useRef(false);
@@ -52,12 +52,11 @@ const Carousel = ({carouselData, difficulty}) => {
             return;
         }
 
-        if (isLoggedIn && (game === carouselData[1].game)) {
+        if (isLoggedIn && !user.isPremium && (game === carouselData[1].game)) {
             setNavigateData(destination);
             setShowModal(true);
             return;
         }
-
 
         router.push({
             pathname: "/QuizzPreview",
