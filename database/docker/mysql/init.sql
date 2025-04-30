@@ -58,7 +58,7 @@ INSERT INTO Quizzes (QuizName, Premium, Register) VALUES
                                                       ('Math Invasors',FALSE,TRUE),
                                                       ('Mistery Doors',TRUE,FALSE),
                                                       ('Cross Math',FALSE,FALSE),
-                                                      ('Crossword',FALSE,FALSE),
+                                                      ('CrosswordTable',FALSE,FALSE),
                                                       ('Letter Soup',FALSE,TRUE),
                                                       ('Mahjong',TRUE,FALSE),
                                                       ('Call Of The Clan',FALSE,FALSE),
