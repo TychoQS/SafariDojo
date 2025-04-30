@@ -3,6 +3,7 @@ import GameSelectionButton from "@/components/GameSelectorButton";
 import {router} from "next/client";
 import {useAuth} from "@/pages/context/AuthContext";
 import GameModal from "@/components/GameModal";
+import SoonModal from "@/components/SoonModal";
 
 const Carousel = ({carouselData, difficulty}) => {
     const {isLoggedIn} = useAuth();
@@ -10,6 +11,7 @@ const Carousel = ({carouselData, difficulty}) => {
     const startX = useRef(0);
     const isDragging = useRef(false);
     const [showModal, setShowModal] = useState(false);
+    const [showModalSoon, setShowModalSoon] = useState(false);
     const [navigateData, setNavigateData] = useState(null);
 
 
@@ -29,7 +31,10 @@ const Carousel = ({carouselData, difficulty}) => {
     };
 
     const handleGameClick = (game) => {
-        if (game === "Soon...") return;
+        if (game === "Comming soon..."){
+            setShowModalSoon(true);
+            return;
+        }
         const subject = carouselData[currentIndex].subject;
 
         const destination = {
@@ -170,6 +175,14 @@ const Carousel = ({carouselData, difficulty}) => {
                         mode="premium"
                         navigateTo={navigateData}
                         onClose={() => setShowModal(false)}
+                    />
+                </div>
+            )}
+
+            {showModalSoon && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
+                    <SoonModal
+                        onClose={() => setShowModalSoon(false)}
                     />
                 </div>
             )}
