@@ -394,6 +394,29 @@ app.post('/api/updateBestScore', (req, res) => {
     });
 });
 
+app.get('/api/isPremiumGame', (req, res) => {
+    const { quizName } = req.query;
+
+    if (!quizName) {
+        return res.status(400).json({ message: "Missing required parameter: quizName" });
+    }
+
+    const query = 'SELECT Premium FROM Quizzes WHERE QuizName = ?';
+
+    dbConnection.query(query, [quizName], (err, result) => {
+        if (err) {
+            console.error("Error checking premium status:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Quiz not found" });
+        }
+
+        res.status(200).json({ isPremium: !!result[0].Premium });
+    });
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -2,12 +2,16 @@ import {useState, useRef} from "react";
 import GameSelectionButton from "@/components/GameSelectorButton";
 import {router} from "next/client";
 import {useAuth} from "@/pages/context/AuthContext";
+import GameModal from "@/components/GameModal";
 
 const Carousel = ({carouselData, difficulty}) => {
     const {isLoggedIn} = useAuth();
     const [currentIndex, setCurrentIndex] = useState(0);
     const startX = useRef(0);
     const isDragging = useRef(false);
+    const [showModal, setShowModal] = useState(false);
+    const [navigateData, setNavigateData] = useState(null);
+
 
     const getIndex = (index) => {
         return (index + carouselData.length) % carouselData.length;
@@ -28,19 +32,36 @@ const Carousel = ({carouselData, difficulty}) => {
         if (game === "Soon...") return;
         const subject = carouselData[currentIndex].subject;
 
+        const destination = {
+            pathname: "/QuizzPreview",
+            query: {
+                Subject: subject,
+                Game: game,
+                Age: difficulty,
+            },
+        };
+
         if (!isLoggedIn && (game !== carouselData[0].game || difficulty !== "easy")) {
-            alert("You must be logged in to play this game");
-            router.push("/LogIn").then();
-        } else {
-            router.push({
-                pathname: "/QuizzPreview",
-                query: {
-                    Subject: subject,
-                    Game: game,
-                    Age: difficulty,
-                },
-            }).then();
+            setNavigateData(destination);
+            setShowModal(true);
+            return;
         }
+
+        if (isLoggedIn && (game === carouselData[1].game)) {
+            setNavigateData(destination);
+            setShowModal(true);
+            return;
+        }
+
+
+        router.push({
+            pathname: "/QuizzPreview",
+            query: {
+                Subject: subject,
+                Game: game,
+                Age: difficulty,
+            },
+        }).then();
     };
 
     const handleMouseDown = (e) => {
@@ -133,7 +154,25 @@ const Carousel = ({carouselData, difficulty}) => {
                     </div>
                 </div>
             </div>
+            {showModal && navigateData && !isLoggedIn && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
+                    <GameModal
+                        mode="registrado"
+                        navigateTo={navigateData}
+                        onClose={() => setShowModal(false)}
+                    />
+                </div>
+            )}
 
+            {showModal && navigateData && isLoggedIn && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
+                    <GameModal
+                        mode="premium"
+                        navigateTo={navigateData}
+                        onClose={() => setShowModal(false)}
+                    />
+                </div>
+            )}
         </div>
     );
 };
