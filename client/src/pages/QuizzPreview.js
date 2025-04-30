@@ -9,6 +9,7 @@ import Title from "@/components/Title";
 import {cherryBomb} from "@/styles/fonts";
 import {useProfile} from "@/pages/context/ProfileContext";
 import ModalButton from "@/components/ModalButton";
+import Link from "next/link";
 
 function QuizzPreview() {
     const {isLoggedIn, user} = useAuth();
@@ -154,6 +155,13 @@ function QuizzPreview() {
             <main className="flex-grow flex flex-col items-center justify-center p-6 space-y-16">
                 <div className="flex flex-col items-center w-full space-y-8">
                     <Title className="text-white text-3xl font-bold">{gameData}</Title>
+
+                    <div className="w-full flex justify-start ml-8">
+                        <Button size="small" onClick={() => router.back()}>
+                            Back
+                        </Button>
+                    </div>
+
 
                     <div className="flex flex-col md:flex-row w-full max-w-7xl items-center justify-center gap-16 m-4">
                         <div className="w-full relative" style={{paddingTop: '40%'}}>
