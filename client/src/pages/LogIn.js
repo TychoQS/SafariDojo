@@ -4,11 +4,12 @@ import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
 import {useRouter} from "next/router";
 import {useAuth} from "@/pages/context/AuthContext";
+import {useProfile} from "@/pages/context/ProfileContext";
 
 
 const LogIn = () => {
     const {logIn} = useAuth();
-    const router = useRouter();
+    const {updateProfile} = useProfile();
 
     const hashPassword = async (password) => {
         const encoder = new TextEncoder();
@@ -40,6 +41,8 @@ const LogIn = () => {
             const redirectFrom = sessionStorage.getItem("loginRedirectFrom");
 
             if (redirectFrom === "quizGamePreview") {
+                updateProfile(ResponseData);
+                logIn(token, ResponseData);
                 sessionStorage.removeItem("loginRedirectFrom");
                 window.history.go(-1);
             } else {
