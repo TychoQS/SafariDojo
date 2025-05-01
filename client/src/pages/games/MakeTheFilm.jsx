@@ -116,23 +116,16 @@ const MakeTheFilm = () => {
             }
         }
     };
-
-
     const handlePoolDrop = (e) => {
         e.preventDefault();
         const pieceId = parseInt(e.dataTransfer.getData('pieceId'));
         const pieceIndex = parseInt(e.dataTransfer.getData('pieceIndex'));
-
-
         if (pieceIndex < 0) {
             const timelineIndex = -pieceIndex - 1;
             const piece = timelinePieces[timelineIndex];
-
             if (piece) {
-
                 const newTimelinePieces = [...timelinePieces];
                 newTimelinePieces[timelineIndex] = null;
-
                 setShuffledPieces([...shuffledPieces, piece]);
                 setTimelinePieces(newTimelinePieces);
                 setVerifyEnabled(false);
@@ -142,23 +135,17 @@ const MakeTheFilm = () => {
 
 
     const verifyOrder = () => {
-
         const isCorrectOrder = timelinePieces.every((piece, index) => piece?.id === index + 1);
-
         if (isCorrectOrder) {
-
             setMessage("Correct! You've ordered the story perfectly!");
             setAnimation("animate-bounce");
             setScore(score + 10);
-
-
             setTimeout(() => {
                 setCurrentLevel(currentLevel + 1);
             }, 2500);
         } else {
             setMessage("The order is not correct. Try again!");
             setAnimation("animate-shake");
-
             setTimeout(() => {
                 setAnimation("");
             }, 1000);
@@ -189,7 +176,7 @@ const MakeTheFilm = () => {
 
     return (
         <>
-            <div className="app flex flex-col min-h-screen bg-PS-main-purple">
+            <div className="app flex flex-col bg-PS-main-purple min-h-screen">
                 <Header></Header>
                 <section id={"lives-section"} className={"flex flex-row items-center justify-between"}>
                     <Link href={{pathname: "../GameSelectionPage", query: {Subject: 'Art'}}}>
@@ -201,7 +188,7 @@ const MakeTheFilm = () => {
                         <Lifes ref={lifesRef}/>
                     </div>
                 </section>
-                <main id={"main-section"} className={"flex flex-col flex-1 items-center justify-start bg-PS-main-purple pb-12"}>
+                <main id={"main-section"} className={"flex flex-col flex-1 items-center justify-start bg-PS-main-purple"}>
                     { currentlyPlaying() ? (
                         <>
                             <div className="flex flex-col justify-between items-center">
@@ -352,14 +339,14 @@ const MakeTheFilm = () => {
                         </>
                     )}
                 </main>
-                <section id={"buttons-section"} className="flex justify-center space-x-4 mb-12">
+                <section id={"buttons-section"} className="flex justify-center space-x-4 p-4">
                     { currentlyPlaying() ? (
                         <>
                             <Button size={"large"} onClick={verifyOrder}>Verify Order</Button>
                             <Button size={"large"} onClick={resetLevel}>Reset Level</Button>
                         </>
                     ) : (
-                        <Button size={"large"} onClick={playAgain}>Play Again</Button>
+                        <Button size={"large"} onClick={resetGame}>Play Again</Button>
                     )}
 
                 </section>
