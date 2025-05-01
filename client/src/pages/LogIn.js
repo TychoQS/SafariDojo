@@ -34,11 +34,13 @@ const LogIn = () => {
 
         const ResponseData = await Response.json();
         if (Response.ok) {
-            console.log("Response data:", ResponseData);
             const token = `fakeTokenForUser-${Date.now()}`;
             logIn(token, ResponseData);
-            const previousPage = document.referrer;
-            if (previousPage && previousPage.includes("GameSelectorPage")) {
+
+            const redirectFrom = sessionStorage.getItem("loginRedirectFrom");
+
+            if (redirectFrom === "quizGamePreview") {
+                sessionStorage.removeItem("loginRedirectFrom");
                 window.history.go(-1);
             } else {
                 window.location.href = "/..";

@@ -118,9 +118,10 @@ function QuizzPreview() {
         }
 
         const isGamePremium = gamePremium;
-        const isUserPremium = user?.isPremium;
+        const isUserPremium = profile?.isPremium;
 
-        if (( gamePremium|| gameRequiresRegister) && !isLoggedIn) {
+        if (( gamePremium || gameRequiresRegister ) && !isLoggedIn) {
+            sessionStorage.setItem("loginRedirectFrom", "quizGamePreview");
             await router.push("/LogIn");
             return;
         }
@@ -204,7 +205,7 @@ function QuizzPreview() {
                             <div className="flex justify-center gap-6 mt-6">
                                 <ModalButton
                                     text="Yes"
-                                    color={user?.isPremium ? "red" : "green"}
+                                    color="green"
                                     onClick={handlePremiumToggle}
                                 />
                                 <ModalButton
