@@ -2,7 +2,6 @@
 <rect x="0" y="0" width="400" height="400" rx="40" ry="40" fill="white"/>
 
 <g transform="translate(50, 50)">
-    <!-- Mapa morado centrado -->
     <svg width="300px" height="300px" viewBox="0 0 1024 1024" class="icon" version="1.1"
          xmlns="http://www.w3.org/2000/svg">
         <path d="M640 213.333333L384 128 128 213.333333v682.666667l256-85.333333 256 85.333333 256-85.333333V128z"
