@@ -9,38 +9,11 @@ import Title from "@/components/Title";
 import {cherryBomb} from "@/styles/fonts";
 import Piece from "@/pages/games/modules/CookTheBook/Piece";
 
-const stories = [
-    {
-        id: 1,
-        title: "Little Red Riding Hood",
-        pieces: [
-            { id: 1, text: "Once upon a time, there was a little girl who went to visit her grandmother."},
-            { id: 2, text: "On her way, she met a wicked wolf." },
-            { id: 3, text: "The wolf arrived at grandmother's house before her."},
-            { id: 4, text: "A hunter rescued Little Red Riding Hood and her grandmother."}
-        ]
-    },
-    {
-        id: 2,
-        title: "The Three Little Pigs",
-        pieces: [
-            { id: 1, text: "Three little pigs decided to build their own houses."},
-            { id: 2, text: "The first pig built a house of straw."},
-            { id: 3, text: "The second pig built a house of sticks."},
-            { id: 4, text: "The third pig built a house of bricks that withstood the wolf."}
-        ]
-    },
-    {
-        id: 3,
-        title: "Hansel and Gretel",
-        pieces: [
-            { id: 1, text: "Two siblings were abandoned in the forest by their parents."},
-            { id: 2, text: "They found a house made of candy."},
-            { id: 3, text: "The witch locked Hansel in a cage to eat him."},
-            { id: 4, text: "Gretel pushed the witch into the oven and they escaped with her treasures."}
-        ]
-    }
-];
+let Stories = [];
+
+function fetchStories() {
+    return fetch("http://localhost:8080/api/cookTheBookStories");
+}
 
 const MakeTheFilm = () => {
     const [score, setScore] = useState(0);
@@ -52,10 +25,26 @@ const MakeTheFilm = () => {
     const [animation, setAnimation] = useState("");
     const [verifyEnabled, setVerifyEnabled] = useState(false);
     const lifesRef = useRef(null);
+    const [areStoriesFetched, setAreStoriesFetched] = useState(false);
+
 
     useEffect(() => {
-        console.log("Entrando ", gameCompleted);
-        if (currentLevel < stories.length) {
+        const fetchData = async () => {
+            const response = await fetchStories();
+            if (response.ok) {
+                let fetchedStories = await response.json();
+                Stories = fetchedStories['Stories'];
+                console.log(Stories)
+                setAreStoriesFetched(true);
+                setGameCompleted(false);
+            }
+        };
+        fetchData().then(r => initLevel(currentLevel));
+    }, []);
+
+    useEffect(() => {
+        if (!areStoriesFetched) return;
+        if (currentLevel < Stories.length) {
             initLevel(currentLevel);
         } else {
             setGameCompleted(true);
@@ -63,7 +52,7 @@ const MakeTheFilm = () => {
     }, [currentLevel]);
 
     const initLevel = (level) => {
-        const levelPieces = [...stories[level].pieces];
+        const levelPieces = [...Stories[level].pieces];
         for (let i = levelPieces.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [levelPieces[i], levelPieces[j]] = [levelPieces[j], levelPieces[i]];
@@ -203,13 +192,13 @@ const MakeTheFilm = () => {
                                             Score: {score}/30
                                         </div>
                                         <div id={"level-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-2 text-PS-art-color px-3 py-1 rounded-full font-bold text-2xl">
-                                            Level: {currentLevel + 1}/{stories.length}
+                                            Level: {currentLevel + 1}/{Stories.length}
                                         </div>
                                     </div>
                                 </section>
                             </div>
                         <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-6 w-full max-w-4xl">
-                            <h1 className={`text-2xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{stories[currentLevel]?.title}</h1>
+                            <h1 className={`text-2xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{Stories[currentLevel]?.title}</h1>
                             {message && (
                                 <div className={`mb-4 p-3 rounded-lg text-center font-bold ${message.includes('Correct') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}  ${cherryBomb.className}`}>
                                     {message}
