@@ -186,7 +186,7 @@ function QuizzPreview() {
                 </div>
 
                 <div className="flex flex-row items-center gap-16">
-                    {(isLoggedIn && (!gamePremium || (gamePremium && profile.isPremium))) && (
+                    {isLoggedIn && (
                         <div
                             className={`w-64 h-12 text-2xl text-PS-dark-yellow bg-PS-light-black p-4 rounded-2xl shadow-md flex items-center justify-center font-black ${cherryBomb.className}`}>
                             🏆 Best Score: {bestScore}
