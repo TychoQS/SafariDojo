@@ -54,6 +54,7 @@ const MakeTheFilm = () => {
     const lifesRef = useRef(null);
 
     useEffect(() => {
+        console.log("Entrando ", gameCompleted);
         if (currentLevel < stories.length) {
             initLevel(currentLevel);
         } else {
@@ -187,7 +188,7 @@ const MakeTheFilm = () => {
                     </div>
                 </section>
                 <main id={"main-section"} className={"flex flex-col flex-1 items-center justify-start bg-PS-main-purple pb-12"}>
-                    { gameCompleted ? (
+                    { !gameCompleted ? (
                         <>
                             <div className="flex flex-col justify-between items-center">
                                 <section id={"title-section"} className="w-full max-w-4xl rounded-lg">
