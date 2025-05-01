@@ -14,30 +14,30 @@ const stories = [
         id: 1,
         title: "Little Red Riding Hood",
         pieces: [
-            { id: 1, text: "Once upon a time, there was a little girl who went to visit her grandmother.", color: "bg-red-200" },
-            { id: 2, text: "On her way, she met a wicked wolf.", color: "bg-gray-200" },
-            { id: 3, text: "The wolf arrived at grandmother's house before her.", color: "bg-purple-200" },
-            { id: 4, text: "A hunter rescued Little Red Riding Hood and her grandmother.", color: "bg-green-200" }
+            { id: 1, text: "Once upon a time, there was a little girl who went to visit her grandmother."},
+            { id: 2, text: "On her way, she met a wicked wolf." },
+            { id: 3, text: "The wolf arrived at grandmother's house before her."},
+            { id: 4, text: "A hunter rescued Little Red Riding Hood and her grandmother."}
         ]
     },
     {
         id: 2,
         title: "The Three Little Pigs",
         pieces: [
-            { id: 1, text: "Three little pigs decided to build their own houses.", color: "bg-pink-200" },
-            { id: 2, text: "The first pig built a house of straw.", color: "bg-yellow-200" },
-            { id: 3, text: "The second pig built a house of sticks.", color: "bg-orange-200" },
-            { id: 4, text: "The third pig built a house of bricks that withstood the wolf.", color: "bg-red-200" }
+            { id: 1, text: "Three little pigs decided to build their own houses."},
+            { id: 2, text: "The first pig built a house of straw."},
+            { id: 3, text: "The second pig built a house of sticks."},
+            { id: 4, text: "The third pig built a house of bricks that withstood the wolf."}
         ]
     },
     {
         id: 3,
         title: "Hansel and Gretel",
         pieces: [
-            { id: 1, text: "Two siblings were abandoned in the forest by their parents.", color: "bg-blue-200" },
-            { id: 2, text: "They found a house made of candy.", color: "bg-pink-200" },
-            { id: 3, text: "The witch locked Hansel in a cage to eat him.", color: "bg-purple-200" },
-            { id: 4, text: "Gretel pushed the witch into the oven and they escaped with her treasures.", color: "bg-yellow-200" }
+            { id: 1, text: "Two siblings were abandoned in the forest by their parents."},
+            { id: 2, text: "They found a house made of candy."},
+            { id: 3, text: "The witch locked Hansel in a cage to eat him."},
+            { id: 4, text: "Gretel pushed the witch into the oven and they escaped with her treasures."}
         ]
     }
 ];
