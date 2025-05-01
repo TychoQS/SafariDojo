@@ -152,7 +152,7 @@ const MakeTheFilm = () => {
 
 
     const verifyOrder = () => {
-        const isCorrectOrder = timelinePieces.every((piece, index) => piece?.id === index + 1);
+        const isCorrectOrder = timelinePieces.every((piece, index) => piece?.order === index + 1);
         if (isCorrectOrder) {
             setMessage("Correct! You've ordered the story perfectly!");
             setAnimation("animate-bounce");
