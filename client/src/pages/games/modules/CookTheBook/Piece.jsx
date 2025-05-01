@@ -10,6 +10,7 @@ export default function Piece({
                                 piece,
                                 index,
                                 isOnTimeline = false,
+                                isEmpty = false,
                               }) {
 
     return(
@@ -43,7 +44,7 @@ export default function Piece({
             }}
         >
         <span className="text-sm font-medium text-gray-800 drop-shadow-sm">
-          {piece.text}
+          {isEmpty ?  '' : piece.text}
         </span>
         </div>
     );
