@@ -13,6 +13,8 @@
     DROP TABLE IF EXISTS Subjects;
     DROP TABLE IF EXISTS Users;
     DROP TABLE IF EXISTS Quizzes;
+    DROP TABLE IF EXISTS CookTheBook_StoryPieces;
+    DROP TABLE IF EXISTS CookTheBook_Stories;
     DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
     DROP PROCEDURE IF EXISTS FillUserQuizzes;
     DROP TRIGGER IF EXISTS PostUserCreation;
@@ -302,6 +304,57 @@
                                      FOREIGN KEY (WeeklyGoalId) REFERENCES WeeklyGoals(Id)
     );
 
+    CREATE TABLE CookTheBook_Stories (
+                                         Id INTEGER AUTO_INCREMENT PRIMARY KEY,
+                                         Title TEXT NOT NULL
+    );
+
+    CREATE TABLE CookTheBook_StoryPieces (
+                                             Id INTEGER AUTO_INCREMENT PRIMARY KEY,
+                                             StoryId INTEGER NOT NULL,
+                                             PieceOrder INTEGER NOT NULL,
+                                             Text TEXT NOT NULL,
+                                             FOREIGN KEY (StoryId) REFERENCES CookTheBook_Stories(id) ON DELETE CASCADE
+    );
+
+
+-- Insertar historias sin especificar el ID
+    INSERT INTO CookTheBook_Stories (Title) VALUES
+                                                ('Little Red Riding Hood'),
+                                                ('The Three Little Pigs'),
+                                                ('Hansel and Gretel'),
+                                                ('Goldilocks and the Three Bears');
+
+-- Little Red Riding Hood
+    INSERT INTO CookTheBook_StoryPieces (StoryId, PieceOrder, Text) VALUES
+                                                                        (1, 1, 'Once upon a time, there was a little girl who went to visit her grandmother.'),
+                                                                        (1, 2, 'On her way, she met a wicked wolf.'),
+                                                                        (1, 3, "The wolf arrived at grandmother's house before her."),
+                                                                        (1, 4, 'A hunter rescued Little Red Riding Hood and her grandmother.');
+
+-- The Three Little Pigs
+    INSERT INTO CookTheBook_StoryPieces (StoryId, PieceOrder, Text) VALUES
+                                                                        (2, 1, 'Three little pigs decided to build their own houses.'),
+                                                                        (2, 2, 'The first pig built a house of straw.'),
+                                                                        (2, 3, 'The second pig built a house of sticks.'),
+                                                                        (2, 4, 'The third pig built a house of bricks that withstood the wolf.');
+
+-- Hansel and Gretel
+    INSERT INTO CookTheBook_StoryPieces (StoryId, PieceOrder, Text) VALUES
+                                                                        (3, 1, 'Two siblings were abandoned in the forest by their parents.'),
+                                                                        (3, 2, 'They found a house made of candy.'),
+                                                                        (3, 3, 'The witch locked Hansel in a cage to eat him.'),
+                                                                        (3, 4, 'Gretel pushed the witch into the oven and they escaped with her treasures.');
+
+-- Goldilocks and the Three Bears
+    INSERT INTO CookTheBook_StoryPieces (StoryId, PieceOrder, Text) VALUES
+                                                                        (4, 1, 'Goldilocks found a house in the forest and went inside.'),
+                                                                        (4, 2, 'She saw three bowls of porridge and tasted each one.'),
+                                                                        (4, 3, 'She sat in three chairs and broke the smallest one.'),
+                                                                        (4, 4, 'She tried the beds and fell asleep in the smallest one.'),
+                                                                        (4, 5, 'The three bears came home and found her asleep.');
+
+
     show tables;
     select * from Users;
     select * from Quizzes;
@@ -313,4 +366,6 @@
     select * from PinThePlace;
     select * from WeeklyGoals;
     select * from UserWeeklyGoals;
+    select * from CookTheBook_Stories;
+    select * from CookTheBook_StoryPieces;
     SET sql_notes = 1;
