@@ -135,12 +135,10 @@ app.get('/api/gameSelectionAssets', (req, res) => {
         'LEFT JOIN Multimedia m ON ms.IdMultimedia = m.Id\n' +
         'WHERE \n' +
         '    s.Name = ? ORDER BY length(imageName);';
-    const gameQuery = 'SELECT DISTINCT QuizName\n' +
-        'FROM SubjectQuizzes sq\n' +
-        'LEFT JOIN Quizzes q ON q.Id = sq.QuizId\n' +
-        'LEFT JOIN Subjects s on s.Id = SubjectId\n' +
-        'WHERE s.Name = ?\n' +
-        'ORDER BY QuizName;'
+    const gameQuery = 'SELECT QuizName\n' +
+        'FROM AllSubjectQuizzes\n' +
+        'WHERE SubjectName = ?\n' +
+        'ORDER BY Priority;'
     const getMultimedia = () => {
         return new Promise((resolve, reject) => {
             dbConnection.query(multimediaQuery, [Subject], (err, result) => {
@@ -393,6 +391,54 @@ app.post('/api/updateBestScore', (req, res) => {
         }
     });
 });
+
+app.get('/api/isPremiumGame', (req, res) => {
+    const { quizName } = req.query;
+
+    if (!quizName) {
+        return res.status(400).json({ message: "Missing required parameter: quizName" });
+    }
+
+    const query = 'SELECT Premium FROM Quizzes WHERE QuizName = ?';
+
+    dbConnection.query(query, [quizName], (err, result) => {
+        if (err) {
+            console.error("Error checking premium status:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Quiz not found" });
+        }
+
+        res.status(200).json({ isPremium: !!result[0].Premium });
+    });
+});
+
+app.get('/api/isRegisterGame', (req, res) => {
+    const { quizName } = req.query;
+
+    if (!quizName) {
+        return res.status(400).json({ message: "Missing required parameter: quizName" });
+    }
+
+    const query = 'SELECT Register FROM Quizzes WHERE QuizName = ?';
+
+    dbConnection.query(query, [quizName], (err, result) => {
+        if (err) {
+            console.error("Error checking register status:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Quiz not found" });
+        }
+        const isRegister = !!result[0].Register;
+
+        res.status(200).json({ isRegister });
+    });
+});
+
 
 
 app.listen(PORT, () => {
