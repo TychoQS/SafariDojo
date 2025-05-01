@@ -311,6 +311,44 @@ app.get('/api/searchGames', (req, res) => {
     });
 });
 
+app.get("/api/cookTheBookStories", (req, res) => {
+    const Query = 'SELECT g.Id, p.Id AS PieceId, g.Title, p.PieceOrder, p.Text\n' +
+        'FROM (\n' +
+        '    SELECT Id, Title\n' +
+        '    FROM CookTheBook_Stories\n' +
+        '    ORDER BY RAND()\n' +
+        '    LIMIT 3\n' +
+        ') g, CookTheBook_StoryPieces p\n' +
+        'WHERE g.Id = p.StoryId\n' +
+        'ORDER BY g.Id;'
+    dbConnection.query(Query, (err, result) => {
+        if (err) return res.status(500).json({message: 'Something went wrong'});
+        if (result.length === 0) return res.status(404).json({message: ''})
+        else {
+            const formattedStories = [];
+            result.forEach(piece => {
+                const storyIndex = formattedStories.findIndex(story => story.id === piece.Id);
+                if (storyIndex === -1) {
+                    formattedStories.push({
+                        id: piece.Id,
+                        title: piece.Title,
+                        pieces: [{
+                            id: piece.PieceId,
+                            text: piece.Text
+                        }]
+                    });
+                } else {
+                    formattedStories[storyIndex].pieces.push({
+                        id: piece.PieceId,
+                        text: piece.Text
+                    });
+                }
+            });
+            return res.status(200).json({Stories: formattedStories})
+        }
+    })
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
