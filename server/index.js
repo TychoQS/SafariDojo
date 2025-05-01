@@ -334,13 +334,15 @@ app.get("/api/cookTheBookStories", (req, res) => {
                         title: piece.Title,
                         pieces: [{
                             id: piece.PieceId,
-                            text: piece.Text
+                            text: piece.Text,
+                            order: piece.PieceOrder
                         }]
                     });
                 } else {
                     formattedStories[storyIndex].pieces.push({
                         id: piece.PieceId,
-                        text: piece.Text
+                        text: piece.Text,
+                        order: piece.PieceOrder
                     });
                 }
             });
