@@ -85,24 +85,35 @@ const MakeTheFilm = () => {
         const pieceId = parseInt(e.dataTransfer.getData('pieceId'));
         const pieceIndex = parseInt(e.dataTransfer.getData('pieceIndex'));
 
-        const newShuffledPieces = [...shuffledPieces];
-        const piece = newShuffledPieces[pieceIndex];
-
-        if (piece) {
-
-            const newTimelinePieces = [...timelinePieces];
-
-            if (newTimelinePieces[position] !== null) {
-                newShuffledPieces.push(newTimelinePieces[position]);
+        if (pieceIndex < 0) {
+            const timelineIndex = -pieceIndex - 1;
+            const piece = timelinePieces[timelineIndex];
+            if (piece) {
+                const newTimelinePieces = [...timelinePieces];
+                if (newTimelinePieces[position] !== null) {
+                    newTimelinePieces[timelineIndex] = newTimelinePieces[position];
+                } else {
+                    newTimelinePieces[timelineIndex] = null;
+                }
+                newTimelinePieces[position] = piece;
+                setTimelinePieces(newTimelinePieces);
+                setVerifyEnabled(!newTimelinePieces.includes(null));
             }
-
-            newShuffledPieces.splice(pieceIndex, 1);
-            newTimelinePieces[position] = piece;
-
-            setShuffledPieces(newShuffledPieces);
-            setTimelinePieces(newTimelinePieces);
-
-            setVerifyEnabled(!newTimelinePieces.includes(null));
+        }
+        else {
+            const newShuffledPieces = [...shuffledPieces];
+            const piece = newShuffledPieces[pieceIndex];
+            if (piece) {
+                const newTimelinePieces = [...timelinePieces];
+                if (newTimelinePieces[position] !== null) {
+                    newShuffledPieces.push(newTimelinePieces[position]);
+                }
+                newShuffledPieces.splice(pieceIndex, 1);
+                newTimelinePieces[position] = piece;
+                setShuffledPieces(newShuffledPieces);
+                setTimelinePieces(newTimelinePieces);
+                setVerifyEnabled(!newTimelinePieces.includes(null));
+            }
         }
     };
 
