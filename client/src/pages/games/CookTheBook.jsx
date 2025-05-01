@@ -15,7 +15,7 @@ function fetchStories() {
     return fetch("http://localhost:8080/api/cookTheBookStories");
 }
 
-const MakeTheFilm = () => {
+const CookTheBook = () => {
     const [score, setScore] = useState(0);
     const [currentLevel, setCurrentLevel] = useState(0);
     const [gameCompleted, setGameCompleted] = useState(false);
@@ -211,7 +211,7 @@ const MakeTheFilm = () => {
                             <div className="flex flex-col justify-between items-center">
                                 <section id={"title-section"} className="w-full max-w-4xl rounded-lg">
                                     <div className="flex justify-center">
-                                        <Title>Make The Film</Title>
+                                        <Title>Cook The Book</Title>
                                     </div>
                                 </section>
                                 <section id={"scoreboard"} className={"pb-4"}>
@@ -289,7 +289,7 @@ const MakeTheFilm = () => {
                             <div className="flex flex-col justify-between items-center">
                                 <section id={"title-section"} className="w-full max-w-4xl rounded-lg">
                                     <div className="flex justify-center">
-                                        <Title>Make The Film</Title>
+                                        <Title>Cook The Book</Title>
                                     </div>
                                 </section>
                                 <section id={"scoreboard"} className={"pb-4"}>
@@ -373,4 +373,4 @@ const MakeTheFilm = () => {
     );
 };
 
-export default MakeTheFilm;
+export default CookTheBook;
