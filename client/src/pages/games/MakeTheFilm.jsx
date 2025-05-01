@@ -75,7 +75,6 @@ const MakeTheFilm = () => {
         setVerifyEnabled(false);
     };
 
-
     const handleDragOver = (e, index) => {
         e.preventDefault();
     };
@@ -167,15 +166,19 @@ const MakeTheFilm = () => {
         setGameCompleted(false);
     };
 
+    const currentlyPlaying = () => {
+        return !gameCompleted;
+    }
+
 
     const renderPuzzlePiece = (piece, index, isOnTimeline = false) => {
         if (!piece) return null;
-        return <Piece piece={piece} index={index} isOnTimeline={isOnTimeline}></Piece>;
+        return <Piece piece={piece} index={index} isOnTimeline={isOnTimeline} isEmpty={!currentlyPlaying()}></Piece>
     };
 
     return (
         <>
-            <div className="app flex flex-col h-screen bg-PS-main-purple">
+            <div className="app flex flex-col min-h-screen bg-PS-main-purple">
                 <Header></Header>
                 <section id={"lives-section"} className={"flex flex-row items-center justify-between"}>
                     <Link href={{pathname: "../GameSelectionPage", query: {Subject: 'Art'}}}>
@@ -188,7 +191,7 @@ const MakeTheFilm = () => {
                     </div>
                 </section>
                 <main id={"main-section"} className={"flex flex-col flex-1 items-center justify-start bg-PS-main-purple pb-12"}>
-                    { !gameCompleted ? (
+                    { currentlyPlaying() ? (
                         <>
                             <div className="flex flex-col justify-between items-center">
                                 <section id={"title-section"} className="w-full max-w-4xl rounded-lg">
@@ -264,19 +267,91 @@ const MakeTheFilm = () => {
                                     )}
                                 </div>
                             </section>
-
-                            <section id={"buttons-section"} className="mt-6 flex justify-center space-x-4">
-                                <Button size={"large"} onClick={verifyOrder}>Verify Order</Button>
-                                <Button size={"large"} onClick={resetLevel}>Reset Level</Button>
-                            </section>
                         </section>
                             </>
                     ) : (
-                        <div className="bg-white rounded-lg shadow-xl p-8 text-center max-w-lg">
-                            <h1>Game Completed</h1>
-                        </div>
+                        <>
+                            <div className="flex flex-col justify-between items-center">
+                                <section id={"title-section"} className="w-full max-w-4xl rounded-lg">
+                                    <div className="flex justify-center">
+                                        <Title>Make The Film</Title>
+                                    </div>
+                                </section>
+                                <section id={"scoreboard"} className={"pb-4"}>
+                                    <div className="flex items-center space-x-6">
+                                        <div id={"score-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-1 text-PS-art-color px-3 py-1 rounded-full font-bold text-2xl">
+                                            Score: {score}/30
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-6 w-full max-w-4xl">
+                                <h1 className={`text-2xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{"Game completed!"}</h1>
+                                <section id={"time-line-section"} className="mb-8">
+                                    <h2 className={`text-center text-lg font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
+                                    <div id={"game-time-line"} className="relative">
+                                        <div id={"time-line-line"} className="absolute h-1 bg-red-400 top-1/2 left-0 right-0 transform -translate-y-1/2 z-0"></div>
+                                        <section id={"missing-pieces-section"} className="relative z-10 flex justify-between items-center py-8">
+                                            {timelinePieces.map((piece, index) => (
+                                                <div
+                                                    key={index}
+                                                    onDragOver={(e) => handleDragOver(e, index)}
+                                                    onDrop={(e) => handleTimelineDrop(e, index)}
+                                                    className={`${piece ? "" : "border-2 border-dashed border-PS-art-color"} 
+                                ${piece ? "" : "bg-PS-light-yellow"} 
+                                rounded-lg flex items-center justify-center
+                                transform transition-transform duration-200
+                                ${animation}`}
+                                                    style={{
+                                                        width: '180px',
+                                                        height: '110px',
+                                                        margin: '0 5px',
+                                                    }}
+                                                >
+                                                    {piece ?
+                                                        renderPuzzlePiece(piece, index, true) :
+                                                        <span className=" text-PS-art-color text-center text-sm px-2">Place piece {index + 1} here</span>
+                                                    }
+                                                </div>
+                                            ))}
+                                        </section>
+
+                                        <div id={"time-line-points"} className="flex justify-between items-center relative z-20">
+                                            {timelinePieces.map((_, index) => (
+                                                <div key={index} className="bg-PS-art-color rounded-full w-4 h-4 border-2 border-white"></div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </section>
+                                <section
+                                    id={"pieces-section"}
+                                    className="bg-PS-gray p-4 rounded-lg"
+                                    onDragOver={(e) => e.preventDefault()}
+                                    onDrop={handlePoolDrop}
+                                >
+                                    <div className="flex flex-wrap justify-center">
+                                        {shuffledPieces.map((piece, index) => renderPuzzlePiece(piece, index))}
+                                        {shuffledPieces.length === 0 && (
+                                            <p className="text-gray-500 py-8">You have placed all pieces right!</p>
+                                        )}
+                                    </div>
+                                </section>
+                            </section>
+
+                        </>
                     )}
                 </main>
+                <section id={"buttons-section"} className="flex justify-center space-x-4 mb-12">
+                    { currentlyPlaying() ? (
+                        <>
+                            <Button size={"large"} onClick={verifyOrder}>Verify Order</Button>
+                            <Button size={"large"} onClick={resetLevel}>Reset Level</Button>
+                        </>
+                    ) : (
+                        <Button size={"large"} onClick={playAgain}>Play Again</Button>
+                    )}
+
+                </section>
                 <Footer></Footer>
             </div>
         </>
