@@ -1,15 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
 import {useRouter} from "next/router";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useProfile} from "@/pages/context/ProfileContext";
+import BaseModal from "@/components/BaseModal";
 
 
 const LogIn = () => {
     const {logIn} = useAuth();
     const {updateProfile} = useProfile();
+    const [showModal, setShowModal] = useState(false);
 
     const hashPassword = async (password) => {
         const encoder = new TextEncoder();
@@ -49,7 +51,7 @@ const LogIn = () => {
                 window.location.href = "/..";
             }
         } else {
-            alert(ResponseData.message);
+            setShowModal(true);
         }
     };
 
@@ -82,6 +84,18 @@ const LogIn = () => {
                     linkUrl="/AccountRecovery"
                     onSubmit={handleLogin}
                 />
+
+                {showModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
+                        <BaseModal
+                            title="Oooops"
+                            description="Invalid credentials. Please, try again."
+                            buttons={[
+                                {text: "Got it!", color: "gray", onClick: () => setShowModal(false)},
+                            ]}
+                        />
+                    </div>
+                )}
             </main>
             <Footer/>
         </div>
