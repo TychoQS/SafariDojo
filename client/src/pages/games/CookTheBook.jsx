@@ -8,11 +8,18 @@ import Button from "@/components/Button";
 import Title from "@/components/Title";
 import {cherryBomb} from "@/styles/fonts";
 import Piece from "@/pages/games/modules/CookTheBook/Piece";
+import {router} from "next/client";
+import {useRouter} from "next/router";
 
 let Stories = [];
 
-function fetchStories() {
-    return fetch("http://localhost:8080/api/cookTheBookStories");
+function fetchStories(difficulty = 'hard') {
+    return fetch(`http://localhost:8080/api/cookTheBookStories?` + new URLSearchParams({
+        difficulty: difficulty.toLowerCase()
+    }), {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    });
 }
 
 const CookTheBook = () => {
@@ -26,21 +33,22 @@ const CookTheBook = () => {
     const [verifyEnabled, setVerifyEnabled] = useState(false);
     const lifesRef = useRef(null);
     const [areStoriesFetched, setAreStoriesFetched] = useState(false);
-
+    const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!router.isReady) return
+            const difficulty = router.query.Age; // TODO: Get difficulty and pass it to the fetchMethod
             const response = await fetchStories();
             if (response.ok) {
                 let fetchedStories = await response.json();
                 Stories = fetchedStories['Stories'];
-                console.log(Stories)
                 setAreStoriesFetched(true);
                 setGameCompleted(false);
             }
         };
         fetchData().then(r => initLevel(currentLevel));
-    }, []);
+    }, [router.isReady]);
 
     useEffect(() => {
         if (!areStoriesFetched) return;
@@ -225,7 +233,7 @@ const CookTheBook = () => {
                                     </div>
                                 </section>
                             </div>
-                        <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-6 w-full max-w-6xl">
+                        <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-6 w-full max-w-7xl">
                             <h1 className={`text-2xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{Stories[currentLevel]?.title}</h1>
                             {message && (
                                 <div className={`mb-4 p-3 rounded-lg text-center font-bold ${message.includes('Correct') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}  ${cherryBomb.className}`}>
@@ -300,7 +308,7 @@ const CookTheBook = () => {
                                     </div>
                                 </section>
                             </div>
-                            <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-6 w-full max-w-6xl">
+                            <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-6 w-full max-w-7xl">
                                 <h1 className={`text-2xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{"Game completed!"}</h1>
                                 <section id={"time-line-section"} className="mb-8">
                                     <h2 className={`text-center text-lg font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
