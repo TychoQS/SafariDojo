@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
 import Link from "next/link";
+import Title from "@/components/Title";
 
 
 function getImage() {
@@ -102,7 +103,7 @@ function DetectiveMrWorldWide() {
                 <div className="flex items-end justify-end">
                     <Lifes ref={lifesRef} />
                 </div>
-
+                <Title>Detective Mr. WorldWide</Title>
 
                 <div className="h-150 w-175 flex flex-col self-center items-center justify-evenly border-4 rounded-2xl
             border-PS-dark-yellow bg-PS-light-yellow">
@@ -140,6 +141,10 @@ function DetectiveMrWorldWide() {
 
                         {gameStatus === "finished" ?
                             <div>
+                                <div className={"flex flex-col justify-center items-center"}>
+                                    <h2 className={"text-[3rem] animate-bounce"}>Congratulations</h2>
+                                    <p className={""}>Score: <span className={""}>{score}</span></p>
+                                </div>
                                 <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
                                     "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
                                         onClick={() => resetGame()}>
