@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function MahjongTile({ position, isSelected, isRemoved, isBlocked, onClick }) {
+export default function MahjongTile({position, isSelected, isRemoved, isBlocked, onClick}) {
     if (isRemoved) return null;
 
     let backgroundColor = "bg-amber";
@@ -30,13 +30,19 @@ export default function MahjongTile({ position, isSelected, isRemoved, isBlocked
     const left = position.col * tileSpacing;
     const positionStyle = {top: `${top}px`, left: `${left}px`};
 
+    const isImage = position.tile.value.startsWith("/") || position.tile.value.startsWith("http");
+
     return (
         <div
             style={positionStyle}
             className={tileClass}
             onClick={onClick}
         >
-            <span className="text-sm font-medium">{position.tile.value}</span>
+            {isImage ? (
+                <img src={position.tile.value} alt="tile" className="w-20 h-20 object-contain"/>
+            ) : (
+                <span className="text-2xl font-medium">{position.tile.value}</span>
+            )}
         </div>
     );
 };
