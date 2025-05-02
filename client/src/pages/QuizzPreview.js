@@ -34,6 +34,7 @@ function QuizzPreview() {
             setGameData(queryGame);
             setDifficulty(queryDifficulty);
         }
+        localStorage.setItem('previousURL', window.location.href);
     }, [router.isReady, router.query]);
 
     async function fetchIsPremium() {
