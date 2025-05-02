@@ -1,27 +1,48 @@
 import {useEffect, useState} from "react";
 
-const CrosswordLegend = ({clues}) => {
-    return (
-        <ol className="list-decimal pl-8 border p-4 text-xl">
-            {clues.map(clue => {
-                return <li><span></span>{clue}</li>
-            })}
-        </ol>
-    )
-}
-
 const ResultAlert = ({ message, visible, bgColor }) => {
     return (
-        <h2 className={
-            `transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0"} 
-            ${bgColor} p-3 w-full text-lg text-center` }>
-            {message}
-        </h2>
-    )
+        <div className={"flex justify-center"}>
+            <h2 className={
+                `fixed transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0"} 
+            ${bgColor} p-10 w-1/2 top-1/2 border-8 border-b-blue-950 text-lg text-center justify-self-center` }>
+                {message}
+            </h2>
+        </div>
+)
 }
 
+const CrosswordLegend = ({clues}) => {
+    return (
+        <ul className="list-decimal bg-white pl-8 border p-4 text-xl">
+            {
+                clues.map(clue => {
+                return <li><span></span>{clue}</li>
+            })}
+        </ul>
+    )
+}
+const gridColsClass = {
+    5: "grid-cols-5",
+    6: "grid-cols-6",
+    7: "grid-cols-7",
+    8: "grid-cols-8",
+    9: "grid-cols-9",
+    10: "grid-cols-10",
+    11: "grid-cols-11",
+    12: "grid-cols-12",
+    13: "grid-cols-13",
+    14: "grid-cols-14",
+    15: "grid-cols-15",
+    16: "grid-cols-16",
+    17: "grid-cols-17",
+    18: "grid-cols-18",
+    19: "grid-cols-19",
+    20: "grid-cols-20"
+};
 
-const Crossword = ({wordGrid, clues}) =>{
+
+const CrosswordTable = ({wordGrid, clues}) =>{
     const alertTimeout = 2;
 
     const [grid, setGrid] = useState(
@@ -52,8 +73,8 @@ const Crossword = ({wordGrid, clues}) =>{
 
         if (isCorrect){
             const msg = "Great! You've done it";
-            setResultAlert(msg);
             const color = "bg-green-200";
+            setResultAlert(msg);
             setAlertColor(color);
 
         } else {
@@ -69,10 +90,10 @@ const Crossword = ({wordGrid, clues}) =>{
     return (
         <>
             <ResultAlert message={resultAlert} visible={visible} timeOut={alertTimeout} bgColor={alertColor}/>
-            <div className="flex flex-col flex-space-between items-center mt-10">
+            <div className="flex flex-col p-5 flex-space-between items-center bg-PS-main-purple">
                 <CrosswordLegend clues={clues} />
                 <h1 className="text-2xl font-bold mb-4">Crossword Game</h1>
-                <div id="crossword" className="grid grid-cols-5 gap-1 border p-2 bg-gray-100 rounded-lg shadow-lg">
+                <div id="crossword" className={`grid ${gridColsClass[grid.length] || "grid-cols-5"} gap-1 border p-2 bg-gray-100 rounded-lg shadow-lg`}>
                     {wordGrid.map((row, rowIndex) =>
                         row.map((cell, colIndex) => {
                             if (!cell) return <div className={"w-20 h-20 rounded border bg-zinc-300"}></div>
@@ -106,4 +127,4 @@ const Crossword = ({wordGrid, clues}) =>{
 }
 
 
-export default Crossword;
+export default CrosswordTable;

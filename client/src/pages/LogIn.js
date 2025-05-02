@@ -1,14 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
-import { useRouter } from "next/router";
-import { useAuth } from "@/pages/context/AuthContext";
+import {useRouter} from "next/router";
+import {useAuth} from "@/pages/context/AuthContext";
+import {useProfile} from "@/pages/context/ProfileContext";
+import BaseModal from "@/components/BaseModal";
 
 
 const LogIn = () => {
-    const { logIn } = useAuth();
-    const router = useRouter();
+    const {logIn} = useAuth();
+    const {updateProfile} = useProfile();
+    const [showModal, setShowModal] = useState(false);
 
     const hashPassword = async (password) => {
         const encoder = new TextEncoder();
@@ -25,7 +28,7 @@ const LogIn = () => {
         }
 
         const Response = await fetch("http://localhost:8080/api/login", {
-           method: "POST",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -34,18 +37,28 @@ const LogIn = () => {
 
         const ResponseData = await Response.json();
         if (Response.ok) {
-            console.log("Response data:", ResponseData);
             const token = `fakeTokenForUser-${Date.now()}`;
             logIn(token, ResponseData);
-            router.push("..");
+
+            const redirectFrom = sessionStorage.getItem("loginRedirectFrom");
+
+            if (redirectFrom === "quizGamePreview") {
+                updateProfile(ResponseData);
+                logIn(token, ResponseData);
+                sessionStorage.removeItem("loginRedirectFrom");
+                window.history.go(-1);
+            } else {
+                window.location.href = "/..";
+            }
         } else {
-            alert(ResponseData.message);
+            setShowModal(true);
         }
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-cover bg-center m-0" style={{ backgroundImage: "url('/images/LogBackground.png')" }}>
-            <Header showButtons={false} />
+        <div className="flex flex-col min-h-screen bg-cover bg-center m-0"
+             style={{backgroundImage: "url('/images/LogBackground.png')"}}>
+            <Header showButtons={false}/>
             <main className="flex-1 flex justify-center items-center align-middle">
                 <FormField
                     title="Log In"
@@ -62,7 +75,7 @@ const LogIn = () => {
                         },
                         {
                             id: "PasswordLogIn", label: "Password", size: "large", placeholder: "********",
-                            rules: { required: true }
+                            rules: {required: true}
                         },
                     ]}
                     buttonText="Enter"
@@ -71,8 +84,20 @@ const LogIn = () => {
                     linkUrl="/AccountRecovery"
                     onSubmit={handleLogin}
                 />
+
+                {showModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
+                        <BaseModal
+                            title="Oooops"
+                            description="Invalid credentials. Please, try again."
+                            buttons={[
+                                {text: "Got it!", color: "gray", onClick: () => setShowModal(false)},
+                            ]}
+                        />
+                    </div>
+                )}
             </main>
-            <Footer />
+            <Footer/>
         </div>
     );
 };

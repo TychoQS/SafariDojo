@@ -1,15 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useRouter} from "next/router";
 import LanguageSelector from "@/components/LanguajeSelector";
+import BaseModal from "@/components/BaseModal";
 
 export default function Header({showButtons = true}) {
     const {isLoggedIn, logOut, user} = useAuth();
     const router = useRouter();
+    const [showLogOutModal, setShowLogOutModal] = useState(false);
 
     const handleLogOut = () => {
         logOut();
         router.push("/LogOut");
+        setShowLogOutModal(false);
+    };
+
+    const handleCancelLogOut = () => {
+        setShowLogOutModal(false);
     };
 
     const isOnMyProfilePage = router.pathname === "/MyProfile";
@@ -42,7 +49,7 @@ export default function Header({showButtons = true}) {
                 <div className="ml-auto flex items-center gap-4">
                     {isLoggedIn ? (
                         <button
-                            onClick={handleLogOut}
+                            onClick={() => setShowLogOutModal(true)}
                             className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
                             Log Out
                         </button>
@@ -58,6 +65,17 @@ export default function Header({showButtons = true}) {
                         </>
                     )}
                 </div>
+            )}
+
+            {showLogOutModal && (
+                <BaseModal
+                    title="Are you sure you want to log out?"
+                    description="You will be logged out of your account."
+                    buttons={[
+                        { text: "Yes", color: "red", onClick: handleLogOut},
+                        { text: "No", color: "gray", onClick: handleCancelLogOut }
+                    ]}
+                />
             )}
         </header>
     );
