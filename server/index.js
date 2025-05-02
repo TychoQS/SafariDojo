@@ -312,6 +312,7 @@ app.get('/api/searchGames', (req, res) => {
 });
 
 app.get("/api/cookTheBookStories", (req, res) => {
+    const difficulty = req.query.difficulty;
     const Query = 'SELECT g.Id, p.Id AS PieceId, g.Title, p.PieceOrder, p.Text\n' +
         'FROM (\n' +
         '    SELECT Id, Title\n' +
@@ -320,8 +321,9 @@ app.get("/api/cookTheBookStories", (req, res) => {
         '    LIMIT 3\n' +
         ') g, CookTheBook_StoryPieces p\n' +
         'WHERE g.Id = p.StoryId\n' +
+        'AND Difficulty = ?\n' +
         'ORDER BY g.Id;'
-    dbConnection.query(Query, (err, result) => {
+    dbConnection.query(Query, [difficulty],  (err, result) => {
         if (err) return res.status(500).json({message: 'Something went wrong'});
         if (result.length === 0) return res.status(404).json({message: ''})
         else {
