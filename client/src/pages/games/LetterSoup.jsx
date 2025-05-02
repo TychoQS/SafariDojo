@@ -6,6 +6,38 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 
 export default function LetterSoup() {
+    const words = ["BIRD", "GIRLFRIEND", "HAMSTER", "HUSBAND", "KEYS", "LEAVES", "PET", "TOOTH", "TURTLE", "WIFE"];
+
+    const rows = 11;
+    const cols = 11;
+
+    const initialGrid = [
+        ["G", "L", "B", "K", "F", "X", "Y", "V", "O", "I", "I"],
+        ["U", "I", "I", "L", "T", "B", "A", "Z", "O", "I", "G"],
+        ["P", "X", "R", "J", "E", "S", "J", "W", "C", "J", "U"],
+        ["H", "H", "D", "L", "T", "A", "M", "I", "Q", "P", "S"],
+        ["U", "G", "A", "H", "F", "M", "V", "F", "Q", "F", "B"],
+        ["S", "R", "J", "M", "W", "R", "K", "E", "Y", "S", "T"],
+        ["B", "U", "K", "Y", "S", "C", "I", "Y", "S", "T", "I"],
+        ["A", "P", "T", "U", "R", "T", "L", "E", "P", "G", "E"],
+        ["N", "K", "D", "J", "X", "P", "E", "G", "N", "S", "F"],
+        ["D", "X", "D", "H", "M", "E", "E", "R", "D", "D", "U"],
+        ["U", "A", "L", "E", "T", "O", "O", "T", "H", "V", "S"]
+    ];
+
+    const directions = [
+        [1, 0],
+        [0, 1],
+        [1, 1],
+        [-1, 0],
+        [0, -1],
+        [-1, -1],
+        [1, -1],
+        [-1, 1]
+    ];
+
+    const [grid, setGrid] = useState(initialGrid);
+    const [selectedCells, setSelectedCells] = useState([]);
     const [foundWords, setFoundWords] = useState([]);
     const [foundWordCells, setFoundWordCells] = useState([]);
     const [isSelecting, setIsSelecting] = useState(false);
@@ -98,6 +130,12 @@ export default function LetterSoup() {
         setSelectedCells([]);
         setCurrentWord("");
     };
+
+    useEffect(() => {
+        if (foundWords.length === words.length) {
+            setMessage("Congrats! You found all the words.");
+        }
+    }, [foundWords]);
 
     const handleMouseDown = (row, col) => {
         startSelection(row, col);
