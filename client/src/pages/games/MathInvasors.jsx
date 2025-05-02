@@ -40,14 +40,16 @@ export default function MathInvasors() {
     const [Playing, SetPlaying] = useState(false);
     const [GameOver, SetGameOver] = useState(false);
     const [LifesAvailable, SetLifesAvailable] = useState(true);
+    const [gameLoaded, setGameLoaded] = useState(false);
     const [Win, SetWin] = useState(false);
     const animationFrameRef = useRef(null);
     const [Info, SetInfo] = useState("");
     const [ButtonText, SetButtonText] = useState("Start");
     const lifesRef = useRef(null);
     const router = useRouter();
-    let Difficulty = 0;
-    let Magnitude = Difficulty+1;
+    const [Difficulty, setDifficulty] = useState(0);
+    const [Magnitude, setMagnitude] = useState(1);
+    const [difficultyLoaded, setDifficultyLoaded] = useState(false);
     let Round = 1
 
     useEffect(() => {
@@ -55,13 +57,14 @@ export default function MathInvasors() {
         const age = router.query.Age;
         switch(age.toLowerCase()) {
             case "medium":
-                Difficulty = 1;
-                Magnitude = Difficulty+1;
+                setDifficulty(1);
+                setMagnitude(Difficulty+1);
                 break;
             case "hard":
-                Difficulty = 1;
-                Magnitude = Difficulty+1;
+                setDifficulty(1);
+                setMagnitude(Difficulty+1);
         }
+        setDifficultyLoaded(true);
     }, [router.isReady]);
 
     useEffect(() => {
@@ -91,6 +94,7 @@ export default function MathInvasors() {
     }, [Operation, Win]);
 
     useEffect(() => {
+        if (!difficultyLoaded) return;
         const NoLivesMessage = "You've run out of lives!";
         const GameOverMessage = "GAME OVER";
         if (!LifesAvailable) {
@@ -247,6 +251,10 @@ export default function MathInvasors() {
         };
 
         const animate = () => {
+            console.log(
+                "Dificultad: ", Difficulty,
+                "Magnitud: ", Magnitude
+            )
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             UpdateAndDrawPlayer(ctx);
             animateMissiles();
