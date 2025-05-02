@@ -287,15 +287,12 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
     const initializeGame = () => {
         if (!dataSets || dataSets.length === 0) {
             console.error("dataSets is empty, cannot initialize the game!");
-            return; // Detener la inicialización si no hay datos
+            return;
         }
 
-        console.log("Initializing game...");
         const gamePairs = [...dataSets]
             .sort(() => Math.random() - 0.5)
             .slice(0, initialPairCount);
-
-        console.log("Game pairs:", gamePairs);
 
         setGamePairs(gamePairs);
 
