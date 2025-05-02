@@ -40,7 +40,7 @@ const CookTheBook = () => {
     const fetchData = async () => {
         if (!router.isReady) return
         const difficulty = router.query.Age; // TODO: Get difficulty and pass it to the fetchMethod
-        const response = await fetchStories();
+        const response = await fetchStories(difficulty);
         if (response.ok) {
             let fetchedStories = await response.json();
             Stories = fetchedStories['Stories'];
