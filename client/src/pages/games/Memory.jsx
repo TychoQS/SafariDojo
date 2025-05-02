@@ -7,17 +7,17 @@ import Link from "next/link";
 
 const initialCards = (difficulty = "hard") => {
     const allPairs = [
-        { id: 1, content: "🖐️", match: "Mano" },
-        { id: 2, content: "👣", match: "Pie" },
-        { id: 3, content: "👂", match: "Oreja" },
-        { id: 4, content: "👃", match: "Nariz" },
-        { id: 5, content: "👁️", match: "Ojo" },
-        { id: 6, content: "👄", match: "Boca" },
-        { id: 7, content: "🦶", match: "Tobillo" },
-        { id: 8, content: "🦵", match: "Pierna" },
-        { id: 9, content: "💪", match: "Brazo" },
-        { id: 10, content: "🧠", match: "Cerebro" },
-        { id: 11, content: "🫀", match: "Corazón" }
+        { id: 1, content: "🖐️", match: "Hand" },
+        { id: 2, content: "👣", match: "Feet" },
+        { id: 3, content: "👂", match: "Ear" },
+        { id: 4, content: "👃", match: "Nose" },
+        { id: 5, content: "👁️", match: "Eye" },
+        { id: 6, content: "👄", match: "Mouth" },
+        { id: 7, content: "🦶", match: "Ankle" },
+        { id: 8, content: "🦵", match: "Leg" },
+        { id: 9, content: "💪", match: "Arm" },
+        { id: 10, content: "🧠", match: "Brain" },
+        { id: 11, content: "🫀", match: "Heart" }
     ];
 
     const shuffled = [...allPairs].sort(() => Math.random() - 0.5);
@@ -154,13 +154,13 @@ export default function MemoryGame() {
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-main-purple bg-opacity-90 z-50">
                         {matched.length === cards.length / 2 && (
                             <div className="text-center text-green-600 font-bold text-3xl animate-bounce">
-                                🏅 ¡Felicidades! Has ganado una medalla.
+                                🏅 ¡Congratulations! You've won a medal.
                             </div>
                         )}
 
                         {gameOver && (
                             <div className="text-center text-red-500 font-bold text-3xl animate-pulse">
-                                💀 ¡Has perdido! Vuelve a intentarlo.
+                                💀 ¡You lost! Try again.
                             </div>
                         )}
                         <div className={"mt-8 space-x-8 flex flex-row"}>
