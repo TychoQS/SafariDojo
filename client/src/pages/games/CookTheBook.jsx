@@ -13,7 +13,7 @@ import {useRouter} from "next/router";
 
 let Stories = [];
 
-function fetchStories(difficulty = 'hard') {
+function fetchStories(difficulty = 'easy') {
     return fetch(`http://localhost:8080/api/cookTheBookStories?` + new URLSearchParams({
         difficulty: difficulty.toLowerCase()
     }), {
@@ -32,7 +32,9 @@ const CookTheBook = () => {
     const [animation, setAnimation] = useState("");
     const [verifyEnabled, setVerifyEnabled] = useState(false);
     const lifesRef = useRef(null);
+    const [lifesAvailable, setLifesAvailable] = useState(true);
     const [areStoriesFetched, setAreStoriesFetched] = useState(false);
+    const [remainingLives, setRemainingLives] = useState(5);
     const router = useRouter();
 
     const fetchData = async () => {
@@ -171,7 +173,12 @@ const CookTheBook = () => {
         } else {
             setMessage("The order is not correct. Try again!");
             setAnimation("animate-shake");
-            if (lifesRef.current) {lifesRef.current.loseLife();}
+            setRemainingLives(prev => {
+                const newLives = prev - 1;
+                lifesRef.current.loseLife();
+                if (newLives <= 0) setLifesAvailable(false);
+                return newLives;
+            });
             setTimeout(() => {
                 setAnimation("");
             }, 1000);
@@ -204,6 +211,7 @@ const CookTheBook = () => {
         return <Piece piece={piece} index={index} isOnTimeline={isOnTimeline} isEmpty={!currentlyPlaying()}></Piece>
     };
 
+
     return (
         <>
             <div className="app flex flex-col bg-PS-main-purple min-h-screen">
@@ -219,7 +227,7 @@ const CookTheBook = () => {
                     </div>
                 </section>
                 <main id={"main-section"} className={"flex flex-col flex-1 items-center justify-start bg-PS-main-purple"}>
-                    { currentlyPlaying() ? (
+                    { currentlyPlaying() && lifesAvailable ? (
                         <>
                             <div className="flex flex-col justify-between items-center">
                                 <section id={"title-section"} className="w-full max-w-4xl rounded-lg">
@@ -314,7 +322,7 @@ const CookTheBook = () => {
                                 </section>
                             </div>
                             <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-6 w-full max-w-7xl">
-                                <h1 className={`text-2xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{"Game completed!"}</h1>
+                                <h1 className={`text-2xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{ lifesAvailable ? "Game completed!" : "You don't have lifes to keep playing"}</h1>
                                 <section id={"time-line-section"} className="mb-8">
                                     <h2 className={`text-center text-lg font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
                                     <div id={"game-time-line"} className="relative">
@@ -360,7 +368,7 @@ const CookTheBook = () => {
                                     <div className="flex flex-wrap justify-center">
                                         {shuffledPieces.map((piece, index) => renderPuzzlePiece(piece, index))}
                                         {shuffledPieces.length === 0 && (
-                                            <p className="text-gray-500 py-8">You have placed all pieces right!</p>
+                                            <p className="text-gray-500 py-8"></p>
                                         )}
                                     </div>
                                 </section>
@@ -369,17 +377,20 @@ const CookTheBook = () => {
                         </>
                     )}
                 </main>
-                <section id={"buttons-section"} className="flex justify-center space-x-4 p-4">
-                    { currentlyPlaying() ? (
-                        <>
-                            <Button size={"large"} onClick={verifyOrder}>Verify Order</Button>
-                            <Button size={"large"} onClick={resetLevel}>Reset Level</Button>
-                        </>
-                    ) : (
-                        <Button size={"large"} onClick={replayGame}>Play Again</Button>
-                    )}
+                {
+                    lifesAvailable &&
+                    <section id={"buttons-section"} className="flex justify-center space-x-4 p-4">
+                        { currentlyPlaying() ? (
+                            <>
+                                <Button size={"large"} onClick={verifyOrder}>Verify Order</Button>
+                                <Button size={"large"} onClick={resetLevel}>Reset Level</Button>
+                            </>
+                        ) : (
+                            <Button size={"large"} onClick={replayGame}>Play Again</Button>
+                        )}
 
-                </section>
+                    </section>
+                }
                 <Footer></Footer>
             </div>
         </>
