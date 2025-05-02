@@ -36,6 +36,7 @@ const Lifes = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         loseLife,
+        getRemainingLives: () => hearts.filter(heart => heart === true).length,
     }));
 
     const formatTime = (seconds) => {
