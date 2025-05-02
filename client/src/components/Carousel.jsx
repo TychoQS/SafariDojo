@@ -3,7 +3,7 @@ import GameSelectionButton from "@/components/GameSelectorButton";
 import {router} from "next/client";
 import {useAuth} from "@/pages/context/AuthContext";
 import GameModal from "@/components/GameModal";
-import SoonModal from "@/components/SoonModal";
+import BaseModal from "@/components/BaseModal";
 
 const Carousel = ({carouselData, difficulty}) => {
     const {isLoggedIn, user} = useAuth();
@@ -31,7 +31,7 @@ const Carousel = ({carouselData, difficulty}) => {
     };
 
     const handleGameClick = (game) => {
-        if (game === "Comming soon..."){
+        if (game === "Comming soon...") {
             setShowModalSoon(true);
             return;
         }
@@ -180,8 +180,12 @@ const Carousel = ({carouselData, difficulty}) => {
 
             {showModalSoon && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
-                    <SoonModal
-                        onClose={() => setShowModalSoon(false)}
+                    <BaseModal
+                        title="Oooops"
+                        description="This game isn’t ready yet. It’ll be available soon."
+                        buttons={[
+                            {text: "Got it!", color: "gray", onClick: () => setShowModalSoon(false)},
+                        ]}
                     />
                 </div>
             )}

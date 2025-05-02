@@ -10,6 +10,7 @@ import {deliciousHandDrawn} from "@/styles/fonts";
 import {useRouter} from "next/router";
 import {useProfile} from "@/pages/context/ProfileContext";
 import ModalButton from "@/components/ModalButton";
+import PremiumModal from "@/components/PremiumModal";
 
 export default function MyProfile() {
     const {profile, updateProfile} = useProfile();
@@ -162,58 +163,18 @@ export default function MyProfile() {
             </section>
 
             {showPremiumModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
-                    <div
-                        className="bg-white p-6 rounded-2xl shadow-2xl w-[90%] max-w-md text-center space-y-4 animate-fade-in">
-                        {currentUser.isPremium ? (
-                            <>
-                                <h2 className="text-2xl font-semibold text-gray-800">You belong to the elite!</h2>
-                                <p  className={`text-lg text-gray-600 mt-2 ${!confirmLeave ? 'hover:underline cursor-pointer' : ''}`}
-                                    onClick={() => setConfirmLeave(true)}
-                                >
-                                    Leave the elite.
-                                </p>
-
-                                {confirmLeave ? (
-                                    <>
-                                        <p className="text-md text-red-500" >
-                                            Are you sure? You will lose all your elite advantages.
-                                        </p>
-                                        <div className="flex justify-center space-x-4">
-                                            <ModalButton text="Yes" color="red" onClick={handlePremiumToggle}/>
-                                            <ModalButton text="No" color="gray" onClick={() => {
-                                                setConfirmLeave(false);
-                                                setShowPremiumModal(false);
-                                            }}/>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <ModalButton text="Close" color="gray" onClick={() => setShowPremiumModal(false)}/>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                <h2 className="text-2xl font-semibold text-gray-800">Do you want to join the elite?</h2>
-                                <p className="text-lg text-gray-600 mt-2">
-                                    The subscription price is €14.99 per month.
-                                </p>
-                                <div className="flex justify-center gap-6 mt-6">
-                                    <ModalButton
-                                        text="Yes"
-                                        color={currentUser.isPremium ? "red" : "green"}
-                                        onClick={handlePremiumToggle}
-                                    />
-                                    <ModalButton
-                                        text="No"
-                                        color="gray"
-                                        onClick={() => setShowPremiumModal(false)}
-                                    />
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
+                <PremiumModal
+                    isPremium={currentUser.isPremium}
+                    confirmLeave={confirmLeave}
+                    onClose={() => {
+                        setConfirmLeave(false);
+                        setShowPremiumModal(false);
+                    }}
+                    onLeaveClick={() => setConfirmLeave(true)}
+                    onTogglePremium={handlePremiumToggle}
+                />
             )}
+
 
             <Footer/>
         </div>
