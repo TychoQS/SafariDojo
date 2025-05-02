@@ -398,7 +398,7 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
 
             setTimeout(() => {
                 setSelectedTiles([]);
-            }, 1500);
+            }, 10);
         }
     };
 
