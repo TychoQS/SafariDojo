@@ -169,11 +169,69 @@ export default function LetterSoup() {
                     <div className="w-3/5">
                         <div className="mb-2 text-lg font-medium text-green-600 text-center">{message}</div>
 
+                        <div
+                            className="grid grid-cols-11 gap-2 mb-6 bg-white p-4 rounded-lg shadow"
+                            onMouseLeave={endSelection}
+                        >
+                            {grid.map((row, rowIndex) => (
+                                row.map((letter, colIndex) => (
+                                    <div
+                                        key={`${rowIndex}-${colIndex}`}
+                                        className={`w-9 h-9 flex items-center justify-center rounded cursor-pointer 
+                                                    select-none text-lg text-white font-medium
+                                            ${ isCellSelected(rowIndex, colIndex) ? 'bg-blue-400 text-white' :
+                                            isCellInFoundWord(rowIndex, colIndex) ? 'bg-green-300 line-through' :
+                                                'bg-blue-200'
+                                        }
+                                        `}
+                                        onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
+                                        onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
+                                        onMouseUp={handleMouseUp}
+                                    >
+                                        {letter}
+                                    </div>
+                                ))
+                            ))}
+                        </div>
                     </div>
+
                     <div className="w-2/5 pl-6 flex flex-col h-full mt-2">
-                        <div className="bg-white p-6 rounded-lg shadow mb-4"></div>
+                        <div className="bg-white p-6 rounded-lg shadow mb-4">
+                            <h2 className="text-2xl text-center font-semibold mb-4 text-pink-800">Words to find</h2>
+
+                            <div className="grid grid-cols-2 gap-3">
+                                {words.map((word, index) => (
+                                    <div
+                                        key={index}
+                                        className={`px-3 py-2 rounded-full text-center ${
+                                            isWordFound(word)
+                                                ? 'bg-green-500 text-white line-through'
+                                                : 'bg-gray-200 text-gray-700'
+                                        }`}
+                                    >
+                                        {word}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
 
                         <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center">
+                            <div className="text-2xl text-gray-600 font-bold mb-2">Your progress</div>
+                            <div className="text-2xl font-bold text-pink-800">
+                                {foundWords.length} <span className="text-gray-600 font-medium">out of</span> {words.length}
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-4 mt-3">
+                                <div
+                                    className="bg-pink-600 h-4 rounded-full"
+                                    style={{ width: `${(foundWords.length / words.length) * 100}%` }}
+                                ></div>
+                            </div>
+
+                            {foundWords.length === words.length && (
+                                <div className="mt-4 p-1 bg-green-100 text-green-800 rounded-lg text-center font-bold">
+                                    Good job!
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
