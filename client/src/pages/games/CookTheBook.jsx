@@ -35,18 +35,19 @@ const CookTheBook = () => {
     const [areStoriesFetched, setAreStoriesFetched] = useState(false);
     const router = useRouter();
 
+    const fetchData = async () => {
+        if (!router.isReady) return
+        const difficulty = router.query.Age; // TODO: Get difficulty and pass it to the fetchMethod
+        const response = await fetchStories();
+        if (response.ok) {
+            let fetchedStories = await response.json();
+            Stories = fetchedStories['Stories'];
+            setAreStoriesFetched(true);
+            setGameCompleted(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            if (!router.isReady) return
-            const difficulty = router.query.Age; // TODO: Get difficulty and pass it to the fetchMethod
-            const response = await fetchStories();
-            if (response.ok) {
-                let fetchedStories = await response.json();
-                Stories = fetchedStories['Stories'];
-                setAreStoriesFetched(true);
-                setGameCompleted(false);
-            }
-        };
         fetchData().then(r => initLevel(currentLevel));
     }, [router.isReady]);
 
@@ -188,6 +189,10 @@ const CookTheBook = () => {
         setCurrentLevel(0);
         setGameCompleted(false);
     };
+
+    const replayGame = () => {
+        fetchData().then(_ => resetGame());
+    }
 
     const currentlyPlaying = () => {
         return !gameCompleted;
@@ -371,7 +376,7 @@ const CookTheBook = () => {
                             <Button size={"large"} onClick={resetLevel}>Reset Level</Button>
                         </>
                     ) : (
-                        <Button size={"large"} onClick={resetGame}>Play Again</Button>
+                        <Button size={"large"} onClick={replayGame}>Play Again</Button>
                     )}
 
                 </section>
