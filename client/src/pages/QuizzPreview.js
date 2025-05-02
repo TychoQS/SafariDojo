@@ -135,7 +135,7 @@ function QuizzPreview() {
         const formattedGame = decodedGame
             .replace(/(?:^|\s)\w/g, (match) => match.toUpperCase())
             .replace(/\s+/g, '');
-        window.location.href = `/games/${formattedGame}`;
+        window.location.href = `/games/${formattedGame}?Age=${age}`;
     }
 
     function finishGame(score) {
