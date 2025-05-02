@@ -19,6 +19,8 @@ DROP TABLE IF EXISTS Subjects;
 DROP VIEW IF EXISTS AllSubjectQuizzes;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Quizzes;
+DROP TABLE IF EXISTS CookTheBook_StoryPieces;
+DROP TABLE IF EXISTS CookTheBook_Stories;
 DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
 DROP PROCEDURE IF EXISTS FillUserQuizzes;
 DROP TRIGGER IF EXISTS PostUserCreation;
@@ -37,6 +39,37 @@ CREATE TABLE Users ( -- Users table
                        RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        LastLogoutTime TIMESTAMP DEFAULT NULL
 );
+    DROP TABLE IF EXISTS UserQuizzes;
+    DROP TABLE IF EXISTS UserWeeklyGoals;
+    DROP TABLE IF EXISTS WeeklyGoals;
+    DROP TABLE IF EXISTS PinThePlace;
+    DROP TABLE IF EXISTS SubjectQuizzes;
+    DROP TABLE IF EXISTS UserQuizzes;
+    DROP TABLE IF EXISTS MultimediaSubjects;
+    DROP TABLE IF EXISTS Multimedia;
+    DROP TABLE IF EXISTS Subjects;
+    DROP TABLE IF EXISTS Users;
+    DROP TABLE IF EXISTS Quizzes;
+    DROP TABLE IF EXISTS CookTheBook_StoryPieces;
+    DROP TABLE IF EXISTS CookTheBook_Stories;
+    DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
+    DROP PROCEDURE IF EXISTS FillUserQuizzes;
+    DROP TRIGGER IF EXISTS PostUserCreation;
+    DROP TRIGGER IF EXISTS PostQuizAddition;
+    DROP TRIGGER IF EXISTS PostSubjectAddition;
+    DROP TRIGGER IF EXISTS PostQuizAdditionOnSubjectQuizzes;
+    /* Now we start creating the tables and inserting the registers */
+    CREATE TABLE Users ( -- Users table
+                           Id INT AUTO_INCREMENT PRIMARY KEY,
+                           Name VARCHAR(100) NOT NULL,
+                           Email VARCHAR(255) NOT NULL UNIQUE,
+                           Password VARCHAR(255) NOT NULL,
+                           ProfileIcon VARCHAR(64) DEFAULT 'Sheep',
+                           Premium BOOLEAN DEFAULT FALSE,
+                           Lifes TINYINT DEFAULT 5,
+                           RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                           LastLogoutTime TIMESTAMP DEFAULT NULL
+    );
 
 INSERT INTO Users (Name, Email, Password, ProfileIcon) VALUES
                                                            ('Nelson Monzón', 'nelson@example.com', '9a400da2fc27de967acb85a0b50dbbcd9536c60da1eee1e4bb1f1c05a6036068', 'Lion'),
@@ -324,15 +357,123 @@ CREATE TABLE UserWeeklyGoals (
                                  FOREIGN KEY (WeeklyGoalId) REFERENCES WeeklyGoals(Id)
 );
 
-show tables;
-select * from Users;
-select * from Quizzes;
-select * from UserQuizzes;
-select * from Subjects;
-select * from SubjectQuizzes;
-select * from Multimedia;
-select * from MultimediaSubjects;
-select * from PinThePlace;
-select * from WeeklyGoals;
-select * from UserWeeklyGoals;
-SET sql_notes = 1;
+    CREATE TABLE CookTheBook_Stories (
+                                         Id INTEGER AUTO_INCREMENT PRIMARY KEY,
+                                         Title TEXT NOT NULL
+    );
+
+    -- Tabla para piezas de historias con dificultad
+    CREATE TABLE CookTheBook_StoryPieces (
+                                             Id INTEGER AUTO_INCREMENT,
+                                             StoryId INTEGER NOT NULL,
+                                             Difficulty VARCHAR(10) NOT NULL, -- Columna de dificultad: 'easy', 'medium', 'hard'
+                                             PieceOrder INTEGER NOT NULL,
+                                             Text TEXT NOT NULL,
+                                             PRIMARY KEY (Id, Difficulty),  -- Clave primaria compuesta
+                                             FOREIGN KEY (StoryId) REFERENCES CookTheBook_Stories(Id) ON DELETE CASCADE,
+                                             UNIQUE KEY (StoryId, Difficulty, PieceOrder)  -- Asegura que no hay duplicados para la misma historia, dificultad y orden
+    );
+
+    INSERT INTO CookTheBook_Stories (Title) VALUES
+                                                ('Little Red Riding Hood'),
+                                                ('The Three Little Pigs'),
+                                                ('Hansel and Gretel'),
+                                                ('Goldilocks and the Three Bears');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (1, 'easy', 1, 'A little girl went to visit her grandmother in the woods.'),
+                                                                                    (1, 'easy', 2, 'On her way, she met a wicked wolf.'),
+                                                                                    (1, 'easy', 3, 'The wolf rushed to grandmother''s house and disguised himself.'),
+                                                                                    (1, 'easy', 4, 'A hunter rescued Little Red and her grandmother.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (1, 'medium', 1, 'Little Red Riding Hood lived near the forest.'),
+                                                                                    (1, 'medium', 2, 'Her mother sent her to visit her sick grandmother.'),
+                                                                                    (1, 'medium', 3, 'She met a wolf who tricked her into taking the long path.'),
+                                                                                    (1, 'medium', 4, 'The wolf ate grandmother and disguised himself.'),
+                                                                                    (1, 'medium', 5, 'A hunter rescued them from the wolf''s belly.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (1, 'hard', 1, 'A girl always wore a red hood that her grandmother gave her.'),
+                                                                                    (1, 'hard', 2, 'She went to bring food to her sick grandmother in the forest.'),
+                                                                                    (1, 'hard', 3, 'The wolf tricked her into taking the longer path while he hurried ahead.'),
+                                                                                    (1, 'hard', 4, 'The wolf ate grandmother and wore her clothes.'),
+                                                                                    (1, 'hard', 5, '"What big teeth you have, Grandmother!" said the girl.'),
+                                                                                    (1, 'hard', 6, 'The hunter cut open the wolf and saved both of them.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (2, 'easy', 1, 'Three pigs decided to build their own houses.'),
+                                                                                    (2, 'easy', 2, 'The first two built houses of straw and sticks.'),
+                                                                                    (2, 'easy', 3, 'The third pig built a strong brick house.'),
+                                                                                    (2, 'easy', 4, 'The wolf fell into a pot when trying to enter by the chimney.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (2, 'medium', 1, 'Three little pigs left home to build their own houses.'),
+                                                                                    (2, 'medium', 2, 'The first built a straw house the wolf blew down.'),
+                                                                                    (2, 'medium', 3, 'The second built a stick house the wolf also destroyed.'),
+                                                                                    (2, 'medium', 4, 'The third built a brick house the wolf couldn''t blow down.'),
+                                                                                    (2, 'medium', 5, 'The wolf fell into boiling water trying to enter by the chimney.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (2, 'hard', 1, 'A mother pig sent her three children out into the world.'),
+                                                                                    (2, 'hard', 2, 'The lazy first pig quickly built a house of straw.'),
+                                                                                    (2, 'hard', 3, 'The second pig built a slightly better house of sticks.'),
+                                                                                    (2, 'hard', 4, 'The third pig worked hard to build a house of bricks.'),
+                                                                                    (2, 'hard', 5, 'The wolf blew down the houses of straw and sticks.'),
+                                                                                    (2, 'hard', 6, 'The wolf fell into a pot trying to enter the brick house chimney.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (3, 'easy', 1, 'Two children were abandoned in the forest by their parents.'),
+                                                                                    (3, 'easy', 2, 'They found a house made of candy and began to eat it.'),
+                                                                                    (3, 'easy', 3, 'The witch captured them and planned to eat them.'),
+                                                                                    (3, 'easy', 4, 'Gretel pushed the witch into the oven and they escaped.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (3, 'medium', 1, 'A father was convinced to abandon his children in the forest.'),
+                                                                                    (3, 'medium', 2, 'The children got lost in the depths of the forest.'),
+                                                                                    (3, 'medium', 3, 'They found a delicious house made of candy and sweets.'),
+                                                                                    (3, 'medium', 4, 'The witch locked Hansel in a cage to fatten him up.'),
+                                                                                    (3, 'medium', 5, 'Gretel pushed the witch into the oven and they took her jewels.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (3, 'hard', 1, 'During a famine, a stepmother convinced a father to abandon his children.'),
+                                                                                    (3, 'hard', 2, 'Hansel dropped pebbles to find their way back home.'),
+                                                                                    (3, 'hard', 3, 'Later he used breadcrumbs, but birds ate them all.'),
+                                                                                    (3, 'hard', 4, 'Starving, they found a house made of bread and cake.'),
+                                                                                    (3, 'hard', 5, 'The witch locked Hansel in a cage and enslaved Gretel.'),
+                                                                                    (3, 'hard', 6, 'Gretel tricked the witch into the oven and freed her brother.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (4, 'easy', 1, 'Goldilocks found an empty house in the forest.'),
+                                                                                    (4, 'easy', 2, 'She ate porridge, broke a chair, and fell asleep in a bed.'),
+                                                                                    (4, 'easy', 3, 'The bears came home and found someone had been there.'),
+                                                                                    (4, 'easy', 4, 'They found her sleeping and she ran away scared.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (4, 'medium', 1, 'Goldilocks wandered into the forest and found a bear house.'),
+                                                                                    (4, 'medium', 2, 'She tasted three bowls of porridge and ate the just right one.'),
+                                                                                    (4, 'medium', 3, 'She sat in three chairs and broke Baby Bear''s chair.'),
+                                                                                    (4, 'medium', 4, 'She tried all beds and fell asleep in the smallest one.'),
+                                                                                    (4, 'medium', 5, 'The bears found her and she jumped out the window in fright.');
+
+    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                    (4, 'hard', 1, 'Three bears made porridge for breakfast in their forest home.'),
+                                                                                    (4, 'hard', 2, 'They went for a walk while waiting for it to cool.'),
+                                                                                    (4, 'hard', 3, 'Goldilocks found their house and went inside uninvited.'),
+                                                                                    (4, 'hard', 4, 'She tried each porridge and ate Baby Bear''s bowl.'),
+                                                                                    (4, 'hard', 5, 'She sat in each chair and broke the smallest one.'),
+                                                                                    (4, 'hard', 6, 'She fell asleep in Baby Bear''s bed until the bears returned.');
+    show tables;
+    select * from Users;
+    select * from Quizzes;
+    select * from UserQuizzes;
+    select * from Subjects;
+    select * from SubjectQuizzes;
+    select * from Multimedia;
+    select * from MultimediaSubjects;
+    select * from PinThePlace;
+    select * from WeeklyGoals;
+    select * from UserWeeklyGoals;
+    select * from CookTheBook_Stories;
+    select * from CookTheBook_StoryPieces;
+    SET sql_notes = 1;
