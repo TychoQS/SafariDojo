@@ -324,6 +324,90 @@ CREATE TABLE UserWeeklyGoals (
                                  FOREIGN KEY (WeeklyGoalId) REFERENCES WeeklyGoals(Id)
 );
 
+CREATE TABLE Mahjong (
+                         Age VARCHAR(50),
+                         form1 VARCHAR(50),
+                         form2 VARCHAR(255)
+);
+
+
+INSERT INTO Mahjong (Age , form1, form2) VALUES
+    -- EASY
+    ('easy', 'RED', '/images/Mahjong/red.svg'),
+    ('easy', 'BLUE', '/images/Mahjong/blue.svg'),
+    ('easy', 'PINK', '/images/Mahjong/pink.svg'),
+    ('easy', 'GREEN', '/images/Mahjong/green.svg'),
+    ('easy', 'YELLOW', '/images/Mahjong/yellow.svg'),
+    ('easy', 'ORANGE', '/images/Mahjong/orange.svg'),
+    ('easy', 'BROWN', '/images/Mahjong/brown.svg'),
+    ('easy', 'WHITE', '/images/Mahjong/white.svg'),
+    ('easy', 'BLACK', '/images/Mahjong/black.svg'),
+    ('easy', 'ONE', '/images/Mahjong/1.svg'),
+    ('easy', 'TWO', '/images/Mahjong/2.svg'),
+    ('easy', 'THREE', '/images/Mahjong/3.svg'),
+    ('easy', 'FOUR', '/images/Mahjong/4.svg'),
+    ('easy', 'FIVE', '/images/Mahjong/5.svg'),
+    ('easy', 'SIX', '/images/Mahjong/6.svg'),
+    ('easy', 'SEVEN', '/images/Mahjong/7.svg'),
+    ('easy', 'EIGHT', '/images/Mahjong/8.svg'),
+    ('easy', 'NINE', '/images/Mahjong/9.svg'),
+
+    -- MEDIUM
+    ('medium', 'CLOUDY', '/images/Mahjong/cloudy.svg'),
+    ('medium', 'RAINY', '/images/Mahjong/rainy.svg'),
+    ('medium', 'SNOWY', '/images/Mahjong/snowy.svg'),
+    ('medium', 'STORMY', '/images/Mahjong/stormy.svg'),
+    ('medium', 'SUNNY', '/images/Mahjong/sunny.svg'),
+    ('medium', 'WINDY', '/images/Mahjong/windy.svg'),
+    ('medium', '+ BIG', 'BIGGEST'),
+    ('medium', '< BIG', 'BIGGER'),
+    ('medium', '+ SMALL', 'SMALLEST'),
+    ('medium', '< SMALL', 'SMALLER'),
+    ('medium', '+ IMPORTANT', 'MOST IMPORTANT'),
+    ('medium', '< IMPORTANT', 'MORE IMPORTANT'),
+    ('medium', '+ FAST', 'FASTEST'),
+    ('medium', '< FAST', 'FASTER'),
+    ('medium', '+ SLOW', 'SLOWEST'),
+    ('medium', '< SLOW', 'SLOWER'),
+    ('medium', '+ HIGH', 'HIGHEST'),
+    ('medium', '< HIGH', 'HIGHER'),
+    ('medium', '+ LOW', 'LOWEST'),
+    ('medium', '< LOW', 'LOWER'),
+    ('medium', '+ STRONG', 'STRONGEST'),
+    ('medium', '< STRONG', 'STRONGER'),
+
+    -- HARD
+    ('hard', 'BE', 'WAS/WERE'),
+    ('hard', 'BEGIN', 'BEGAN'),
+    ('hard', 'COME', 'CAME'),
+    ('hard', 'DO', 'DID'),
+    ('hard', 'EAT', 'ATE'),
+    ('hard', 'GO', 'WENT'),
+    ('hard', 'HAVE', 'HAD'),
+    ('hard', 'MAKE', 'MADE'),
+    ('hard', 'SEE', 'SAW'),
+    ('hard', 'TAKE', 'TOOK'),
+    ('hard', 'WRITE', 'WROTE'),
+    ('hard', 'SLEEP', 'SLEPT'),
+    ('hard', 'SPEAK', 'SPOKE'),
+    ('hard', 'SWIM', 'SWAM'),
+    ('hard', 'RUN', 'RAN'),
+    ('hard', 'DRIVE', 'DROVE'),
+    ('hard', 'SING', 'SANG'),
+    ('hard', 'BUY', 'BOUGHT'),
+    ('hard', 'CHOOSE', 'CHOSE'),
+    ('hard', 'ABOVE', '/images/Mahjong/above.png'),
+    ('hard', 'BEHIND', '/images/Mahjong/behind.png'),
+    ('hard', 'BESIDE', '/images/Mahjong/beside.png'),
+    ('hard', 'BETWEEN', '/images/Mahjong/between.png'),
+    ('hard', 'IN', '/images/Mahjong/in.png'),
+    ('hard', 'IN FRONT OF', '/images/Mahjong/infrontof.png'),
+    ('hard', 'NEAR', '/images/Mahjong/near.png'),
+    ('hard', 'ON', '/images/Mahjong/on.png'),
+    ('hard', 'UNDER', '/images/Mahjong/under.png')
+;
+
+
 show tables;
 select * from Users;
 select * from Quizzes;
@@ -335,4 +419,5 @@ select * from MultimediaSubjects;
 select * from PinThePlace;
 select * from WeeklyGoals;
 select * from UserWeeklyGoals;
+select * from Mahjong;
 SET sql_notes = 1;

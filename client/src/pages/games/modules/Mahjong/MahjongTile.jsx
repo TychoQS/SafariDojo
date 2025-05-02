@@ -41,7 +41,14 @@ export default function MahjongTile({position, isSelected, isRemoved, isBlocked,
             {isImage ? (
                 <img src={position.tile.value} alt="tile" className="w-20 h-20 object-contain"/>
             ) : (
-                <span className="text-2xl font-medium">{position.tile.value}</span>
+                <span
+                    className="font-medium"
+                    style={{
+                        fontSize: position.tile.value.length > 10 ? '1.2rem' : '1.5rem',
+                    }}
+                >
+                  {position.tile.value}
+                </span>
             )}
         </div>
     );
