@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function MahjongTile({ position, isSelected, isRemoved, isBlocked, onClick }) {
+export default function MahjongTile({position, isSelected, isRemoved, isBlocked, onClick}) {
     if (isRemoved) return null;
 
     let backgroundColor = "bg-amber";
@@ -20,15 +20,21 @@ export default function MahjongTile({ position, isSelected, isRemoved, isBlocked
 
     if (isSelected) borderColor = "border-red-800";
 
-    const zIndex = `z-${position.layer * 10 + 10}`;
+    const zIndex = position.layer * 10 + 10;
     const cursor = isBlocked ? "cursor-not-allowed" : "cursor-pointer";
-    const tileClass = `${backgroundColor} ${borderColor} ${opacity} text-black border-2 rounded-lg p-2 absolute ${cursor} shadow-md ${zIndex} w-32 h-32 flex items-center justify-center text-center transform transition-transform ${isSelected ? "scale-105" : ""}`;
+    const tileClass = `${backgroundColor} ${borderColor} ${opacity} text-black border-2 rounded-lg p-2 absolute ${cursor} shadow-md w-32 h-32 flex items-center justify-center text-center transform transition-transform ${isSelected ? "scale-105" : ""}`;
 
     const tileSpacing = 90;
     const layerOffset = position.layer * 50;
     const top = position.row * tileSpacing + layerOffset;
     const left = position.col * tileSpacing;
-    const positionStyle = {top: `${top}px`, left: `${left}px`};
+    const positionStyle = {
+        top: `${top}px`,
+        left: `${left}px`,
+        zIndex: zIndex
+    };
+
+    const isImage = position.tile.value.startsWith("/") || position.tile.value.startsWith("http");
 
     return (
         <div
@@ -36,7 +42,18 @@ export default function MahjongTile({ position, isSelected, isRemoved, isBlocked
             className={tileClass}
             onClick={onClick}
         >
-            <span className="text-sm font-medium">{position.tile.value}</span>
+            {isImage ? (
+                <img src={position.tile.value} alt="tile" className="w-20 h-20 object-contain"/>
+            ) : (
+                <span
+                    className="font-medium"
+                    style={{
+                        fontSize: position.tile.value.length > 10 ? '1.2rem' : '1.5rem',
+                    }}
+                >
+                    {position.tile.value}
+                </span>
+            )}
         </div>
     );
 };

@@ -285,16 +285,31 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
     };
 
     const initializeGame = () => {
-        const gamePairs = [...(dataSets)]
+        if (!dataSets || dataSets.length === 0) {
+            console.error("dataSets is empty, cannot initialize the game!");
+            return;
+        }
+
+        const gamePairs = [...dataSets]
             .sort(() => Math.random() - 0.5)
             .slice(0, initialPairCount);
 
-        setGamePairs(gamePairs);
+        const uniquePairs = [];
+        const seenPairs = new Set();
+
+        gamePairs.forEach(pair => {
+            if (!seenPairs.has(pair.form1)) {
+                seenPairs.add(pair.form1);
+                uniquePairs.push(pair);
+            }
+        });
+
+        setGamePairs(uniquePairs);
 
         let gameTiles = [];
         let tileId = 0;
 
-        gamePairs.forEach(pair => {
+        uniquePairs.forEach(pair => {
             gameTiles.push({
                 id: tileId++,
                 type: "form1",
@@ -350,11 +365,14 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
             const pairId = first.tile.pairId;
 
             if (samePair && differentTypes) {
-                const pairAttempt = pairAttempts[pairId] || 0;
-                let newScore = pairAttempt === 0 ? 1000 : pairAttempt === 1 ? 500 : 100;
+                const isFirstAttempt = pairMistakes[pairId] === undefined || pairMistakes[pairId] === 0;
 
-                setScore(prevScore => prevScore + newScore);
-                setPairAttempts(prevAttempts => ({...prevAttempts, [pairId]: pairAttempt + 1}));
+                let pointsToAdd = isFirstAttempt ? 5 : 1;
+                setScore(prevScore => prevScore + pointsToAdd);
+                setPairMistakes(prev => ({
+                    ...prev,
+                    [pairId]: (prev[pairId] || 0) + 1
+                }));
 
                 const newRemovedTiles = [...removedTiles, first.tile.id, second.tile.id];
                 setRemovedTiles(newRemovedTiles);
@@ -362,7 +380,7 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
 
                 if (newRemovedTiles.length === tiles.length) {
                     setGameWon(true);
-                    setMessage(`Congratulations! You have completed the game with ${score + newScore} points.`);
+                    setMessage(`Congratulations! You have completed the game with ${score + pointsToAdd} points.`);
                 }
             } else {
                 const newMistakes = mistakes + 1;
@@ -380,7 +398,7 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
 
             setTimeout(() => {
                 setSelectedTiles([]);
-            }, 1500);
+            }, 10);
         }
     };
 

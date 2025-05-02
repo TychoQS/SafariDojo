@@ -9,6 +9,7 @@ const path = require("node:path");
 
 const dbConnection = require('./database');
 const {query, response} = require("express");
+const {log} = require("next/dist/server/typescript/utils");
 
 app.use(cors());
 app.use(express.json());
@@ -439,7 +440,27 @@ app.get('/api/isRegisterGame', (req, res) => {
     });
 });
 
+app.get('/api/getMahjongData', (req, res) => {
+    const difficulty = req.query.Age;
 
+    if (!difficulty || !['easy', 'medium', 'hard'].includes(difficulty.toLowerCase())) {
+        return res.status(400).json({ message: "Missing or invalid difficulty (Age) parameter" });
+    }
+
+    const query = 'SELECT form1, form2 FROM Mahjong WHERE Age = ?';
+
+    dbConnection.query(query, [difficulty.toLowerCase()], (err, results) => {
+        if (err) {
+            console.error("Error fetching Mahjong data:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: "No Mahjong data found for this difficulty" });
+        }
+        res.status(200).json({ data: results });
+    });
+});
 
 app.get("/api/cookTheBookStories", (req, res) => {
     const difficulty = req.query.difficulty;
