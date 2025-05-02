@@ -10,6 +10,7 @@ import Button from "@/components/Button";
 import Lifes from "@/components/Lifes";
 import Link from "next/link";
 import {router} from "next/client";
+import {useRouter} from "next/router";
 
 function UnsetEvents(keyPressed, keyReleased) {
     window.removeEventListener("keydown", keyPressed);
@@ -44,10 +45,24 @@ export default function MathInvasors() {
     const [Info, SetInfo] = useState("");
     const [ButtonText, SetButtonText] = useState("Start");
     const lifesRef = useRef(null);
-    const [age, setAge] = useState(null) // TODO Get Difficult when it passed to the game
-    const Difficulty = 0;
-    const Magnitude = Difficulty+1;
+    const router = useRouter();
+    let Difficulty = 0;
+    let Magnitude = Difficulty+1;
     let Round = 1
+
+    useEffect(() => {
+        if (!router.isReady) return;
+        const age = router.query.Age;
+        switch(age.toLowerCase()) {
+            case "medium":
+                Difficulty = 1;
+                Magnitude = Difficulty+1;
+                break;
+            case "hard":
+                Difficulty = 1;
+                Magnitude = Difficulty+1;
+        }
+    }, [router.isReady]);
 
     useEffect(() => {
         if (Playing) {
