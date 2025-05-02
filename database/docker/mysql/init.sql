@@ -61,7 +61,7 @@ INSERT INTO Quizzes (QuizName, Premium, Register) VALUES
                                                       ('Where Is My Country?',FALSE,TRUE),
                                                       ('Domino Master',TRUE,FALSE),
                                                       ('Detective Lupin',FALSE,FALSE),
-                                                      ('Make The Film',FALSE,TRUE),
+                                                      ('Cook The Book',FALSE,TRUE),
                                                       ('Math Invasors',FALSE,TRUE),
                                                       ('Mistery Doors',TRUE,FALSE),
                                                       ('Cross Math',FALSE,FALSE),
@@ -168,7 +168,7 @@ INSERT INTO SubjectQuizzes(SubjectId, QuizId, Difficulty, CompletedCount) VALUES
                                                                               (1, 5, 0, 87), -- Detective Lupin
                                                                               (1, 5, 1, 81),
                                                                               (1, 5, 2, 74),
-                                                                              (1, 6, 0, 82), -- Make the Film
+                                                                              (1, 6, 0, 82), -- Cook the Book
                                                                               (1, 6, 1, 75),
                                                                               (1, 6, 2, 68),
                                                                               (1, 4, 0, 50), -- Domino Master
