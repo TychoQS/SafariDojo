@@ -6,38 +6,41 @@ import Lifes from "@/components/Lifes";
 import Link from "next/link";
 import Title from "@/components/Title";
 
+const MAX_CLIPPATHS = 6;
 
 function getImage() {
-    const max = 10;
+    const max = 25;
     const image = Math.floor(Math.random() * max);
     return images[image] || {Name: "", Image: ""};
 }
 
 function DetectiveMrWorldWide() {
     const [guess, setGuess] = useState("");
-    const [message, setMessage] = useState("");
     const [item, setItem] = useState({Name: "", Image: ""});
+
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
+
     const [tries, setTries] = useState(4);
     const lifesRef = useRef(null);
-    const [gameStatus, setGameStatus] = useState("playing");
-    const [visibleSection, setVisibleSection] = useState(0);
 
+    const [gameStatus, setGameStatus] = useState("playing");
+    const [fullImage, setFullImage] = useState(false);
+    const [clipPathIndex, setClipPathIndex] = useState(0);
 
     useEffect(() => {
         setItem(getImage());
-        setVisibleSection(getRandomSection());
     }, []);
 
     const name = item.Name;
     const flag = item.Image;
 
-    function getRandomSection() {
-        return Math.floor(Math.random() * 6);
+    function getRandomNumber() {
+        return Math.floor(Math.random() * MAX_CLIPPATHS);
     }
 
-    function validatePicture(name, guess) {
+    function validatePicture() {
+        setFullImage(true);
         if (tries <= 1) {
             setGameStatus("finished")
             setBestScore(Math.max(bestScore, score));
@@ -47,22 +50,34 @@ function DetectiveMrWorldWide() {
         } else if (tries > 0) {
             setGameStatus("waiting");
         }
-        if (name.trim().toLowerCase() === guess.trim().toLowerCase()) {
-            setMessage("Nice!")
-            setScore(prevScore => prevScore + 5);
-        } else {
-            setMessage("Nope!");
-        }
+        if (isGuessCorrect()) setScore(prevScore => prevScore + 5);
 
     }
 
+    function isGuessCorrect() { return name.trim().toLowerCase() === guess.trim().toLowerCase();}
+
+    function getMessage() {
+        if (!isGuessCorrect())
+        return (
+        <div className={"flex flex-col items-center justify-center gap-5"}>
+            <p className={"flex flex-col text-red-600 text-2xl"}>Incorrect</p>
+            <p className={"flex flex-col text-black text-xl"}>Actual Name:
+                <span className={"font-bold text-2xl text-blue-600"}>{name}</span></p>
+        </div>)
+        else return(
+            <div className={"flex flex-col items-center justify-center gap-5"}>
+                <p className={"flex flex-col text-green-600 text-2xl"}>Correct</p>
+                <p className={"flex flex-col text-black text-xl"}>Actual Name:
+                    <span className={"font-bold text-2xl text-blue-600"}>{name}</span></p>
+            </div>)
+    }
     function nextGame() {
         setItem(getImage());
         setTries(prevTries => prevTries - 1);
         setGuess("");
-        setMessage("");
         setGameStatus("playing")
-        setVisibleSection(getRandomSection());
+        setFullImage(false);
+        setClipPathIndex(getRandomNumber());
     }
 
     function resetGame() {
@@ -71,24 +86,32 @@ function DetectiveMrWorldWide() {
         setGameStatus("playing");
         setItem(getImage());
         setGuess("");
-        setMessage("");
-        setVisibleSection(getRandomSection());
+        setFullImage(false);
+        setClipPathIndex(getRandomNumber());
     }
 
     const getClipPathStyle = () => {
+        if (fullImage) return {
+            width: "100%",
+            height: "100%",
+            objectFit: "cover"
+        };
+
         const cols = 3;
-        const rows = 2;
+        const rows = 3;
 
-        const col = visibleSection % cols;
-        const row = Math.floor(visibleSection / cols);
+        const clipPaths = [
+            `inset(0% ${100 - (100/cols)}% 0% 0%)`,
+            `inset(0% ${100 - (2*100/cols)}% 0% ${100/cols}%)`,
+            `inset(0% 0% 0% ${2*100/cols}%)`,
+            `inset(0% 0% ${100 - (100/rows)}% 0%)`,
+            `inset(${2*100/rows}% 0% 0% 0%)`
+        ];
 
-        const xStart = (col / cols) * 100;
-        const xEnd = ((col + 1) / cols) * 100;
-        const yStart = (row / rows) * 100;
-        const yEnd = ((row + 1) / rows) * 100;
+        const clipPath = clipPaths[clipPathIndex];
 
         return {
-            clipPath: `inset(${yStart}% ${100-xEnd}% ${100-yEnd}% ${xStart}%)`,
+            clipPath: clipPath,
             width: "100%",
             height: "100%",
             objectFit: "cover"
@@ -108,7 +131,7 @@ function DetectiveMrWorldWide() {
                 <div className="h-150 w-175 flex flex-col self-center items-center justify-evenly border-4 rounded-2xl
             border-PS-dark-yellow bg-PS-light-yellow">
 
-                    <div className="max-w-80 max-h-80 flex justify-center items-center border-black border-4">
+                    <div className="w-100 h-60 flex justify-center items-center border-black border-4">
                         {flag ? <img src={flag}
                                      alt={name}
                                      className="max-w-full max-h-full object-contain"
@@ -116,47 +139,51 @@ function DetectiveMrWorldWide() {
                             <p>No image available</p>}
                     </div>
 
-                    {message && <p className={"text-black text-xl"}>{message}</p>}
-
-
-                    <input className={"bg-[#E8B1EC] h-[50px] w-[350px] px-4 py-3 text-[20px] text-gray-600 outline-none rounded-lg border-2 transition-colors" +
-                        " duration-300 border-solid border-gray-500 focus:border-[black] focus:text-black"}
-                           placeholder={"Introduce the flag name..."} value={guess}
-                           onChange={(e) => setGuess(e.target.value)}/>
-
                     <div className="flex flex-row justify-center">
                         {gameStatus === "playing" ?
-                            <button className={"cursor-pointer h-15 w-35 rounded-2xl " +
-                                "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black duration-300 hover:scale-110 "}
-                                    onClick={() => validatePicture(name, guess)}>
-                                Resolve
-                            </button> : null}
+                            <div className={"flex flex-col items-center gap-6"}>
+                                <input className={"bg-[#E8B1EC] h-[50px] w-[350px] px-4 py-3 text-[20px] text-gray-600 outline-none rounded-lg border-2 transition-colors" +
+                                    " duration-300 border-solid border-gray-500 focus:border-[black] focus:text-black"}
+                                       placeholder={"Introduce the flag name..."} value={guess}
+                                       onChange={(e) => setGuess(e.target.value)}/>
+
+                                <button className={"cursor-pointer h-15 w-35 rounded-2xl " +
+                                    "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black duration-300 hover:scale-110 "}
+                                        onClick={() => validatePicture(name, guess)}>
+                                    Resolve
+                                </button>
+                            </div> : null}
 
                         {gameStatus === "waiting" ?
-                            <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                                "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
-                                    onClick={() => nextGame()}>
-                                Next
-                            </button> : null}
+                            <div className={"flex flex-col items-center gap-6 text-center"}>
+                                {getMessage()}
+                                <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
+                                    "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
+                                        onClick={() => nextGame()}>
+                                    Next
+                                </button>
+                            </div> : null}
 
                         {gameStatus === "finished" ?
                             <div>
                                 <div className={"flex flex-col justify-center items-center"}>
-                                    <h2 className={"text-[3rem] animate-bounce"}>Congratulations</h2>
+                                    <h2 className={"text-[3rem] animate-bounce"}>Game Over!</h2>
                                     <p className={""}>Score: <span className={""}>{score}</span></p>
                                 </div>
-                                <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                                    "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
-                                        onClick={() => resetGame()}>
-                                    Retry
-                                </button>
-
-                                <Link href={{pathname: "../GameSelectionPage", query: {Points: bestScore, Subject: "Geography"}}}>
+                                <div className={"flex flex-col justify-center items-center gap-6"}>
                                     <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                                        "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}>
-                                        Finish game
+                                        "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
+                                            onClick={() => resetGame()}>
+                                        Retry
                                     </button>
-                                </Link>
+
+                                    <Link href={{pathname: "../GameSelectionPage", query: {Points: bestScore, Subject: "Geography"}}}>
+                                        <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
+                                            "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}>
+                                            Finish game
+                                        </button>
+                                    </Link>
+                                </div>
                             </div> : null}
 
                     </div>
