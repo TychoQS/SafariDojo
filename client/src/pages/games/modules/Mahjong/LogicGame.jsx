@@ -294,12 +294,22 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
             .sort(() => Math.random() - 0.5)
             .slice(0, initialPairCount);
 
-        setGamePairs(gamePairs);
+        const uniquePairs = [];
+        const seenPairs = new Set();
+
+        gamePairs.forEach(pair => {
+            if (!seenPairs.has(pair.form1)) {
+                seenPairs.add(pair.form1);
+                uniquePairs.push(pair);
+            }
+        });
+
+        setGamePairs(uniquePairs);
 
         let gameTiles = [];
         let tileId = 0;
 
-        gamePairs.forEach(pair => {
+        uniquePairs.forEach(pair => {
             gameTiles.push({
                 id: tileId++,
                 type: "form1",
