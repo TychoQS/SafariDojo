@@ -162,16 +162,18 @@ export default function LetterSoup() {
             <Header></Header>
             <main className="bg-PS-main-purple w-dvw h-[768px] mb-7 flex flex-col justify-center items-center">
                 <Title>Letter Soup</Title>
+                <Link href={{pathname: "../GameSelectionPage", query: {Subject: "English"}}}>
+                    <div className="mt-4 mb-2 relative w-[1150px] flex justify-start">
+                        <Button size="small">Back</Button>
+                    </div>
+                </Link>
                 <div className="flex flex-row items-start justify-between p-4 max-w-6xl mx-auto bg-pink-50
                                 rounded-lg shadow-lg h-full border-4 border-stone-700"
-                     style={{ maxHeight: '625px', width: '1200px' }}
+                     style={{ maxHeight: '620px', width: '1200px' }}
                 >
                     <div className="w-3/5">
-                        <div className="mb-2 text-lg font-medium text-green-600 text-center">{message}</div>
-
                         <div
-                            className="grid grid-cols-11 gap-2 mb-6 bg-white p-4 rounded-lg shadow"
-                            onMouseLeave={endSelection}
+                            className="grid grid-cols-11 gap-2 mt-2 mb-6 bg-white p-4 rounded-lg shadow"
                         >
                             {grid.map((row, rowIndex) => (
                                 row.map((letter, colIndex) => (
@@ -193,6 +195,11 @@ export default function LetterSoup() {
                                 ))
                             ))}
                         </div>
+                        {message && (
+                            <div className="animate-fade-in-out mb-2 text-lg font-medium text-green-600 text-center">
+                                {message}
+                            </div>
+                        )}
                     </div>
 
                     <div className="w-2/5 pl-6 flex flex-col h-full mt-2">
@@ -205,7 +212,7 @@ export default function LetterSoup() {
                                         key={index}
                                         className={`px-3 py-2 rounded-full text-center ${
                                             isWordFound(word)
-                                                ? 'bg-green-500 text-white line-through'
+                                                ? 'bg-green-500 text-white line-through animate-found-pulse'
                                                 : 'bg-gray-200 text-gray-700'
                                         }`}
                                     >
@@ -222,26 +229,19 @@ export default function LetterSoup() {
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-4 mt-3">
                                 <div
-                                    className="bg-pink-600 h-4 rounded-full"
+                                    className="bg-pink-600 h-4 rounded-full transition-all duration-500 ease-in-out shadow-md"
                                     style={{ width: `${(foundWords.length / words.length) * 100}%` }}
                                 ></div>
                             </div>
 
                             {foundWords.length === words.length && (
-                                <div className="mt-4 p-1 bg-green-100 text-green-800 rounded-lg text-center font-bold">
+                                <div className="animate-fade-in mt-4 p-1 bg-green-100 text-green-800 rounded-lg text-center font-bold">
                                     Good job!
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
-                {foundWords.length === words.length && (
-                    <Link href={{pathname: "../GameSelectionPage", query: {Subject: "English"}}}>
-                        <div className="mt-4 mb-2 relative flex justify-center">
-                            <Button size="small">Back</Button>
-                        </div>
-                    </Link>
-                )}
             </main>
             <Footer></Footer>
         </div>
