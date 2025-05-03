@@ -111,7 +111,7 @@ CREATE TABLE UserQuizzes ( -- Users and Quizzes Joint Table
                              Done BOOLEAN NOT NULL DEFAULT FALSE,
                              BestScoreEasy TINYINT DEFAULT 0,
                              BestScoreMedium TINYINT DEFAULT 0,
-                             BestScoreDifficult TINYINT DEFAULT 0,
+                             BestScoreHard TINYINT DEFAULT 0,
                              GoldMedal BOOLEAN NOT NULL DEFAULT FALSE,
                              SilverMedal BOOLEAN NOT NULL DEFAULT FALSE,
                              BronzeMedal BOOLEAN NOT NULL DEFAULT FALSE,

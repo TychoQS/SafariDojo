@@ -139,14 +139,6 @@ function QuizzPreview() {
         window.location.href = `/games/${formattedGame}?Age=${age}`;
     }
 
-    function finishGame(score) {
-        if (score > bestScore) {
-            setBestScore(score);
-            localStorage.setItem(`${gameData}_${age}_bestScore`, score);
-            updateBestScore(score);
-        }
-    }
-
     return (
         <div id={"QuizzPreviewComponent"} className="app flex min-h-screen flex-col bg-PS-main-purple">
             <Header/>

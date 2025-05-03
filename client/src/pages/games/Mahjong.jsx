@@ -30,7 +30,33 @@ const MahjongPairs = ({dataSets, title}) => {
                             score={game.score}
                             message={game.message}
                             mistakes={game.mistakes}
+                            onCloseMessage={() => {
+                                if (game.message?.type === "congratulations") {
+                                    try {
+                                        const previousURL = localStorage.getItem("previousURL");
+                                        if (previousURL) {
+                                            const url = new URL(previousURL);
+                                            const gameData = url.searchParams.get("Game");
+                                            const age = url.searchParams.get("Age");
+
+                                            if (gameData && age) {
+                                                const key = `${gameData}_${age}_bestScore`;
+                                                const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+
+                                                if (game.score > storedScore) {
+                                                    localStorage.setItem(key, game.score.toString());
+                                                }
+                                            }
+                                        }
+                                    } catch (error) {
+                                        console.error("Error processing score update:", error);
+                                    }
+                                }
+
+                                router.back();
+                            }}
                         />
+
                         <GameBoard
                             board={game.board}
                             selectedTiles={game.selectedTiles}
