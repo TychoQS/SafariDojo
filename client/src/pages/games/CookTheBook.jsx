@@ -195,6 +195,7 @@ const CookTheBook = () => {
         } else {
             setMessage("The order is not correct. Try again!");
             setAnimation("animate-shake");
+            setScore(score - 2);
             setRemainingLives(prev => {
                 const newLives = prev - 1;
                 lifesRef.current.loseLife();
