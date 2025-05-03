@@ -349,47 +349,80 @@ app.get('/api/getBestScore', (req, res) => {
 
 
 app.post('/api/updateBestScore', (req, res) => {
-    const { UserId, QuizId, Difficulty, Score } = req.body;
+    const { email, scores } = req.body;
 
-    let column = '';
-    if (Difficulty === 'easy') {
-        column = 'BestScoreEasy';
-    } else if (Difficulty === 'medium') {
-        column = 'BestScoreMedium';
-    } else if (Difficulty === 'difficult') {
-        column = 'BestScoreDifficult';
-    } else {
-        return res.status(400).json({ message: "Invalid difficulty" });
+    if (!email || !scores || typeof scores !== 'object') {
+        return res.status(400).json({ message: "Invalid input" });
     }
 
-    const selectQuery = `SELECT ${column} FROM UserQuizzes WHERE UserId = ? AND QuizId = ?`;
-
-    dbConnection.query(selectQuery, [UserId, QuizId], (err, result) => {
-        if (err) {
-            console.error("Error fetching current best score:", err);
-            return res.status(500).json({ message: "Something went wrong while fetching best score" });
+    const getUserIdQuery = `SELECT Id FROM Users WHERE Email = ?`;
+    dbConnection.query(getUserIdQuery, [email], (err, userResult) => {
+        if (err || userResult.length === 0) {
+            console.error("User lookup error:", err);
+            return res.status(404).json({ message: "User not found" });
         }
 
-        if (result.length === 0) {
-            return res.status(404).json({ message: "Quiz not found for the user" });
+        const userId = userResult[0].Id;
+
+        const updateTasks = [];
+
+        for (const quizName in scores) {
+            updateTasks.push(new Promise((resolve, reject) => {
+                const getQuizIdQuery = `SELECT Id FROM Quizzes WHERE QuizName = ?`;
+                dbConnection.query(getQuizIdQuery, [quizName], (quizErr, quizResult) => {
+                    if (quizErr || quizResult.length === 0) {
+                        console.warn("Quiz not found or error:", quizName);
+                        return resolve();
+                    }
+
+                    const quizId = quizResult[0].Id;
+
+                    const scoreUpdates = Object.entries(scores[quizName]).map(([difficulty, score]) => {
+                        const columnMap = {
+                            easy: 'BestScoreEasy',
+                            medium: 'BestScoreMedium',
+                            hard: 'BestScoreDifficult'
+                        };
+
+                        const column = columnMap[difficulty];
+                        if (!column) return Promise.resolve();
+
+                        return new Promise((res2, rej2) => {
+                            const selectQuery = `SELECT ${column} FROM UserQuizzes WHERE UserId = ? AND QuizId = ?`;
+                            dbConnection.query(selectQuery, [userId, quizId], (selectErr, result) => {
+                                if (selectErr || result.length === 0) {
+                                    console.warn("No existing UserQuiz row or error:", selectErr);
+                                    return res2();
+                                }
+
+                                const currentScore = result[0][column];
+
+                                if (score > currentScore) {
+                                    const updateQuery = `UPDATE UserQuizzes SET ${column} = ? WHERE UserId = ? AND QuizId = ?`;
+                                    dbConnection.query(updateQuery, [score, userId, quizId], (updateErr) => {
+                                        if (updateErr) {
+                                            console.error("Update error:", updateErr);
+                                        }
+                                        res2();
+                                    });
+                                } else {
+                                    res2();
+                                }
+                            });
+                        });
+                    });
+
+                    Promise.all(scoreUpdates).then(resolve).catch(reject);
+                });
+            }));
         }
 
-        const currentBestScore = result[0][column];
-
-        if (Score > currentBestScore) {
-            const updateQuery = `UPDATE UserQuizzes SET ${column} = ? WHERE UserId = ? AND QuizId = ?`;
-
-            dbConnection.query(updateQuery, [Score, UserId, QuizId], (updateErr, updateResult) => {
-                if (updateErr) {
-                    console.error("Error updating best score:", updateErr);
-                    return res.status(500).json({ message: "Error updating best score" });
-                }
-
-                return res.status(200).json({ message: "Best score updated successfully" });
+        Promise.all(updateTasks)
+            .then(() => res.status(200).json({ message: "All scores processed" }))
+            .catch(err => {
+                console.error("Final processing error:", err);
+                res.status(500).json({ message: "Error updating some scores" });
             });
-        } else {
-            return res.status(200).json({ message: "New score is not higher than the current best score" });
-        }
     });
 });
 

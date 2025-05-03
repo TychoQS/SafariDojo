@@ -9,10 +9,47 @@ export default function Header({showButtons = true}) {
     const router = useRouter();
     const [showLogOutModal, setShowLogOutModal] = useState(false);
 
-    const handleLogOut = () => {
-        logOut();
-        router.push("/LogOut");
-        setShowLogOutModal(false);
+    const handleLogOut = async () => {
+        try {
+            const scoresToSend = {};
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+
+                const match = key.match(/^(.+?)_(easy|medium|hard)_bestScore$/);
+                if (match) {
+                    const game = match[1];
+                    const difficulty = match[2];
+                    const score = parseInt(localStorage.getItem(key), 10) || 0;
+
+                    if (!scoresToSend[game]) scoresToSend[game] = {};
+                    scoresToSend[game][difficulty] = score;
+                }
+            }
+
+            if (user && user.email && Object.keys(scoresToSend).length > 0) {
+                await fetch("http://localhost:8080/api/updateBestScore", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: user.email,
+                        scores: scoresToSend
+                    })
+                });
+            }
+
+            logOut();
+            router.push("/LogOut");
+            setShowLogOutModal(false);
+
+        } catch (error) {
+            console.error("Error updating scores before logout:", error);
+            logOut();
+            router.push("/LogOut");
+            setShowLogOutModal(false);
+        }
     };
 
     const handleCancelLogOut = () => {
