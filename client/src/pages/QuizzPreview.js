@@ -24,6 +24,7 @@ function QuizzPreview() {
     const [gamePremium, setGamePremium] = useState(false);
     const [showPremiumModal, setShowPremiumModal] = useState(false);
     const [gameRequiresRegister, setGameRequiresRegister] = useState(false);
+    const [youtubeLink, setYoutubeLink] = useState("https://www.youtube.com/embed/dQw4w9WgXcQ");
 
     useEffect(() => {
         if (router.isReady) {
@@ -89,11 +90,35 @@ function QuizzPreview() {
         }
     }
 
+    async function fetchTutorialVideo() {
+        if (gameData) {
+            const response = await fetch(`http://localhost:8080/api/getTutorialVideo?quizName=${gameData}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.tutorialVideo) {
+                    const embedUrl = convertToEmbedUrl(data.tutorialVideo);
+                    setYoutubeLink(embedUrl);
+                }
+            } else {
+                console.warn("No tutorial video found for this quiz.");
+            }
+        }
+    }
+
+    function convertToEmbedUrl(url) {
+        const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
+        if (match && match[1]) {
+            return `https://www.youtube.com/embed/${match[1]}`;
+        }
+        return url;
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             await fetchSubjectData();
             await fetchIsPremium();
             await fetchIsRegisterGame();
+            await fetchTutorialVideo();
 
             if (isLoggedIn && (!gamePremium || (gamePremium && profile.isPremium))) {
                 await fetchBestScore();
@@ -103,7 +128,6 @@ function QuizzPreview() {
     }, [gameData, subject, age]);
 
     const selectGameIcon = subjectData?.PreviewGameImage;
-    const youtubeLink = gameData?.youtubePreview || "https://www.youtube.com/embed/dQw4w9WgXcQ";
 
     const handlePremiumToggle = async () => {
         setShowPremiumModal(false);

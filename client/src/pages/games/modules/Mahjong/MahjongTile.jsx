@@ -19,11 +19,10 @@ export default function MahjongTile({position, isSelected, isRemoved, isBlocked,
     }
 
     if (isSelected) borderColor = "border-red-800";
-    const borderWidth = isSelected ? "border-6" : "border-2";
 
     const zIndex = position.layer * 10 + 10;
     const cursor = isBlocked ? "cursor-not-allowed" : "cursor-pointer";
-    const tileClass = `${backgroundColor} ${borderColor} ${borderWidth} ${opacity} text-black rounded-lg p-2 absolute ${cursor} shadow-md w-32 h-32 flex items-center justify-center text-center transform transition-transform ${isSelected ? "scale-105" : ""}`;
+    const tileClass = `${backgroundColor} ${borderColor} ${opacity} text-black border-2 rounded-lg p-2 absolute ${cursor} shadow-md w-32 h-32 flex items-center justify-center text-center transform transition-transform ${isSelected ? "scale-105" : ""}`;
 
     const tileSpacing = 90;
     const layerOffset = position.layer * 50;
