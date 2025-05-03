@@ -290,26 +290,30 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
             return;
         }
 
-        const gamePairs = [...dataSets]
-            .sort(() => Math.random() - 0.5)
-            .slice(0, initialPairCount);
+        const uniqueDataSets = [];
+        const seenForms = new Set();
 
-        const uniquePairs = [];
-        const seenPairs = new Set();
-
-        gamePairs.forEach(pair => {
-            if (!seenPairs.has(pair.form1)) {
-                seenPairs.add(pair.form1);
-                uniquePairs.push(pair);
+        for (const pair of dataSets) {
+            if (!seenForms.has(pair.form1)) {
+                uniqueDataSets.push(pair);
+                seenForms.add(pair.form1);
             }
-        });
+        }
 
-        setGamePairs(uniquePairs);
+        if (uniqueDataSets.length < initialPairCount) {
+            console.error(`Not enough unique pairs available. Need ${initialPairCount}, but only have ${uniqueDataSets.length}`);
+            return;
+        }
+
+        const shuffledPairs = [...uniqueDataSets].sort(() => Math.random() - 0.5);
+        const selectedPairs = shuffledPairs.slice(0, initialPairCount);
+
+        setGamePairs(selectedPairs);
 
         let gameTiles = [];
         let tileId = 0;
 
-        uniquePairs.forEach(pair => {
+        selectedPairs.forEach(pair => {
             gameTiles.push({
                 id: tileId++,
                 type: "form1",
