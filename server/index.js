@@ -537,6 +537,30 @@ app.get("/api/cookTheBookStories", (req, res) => {
     })
 })
 
+app.get('/api/getTutorialVideo', (req, res) => {
+    const quizName = req.query.quizName;
+
+    if (!quizName) {
+        return res.status(400).json({ message: "Missing quizName parameter" });
+    }
+
+    const query = 'SELECT Tutorial FROM Quizzes WHERE QuizName = ?';
+
+    dbConnection.query(query, [quizName], (err, results) => {
+        if (err) {
+            console.error("Error fetching tutorial video:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (results.length === 0 || !results[0].Tutorial) {
+            return res.status(404).json({ message: "No tutorial video found for this quiz" });
+        }
+
+        res.status(200).json({ tutorialVideo: results[0].Tutorial });
+    });
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })

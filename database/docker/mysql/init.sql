@@ -85,26 +85,26 @@ CREATE TABLE Quizzes ( -- Quiz table
                          Id INT AUTO_INCREMENT PRIMARY KEY,
                          QuizName VARCHAR(100) NOT NULL UNIQUE,
                          Premium BOOLEAN NOT NULL,
-                         Register BOOLEAN NOT NULL
+                         Register BOOLEAN NOT NULL,
+                         Tutorial VARCHAR(255)
 );
 
-INSERT INTO Quizzes (QuizName, Premium, Register) VALUES
-                                                      ('Pin The Place',TRUE,FALSE),
-                                                      ('Detective MrWorldWide',FALSE,FALSE),
-                                                      ('Where Is My Country?',FALSE,TRUE),
-                                                      ('Domino Master',TRUE,FALSE),
-                                                      ('Detective Lupin',FALSE,FALSE),
-                                                      ('Cook The Book',FALSE,TRUE),
-                                                      ('Math Invasors',FALSE,TRUE),
-                                                      ('Mistery Doors',TRUE,FALSE),
-                                                      ('Cross Math',FALSE,FALSE),
-                                                      ('Crossword',FALSE,FALSE),
-                                                      ('Letter Soup',FALSE,TRUE),
-                                                      ('Mahjong',TRUE,FALSE),
-                                                      ('Call Of The Clan',FALSE,FALSE),
-                                                      ('Snake Maze',FALSE,TRUE),
-                                                      ('Memory',TRUE, FALSE);
-
+INSERT INTO Quizzes (QuizName, Premium, Register, Tutorial) VALUES
+                                                                ('Pin The Place', TRUE, FALSE, NULL),
+                                                                ('Detective MrWorldWide', FALSE, FALSE, NULL),
+                                                                ('Where Is My Country?', FALSE, TRUE, NULL),
+                                                                ('Domino Master', TRUE, FALSE, NULL),
+                                                                ('Detective Lupin', FALSE, FALSE, NULL),
+                                                                ('Cook The Book', FALSE, TRUE, NULL),
+                                                                ('Math Invasors', FALSE, TRUE, NULL),
+                                                                ('Mistery Doors', TRUE, FALSE, NULL),
+                                                                ('Cross Math', FALSE, FALSE, NULL),
+                                                                ('Crossword', FALSE, FALSE, NULL),
+                                                                ('Letter Soup', FALSE, TRUE, NULL),
+                                                                ('Mahjong', TRUE, FALSE, 'https://youtu.be/6VlVbPj-4FY'),
+                                                                ('Call Of The Clan', FALSE, FALSE, NULL),
+                                                                ('Snake Maze', FALSE, TRUE, NULL),
+                                                                ('Memory', TRUE, FALSE, NULL);
 CREATE TABLE UserQuizzes ( -- Users and Quizzes Joint Table
                              UserId INT,
                              QuizId INT,
