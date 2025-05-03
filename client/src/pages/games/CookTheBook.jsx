@@ -39,7 +39,7 @@ const CookTheBook = () => {
 
     const fetchData = async () => {
         if (!router.isReady) return
-        const difficulty = router.query.Age; // TODO: Get difficulty and pass it to the fetchMethod
+        let difficulty = router.query.Age;
         const response = await fetchStories(difficulty);
         if (response.ok) {
             let fetchedStories = await response.json();
@@ -48,6 +48,28 @@ const CookTheBook = () => {
             setGameCompleted(false);
         }
     };
+
+    function handleFinalScore() {
+        try {
+            const gameData = "Cook The Book"
+            const age = router.query.Age;
+            if (gameData && age) {
+                const key = `${gameData}_${age}_bestScore`;
+                console.log(key);
+                const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+                if (score > storedScore) {
+                    localStorage.setItem(key, score.toString());
+                }
+            }
+
+        } catch (error) {
+            console.error("Error processing score update:", error);
+        }
+    }
+
+    useEffect(() => {
+        handleFinalScore();
+    }, [gameCompleted]);
 
     useEffect(() => {
         fetchData().then(r => initLevel(currentLevel));
