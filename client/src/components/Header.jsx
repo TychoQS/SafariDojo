@@ -11,41 +11,93 @@ export default function Header({showButtons = true}) {
 
     const handleLogOut = async () => {
         try {
-            const scoresToSend = {};
+            // Estructura para agrupar medallas por juego
+            const medalsMap = {};
+
+            // Recorre localStorage para encontrar medallas
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const match = key.match(/^(.+?)_(GoldMedal|SilverMedal|BronzeMedal)$/);
+
+                if (match) {
+                    const game = match[1];
+                    const medalType = match[2];
+                    const isMedalAcquired = localStorage.getItem(key) === "1";
+
+                    // Si el juego no existe en el mapa, inicializarlo
+                    if (!medalsMap[game]) {
+                        medalsMap[game] = {
+                            quizName: game,
+                            GoldMedal: false,
+                            SilverMedal: false,
+                            BronzeMedal: false
+                        };
+                    }
+
+                    // Actualizar el tipo de medalla específico
+                    medalsMap[game][medalType] = isMedalAcquired;
+
+                    console.log("Medalla encontrada:", game, medalType, isMedalAcquired);
+                }
+            }
+
+            // Convertir el mapa de medallas a un array para enviar a la API
+            const allMedals = Object.values(medalsMap);
+            console.log("Medallas a enviar:", allMedals);
+
+            const allScores = {};
 
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
-
                 const match = key.match(/^(.+?)_(easy|medium|hard)_bestScore$/);
+
                 if (match) {
                     const game = match[1];
                     const difficulty = match[2];
                     const score = parseInt(localStorage.getItem(key), 10) || 0;
 
-                    if (!scoresToSend[game]) scoresToSend[game] = {};
-                    scoresToSend[game][difficulty] = score;
+                    if (!allScores[game]) allScores[game] = {};
+                    allScores[game][difficulty] = score;
                 }
             }
 
-            if (user && user.email && Object.keys(scoresToSend).length > 0) {
-                await fetch("http://localhost:8080/api/updateBestScore", {
+            if (user && user.id && allMedals.length > 0) {
+                const response = await fetch("http://localhost:8080/api/updateMedals", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        userId: user.id,
+                        medals: allMedals,
+                    }),
+                });
+
+                const result = await response.json();
+                console.log("Respuesta actualización de medallas:", result);
+            }
+
+            if (user && user.id && Object.keys(allScores).length > 0) {
+                const response = await fetch("http://localhost:8080/api/updateBestScore", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
                         email: user.email,
-                        scores: scoresToSend
-                    })
+                        scores: allScores,
+                    }),
                 });
+
+                const result = await response.json();
+                console.log("Respuesta actualización de puntuaciones:", result);
             }
 
             logOut();
             router.push("/LogOut");
             setShowLogOutModal(false);
-
         } catch (error) {
-            console.error("Error updating scores before logout:", error);
+            console.error("Error saving medals or scores before logout:", error);
             logOut();
             router.push("/LogOut");
             setShowLogOutModal(false);
@@ -109,8 +161,8 @@ export default function Header({showButtons = true}) {
                     title="Are you sure you want to log out?"
                     description="You will be logged out of your account."
                     buttons={[
-                        { text: "Yes", color: "red", onClick: handleLogOut},
-                        { text: "No", color: "gray", onClick: handleCancelLogOut }
+                        {text: "Yes", color: "red", onClick: handleLogOut},
+                        {text: "No", color: "gray", onClick: handleCancelLogOut},
                     ]}
                 />
             )}

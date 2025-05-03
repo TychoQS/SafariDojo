@@ -537,6 +537,167 @@ app.get("/api/cookTheBookStories", (req, res) => {
     })
 })
 
+app.get('/api/getUserMedals', (req, res) => {
+    const { userId } = req.query;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'Missing parameter: userId is required' });
+    }
+
+    const query = `
+        SELECT q.QuizName, uq.GoldMedal, uq.SilverMedal, uq.BronzeMedal
+        FROM UserQuizzes uq
+                 JOIN Quizzes q ON uq.QuizId = q.Id
+        WHERE uq.UserId = ?
+    `;
+
+    dbConnection.query(query, [userId], (err, result) => {
+        if (err) {
+            console.error("Error fetching medals:", err);
+            return res.status(500).json({ message: 'Something went wrong while fetching medals' });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'No medals found for this user' });
+        }
+
+        const medals = result.map(quiz => ({
+            quizName: quiz.QuizName,
+            GoldMedal: quiz.GoldMedal,
+            SilverMedal: quiz.SilverMedal,
+            BronzeMedal: quiz.BronzeMedal
+        }));
+
+        res.status(200).json(medals);
+    });
+});
+
+
+app.post("/api/updateMedals", async (req, res) => {
+    console.log("=============================================");
+    console.log("Inicio de updateMedals");
+    console.log("=============================================");
+
+    try {
+        const { userId, medals } = req.body;
+
+        console.log("Datos recibidos:");
+        console.log("userId:", userId);
+        console.log("medals:", JSON.stringify(medals, null, 2));
+
+        if (!userId || !Array.isArray(medals)) {
+            console.log("Error: Datos inválidos recibidos");
+            return res.status(400).json({ error: "Invalid data", details: "userId debe ser un número y medals debe ser un array" });
+        }
+
+        console.log(`Procesando actualización de medallas para usuario ID: ${userId}`);
+
+        // Verificar la conexión a la base de datos
+        try {
+            const [testConnection] = await db.query('SELECT 1 as connection_test');
+            console.log("Conexión a la base de datos verificada:", testConnection);
+        } catch (dbError) {
+            console.error("Error al conectar con la base de datos:", dbError);
+            return res.status(500).json({ error: "Database connection error", details: dbError.message });
+        }
+
+        // Procesar cada medalla
+        for (const medal of medals) {
+            console.log("------------------------------------------");
+            console.log(`Procesando medalla para juego: ${medal.quizName}`);
+
+            try {
+                // Verificar si el quiz existe
+                console.log(`Buscando quiz con nombre: "${medal.quizName}"`);
+                const [quizResult] = await db.query(
+                    `SELECT Id FROM Quizzes WHERE QuizName = ?`,
+                    [medal.quizName]
+                );
+
+                console.log("Resultado de la búsqueda del quiz:", quizResult);
+
+                if (!quizResult || quizResult.length === 0) {
+                    console.warn(`Quiz no encontrado: ${medal.quizName}`);
+
+                    // Vamos a buscar todos los quizzes para depuración
+                    const [allQuizzes] = await db.query('SELECT Id, QuizName FROM Quizzes LIMIT 10');
+                    console.log("Primeros 10 quizzes en la base de datos:", allQuizzes);
+
+                    continue;
+                }
+
+                const quizId = quizResult[0].Id;
+                console.log(`Quiz encontrado con Id: ${quizId}`);
+
+                // Verificar si existe el registro en UserQuizzes
+                console.log(`Verificando si existe registro para usuario ${userId} y quiz ${quizId}`);
+                const [existingRecord] = await db.query(
+                    `SELECT * FROM UserQuizzes WHERE UserId = ? AND QuizId = ?`,
+                    [userId, quizId]
+                );
+
+                console.log("Resultado de búsqueda de registro existente:", existingRecord);
+
+                if (existingRecord.length === 0) {
+                    // Insertar nuevo registro
+                    console.log("No existe registro previo, creando uno nuevo");
+                    const insertQuery = `
+                        INSERT INTO UserQuizzes (UserId, QuizId, GoldMedal, SilverMedal, BronzeMedal, Done) 
+                        VALUES (?, ?, ?, ?, ?, TRUE)
+                    `;
+                    const params = [
+                        userId,
+                        quizId,
+                        medal.GoldMedal ? 1 : 0,
+                        medal.SilverMedal ? 1 : 0,
+                        medal.BronzeMedal ? 1 : 0
+                    ];
+
+                    console.log("Query de inserción:", insertQuery);
+                    console.log("Parámetros:", params);
+
+                    const [insertResult] = await db.query(insertQuery, params);
+                    console.log("Resultado de la inserción:", insertResult);
+                } else {
+                    // Actualizar registro existente
+                    console.log("Existe registro previo, actualizando");
+                    const updateQuery = `
+                        UPDATE UserQuizzes
+                        SET GoldMedal = ?, SilverMedal = ?, BronzeMedal = ?, Done = TRUE
+                        WHERE UserId = ? AND QuizId = ?
+                    `;
+                    const params = [
+                        medal.GoldMedal ? 1 : 0,
+                        medal.SilverMedal ? 1 : 0,
+                        medal.BronzeMedal ? 1 : 0,
+                        userId,
+                        quizId
+                    ];
+
+                    console.log("Query de actualización:", updateQuery);
+                    console.log("Parámetros:", params);
+
+                    const [updateResult] = await db.query(updateQuery, params);
+                    console.log("Resultado de la actualización:", updateResult);
+                }
+
+                console.log(`Medallas actualizadas para quiz: ${medal.quizName} (Oro: ${medal.GoldMedal}, Plata: ${medal.SilverMedal}, Bronce: ${medal.BronzeMedal})`);
+            } catch (medalError) {
+                console.error(`Error procesando medalla ${medal.quizName}:`, medalError);
+                // Continuamos con la siguiente medalla
+            }
+        }
+
+        console.log("Actualización de medallas completada para usuario:", userId);
+        console.log("=============================================");
+        return res.status(200).json({ message: "Medals updated successfully" });
+    } catch (error) {
+        console.error("Error general al actualizar medallas:", error);
+        console.log("=============================================");
+        return res.status(500).json({ error: "Error updating medals", details: error.message });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
