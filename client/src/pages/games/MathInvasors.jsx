@@ -74,8 +74,8 @@ export default function MathInvasors() {
             if (gameData && age) {
                 const key = `${gameData}_${age}_bestScore`;
                 const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-                if (score > storedScore) {
-                    localStorage.setItem(key, score.toString());
+                if (Score > storedScore) {
+                    localStorage.setItem(key, Score.toString());
                 }
             }
 
