@@ -67,6 +67,23 @@ export default function MathInvasors() {
         setDifficultyLoaded(true);
     }, [router.isReady]);
 
+    function handleFinalScore() {
+        try {
+            const gameData = "Math Invasors"
+            const age = router.query.Age;
+            if (gameData && age) {
+                const key = `${gameData}_${age}_bestScore`;
+                const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+                if (score > storedScore) {
+                    localStorage.setItem(key, score.toString());
+                }
+            }
+
+        } catch (error) {
+            console.error("Error processing score update:", error);
+        }
+    }
+
     useEffect(() => {
         if (Playing) {
             Round = 1;
@@ -131,6 +148,7 @@ export default function MathInvasors() {
         if (Round === MaxRounds) {
             SetWin(true);
             SetPlaying(false);
+            handleFinalScore();
             UnsetEvents(keyPressed, keyReleased);
             cancelAnimationFrame(animationFrameRef.current);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -246,7 +264,10 @@ export default function MathInvasors() {
                 enemiesRef.current = [];
                 SpawnWave(canvas.width);
             } else if (hit) {
-                if (lifesRef.current) { lifesRef.current.loseLife();}
+                if (lifesRef.current) {
+                    lifesRef.current.loseLife();
+                    SetScore((prevScore) => prevScore - RightAnswerPoints);
+                }
             }
         };
 
