@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
 import Link from "next/link";
 import Title from "@/components/Title";
+import Button from "@/components/Button";
 
 const MAX_CLIPPATHS = 6;
 
@@ -42,7 +43,7 @@ function DetectiveMrWorldWide() {
     function validatePicture() {
         setFullImage(true);
         if (tries <= 1) {
-            setGameStatus("finished")
+            setGameStatus("semiFinished")
             setBestScore(Math.max(bestScore, score));
             if (score < 300 && lifesRef.current) {
                 lifesRef.current.loseLife();
@@ -71,6 +72,7 @@ function DetectiveMrWorldWide() {
                     <span className={"font-bold text-2xl text-blue-600"}>{name}</span></p>
             </div>)
     }
+
     function nextGame() {
         setItem(getImage());
         setTries(prevTries => prevTries - 1);
@@ -130,14 +132,16 @@ function DetectiveMrWorldWide() {
 
                 <div className="h-150 w-175 flex flex-col self-center items-center justify-evenly border-4 rounded-2xl
             border-PS-dark-yellow bg-PS-light-yellow">
+                    {gameStatus !== "finished" &&
+                        <div className="w-100 h-60 flex justify-center items-center border-black border-4">
+                            {flag ? <img src={flag}
+                                         alt={name}
+                                         className="max-w-full max-h-full object-contain"
+                                         style={getClipPathStyle()}/> :
+                                <p>No image available</p>}
+                        </div>
+                    }
 
-                    <div className="w-100 h-60 flex justify-center items-center border-black border-4">
-                        {flag ? <img src={flag}
-                                     alt={name}
-                                     className="max-w-full max-h-full object-contain"
-                                     style={getClipPathStyle()}/> :
-                            <p>No image available</p>}
-                    </div>
 
                     <div className="flex flex-row justify-center">
                         {gameStatus === "playing" ?
@@ -145,10 +149,14 @@ function DetectiveMrWorldWide() {
                                 <input className={"bg-[#E8B1EC] h-[50px] w-[350px] px-4 py-3 text-[20px] text-gray-600 outline-none rounded-lg border-2 transition-colors" +
                                     " duration-300 border-solid border-gray-500 focus:border-[black] focus:text-black"}
                                        placeholder={"Introduce the flag name..."} value={guess}
-                                       onChange={(e) => setGuess(e.target.value)}/>
+                                       onChange={(e) => setGuess(e.target.value)}
+                                onKeyDown={(e) => {if(e.key === "Enter") validatePicture(name,  guess);}
+                                }/>
+
 
                                 <button className={"cursor-pointer h-15 w-35 rounded-2xl " +
-                                    "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black duration-300 hover:scale-110 "}
+                                    "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black duration-300 hover:scale-110 " +
+                                    "hover:bg-[#c450cc]"}
                                         onClick={() => validatePicture(name, guess)}>
                                     Resolve
                                 </button>
@@ -157,38 +165,55 @@ function DetectiveMrWorldWide() {
                         {gameStatus === "waiting" ?
                             <div className={"flex flex-col items-center gap-6 text-center"}>
                                 {getMessage()}
-                                <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                                    "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
+                                <button className={"cursor-pointer h-15 w-35 rounded-4xl duration-300 hover:scale-110 " +
+                                    "hover:bg-[#c450cc] text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
                                         onClick={() => nextGame()}>
                                     Next
                                 </button>
                             </div> : null}
 
-                        {gameStatus === "finished" ?
+                        {gameStatus === "semiFinished" ?
                             <div>
+                                <div className={"flex flex-col items-center gap-6 text-center"}>
+                                    {getMessage()}
+                                    <Button onClick={() => setGameStatus("finished")}>Finish</Button>
+                                </div>
+
+                                <div>
+
+                                </div>
+
+
+                            </div> : null}
+
+                        {gameStatus === "finished" ?
+                            <div className={"flex flex-col items-center gap-6 text-center"}>
                                 <div className={"flex flex-col justify-center items-center"}>
-                                    <h2 className={"text-[3rem] animate-bounce"}>Game Over!</h2>
-                                    <p className={""}>Score: <span className={""}>{score}</span></p>
+                                    <h2 className={"text-[3rem] text-black font-bold italic animate-bounce"}>Game Over!</h2>
+                                    <p className={"text-black"}>Score: <span className={"font-bold"}>{score}</span></p>
                                 </div>
                                 <div className={"flex flex-col justify-center items-center gap-6"}>
-                                    <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                                        "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
+                                    <button className={"cursor-pointer h-15 w-35 rounded-4xl duration-300 hover:scale-110 " +
+                                        "hover:bg-[#c450cc] text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
                                             onClick={() => resetGame()}>
                                         Retry
                                     </button>
 
                                     <Link href={{pathname: "../GameSelectionPage", query: {Points: bestScore, Subject: "Geography"}}}>
-                                        <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                                            "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}>
-                                            Finish game
+                                        <button className={"cursor-pointer h-15 w-35 rounded-4xl duration-300 hover:scale-110 " +
+                                            "hover:bg-[#c450cc] text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}>
+                                            Return
                                         </button>
                                     </Link>
                                 </div>
-                            </div> : null}
+                            </div>: null}
 
                     </div>
-
-                    <div className={"text-black text-2xl font-black flex justify-between"}><p className="text-gray-600 font-light">Score: {score}</p></div>
+                    {gameStatus !== "finished" ? (
+                        <div className={"text-black text-2xl font-black flex justify-between"}>
+                            <p className="text-gray-600 font-light">Score: {score}</p>
+                        </div>) : null
+                    }
                 </div>
             </section>
             <Footer></Footer>
