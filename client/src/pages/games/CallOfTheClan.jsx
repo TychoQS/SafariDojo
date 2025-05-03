@@ -5,10 +5,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import levelsData from "../../../../database/jsondata/CallOfTheClan.json";
-import {useRouter} from "next/router";
 
 
 const AnimalClassificationGame = () => {
+    const [difficulty, setDifficulty] = useState("easy");
     const [level, setLevel] = useState(1);
     const [score, setScore] = useState(0);
     const [maxScore, setMaxScore] = useState(0);
@@ -25,10 +25,29 @@ const AnimalClassificationGame = () => {
     const winSound = useRef(null);
     const loseSound = useRef(null);
 
-    const router = useRouter();
-    const { difficulty = "easy" } = router.query;
+    async function fetchDifficulty() {
+        const previousURL = localStorage.getItem('previousURL');
 
-    const selectRandomLevels = () => {
+        if (previousURL) {
+            const urlParams = new URLSearchParams(new URL(previousURL).search);
+            const ageParam = urlParams.get("Age");
+            setDifficulty(ageParam);
+        } else {
+            console.error("No previous URL found in localStorage");
+        }
+    }
+
+    useEffect(() => {
+        fetchDifficulty();
+    }, []);
+
+    useEffect(() => {
+        if (difficulty) {
+            setRandomLevels(selectRandomLevels(difficulty));
+        }
+    }, [difficulty]);
+
+    function selectRandomLevels(difficulty) {
         const shuffled = [...allLevels].sort(() => 0.5 - Math.random());
         if (difficulty === "hard") {
             return shuffled.slice(0, 6);
@@ -39,11 +58,7 @@ const AnimalClassificationGame = () => {
         }
 
         return shuffled.slice(0, 4);
-    };
-
-    useEffect(() => {
-        setRandomLevels(selectRandomLevels());
-    }, []);
+    }
 
     const currentLevel = randomLevels[Math.min(level - 1, randomLevels.length - 1)] || allLevels[0];
 
@@ -143,7 +158,7 @@ const AnimalClassificationGame = () => {
     }, [playerPosition, gameActive, currentLevel, level, randomLevels.length]);
 
     const restartGame = () => {
-        setRandomLevels(selectRandomLevels());
+        setRandomLevels(selectRandomLevels(difficulty));
         setLevel(1);
         setScore(0);
         setPlayerPosition({ x: 50, y: 50 });

@@ -5,7 +5,7 @@ import Lifes from "@/components/Lifes";
 import Link from "next/link";
 
 
-const initialCards = (difficulty = "hard") => {
+function initialCards(cardsDiff) {
     const allPairs = [
         { id: 1, content: "🖐️", match: "Hand" },
         { id: 2, content: "👣", match: "Feet" },
@@ -23,9 +23,9 @@ const initialCards = (difficulty = "hard") => {
     const shuffled = [...allPairs].sort(() => Math.random() - 0.5);
 
     let numberOfPairs;
-        if (difficulty === "hard") {
+        if (cardsDiff === "hard") {
             numberOfPairs = 6;
-        } else if (difficulty === "medium") {
+        } else if (cardsDiff === "medium") {
             numberOfPairs = 5;
         } else {
             numberOfPairs = 4;
@@ -40,10 +40,35 @@ const initialCards = (difficulty = "hard") => {
     });
 
     return cards.sort(() => Math.random() - 0.5);
-};
+}
 
 export default function MemoryGame() {
-    const [cards, setCards] = useState(initialCards);
+    const [difficulty, setDifficulty] = useState("easy");
+
+    async function fetchDifficulty() {
+        const previousURL = localStorage.getItem('previousURL');
+
+        if (previousURL) {
+            const urlParams = new URLSearchParams(new URL(previousURL).search);
+            const ageParam = urlParams.get("Age");
+            setDifficulty(ageParam);
+
+        } else {
+            console.error("No previous URL found in localStorage");
+        }
+    }
+
+    useEffect(() => {
+        fetchDifficulty();
+    }, []);
+
+    useEffect(() => {
+        if (difficulty) {
+            setCards(initialCards(difficulty));
+        }
+    }, [difficulty]);
+
+    const [cards, setCards] = useState([]);
     const [selected, setSelected] = useState([]);
     const [matched, setMatched] = useState([]);
     const [mistakes, setMistakes] = useState(0);
@@ -74,7 +99,7 @@ export default function MemoryGame() {
     }, [selected]);
 
     useEffect(() => {
-        if (mistakes === 10) {
+        if (mistakes === 7) {
             setGameOver(true);
             loseSound.current.play();
             lifesRef.current.loseLife();
@@ -82,10 +107,14 @@ export default function MemoryGame() {
     }, [mistakes]);
 
     useEffect(() => {
-        if (matched.length === cards.length / 2) {
-            setTimeout(() => winSound.current.play(), 500);
+        if (matched.length === cards.length / 2 && cards.length > 0) {
+            const timeout = setTimeout(() => {
+                winSound.current?.play();
+            }, 500);
+
+            return () => clearTimeout(timeout);
         }
-    }, [matched]);
+    }, [matched, cards]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -116,15 +145,15 @@ export default function MemoryGame() {
             <main className="flex-1 flex flex-col justify-start px-4 relative">
             <div className="flex items-center justify-between">
                 <div className={`ml-8 mt-6 text-4xl 
-                ${10 - mistakes <= 3 ? "text-red-500 animate-bounce" : "text-white animate-pulse"}`}>
-                    Tries remain: {10-mistakes}
+                ${7 - mistakes <= 2 ? "text-red-500 animate-bounce" : "text-white animate-pulse"}`}>
+                    Tries remain: {7-mistakes}
                 </div>
                 <Lifes ref={lifesRef} lives={lives} />
             </div>
 
                 {isClient && (
                     <div className={`mb-8 grid justify-items-center 
-                    ${cards === 4 ? "grid-cols-4" : cards === 5 ? "grid-cols-5" : "grid-cols-6"}`}>
+                    ${difficulty === "easy" ? "grid-cols-4" : difficulty === "medium" ? "grid-cols-5" : "grid-cols-6"}`}>
                         {cards.map((card) => {
                             const isFlipped =
                                 selected.includes(card) || matched.includes(card.pairId) || preview;
