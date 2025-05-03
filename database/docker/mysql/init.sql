@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Quizzes;
 DROP TABLE IF EXISTS CookTheBook_StoryPieces;
 DROP TABLE IF EXISTS CookTheBook_Stories;
+DROP TABLE IF EXISTS Mahjong;
 DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
 DROP PROCEDURE IF EXISTS FillUserQuizzes;
 DROP TRIGGER IF EXISTS PostUserCreation;
@@ -95,8 +96,8 @@ INSERT INTO Quizzes (QuizName, Premium, Register, Tutorial) VALUES
                                                                 ('Where Is My Country?', FALSE, TRUE, NULL),
                                                                 ('Domino Master', TRUE, FALSE, NULL),
                                                                 ('Detective Lupin', FALSE, FALSE, NULL),
-                                                                ('Cook The Book', FALSE, TRUE, NULL),
-                                                                ('Math Invasors', FALSE, TRUE, NULL),
+                                                                ('Cook The Book', FALSE, TRUE, 'https://youtu.be/EUbBz0BaD3Y'),
+                                                                ('Math Invasors', FALSE, TRUE, 'https://youtu.be/przb2puT3lg'),
                                                                 ('Mistery Doors', TRUE, FALSE, NULL),
                                                                 ('Cross Math', FALSE, FALSE, NULL),
                                                                 ('Crossword', FALSE, FALSE, NULL),
