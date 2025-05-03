@@ -53,11 +53,8 @@ const CookTheBook = () => {
         try {
             const gameData = "Cook The Book"
             const age = router.query.Age;
-            console.log(gameData);
-            console.log(age);
             if (gameData && age) {
                 const key = `${gameData}_${age}_bestScore`;
-                console.log(key);
                 const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
                 if (score > storedScore) {
                     localStorage.setItem(key, score.toString());
