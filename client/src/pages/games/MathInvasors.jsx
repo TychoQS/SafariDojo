@@ -50,6 +50,7 @@ export default function MathInvasors() {
     const [Difficulty, setDifficulty] = useState(0);
     const [Magnitude, setMagnitude] = useState(1);
     const [difficultyLoaded, setDifficultyLoaded] = useState(false);
+    const [roundsCompleted, setRoundsCompleted] = useState(false);
     let Round = 1
 
     useEffect(() => {
@@ -67,22 +68,23 @@ export default function MathInvasors() {
         setDifficultyLoaded(true);
     }, [router.isReady]);
 
-    function handleFinalScore() {
-        try {
-            const gameData = "Math Invasors"
-            const age = router.query.Age;
-            if (gameData && age) {
-                const key = `${gameData}_${age}_bestScore`;
-                const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-                if (score > storedScore) {
-                    localStorage.setItem(key, score.toString());
+    useEffect(() => {
+        if (roundsCompleted) {
+            try {
+                const gameData = "Math Invasors";
+                const age = router.query.Age;
+                if (gameData && age) {
+                    const key = `${gameData}_${age}_bestScore`;
+                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+                    if (Score > storedScore) {
+                        localStorage.setItem(key, Score.toString());
+                    }
                 }
+            } catch (error) {
+                console.error("Error processing score update:", error);
             }
-
-        } catch (error) {
-            console.error("Error processing score update:", error);
         }
-    }
+    }, [roundsCompleted, Score, router.query.Age]);
 
     useEffect(() => {
         if (Playing) {
@@ -148,7 +150,7 @@ export default function MathInvasors() {
         if (Round === MaxRounds) {
             SetWin(true);
             SetPlaying(false);
-            handleFinalScore();
+            setRoundsCompleted(true);
             UnsetEvents(keyPressed, keyReleased);
             cancelAnimationFrame(animationFrameRef.current);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -339,5 +341,6 @@ export default function MathInvasors() {
         SetGameOver(false);
         SetWin(false);
         SetPlaying(true);
+        setRoundsCompleted(false);
     }
 }
