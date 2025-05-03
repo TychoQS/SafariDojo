@@ -14,7 +14,17 @@ module.exports = {
                 "PS-geography-color": "#ED6EF6",
                 "PS-english-color": "#EFF66E",
             },
+            keyframes: {
+                pendulum: {
+                    '0%': { transform: 'rotate(-20deg)' },
+                    '100%': { transform: 'rotate(20deg)' },
+                },
+            },
+            animation: {
+                'pendulum': 'pendulum 1.75s ease-in-out infinite alternate',
+            }
         },
     },
     plugins: [],
 };
+

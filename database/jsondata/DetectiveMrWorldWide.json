@@ -2,51 +2,126 @@
   {
     "id": 0,
     "Name": "Spain",
-    "Image": "/images/Games/Geography/Spn.png"
+    "Image": "/images/Games/Geography/Spain.avif"
   },
   {
     "id": 1,
     "Name": "Australia",
-    "Image": "/images/Games/Geography/Aus.png"
+    "Image": "/images/Games/Geography/Australia.avif"
   },
   {
     "id": 2,
     "Name": "Portugal",
-    "Image": "/images/Games/Geography/Por.png"
+    "Image": "/images/Games/Geography/Portugal.avif"
   },
   {
     "id": 3,
     "Name": "Germany",
-    "Image": "/images/Games/Geography/Ger.png"
+    "Image": "/images/Games/Geography/Germany.avif"
   },
   {
     "id": 4,
     "Name": "United Kingdom",
-    "Image": "/images/Games/Geography/UK.png"
+    "Image": "/images/Games/Geography/UnitedKingdom.avif"
   },
   {
     "id": 5,
     "Name": "Brazil",
-    "Image": "/images/Games/Geography/Br.png"
+    "Image": "/images/Games/Geography/Brazil.avif"
   },
   {
     "id": 6,
     "Name": "United States",
-    "Image": "/images/Games/Geography/US.png"
+    "Image": "/images/Games/Geography/UnitedStates.avif"
   },
   {
     "id": 7,
     "Name": "China",
-    "Image": "/images/Games/Geography/Chi.png"
+    "Image": "/images/Games/Geography/China.avif"
   },
   {
     "id": 8,
     "Name": "Canary Island",
-    "Image": "/images/Games/Geography/Canary.png"
+    "Image": "/images/Games/Geography/CanaryIslands.avif"
   },
   {
     "id": 9,
     "Name": "Japan",
-    "Image": "/images/Games/Geography/Jpn.jpg"
+    "Image": "/images/Games/Geography/Japan.avif"
+  },
+  {
+    "id": 10,
+    "Name": "France",
+    "Image": "/images/Games/Geography/France.avif"
+  },
+  {
+    "id": 11,
+    "Name": "Italy",
+    "Image": "/images/Games/Geography/Italy.avif"
+  },
+  {
+    "id": 12,
+    "Name": "Norway",
+    "Image": "/images/Games/Geography/Norway.avif"
+  },
+  {
+    "id": 13,
+    "Name": "Sweden",
+    "Image": "/images/Games/Geography/Sweden.avif"
+  },
+  {
+    "id": 14,
+    "Name": "Finland",
+    "Image": "/images/Games/Geography/Finland.avif"
+  },
+  {
+    "id": 15,
+    "Name": "Denmark",
+    "Image": "/images/Games/Geography/Denmark.avif"
+  },
+  {
+    "id": 16,
+    "Name": "Netherlands",
+    "Image": "/images/Games/Geography/Netherlands.avif"
+  },
+  {
+    "id": 17,
+    "Name": "Belgium",
+    "Image": "/images/Games/Geography/Belgium.avif"
+  },
+  {
+    "id": 18,
+    "Name": "Austria",
+    "Image": "/images/Games/Geography/Austria.avif"
+  },
+  {
+    "id": 19,
+    "Name": "Switzerland",
+    "Image": "/images/Games/Geography/Switzerland.avif"
+  },
+  {
+    "id": 20,
+    "Name": "Poland",
+    "Image": "/images/Games/Geography/Poland.avif"
+  },
+  {
+    "id": 21,
+    "Name": "Czech Republic",
+    "Image": "/images/Games/Geography/CzechRepublic.avif"
+  },
+  {
+    "id": 22,
+    "Name": "Hungary",
+    "Image": "/images/Games/Geography/Hungary.avif"
+  },
+  {
+    "id": 23,
+    "Name": "Greece",
+    "Image": "/images/Games/Geography/Greece.avif"
+  },
+  {
+    "id": 24,
+    "Name": "Ireland",
+    "Image": "/images/Games/Geography/Ireland.avif"
   }
 ]
