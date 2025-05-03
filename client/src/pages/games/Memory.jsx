@@ -43,6 +43,20 @@ function initialCards(cardsDiff) {
 }
 
 export default function MemoryGame() {
+    const [cards, setCards] = useState([]);
+    const [selected, setSelected] = useState([]);
+    const [matched, setMatched] = useState([]);
+    const [mistakes, setMistakes] = useState(0);
+    const [lives, setLives] = useState(3);
+    const [gameOver, setGameOver] = useState(false);
+    const [preview, setPreview] = useState(true);
+    const [isClient, setIsClient] = useState(false);
+
+    const successSound = useRef(null);
+    const failSound = useRef(null);
+    const winSound = useRef(null);
+    const loseSound = useRef(null);
+    const lifesRef = useRef(null);
     const [difficulty, setDifficulty] = useState("easy");
 
     async function fetchDifficulty() {
@@ -67,21 +81,6 @@ export default function MemoryGame() {
             setCards(initialCards(difficulty));
         }
     }, [difficulty]);
-
-    const [cards, setCards] = useState([]);
-    const [selected, setSelected] = useState([]);
-    const [matched, setMatched] = useState([]);
-    const [mistakes, setMistakes] = useState(0);
-    const [lives, setLives] = useState(3);
-    const [gameOver, setGameOver] = useState(false);
-    const [preview, setPreview] = useState(true);
-    const [isClient, setIsClient] = useState(false);
-
-    const successSound = useRef(null);
-    const failSound = useRef(null);
-    const winSound = useRef(null);
-    const loseSound = useRef(null);
-    const lifesRef = useRef(null);
 
     useEffect(() => {
         if (selected.length === 2) {
