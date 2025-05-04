@@ -8,17 +8,17 @@ import {router} from "next/client";
 
 function initialCards(cardsDiff) {
     const allPairs = [
-        { id: 1, content: "🖐️", match: "Hand" },
-        { id: 2, content: "👣", match: "Feet" },
-        { id: 3, content: "👂", match: "Ear" },
-        { id: 4, content: "👃", match: "Nose" },
-        { id: 5, content: "👁️", match: "Eye" },
-        { id: 6, content: "👄", match: "Mouth" },
-        { id: 7, content: "🦶", match: "Ankle" },
-        { id: 8, content: "🦵", match: "Leg" },
-        { id: 9, content: "💪", match: "Arm" },
-        { id: 10, content: "🧠", match: "Brain" },
-        { id: 11, content: "🫀", match: "Heart" }
+        { id: 1, content: "/images/Games/Science/Memory/mano.png", match: "Hand" },
+        { id: 2, content: "/images/Games/Science/Memory/pie.avif", match: "Feet" },
+        { id: 3, content: "/images/Games/Science/Memory/oreja.avif", match: "Ear" },
+        { id: 4, content: "/images/Games/Science/Memory/nariz.avif", match: "Nose" },
+        { id: 5, content: "/images/Games/Science/Memory/ojo.png", match: "Eye" },
+        { id: 6, content: "/images/Games/Science/Memory/boca.png", match: "Mouth" },
+        { id: 7, content: "/images/Games/Science/Memory/tobillo.png", match: "Ankle" },
+        { id: 8, content: "/images/Games/Science/Memory/pierna.avif", match: "Leg" },
+        { id: 9, content: "/images/Games/Science/Memory/brazo.avif", match: "Arm" },
+        { id: 10, content: "/images/Games/Science/Memory/cerebro.png", match: "Brain" },
+        { id: 11, content: "/images/Games/Science/Memory/corazon.png", match: "Heart" }
     ];
 
     const shuffled = [...allPairs].sort(() => Math.random() - 0.5);
@@ -226,7 +226,13 @@ export default function MemoryGame() {
                                         transition: "all 0.8s ease",
                                     }}
                                 >
-                                    {isFlipped ? card.value : "?"}
+                                    {isFlipped ? (
+                                        typeof card.value === "string" && card.value.startsWith("/images") ? (
+                                            <img src={card.value} alt="Card" className="w-24 h-24 object-contain" />
+                                        ) : (
+                                            <span>{card.value}</span>
+                                        )
+                                    ) : "?"}
                                 </div>
                             );
                         })}
