@@ -381,7 +381,7 @@ app.post('/api/updateBestScore', (req, res) => {
                         const columnMap = {
                             easy: 'BestScoreEasy',
                             medium: 'BestScoreMedium',
-                            hard: 'BestScoreDifficult'
+                            hard: 'BestScoreHard'
                         };
 
                         const column = columnMap[difficulty];
