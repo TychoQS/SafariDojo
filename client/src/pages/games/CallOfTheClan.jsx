@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import levelsData from "../../../../database/jsondata/CallOfTheClan.json";
+import {router} from "next/client";
 
 
 const AnimalClassificationGame = () => {
@@ -168,6 +169,33 @@ const AnimalClassificationGame = () => {
         setGameWon(false);
     };
 
+    function finishGame() {
+        try {
+            const previousURL = localStorage.getItem("previousURL");
+            if (previousURL) {
+                const url = new URL(previousURL);
+                const gameData = url.searchParams.get("Game");
+                const age = url.searchParams.get("Age");
+
+                if (gameData && age) {
+                    const key = `${gameData}_${age}_bestScore`;
+                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+                    if (maxScore > storedScore) {
+                        localStorage.setItem(key, maxScore.toString());
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error processing score update:", error);
+        }
+        return router.push({
+            pathname: "../GameSelectionPage",
+            query: {
+                Subject: "Science"
+            }
+        });
+    }
+
     if (randomLevels.length === 0) return <div>Loading game...</div>;
 
     return (
@@ -217,9 +245,7 @@ const AnimalClassificationGame = () => {
                                 <p className="text-xl mb-8 text-green-800">Final score: {score}</p>
                             </div>
                             <Button size="large" onClick={restartGame}>Play Again</Button>
-                            <Link href={{ pathname: "../GameSelectionPage", query: { Subject: "Science", bestScore: maxScore} }} className="mt-2">
-                                <Button size="large">Finish game</Button>
-                            </Link>
+                            <Button size="large" onClick={finishGame}>Finish game</Button>
                         </div>
                     )}
 
@@ -231,19 +257,15 @@ const AnimalClassificationGame = () => {
                                 <p className="text-xl mb-8 text-red-600">Final score: {score}</p>
                             </div>
                             <Button size="large" onClick={restartGame}>Try Again</Button>
-                            <Link href={{ pathname: "../GameSelectionPage", query: { Subject: "Science", bestScore: maxScore} }} className="mt-2">
-                                <Button size="large">Finish game</Button>
-                            </Link>
+                            <Button size="large" onClick={finishGame} className="mt-2">Finish game</Button>
                         </div>
                     )}
 
                 </div>
                 {!gameFinished && (
-                    <Link href={{ pathname: "../GameSelectionPage", query: { Subject: "Science" } }}>
-                        <div className="mt-4 mb-2 relative flex">
-                            <Button size="small">Back</Button>
-                        </div>
-                    </Link>
+                    <div className="mt-4 mb-2 relative flex">
+                        <Button size="small" onClick={finishGame}>Back</Button>
+                    </div>
                 )}
                 <audio ref={newLevelSound} src="/sounds/CallOfTheClan/newlevel-calloftheclan.mp3" preload="auto" />
                 <audio ref={failSound} src="/sounds/CallOfTheClan/fail-calloftheclan.mp3" preload="auto" />
