@@ -76,7 +76,8 @@ export default function Header({showButtons = true}) {
                 console.log("Respuesta actualización de medallas:", result);
             }
 
-            if (user && user.id && Object.keys(allScores).length > 0) {
+            if (user && user.userId && Object.keys(allScores).length > 0) {
+                console.log("Entre a actualizar los juegos")
                 const response = await fetch("http://localhost:8080/api/updateBestScore", {
                     method: "POST",
                     headers: {
