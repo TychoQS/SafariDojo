@@ -60,15 +60,14 @@ export default function Header({showButtons = true}) {
                     allScores[game][difficulty] = score;
                 }
             }
-
-            if (user && user.id && allMedals.length > 0) {
+            if (user && user.userId && allMedals.length > 0) {
                 const response = await fetch("http://localhost:8080/api/updateMedals", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        userId: user.id,
+                        userId: user.userId,
                         medals: allMedals,
                     }),
                 });
