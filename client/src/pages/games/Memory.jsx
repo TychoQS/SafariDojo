@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
 import Link from "next/link";
+import {router} from "next/client";
 
 
 function initialCards(cardsDiff) {
@@ -51,13 +52,15 @@ export default function MemoryGame() {
     const [gameOver, setGameOver] = useState(false);
     const [preview, setPreview] = useState(true);
     const [isClient, setIsClient] = useState(false);
+    const [score, setScore] = useState(0);
+    const [bestScore, setBestScore] = useState(0);
+    const [difficulty, setDifficulty] = useState("easy");
 
     const successSound = useRef(null);
     const failSound = useRef(null);
     const winSound = useRef(null);
     const loseSound = useRef(null);
     const lifesRef = useRef(null);
-    const [difficulty, setDifficulty] = useState("easy");
 
     async function fetchDifficulty() {
         const previousURL = localStorage.getItem('previousURL');
@@ -86,10 +89,12 @@ export default function MemoryGame() {
         if (selected.length === 2) {
             const [first, second] = selected;
             if (first.pairId === second.pairId) {
+                setScore(score + 5);
                 successSound.current.play();
                 setMatched((prev) => [...prev, first.pairId]);
                 setTimeout(() => setSelected([]), 500);
             } else {
+                setScore(score - 2);
                 failSound.current.play();
                 setMistakes((prev) => prev + 1);
                 setTimeout(() => setSelected([]), 800);
@@ -99,6 +104,9 @@ export default function MemoryGame() {
 
     useEffect(() => {
         if (mistakes === 7) {
+            if (bestScore < score) {
+                setBestScore(score);
+            }
             setGameOver(true);
             loseSound.current.play();
             lifesRef.current.loseLife();
@@ -109,6 +117,9 @@ export default function MemoryGame() {
         if (matched.length === cards.length / 2 && cards.length > 0) {
             const timeout = setTimeout(() => {
                 winSound.current?.play();
+                if (bestScore < score) {
+                    setBestScore(score);
+                }
             }, 500);
 
             return () => clearTimeout(timeout);
@@ -138,6 +149,39 @@ export default function MemoryGame() {
         }
     };
 
+    function restartGame() {
+        setCards(initialCards(difficulty));
+        setMistakes(0);
+        setScore(0);
+        setGameOver(false);
+        setSelected([]);
+        setMatched([]);
+        setPreview(true);
+
+        setTimeout(() => {
+            setPreview(false);
+        }, 5000);
+    }
+
+    function finishGame() {
+        try {
+            const previousURL = localStorage.getItem("previousURL");
+            if (previousURL) {
+                const url = new URL(previousURL);
+                const gameData = url.searchParams.get("Game");
+                const age = url.searchParams.get("Age");
+
+                if (gameData && age) {
+                    const key = `${gameData}_${age}_bestScore`;
+                    localStorage.setItem(key, bestScore.toString());
+                }
+            }
+        } catch (error) {
+            console.error("Error processing score update:", error);
+        }
+        router.back();
+    }
+
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header />
@@ -146,6 +190,9 @@ export default function MemoryGame() {
                 <div className={`ml-8 mt-6 text-4xl 
                 ${7 - mistakes <= 2 ? "text-red-500 animate-bounce" : "text-white animate-pulse"}`}>
                     Tries remain: {7-mistakes}
+                </div>
+                <div className={"ml-8 mt-6 text-4xl"}>
+                    Score: {score}
                 </div>
                 <Lifes ref={lifesRef} lives={lives} />
             </div>
@@ -183,23 +230,31 @@ export default function MemoryGame() {
                         {matched.length === cards.length / 2 && (
                             <div className="text-center text-green-600 font-bold text-3xl animate-bounce">
                                 🏅 ¡Congratulations! You've won a medal.
+                                <br />
+                                Final score: {score}
+                                <br />
+                                Best score: {bestScore}
                             </div>
                         )}
 
                         {gameOver && (
                             <div className="text-center text-red-500 font-bold text-3xl animate-pulse">
                                 💀 ¡You lost! Try again.
+                                <br />
+                                Final score: {score}
+                                <br />
+                                Best score: {bestScore}
                             </div>
                         )}
                         <div className={"mt-8 space-x-8 flex flex-row"}>
                             <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none text-lg " +
-                                "border-[#6EF68B] bg-[#C9F1D2] text-black"} onClick={() => window.location.reload()}>
+                                "border-[#6EF68B] bg-[#C9F1D2] text-black"} onClick={() => restartGame()}>
                                 Play again
                             </button>
-                            <Link href={{pathname: "../GameSelectionPage"}}>
-                                <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                                    "text-lg border-[#6EF68B] bg-[#C9F1D2] text-black"}>Finish game</button>
-                            </Link>
+                            <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
+                                "text-lg border-[#6EF68B] bg-[#C9F1D2] text-black"} onClick={() => finishGame()}>
+                                Finish game
+                            </button>
                         </div>
                     </div>
                 )}
