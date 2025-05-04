@@ -57,10 +57,11 @@ function GameSelectionPage() {
     };
 
     const carouselData = [
-        {id: 1, game: firstGame, subject: subject, backgroundColor: primaryColor, borderColor: secondaryColor},
         {id: 2, game: secondGame, subject: subject, backgroundColor: primaryColor, borderColor: secondaryColor},
-        {id: 4, game: "Comming soon...", subject: subject, backgroundColor: "#cccccc", borderColor: "#999999"},
         {id: 3, game: thirdGame, subject: subject, backgroundColor: primaryColor, borderColor: secondaryColor},
+        {id: 4, game: "Comming soon...", subject: subject, backgroundColor: "#cccccc", borderColor: "#999999"},
+        {id: 1, game: firstGame, subject: subject, backgroundColor: primaryColor, borderColor: secondaryColor},
+
     ]
 
     return (!subjectData

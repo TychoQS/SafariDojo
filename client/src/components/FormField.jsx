@@ -84,8 +84,8 @@ export default function FormField({
                         />
                     </div>
                 ))}
-                <p className={`text-[1.5rem] mt-[1rem] text-PS-dark-yellow ${deliciousHandDrawn.className}`}>
-                    {linkText} <a className="text-[#372E55]" href={linkUrl}>Click here</a>
+                <p className={`text-[1.75rem] mt-[1rem] text-[#715DAD] ${deliciousHandDrawn.className}`}>
+                    {linkText} <a className="text-PS-light-black hover:underline" href={linkUrl}>Click here</a>
                 </p>
                 <div className="m-2 w-full text-center">
                     <Button size={buttonSize} type="submit" className="mt-30" disabled={isFormInvalid}>

@@ -9,6 +9,7 @@ const path = require("node:path");
 
 const dbConnection = require('./database');
 const {query, response} = require("express");
+const {log} = require("next/dist/server/typescript/utils");
 
 app.use(cors());
 app.use(express.json());
@@ -135,12 +136,10 @@ app.get('/api/gameSelectionAssets', (req, res) => {
         'LEFT JOIN Multimedia m ON ms.IdMultimedia = m.Id\n' +
         'WHERE \n' +
         '    s.Name = ? ORDER BY length(imageName);';
-    const gameQuery = 'SELECT DISTINCT QuizName\n' +
-        'FROM SubjectQuizzes sq\n' +
-        'LEFT JOIN Quizzes q ON q.Id = sq.QuizId\n' +
-        'LEFT JOIN Subjects s on s.Id = SubjectId\n' +
-        'WHERE s.Name = ?\n' +
-        'ORDER BY QuizName;'
+    const gameQuery = 'SELECT QuizName\n' +
+        'FROM AllSubjectQuizzes\n' +
+        'WHERE SubjectName = ?\n' +
+        'ORDER BY Priority;'
     const getMultimedia = () => {
         return new Promise((resolve, reject) => {
             dbConnection.query(multimediaQuery, [Subject], (err, result) => {
@@ -350,47 +349,214 @@ app.get('/api/getBestScore', (req, res) => {
 
 
 app.post('/api/updateBestScore', (req, res) => {
-    const { UserId, QuizId, Difficulty, Score } = req.body;
+    const { email, scores } = req.body;
 
-    let column = '';
-    if (Difficulty === 'easy') {
-        column = 'BestScoreEasy';
-    } else if (Difficulty === 'medium') {
-        column = 'BestScoreMedium';
-    } else if (Difficulty === 'difficult') {
-        column = 'BestScoreDifficult';
-    } else {
-        return res.status(400).json({ message: "Invalid difficulty" });
+    if (!email || !scores || typeof scores !== 'object') {
+        return res.status(400).json({ message: "Invalid input" });
     }
 
-    const selectQuery = `SELECT ${column} FROM UserQuizzes WHERE UserId = ? AND QuizId = ?`;
+    const getUserIdQuery = `SELECT Id FROM Users WHERE Email = ?`;
+    dbConnection.query(getUserIdQuery, [email], (err, userResult) => {
+        if (err || userResult.length === 0) {
+            console.error("User lookup error:", err);
+            return res.status(404).json({ message: "User not found" });
+        }
 
-    dbConnection.query(selectQuery, [UserId, QuizId], (err, result) => {
+        const userId = userResult[0].Id;
+
+        const updateTasks = [];
+
+        for (const quizName in scores) {
+            updateTasks.push(new Promise((resolve, reject) => {
+                const getQuizIdQuery = `SELECT Id FROM Quizzes WHERE QuizName = ?`;
+                dbConnection.query(getQuizIdQuery, [quizName], (quizErr, quizResult) => {
+                    if (quizErr || quizResult.length === 0) {
+                        console.warn("Quiz not found or error:", quizName);
+                        return resolve();
+                    }
+
+                    const quizId = quizResult[0].Id;
+
+                    const scoreUpdates = Object.entries(scores[quizName]).map(([difficulty, score]) => {
+                        const columnMap = {
+                            easy: 'BestScoreEasy',
+                            medium: 'BestScoreMedium',
+                            hard: 'BestScoreDifficult'
+                        };
+
+                        const column = columnMap[difficulty];
+                        if (!column) return Promise.resolve();
+
+                        return new Promise((res2, rej2) => {
+                            const selectQuery = `SELECT ${column} FROM UserQuizzes WHERE UserId = ? AND QuizId = ?`;
+                            dbConnection.query(selectQuery, [userId, quizId], (selectErr, result) => {
+                                if (selectErr || result.length === 0) {
+                                    console.warn("No existing UserQuiz row or error:", selectErr);
+                                    return res2();
+                                }
+
+                                const currentScore = result[0][column];
+
+                                if (score > currentScore) {
+                                    const updateQuery = `UPDATE UserQuizzes SET ${column} = ? WHERE UserId = ? AND QuizId = ?`;
+                                    dbConnection.query(updateQuery, [score, userId, quizId], (updateErr) => {
+                                        if (updateErr) {
+                                            console.error("Update error:", updateErr);
+                                        }
+                                        res2();
+                                    });
+                                } else {
+                                    res2();
+                                }
+                            });
+                        });
+                    });
+
+                    Promise.all(scoreUpdates).then(resolve).catch(reject);
+                });
+            }));
+        }
+
+        Promise.all(updateTasks)
+            .then(() => res.status(200).json({ message: "All scores processed" }))
+            .catch(err => {
+                console.error("Final processing error:", err);
+                res.status(500).json({ message: "Error updating some scores" });
+            });
+    });
+});
+
+app.get('/api/isPremiumGame', (req, res) => {
+    const { quizName } = req.query;
+
+    if (!quizName) {
+        return res.status(400).json({ message: "Missing required parameter: quizName" });
+    }
+
+    const query = 'SELECT Premium FROM Quizzes WHERE QuizName = ?';
+
+    dbConnection.query(query, [quizName], (err, result) => {
         if (err) {
-            console.error("Error fetching current best score:", err);
-            return res.status(500).json({ message: "Something went wrong while fetching best score" });
+            console.error("Error checking premium status:", err);
+            return res.status(500).json({ message: "Internal server error" });
         }
 
         if (result.length === 0) {
-            return res.status(404).json({ message: "Quiz not found for the user" });
+            return res.status(404).json({ message: "Quiz not found" });
         }
 
-        const currentBestScore = result[0][column];
+        res.status(200).json({ isPremium: !!result[0].Premium });
+    });
+});
 
-        if (Score > currentBestScore) {
-            const updateQuery = `UPDATE UserQuizzes SET ${column} = ? WHERE UserId = ? AND QuizId = ?`;
+app.get('/api/isRegisterGame', (req, res) => {
+    const { quizName } = req.query;
 
-            dbConnection.query(updateQuery, [Score, UserId, QuizId], (updateErr, updateResult) => {
-                if (updateErr) {
-                    console.error("Error updating best score:", updateErr);
-                    return res.status(500).json({ message: "Error updating best score" });
+    if (!quizName) {
+        return res.status(400).json({ message: "Missing required parameter: quizName" });
+    }
+
+    const query = 'SELECT Register FROM Quizzes WHERE QuizName = ?';
+
+    dbConnection.query(query, [quizName], (err, result) => {
+        if (err) {
+            console.error("Error checking register status:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Quiz not found" });
+        }
+        const isRegister = !!result[0].Register;
+
+        res.status(200).json({ isRegister });
+    });
+});
+
+app.get('/api/getMahjongData', (req, res) => {
+    const difficulty = req.query.Age;
+
+    if (!difficulty || !['easy', 'medium', 'hard'].includes(difficulty.toLowerCase())) {
+        return res.status(400).json({ message: "Missing or invalid difficulty (Age) parameter" });
+    }
+
+    const query = 'SELECT form1, form2 FROM Mahjong WHERE Age = ?';
+
+    dbConnection.query(query, [difficulty.toLowerCase()], (err, results) => {
+        if (err) {
+            console.error("Error fetching Mahjong data:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: "No Mahjong data found for this difficulty" });
+        }
+        res.status(200).json({ data: results });
+    });
+});
+
+app.get("/api/cookTheBookStories", (req, res) => {
+    const difficulty = req.query.difficulty;
+    const Query = 'SELECT g.Id, p.Id AS PieceId, g.Title, p.PieceOrder, p.Text\n' +
+        'FROM (\n' +
+        '    SELECT Id, Title\n' +
+        '    FROM CookTheBook_Stories\n' +
+        '    ORDER BY RAND()\n' +
+        '    LIMIT 3\n' +
+        ') g, CookTheBook_StoryPieces p\n' +
+        'WHERE g.Id = p.StoryId\n' +
+        'AND Difficulty = ?\n' +
+        'ORDER BY g.Id;'
+    dbConnection.query(Query, [difficulty],  (err, result) => {
+        if (err) return res.status(500).json({message: 'Something went wrong'});
+        if (result.length === 0) return res.status(404).json({message: ''})
+        else {
+            const formattedStories = [];
+            result.forEach(piece => {
+                const storyIndex = formattedStories.findIndex(story => story.id === piece.Id);
+                if (storyIndex === -1) {
+                    formattedStories.push({
+                        id: piece.Id,
+                        title: piece.Title,
+                        pieces: [{
+                            id: piece.PieceId,
+                            text: piece.Text,
+                            order: piece.PieceOrder
+                        }]
+                    });
+                } else {
+                    formattedStories[storyIndex].pieces.push({
+                        id: piece.PieceId,
+                        text: piece.Text,
+                        order: piece.PieceOrder
+                    });
                 }
-
-                return res.status(200).json({ message: "Best score updated successfully" });
             });
-        } else {
-            return res.status(200).json({ message: "New score is not higher than the current best score" });
+            return res.status(200).json({Stories: formattedStories})
         }
+    })
+})
+
+app.get('/api/getTutorialVideo', (req, res) => {
+    const quizName = req.query.quizName;
+
+    if (!quizName) {
+        return res.status(400).json({ message: "Missing quizName parameter" });
+    }
+
+    const query = 'SELECT Tutorial FROM Quizzes WHERE QuizName = ?';
+
+    dbConnection.query(query, [quizName], (err, results) => {
+        if (err) {
+            console.error("Error fetching tutorial video:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (results.length === 0 || !results[0].Tutorial) {
+            return res.status(404).json({ message: "No tutorial video found for this quiz" });
+        }
+
+        res.status(200).json({ tutorialVideo: results[0].Tutorial });
     });
 });
 

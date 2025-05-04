@@ -10,6 +10,7 @@ import Button from "@/components/Button";
 import Lifes from "@/components/Lifes";
 import Link from "next/link";
 import {router} from "next/client";
+import {useRouter} from "next/router";
 
 function UnsetEvents(keyPressed, keyReleased) {
     window.removeEventListener("keydown", keyPressed);
@@ -39,15 +40,51 @@ export default function MathInvasors() {
     const [Playing, SetPlaying] = useState(false);
     const [GameOver, SetGameOver] = useState(false);
     const [LifesAvailable, SetLifesAvailable] = useState(true);
+    const [gameLoaded, setGameLoaded] = useState(false);
     const [Win, SetWin] = useState(false);
     const animationFrameRef = useRef(null);
     const [Info, SetInfo] = useState("");
     const [ButtonText, SetButtonText] = useState("Start");
     const lifesRef = useRef(null);
-    const [age, setAge] = useState(null) // TODO Get Difficult when it passed to the game
-    const Difficulty = 0;
-    const Magnitude = Difficulty+1;
+    const router = useRouter();
+    const [Difficulty, setDifficulty] = useState(0);
+    const [Magnitude, setMagnitude] = useState(1);
+    const [difficultyLoaded, setDifficultyLoaded] = useState(false);
+    const [roundsCompleted, setRoundsCompleted] = useState(false);
     let Round = 1
+
+    useEffect(() => {
+        if (!router.isReady) return;
+        const age = router.query.Age;
+        switch(age.toLowerCase()) {
+            case "medium":
+                setDifficulty(1);
+                setMagnitude(Difficulty+1);
+                break;
+            case "hard":
+                setDifficulty(1);
+                setMagnitude(Difficulty+1);
+        }
+        setDifficultyLoaded(true);
+    }, [router.isReady]);
+
+    useEffect(() => {
+        if (roundsCompleted) {
+            try {
+                const gameData = "Math Invasors";
+                const age = router.query.Age;
+                if (gameData && age) {
+                    const key = `${gameData}_${age}_bestScore`;
+                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+                    if (Score > storedScore) {
+                        localStorage.setItem(key, Score.toString());
+                    }
+                }
+            } catch (error) {
+                console.error("Error processing score update:", error);
+            }
+        }
+    }, [roundsCompleted, Score, router.query.Age]);
 
     useEffect(() => {
         if (Playing) {
@@ -76,6 +113,7 @@ export default function MathInvasors() {
     }, [Operation, Win]);
 
     useEffect(() => {
+        if (!difficultyLoaded) return;
         const NoLivesMessage = "You've run out of lives!";
         const GameOverMessage = "GAME OVER";
         if (!LifesAvailable) {
@@ -112,6 +150,7 @@ export default function MathInvasors() {
         if (Round === MaxRounds) {
             SetWin(true);
             SetPlaying(false);
+            setRoundsCompleted(true);
             UnsetEvents(keyPressed, keyReleased);
             cancelAnimationFrame(animationFrameRef.current);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -227,11 +266,18 @@ export default function MathInvasors() {
                 enemiesRef.current = [];
                 SpawnWave(canvas.width);
             } else if (hit) {
-                if (lifesRef.current) { lifesRef.current.loseLife();}
+                if (lifesRef.current) {
+                    lifesRef.current.loseLife();
+                    SetScore((prevScore) => prevScore - RightAnswerPoints);
+                }
             }
         };
 
         const animate = () => {
+            console.log(
+                "Dificultad: ", Difficulty,
+                "Magnitud: ", Magnitude
+            )
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             UpdateAndDrawPlayer(ctx);
             animateMissiles();
@@ -295,5 +341,6 @@ export default function MathInvasors() {
         SetGameOver(false);
         SetWin(false);
         SetPlaying(true);
+        setRoundsCompleted(false);
     }
 }

@@ -1,54 +1,65 @@
-import React from "react";
-import { useAuth } from "@/pages/context/AuthContext";
-import { useRouter } from "next/router";
+import React, {useState} from "react";
+import {useAuth} from "@/pages/context/AuthContext";
+import {useRouter} from "next/router";
+import LanguageSelector from "@/components/LanguajeSelector";
+import BaseModal from "@/components/BaseModal";
 
-export default function Header({ showButtons = true }) {
-    const { isLoggedIn, logOut, user } = useAuth();
+export default function Header({showButtons = true}) {
+    const {isLoggedIn, logOut, user} = useAuth();
     const router = useRouter();
+    const [showLogOutModal, setShowLogOutModal] = useState(false);
 
-    const handleLogOut = () => {
-        logOut();
-        router.push("/LogOut");
+    const handleLogOut = async () => {
+        try {
+            const scoresToSend = {};
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+
+                const match = key.match(/^(.+?)_(easy|medium|hard)_bestScore$/);
+                if (match) {
+                    const game = match[1];
+                    const difficulty = match[2];
+                    const score = parseInt(localStorage.getItem(key), 10) || 0;
+
+                    if (!scoresToSend[game]) scoresToSend[game] = {};
+                    scoresToSend[game][difficulty] = score;
+                }
+            }
+
+            if (user && user.email && Object.keys(scoresToSend).length > 0) {
+                await fetch("http://localhost:8080/api/updateBestScore", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: user.email,
+                        scores: scoresToSend
+                    })
+                });
+            }
+
+            logOut();
+            router.push("/LogOut");
+            setShowLogOutModal(false);
+
+        } catch (error) {
+            console.error("Error updating scores before logout:", error);
+            logOut();
+            router.push("/LogOut");
+            setShowLogOutModal(false);
+        }
     };
 
-    const renderButtons = () => {
-        if (!showButtons) {
-            return null;
-        }
+    const handleCancelLogOut = () => {
+        setShowLogOutModal(false);
+    };
 
-        const isOnMyProfilePage = router.pathname === "/MyProfile";
+    const isOnMyProfilePage = router.pathname === "/MyProfile";
 
-        if (isLoggedIn) {
-            return (
-                <>
-                    {!isOnMyProfilePage && (
-                        <a href="/MyProfile" className="text-black">
-                            <button
-                                className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
-                                My Profile
-                            </button>
-                        </a>
-                    )}
-                    <button
-                        onClick={handleLogOut}
-                        className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
-                        Log Out
-                    </button>
-                </>
-            );
-        } else {
-            return (
-                <>
-                    <a href="/SignUpFirstStep" className="text-black">Sign Up</a>
-                    <a href="/LogIn">
-                        <button
-                            className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
-                            Log In
-                        </button>
-                    </a>
-                </>
-            );
-        }
+    const handleLanguageChange = (langCode) => {
+        console.log("Idioma seleccionado:", langCode);
     };
 
     return (
@@ -57,15 +68,52 @@ export default function Header({ showButtons = true }) {
                 <img src="/images/logo.svg" alt="Logo" className="m-4"/>
             </a>
             <nav className="ml-4">
-                <ul className="flex gap-6 list-none m-0 p-0 text-black">
+                <ul className="flex gap-6 list-none m-0 p-0 text-black items-center">
                     <li>
                         <a href="..">Home</a>
                     </li>
+                    {isLoggedIn && !isOnMyProfilePage && (
+                        <li>
+                            <a href="/MyProfile">Profile</a>
+                        </li>
+                    )}
+                    <li>
+                        <LanguageSelector onLanguageChange={handleLanguageChange}/>
+                    </li>
                 </ul>
             </nav>
-            <div className="ml-auto flex items-center gap-4">
-                {renderButtons()}
-            </div>
+            {showButtons && (
+                <div className="ml-auto flex items-center gap-4">
+                    {isLoggedIn ? (
+                        <button
+                            onClick={() => setShowLogOutModal(true)}
+                            className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
+                            Log Out
+                        </button>
+                    ) : (
+                        <>
+                            <a href="/SignUpFirstStep" className="text-black">Sign Up</a>
+                            <a href="/LogIn">
+                                <button
+                                    className="py-1 px-6 bg-white text-black rounded-lg shadow-md border-4 border-orange-300 cursor-pointer">
+                                    Log In
+                                </button>
+                            </a>
+                        </>
+                    )}
+                </div>
+            )}
+
+            {showLogOutModal && (
+                <BaseModal
+                    title="Are you sure you want to log out?"
+                    description="You will be logged out of your account."
+                    buttons={[
+                        { text: "Yes", color: "red", onClick: handleLogOut},
+                        { text: "No", color: "gray", onClick: handleCancelLogOut }
+                    ]}
+                />
+            )}
         </header>
     );
 }

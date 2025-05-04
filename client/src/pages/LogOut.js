@@ -7,7 +7,7 @@ export default function LogOut() {
             <div className="app min-h-screen flex flex-col bg-PS-main-purple">
                 <Header/>
                 <section className="flex-grow flex items-center justify-center relative overflow-hidden">
-                    <img className="w-[600px] h-auto" src={"/images/Cartel.svg"} alt="Cartel"/>
+                    <img className="w-[600px] h-auto animate-pendulum [transform-origin:top_center]" src={"/images/Cartel.svg"} alt="Cartel"/>
                 </section>
                 <Footer/>
             </div>

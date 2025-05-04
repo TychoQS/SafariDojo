@@ -1,0 +1,96 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="400" height="400" rx="40" ry="40" fill="white"/>
+
+  <g transform="translate(80, 170)">
+    <rect x="3" y="3" width="80" height="100" rx="10" ry="10" fill="#CCCCCC" opacity="0.3"/>
+    <rect x="0" y="0" width="80" height="100" rx="10" ry="10" fill="white" stroke="#EFF66E" stroke-width="3"/>
+
+    <text x="40" y="55" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">WRITE</text>
+
+    <rect x="10" y="75" width="60" height="20" rx="5" ry="5" fill="#EFF66E" opacity="0.7"/>
+    <text x="40" y="89" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">PRESENT</text>
+  </g>
+
+  <g transform="translate(160, 180)">
+    <rect x="3" y="3" width="80" height="100" rx="10" ry="10" fill="#CCCCCC" opacity="0.3"/>
+    <rect x="0" y="0" width="80" height="100" rx="10" ry="10" fill="white" stroke="#EFF66E" stroke-width="3"/>
+
+    <text x="40" y="55" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">RUN</text>
+    <rect x="10" y="75" width="60" height="20" rx="5" ry="5" fill="#EFF66E" opacity="0.7"/>
+    <text x="40" y="89" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">PRESENT</text>
+  </g>
+
+
+  <g transform="translate(130, 150)">
+    <rect x="3" y="3" width="80" height="100" rx="10" ry="10" fill="#CCCCCC" opacity="0.3"/>
+    <rect x="0" y="0" width="80" height="100" rx="10" ry="10" fill="white" stroke="#EFF66E" stroke-width="3"/>
+
+
+    <text x="40" y="55" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">WROTE</text>
+
+    <rect x="10" y="75" width="60" height="20" rx="5" ry="5" fill="#EFF66E" opacity="0.7"/>
+    <text x="40" y="89" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">PAST</text>
+  </g>
+
+  <g transform="translate(200, 170)">
+    <rect x="3" y="3" width="80" height="100" rx="10" ry="10" fill="#CCCCCC" opacity="0.3"/>
+    <rect x="0" y="0" width="80" height="100" rx="10" ry="10" fill="white" stroke="#EFF66E" stroke-width="3"/>
+
+    <text x="40" y="55" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">WRITING</text>
+
+    <rect x="10" y="75" width="60" height="20" rx="5" ry="5" fill="#EFF66E" opacity="0.7"/>
+    <text x="40" y="89" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">PRESENT P.</text>
+  </g>
+
+  <g transform="translate(170, 120)">
+    <rect x="3" y="3" width="80" height="100" rx="10" ry="10" fill="#CCCCCC" opacity="0.3"/>
+    <rect x="0" y="0" width="80" height="100" rx="10" ry="10" fill="white" stroke="#EFF66E" stroke-width="3"/>
+
+    <text x="40" y="55" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">WRITTEN</text>
+
+    <rect x="10" y="75" width="60" height="20" rx="5" ry="5" fill="#EFF66E" opacity="0.7"/>
+    <text x="40" y="89" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">PARTICIPLE</text>
+  </g>
+
+  <g transform="translate(245, 120) rotate(15)">
+    <rect x="5" y="5" width="90" height="110" rx="10" ry="10" fill="#CCCCCC" opacity="0.3"/>
+
+    <rect x="0" y="0" width="90" height="110" rx="10" ry="10" fill="#EFF66E" stroke="#EFF66E" stroke-width="3"/>
+    <rect x="5" y="5" width="80" height="100" rx="8" ry="8" fill="white" stroke="#EFF66E" stroke-width="1"/>
+
+    <line x1="5" y1="55" x2="85" y2="55" stroke="#EFF66E" stroke-width="2"/>
+
+    <text x="45" y="35" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">RAN</text>
+    <text x="45" y="80" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">PAST</text>
+  </g>
+
+  <g opacity="0.1" transform="translate(40, 70)">
+    <path d="M0,0 L60,0 C75,0 75,15 75,15 L75,40 C75,55 60,55 60,55 L40,55 L30,70 L30,55 L15,55 C0,55 0,40 0,40 L0,15 C0,0 15,0 15,0 Z" fill="#EFF66E"/>
+  </g>
+
+  <g opacity="0.1" transform="translate(270, 310)">
+    <!-- Páginas -->
+    <path d="M0,0 C20,-5 40,0 50,10 L50,60 C40,50 20,45 0,50 Z" fill="#EFF66E"/>
+    <path d="M50,10 C60,0 80,-5 100,0 L100,50 C80,45 60,50 50,60 Z" fill="#EFF66E"/>
+
+    <!-- Líneas de texto -->
+    <line x1="10" y1="15" x2="40" y2="15" stroke="#333333" stroke-width="1" opacity="0.5"/>
+    <line x1="10" y1="25" x2="40" y2="25" stroke="#333333" stroke-width="1" opacity="0.5"/>
+    <line x1="10" y1="35" x2="40" y2="35" stroke="#333333" stroke-width="1" opacity="0.5"/>
+
+    <line x1="60" y1="15" x2="90" y2="15" stroke="#333333" stroke-width="1" opacity="0.5"/>
+    <line x1="60" y1="25" x2="90" y2="25" stroke="#333333" stroke-width="1" opacity="0.5"/>
+    <line x1="60" y1="35" x2="90" y2="35" stroke="#333333" stroke-width="1" opacity="0.5"/>
+  </g>
+
+  <!-- Símbolos de idioma -->
+  <g opacity="0.08" transform="translate(320, 80)">
+    <circle cx="0" cy="0" r="30" fill="#EFF66E"/>
+    <text x="0" y="5" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#333333">EN</text>
+  </g>
+
+  <g opacity="0.08" transform="translate(70, 330)">
+    <circle cx="0" cy="0" r="25" fill="#EFF66E"/>
+    <text x="0" y="5" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#333333">ABC</text>
+  </g>
+</svg>

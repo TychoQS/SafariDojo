@@ -1,0 +1,28 @@
+{
+  "allLevels": [
+    {
+      "difficulty": "easy",
+      "problem": { "text": "3 + 2", "correctAnswer": 5 }
+    },
+    {
+      "difficulty": "easy",
+      "problem": { "text": "7 - 4", "correctAnswer": 3 }
+    },
+    {
+      "difficulty": "medium",
+      "problem": { "text": "6 × 3", "correctAnswer": 18 }
+    },
+    {
+      "difficulty": "medium",
+      "problem": { "text": "8 ÷ 2", "correctAnswer": 4 }
+    },
+    {
+      "difficulty": "hard",
+      "problem": { "text": "12 × 7", "correctAnswer": 84 }
+    },
+    {
+      "difficulty": "hard",
+      "problem": { "text": "81 ÷ 9", "correctAnswer": 9 }
+    }
+  ]
+}

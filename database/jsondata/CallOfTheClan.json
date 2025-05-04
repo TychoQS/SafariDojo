@@ -1,120 +1,57 @@
 {
   "allLevels": [
     {
-      "player": {"type": "dog", "name": "Dog", "classification": "mammal", "emoji": "🐕"},
+      "player": {"type": "dog", "name": "Dog", "classification": "mammal", "emoji": "/images/Games/Science/CallOfTheClan/dog.svg"},
       "groups": [
-        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "🐸", "position": {"x": 20, "y": 20}},
-        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "🐠", "position": {"x": 80, "y": 20}},
-        {"type": "cats", "name": "Cats", "classification": "mammal", "emoji": "🐈", "position": {"x": 20, "y": 80}},
-        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 80}}
+        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "/images/Games/Science/CallOfTheClan/frog.svg", "position": {"x": 20, "y": 30}},
+        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "/images/Games/Science/CallOfTheClan/fish.svg", "position": {"x": 80, "y": 30}},
+        {"type": "cats", "name": "Cats", "classification": "mammal", "emoji": "/images/Games/Science/CallOfTheClan/cat.svg", "position": {"x": 20, "y": 70}},
+        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "/images/Games/Science/CallOfTheClan/bird.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "eagle", "name": "Eagle", "classification": "bird", "emoji": "🦅"},
+      "player": {"type": "eagle", "name": "Eagle", "classification": "bird", "emoji": "/images/Games/Science/CallOfTheClan/eagle.svg"},
       "groups": [
-        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "🦋", "position": {"x": 20, "y": 20}},
-        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 20}},
-        {"type": "bats", "name": "Bats", "classification": "mammal", "emoji": "🦇", "position": {"x": 20, "y": 80}},
-        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "🐸", "position": {"x": 80, "y": 80}}
+        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "/images/Games/Science/CallOfTheClan/butterfly.svg", "position": {"x": 20, "y": 30}},
+        {"type": "birds", "name": "Birds", "classification": "bird", "emoji": "/images/Games/Science/CallOfTheClan/bird.svg", "position": {"x": 80, "y": 30}},
+        {"type": "bats", "name": "Bats", "classification": "mammal", "emoji": "/images/Games/Science/CallOfTheClan/bat.svg", "position": {"x": 20, "y": 70}},
+        {"type": "frogs", "name": "Frogs", "classification": "amphibian", "emoji": "/images/Games/Science/CallOfTheClan/frog.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "turtle", "name": "Turtle", "classification": "reptile", "emoji": "🐢"},
+      "player": {"type": "turtle", "name": "Turtle", "classification": "reptile", "emoji": "/images/Games/Science/CallOfTheClan/turtle.svg"},
       "groups": [
-        {"type": "snakes", "name": "Snakes", "classification": "reptile", "emoji": "🐍", "position": {"x": 20, "y": 20}},
-        {"type": "dolphins", "name": "Dolphins", "classification": "mammal", "emoji": "🐬", "position": {"x": 80, "y": 20}},
-        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "🦀", "position": {"x": 20, "y": 80}},
-        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "🦋", "position": {"x": 80, "y": 80}}
+        {"type": "snakes", "name": "Snakes", "classification": "reptile", "emoji": "/images/Games/Science/CallOfTheClan/snake.svg", "position": {"x": 20, "y": 30}},
+        {"type": "dolphins", "name": "Dolphins", "classification": "mammal", "emoji": "/images/Games/Science/CallOfTheClan/dolphin.svg", "position": {"x": 80, "y": 30}},
+        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "/images/Games/Science/CallOfTheClan/crab.svg", "position": {"x": 20, "y": 70}},
+        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "/images/Games/Science/CallOfTheClan/butterfly.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "lobster", "name": "Lobster", "classification": "crustacean", "emoji": "🦞"},
+      "player": {"type": "lobster", "name": "Lobster", "classification": "crustacean", "emoji": "/images/Games/Science/CallOfTheClan/lobster.svg"},
       "groups": [
-        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "🦀", "position": {"x": 20, "y": 20}},
-        {"type": "octopus", "name": "Octopus", "classification": "mollusk", "emoji": "🐙", "position": {"x": 80, "y": 20}},
-        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "🐠", "position": {"x": 20, "y": 80}},
-        {"type": "seahorses", "name": "Seahorses", "classification": "fish", "emoji": "🐡", "position": {"x": 80, "y": 80}}
+        {"type": "crabs", "name": "Crabs", "classification": "crustacean", "emoji": "/images/Games/Science/CallOfTheClan/crab.svg", "position": {"x": 20, "y": 30}},
+        {"type": "octopus", "name": "Octopus", "classification": "mollusk", "emoji": "/images/Games/Science/CallOfTheClan/octopus.svg", "position": {"x": 80, "y": 30}},
+        {"type": "fish", "name": "Fish", "classification": "fish", "emoji": "/images/Games/Science/CallOfTheClan/fish.svg", "position": {"x": 20, "y": 70}},
+        {"type": "seahorses", "name": "Seahorses", "classification": "fish", "emoji": "/images/Games/Science/CallOfTheClan/seahorse.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "spider", "name": "Spider", "classification": "arachnid", "emoji": "🕷️"},
+      "player": {"type": "spider", "name": "Spider", "classification": "arachnid", "emoji": "/images/Games/Science/CallOfTheClan/spider.svg"},
       "groups": [
-        {"type": "scorpions", "name": "Scorpions", "classification": "arachnid", "emoji": "🦂", "position": {"x": 20, "y": 20}},
-        {"type": "ants", "name": "Ants", "classification": "insect", "emoji": "🐜", "position": {"x": 80, "y": 20}},
-        {"type": "snails", "name": "Snails", "classification": "mollusk", "emoji": "🐌", "position": {"x": 20, "y": 80}},
-        {"type": "beetles", "name": "Beetles", "classification": "insect", "emoji": "🪲", "position": {"x": 80, "y": 80}}
+        {"type": "scorpions", "name": "Scorpions", "classification": "arachnid", "emoji": "/images/Games/Science/CallOfTheClan/scorpion.svg", "position": {"x": 20, "y": 30}},
+        {"type": "ants", "name": "Ants", "classification": "insect", "emoji": "/images/Games/Science/CallOfTheClan/ant.svg", "position": {"x": 80, "y": 30}},
+        {"type": "snails", "name": "Snails", "classification": "mollusk", "emoji": "/images/Games/Science/CallOfTheClan/snail.svg", "position": {"x": 20, "y": 70}},
+        {"type": "beetles", "name": "Beetles", "classification": "insect", "emoji": "/images/Games/Science/CallOfTheClan/beetle.svg", "position": {"x": 80, "y": 70}}
       ]
     },
     {
-      "player": {"type": "penguin", "name": "Penguin", "classification": "bird", "emoji": "🐧"},
+      "player": {"type": "penguin", "name": "Penguin", "classification": "bird", "emoji": "/images/Games/Science/CallOfTheClan/penguin.svg"},
       "groups": [
-        {"type": "seals", "name": "Seals", "classification": "mammal", "emoji": "🦭", "position": {"x": 20, "y": 20}},
-        {"type": "ducks", "name": "Ducks", "classification": "bird", "emoji": "🦆", "position": {"x": 80, "y": 20}},
-        {"type": "sharks", "name": "Sharks", "classification": "fish", "emoji": "🦈", "position": {"x": 20, "y": 80}},
-        {"type": "whales", "name": "Whales", "classification": "mammal", "emoji": "🐋", "position": {"x": 80, "y": 80}}
-      ]
-    },
-    {
-      "player": {"type": "honeybee", "name": "Honeybee", "classification": "insect", "emoji": "🐝"},
-      "groups": [
-        {"type": "beetles", "name": "Beetles", "classification": "insect", "emoji": "🪲", "position": {"x": 20, "y": 20}},
-        {"type": "hummingbirds", "name": "Hummingbirds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 20}},
-        {"type": "butterflies", "name": "Butterflies", "classification": "insect", "emoji": "🦋", "position": {"x": 20, "y": 80}},
-        {"type": "bats", "name": "Bats", "classification": "mammal", "emoji": "🦇", "position": {"x": 80, "y": 80}}
-      ]
-    },
-    {
-      "player": {"type": "crocodile", "name": "Crocodile", "classification": "reptile", "emoji": "🐊"},
-      "groups": [
-        {"type": "lizards", "name": "Lizards", "classification": "reptile", "emoji": "🦎", "position": {"x": 20, "y": 20}},
-        {"type": "alligators", "name": "Alligators", "classification": "reptile", "emoji": "🐊", "position": {"x": 80, "y": 20}},
-        {"type": "salamanders", "name": "Salamanders", "classification": "amphibian", "emoji": "🦎", "position": {"x": 20, "y": 80}},
-        {"type": "dolphins", "name": "Dolphins", "classification": "mammal", "emoji": "🐬", "position": {"x": 80, "y": 80}}
-      ]
-    },
-    {
-      "player": {"type": "squid", "name": "Squid", "classification": "mollusk", "emoji": "🦑"},
-      "groups": [
-        {"type": "octopus", "name": "Octopus", "classification": "mollusk", "emoji": "🐙", "position": {"x": 20, "y": 20}},
-        {"type": "jellyfish", "name": "Jellyfish", "classification": "cnidarian", "emoji": "🪼", "position": {"x": 80, "y": 20}},
-        {"type": "sharks", "name": "Sharks", "classification": "fish", "emoji": "🦈", "position": {"x": 20, "y": 80}},
-        {"type": "snails", "name": "Snails", "classification": "mollusk", "emoji": "🐌", "position": {"x": 80, "y": 80}}
-      ]
-    },
-    {
-      "player": {"type": "elephant", "name": "Elephant", "classification": "mammal", "emoji": "🐘"},
-      "groups": [
-        {"type": "giraffes", "name": "Giraffes", "classification": "mammal", "emoji": "🦒", "position": {"x": 20, "y": 20}},
-        {"type": "rhinoceros", "name": "Rhinoceros", "classification": "mammal", "emoji": "🦏", "position": {"x": 80, "y": 20}},
-        {"type": "alligators", "name": "Alligators", "classification": "reptile", "emoji": "🐊", "position": {"x": 20, "y": 80}},
-        {"type": "ostriches", "name": "Ostriches", "classification": "bird", "emoji": "🪿", "position": {"x": 80, "y": 80}}
-      ]
-    },
-    {
-      "player": {"type": "frog", "name": "Frog", "classification": "amphibian", "emoji": "🐸"},
-      "groups": [
-        {"type": "salamanders", "name": "Salamanders", "classification": "amphibian", "emoji": "🦎", "position": {"x": 20, "y": 20}},
-        {"type": "toads", "name": "Toads", "classification": "amphibian", "emoji": "🐸", "position": {"x": 80, "y": 20}},
-        {"type": "lizards", "name": "Lizards", "classification": "reptile", "emoji": "🦎", "position": {"x": 20, "y": 80}},
-        {"type": "turtles", "name": "Turtles", "classification": "reptile", "emoji": "🐢", "position": {"x": 80, "y": 80}}
-      ]
-    },
-    {
-      "player": {"type": "dolphin", "name": "Dolphin", "classification": "mammal", "emoji": "🐬"},
-      "groups": [
-        {"type": "sharks", "name": "Sharks", "classification": "fish", "emoji": "🦈", "position": {"x": 20, "y": 20}},
-        {"type": "seals", "name": "Seals", "classification": "mammal", "emoji": "🦭", "position": {"x": 80, "y": 20}},
-        {"type": "whales", "name": "Whales", "classification": "mammal", "emoji": "🐋", "position": {"x": 20, "y": 80}},
-        {"type": "stingrays", "name": "Stingrays", "classification": "fish", "emoji": "🐡", "position": {"x": 80, "y": 80}}
-      ]
-    },
-    {
-      "player": {"type": "butterfly", "name": "Butterfly", "classification": "insect", "emoji": "🦋"},
-      "groups": [
-        {"type": "bees", "name": "Bees", "classification": "insect", "emoji": "🐝", "position": {"x": 20, "y": 20}},
-        {"type": "hummingbirds", "name": "Hummingbirds", "classification": "bird", "emoji": "🐦", "position": {"x": 80, "y": 20}},
-        {"type": "dragonflies", "name": "Dragonflies", "classification": "insect", "emoji": "🦋", "position": {"x": 20, "y": 80}},
-        {"type": "bats", "name": "Bats", "classification": "mammal", "emoji": "🦇", "position": {"x": 80, "y": 80}}
+        {"type": "seals", "name": "Seals", "classification": "mammal", "emoji": "/images/Games/Science/CallOfTheClan/seal.svg", "position": {"x": 20, "y": 30}},
+        {"type": "ducks", "name": "Ducks", "classification": "bird", "emoji": "/images/Games/Science/CallOfTheClan/duck.svg", "position": {"x": 80, "y": 30}},
+        {"type": "sharks", "name": "Sharks", "classification": "fish", "emoji": "/images/Games/Science/CallOfTheClan/shark.svg", "position": {"x": 20, "y": 70}},
+        {"type": "whales", "name": "Whales", "classification": "mammal", "emoji": "/images/Games/Science/CallOfTheClan/whale.svg", "position": {"x": 80, "y": 70}}
       ]
     }
   ]

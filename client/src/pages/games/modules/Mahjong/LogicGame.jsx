@@ -285,16 +285,35 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
     };
 
     const initializeGame = () => {
-        const gamePairs = [...(dataSets)]
-            .sort(() => Math.random() - 0.5)
-            .slice(0, initialPairCount);
+        if (!dataSets || dataSets.length === 0) {
+            console.error("dataSets is empty, cannot initialize the game!");
+            return;
+        }
 
-        setGamePairs(gamePairs);
+        const uniqueDataSets = [];
+        const seenForms = new Set();
+
+        for (const pair of dataSets) {
+            if (!seenForms.has(pair.form1)) {
+                uniqueDataSets.push(pair);
+                seenForms.add(pair.form1);
+            }
+        }
+
+        if (uniqueDataSets.length < initialPairCount) {
+            console.error(`Not enough unique pairs available. Need ${initialPairCount}, but only have ${uniqueDataSets.length}`);
+            return;
+        }
+
+        const shuffledPairs = [...uniqueDataSets].sort(() => Math.random() - 0.5);
+        const selectedPairs = shuffledPairs.slice(0, initialPairCount);
+
+        setGamePairs(selectedPairs);
 
         let gameTiles = [];
         let tileId = 0;
 
-        gamePairs.forEach(pair => {
+        selectedPairs.forEach(pair => {
             gameTiles.push({
                 id: tileId++,
                 type: "form1",
@@ -328,7 +347,10 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
         if (gameWon || mistakes >= 5 || Object.values(pairMistakes).some(v => v > 3)) return;
 
         if (isTileBlocked(position)) {
-            setMessage("This tile is locked.");
+            setMessage({
+                text: "This tile is locked.",
+                type: "default"
+            });
             return;
         }
 
@@ -350,37 +372,52 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
             const pairId = first.tile.pairId;
 
             if (samePair && differentTypes) {
-                const pairAttempt = pairAttempts[pairId] || 0;
-                let newScore = pairAttempt === 0 ? 1000 : pairAttempt === 1 ? 500 : 100;
+                const isFirstAttempt = pairMistakes[pairId] === undefined || pairMistakes[pairId] === 0;
 
-                setScore(prevScore => prevScore + newScore);
-                setPairAttempts(prevAttempts => ({...prevAttempts, [pairId]: pairAttempt + 1}));
+                let pointsToAdd = isFirstAttempt ? 5 : 1;
+                setScore(prevScore => prevScore + pointsToAdd);
+                setPairMistakes(prev => ({
+                    ...prev,
+                    [pairId]: (prev[pairId] || 0) + 1
+                }));
 
                 const newRemovedTiles = [...removedTiles, first.tile.id, second.tile.id];
                 setRemovedTiles(newRemovedTiles);
-                setMessage(`Well done! "${pairId}"`);
+                setMessage({
+                    text: `Well done! "${pairId}"`,
+                    type: "default"
+                });
 
                 if (newRemovedTiles.length === tiles.length) {
                     setGameWon(true);
-                    setMessage(`Congratulations! You have completed the game with ${score + newScore} points.`);
+                    setMessage({
+                        text: `You have completed the game with ${score + pointsToAdd} points.`,
+                        type: "congratulations"
+                    });
                 }
             } else {
                 const newMistakes = mistakes + 1;
                 setMistakes(newMistakes);
-                setMessage("They do not match.");
+                setMessage({
+                    text: "They do not match.",
+                    type: "default"
+                });
 
                 const newPairMistakes = {...pairMistakes, [pairId]: (pairMistakes[pairId] || 0) + 1};
                 setPairMistakes(newPairMistakes);
 
                 if (newPairMistakes[pairId] > 3 || newMistakes === 5) {
                     setGameWon(false);
-                    setMessage("Game over! You have reached the maximum number of errors.");
+                    setMessage({
+                        text: "You have reached the maximum number of errors.",
+                        type: "game-over"
+                    });
                 }
             }
 
             setTimeout(() => {
                 setSelectedTiles([]);
-            }, 1500);
+            }, 10);
         }
     };
 
