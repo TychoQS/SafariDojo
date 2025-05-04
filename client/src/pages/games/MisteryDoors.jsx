@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Title from "@/components/Title";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import levelsData from "../../../../database/jsondata/MisteryDoors.json"
 import {cherryBomb} from "@/styles/fonts";
 
 const MisteryDoorsGame = () => {
@@ -19,26 +18,45 @@ const MisteryDoorsGame = () => {
     const [vaultGuess, setVaultGuess] = useState(['', '', '']);
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [showFeedback, setShowFeedback] = useState(false);
+    const [difficulty, setDifficulty] = useState("easy");
 
     const MAX_LEVELS = 5;
-    const allLevels = levelsData.allLevels || [];
-    const [randomLevels, setRandomLevels] = useState([]);
-
-    const selectRandomLevels = () => {
-        const shuffled = [...allLevels].sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, MAX_LEVELS);
-    };
 
     useEffect(() => {
-        setRandomLevels(selectRandomLevels());
+        fetchDifficulty();
     }, []);
 
-    const currentLevel = randomLevels[Math.min(level - 1, randomLevels.length - 1)] || { problem: null, difficulty: 'easy' };
+    async function fetchDifficulty() {
+        const previousURL = localStorage.getItem('previousURL');
 
-    const generateProblem = (difficultyLevel) => {
+        if (previousURL) {
+            const urlParams = new URLSearchParams(new URL(previousURL).search);
+            const ageParam = urlParams.get("Age");
+            setDifficulty(ageParam);
+        } else {
+            console.error("No previous URL found in localStorage");
+        }
+    }
+
+    const generateProblem = (difficultyLevel = difficulty) => {
         let a, b, operator, result;
-        const operators = difficultyLevel === 'easy' ? ['+', '-'] : ['+', '-', '×', '÷'];
-        const maxNumber = difficultyLevel === 'easy' ? 10 + level * 2 : 20 + level * 5;
+        let operators;
+        let maxNumber;
+
+        switch (difficultyLevel) {
+            case 'hard':
+                operators = ['+', '-', '×', '÷'];
+                maxNumber = 100 + level * 10;
+                break;
+            case 'medium':
+                operators = ['+', '-', '×'];
+                maxNumber = 50 + level * 5;
+                break;
+            default:
+                operators = ['+', '-'];
+                maxNumber = 20 + level * 2;
+                break;
+        }
 
         do {
             operator = operators[Math.floor(Math.random() * operators.length)];
@@ -52,22 +70,22 @@ const MisteryDoorsGame = () => {
                 b = Math.floor(Math.random() * a) + 1;
                 result = a - b;
             } else if (operator === '×') {
-                a = Math.floor(Math.random() * 12) + 1;
-                b = Math.floor(Math.random() * 12) + 1;
+                a = Math.floor(Math.random() * (level + 5)) + 1;
+                b = Math.floor(Math.random() * (level + 5)) + 1;
                 result = a * b;
             } else if (operator === '÷') {
-                b = Math.floor(Math.random() * 10) + 1;
-                result = Math.floor(Math.random() * 10) + 1;
+                b = Math.floor(Math.random() * (level + 3)) + 1;
+                result = Math.floor(Math.random() * (level + 3)) + 1;
                 a = b * result;
             }
-        } while (result < 0 || result > 100);
+        } while (result < 0 || result > 999);
 
         return {
             text: `${a} ${operator} ${b}`,
             correctAnswer: result,
-            a: a,
-            b: b,
-            operator: operator
+            a,
+            b,
+            operator
         };
     };
 
@@ -89,7 +107,7 @@ const MisteryDoorsGame = () => {
     };
 
     const startLevel = () => {
-        const newProblem = currentLevel.problem || generateProblem(currentLevel.difficulty);
+        const newProblem = generateProblem(difficulty);
         setProblem(newProblem);
         setDoors(correctDoorsGenerator(newProblem.correctAnswer));
         setShowFeedback(false);
@@ -177,8 +195,6 @@ const MisteryDoorsGame = () => {
     }, [level, gameState, showStartScreen]);
 
     const restartGame = () => {
-        const newRandomLevels = selectRandomLevels();
-        setRandomLevels(newRandomLevels);
         setLevel(1);
         setScore(0);
         setLives(3);
@@ -187,10 +203,6 @@ const MisteryDoorsGame = () => {
         setShowFeedback(false);
         setShowStartScreen(true);
     };
-
-    if (randomLevels.length === 0) {
-        return <div>Loading game...</div>;
-    }
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
