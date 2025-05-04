@@ -12,7 +12,8 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
     const [selectedDifficulty, setSelectedDifficulty] = useState(null);
     const [isCompleted, setIsCompleted] = useState(isCompletedProp);
     const [primaryColor, setPrimaryColor] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+    const [showModalDifficulty, setShowModalDifficulty] = useState(false);
+    const [showModalLogin, setShowModalLogin] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,13 +42,13 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
 
     const handleClick = async () => {
         if (selectedDifficulty === null) {
-            setShowModal(true);
+            setShowModalDifficulty(true);
             return;
         }
 
         if (!isLoggedIn && (gameNumber !== 1 || selectedDifficulty !== "easy")) {
-            alert("You must log in");
-            await router.push("/LogIn");
+            setShowModalLogin(true);
+            // No redirigir automáticamente, dejar que el usuario lo haga después de ver el modal
         } else {
             if (isLoggedIn) {
                 const storedGames = JSON.parse(localStorage.getItem(`completedGames_${user.id}`)) || [];
@@ -79,8 +80,17 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
         }
     };
 
-    const closeModal = () => {
-        setShowModal(false);
+    const closeModalDifficulty = () => {
+        setShowModalDifficulty(false);
+    };
+
+    const closeModalLogin = () => {
+        setShowModalLogin(false);
+    };
+
+    const handleLoginRedirect = () => {
+        closeModalLogin();
+        router.push("/LogIn");
     };
 
     return (
@@ -141,14 +151,29 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
                 {isCompleted ? '✓' : '♦'}
             </div>
 
-            {showModal && (
+            {showModalDifficulty && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20"
-                     onClick={closeModal}>
+                     onClick={closeModalDifficulty}>
                     <div onClick={(e) => e.stopPropagation()}>
                         <BaseModal
                             title="Please select a difficulty!"
                             buttons={[
-                                {text: "Got it!", color: "gray", onClick: closeModal},
+                                {text: "Got it!", color: "gray", onClick: closeModalDifficulty},
+                            ]}
+                        />
+                    </div>
+                </div>
+            )}
+
+            {showModalLogin && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20"
+                     onClick={closeModalLogin}>
+                    <div onClick={(e) => e.stopPropagation()}>
+                        <BaseModal
+                            title="You must log in!"
+                            buttons={[
+                                {text: "Log In", color: "green", onClick: handleLoginRedirect},
+                                {text: "Cancel", color: "gray", onClick: closeModalLogin},
                             ]}
                         />
                     </div>
