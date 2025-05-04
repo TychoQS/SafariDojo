@@ -635,42 +635,30 @@ app.post("/api/updateMedals", async (req, res) => {
                     const quizId = quizResult[0].Id;
                     console.log(`Quiz encontrado con Id: ${quizId}`);
 
-                    // Verificar si existe el registro en UserQuizzes
-                    console.log(`Verificando si existe registro para usuario ${userId} y quiz ${quizId}`);
-                    dbConnection.query('SELECT * FROM UserQuizzes WHERE UserId = ? AND QuizId = ?', [userId, quizId], (error, results) => {
-                        if (error) {
-                            console.error('Error while reading user register in UserQuizzes:', error);
-                            return;
-                        }
-                        console.log('Found entry on UserQuizzes', results);
-                        existingRecord = results;
-                        console.log("Resultado de búsqueda de registro existente:", existingRecord);
-
-                        // Updating registers
-                        const updateQuery = `
+                    // Updating registers
+                    const updateQuery = `
                         UPDATE UserQuizzes
                         SET GoldMedal = ?, SilverMedal = ?, BronzeMedal = ?, Done = TRUE
                         WHERE UserId = ? AND QuizId = ?`;
-                        const params = [
-                            medal.GoldMedal ? 1 : 0,
-                            medal.SilverMedal ? 1 : 0,
-                            medal.BronzeMedal ? 1 : 0,
-                            userId,
-                            quizId
-                        ];
+                    const params = [
+                        medal.GoldMedal ? 1 : 0,
+                        medal.SilverMedal ? 1 : 0,
+                        medal.BronzeMedal ? 1 : 0,
+                        userId,
+                        quizId
+                    ];
 
-                        console.log("Query de actualización:", updateQuery);
-                        console.log("Parámetros:", params);
+                    console.log("Query de actualización:", updateQuery);
+                    console.log("Parámetros:", params);
 
-                        dbConnection.query(updateQuery, params, (error, results) => {
-                            if (error) {
-                                console.error('Error while updating register in UserQuizzes:', error);
-                                return;
-                            }
-                            console.log('Register updated in UserQuizzes successfully', results);
-                            updateResult = results;
-                            console.log("Resultado de la actualización:", updateResult);
-                        });
+                    dbConnection.query(updateQuery, params, (error, results) => {
+                        if (error) {
+                            console.error('Error while updating register in UserQuizzes:', error);
+                            return;
+                        }
+                        console.log('Register updated in UserQuizzes successfully', results);
+                        updateResult = results;
+                        console.log("Resultado de la actualización:", updateResult);
                         console.log(`Medallas actualizadas para quiz: ${medal.quizName} (Oro: ${medal.GoldMedal}, Plata: ${medal.SilverMedal}, Bronce: ${medal.BronzeMedal})`);
                     });
                 });
