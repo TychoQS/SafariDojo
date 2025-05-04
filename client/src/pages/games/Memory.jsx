@@ -1,8 +1,8 @@
+import {cherryBomb} from '@/styles/fonts';
 import React, { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
-import Link from "next/link";
 import {router} from "next/client";
 
 
@@ -173,13 +173,21 @@ export default function MemoryGame() {
 
                 if (gameData && age) {
                     const key = `${gameData}_${age}_bestScore`;
-                    localStorage.setItem(key, bestScore.toString());
+                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+                    if (bestScore > storedScore) {
+                        localStorage.setItem(key, bestScore.toString());
+                    }
                 }
             }
         } catch (error) {
             console.error("Error processing score update:", error);
         }
-        router.back();
+        return router.push({
+            pathname: "../GameSelectionPage",
+            query: {
+               Subject: "Science"
+            }
+        });
     }
 
     return (
@@ -232,8 +240,6 @@ export default function MemoryGame() {
                                 🏅 ¡Congratulations! You've won a medal.
                                 <br />
                                 Final score: {score}
-                                <br />
-                                Best score: {bestScore}
                             </div>
                         )}
 
@@ -242,17 +248,15 @@ export default function MemoryGame() {
                                 💀 ¡You lost! Try again.
                                 <br />
                                 Final score: {score}
-                                <br />
-                                Best score: {bestScore}
                             </div>
                         )}
                         <div className={"mt-8 space-x-8 flex flex-row"}>
-                            <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none text-lg " +
-                                "border-[#6EF68B] bg-[#C9F1D2] text-black"} onClick={() => restartGame()}>
+                            <button className={"cursor-pointer h-20 w-40 text-2xl rounded-4xl border-b-8 hover:border-none " +
+                                `border-[#6EF68B] bg-[#C9F1D2] text-black ${cherryBomb.className}`} onClick={() => restartGame()}>
                                 Play again
                             </button>
-                            <button className={"cursor-pointer h-15 w-35 rounded-4xl border-b-8 hover:border-none " +
-                                "text-lg border-[#6EF68B] bg-[#C9F1D2] text-black"} onClick={() => finishGame()}>
+                            <button className={"cursor-pointer h-20 w-40 text-2xl rounded-4xl border-b-8 hover:border-none " +
+                                `border-[#6EF68B] bg-[#C9F1D2] text-black ${cherryBomb.className}`} onClick={() => finishGame()}>
                                 Finish game
                             </button>
                         </div>
