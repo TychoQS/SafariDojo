@@ -327,7 +327,7 @@ app.get('/api/getBestScore', (req, res) => {
     } else if (difficulty === 'medium') {
         column = 'BestScoreMedium';
     } else if (difficulty === 'hard') {
-        column = 'BestScoreDifficult';
+        column = 'BestScoreHard';
     } else {
         return res.status(400).json({ message: 'Invalid difficulty' });
     }
