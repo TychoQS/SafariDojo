@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import {patrickHand, cherryBomb} from "@/styles/fonts";
+import {cherryBomb, patrickHand} from "@/styles/fonts";
 import {useAuth} from "@/pages/context/AuthContext";
+import BaseModal from "@/components/BaseModal";
 
 const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) => {
     const {isLoggedIn, user} = useAuth();
@@ -11,6 +12,7 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
     const [selectedDifficulty, setSelectedDifficulty] = useState(null);
     const [isCompleted, setIsCompleted] = useState(isCompletedProp);
     const [primaryColor, setPrimaryColor] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,7 +41,7 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
 
     const handleClick = async () => {
         if (selectedDifficulty === null) {
-            alert("Please select a difficulty before proceeding.");
+            setShowModal(true);
             return;
         }
 
@@ -75,6 +77,10 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
         } else {
             setSelectedDifficulty(difficulty);
         }
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
     };
 
     return (
@@ -134,6 +140,20 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
             >
                 {isCompleted ? '✓' : '♦'}
             </div>
+
+            {showModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20"
+                     onClick={closeModal}>
+                    <div onClick={(e) => e.stopPropagation()}>
+                        <BaseModal
+                            title="Please select a difficulty!"
+                            buttons={[
+                                {text: "Got it!", color: "gray", onClick: closeModal},
+                            ]}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
