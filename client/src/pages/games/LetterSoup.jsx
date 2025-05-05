@@ -263,7 +263,7 @@ export default function LetterSoup() {
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header></Header>
-            <main className="bg-PS-main-purple w-dvw h-[768px] mb-7 flex flex-col justify-center items-center">
+            <section className=" justify-center items-center mb-7 flex flex-col  py-10 bg-PS-main-purple">
                 <Title>Letter Soup</Title>
                 <Link href={{pathname: "../GameSelectionPage", query: {Subject: "English"}}}>
                     <div className="mt-4 mb-2 relative w-[1150px] flex justify-start">
@@ -356,7 +356,7 @@ export default function LetterSoup() {
                         </div>
                     </div>
                 </div>
-            </main>
+            </section>
             <Footer></Footer>
         </div>
     );
