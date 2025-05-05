@@ -19,12 +19,29 @@ module.exports = {
                     '0%': { transform: 'rotate(-20deg)' },
                     '100%': { transform: 'rotate(20deg)' },
                 },
+                fadeIn: {
+                    "0%": { opacity: "0", transform: "translateY(10px)" },
+                    "10%": { opacity: "1", transform: "translateY(0)" },
+                },
+                fadeInOut: {
+                    "0%": { opacity: "0", transform: "translateY(10px)" },
+                    "10%": { opacity: "1", transform: "translateY(0)" },
+                    "90%": { opacity: "1", transform: "translateY(0)" },
+                    "100%": { opacity: "0", transform: "translateY(-10px)" },
+                },
+                foundPulse: {
+                    '0%': { backgroundColor: '#86efac' },
+                    '50%': { backgroundColor: '#4ade80' },
+                    '100%': { backgroundColor: '#22c55e' },
+                }
             },
             animation: {
                 'pendulum': 'pendulum 1.75s ease-in-out infinite alternate',
-            }
+                "fade-in": "fadeIn 3s ease-in forwards",
+                "fade-in-out": "fadeInOut 3s ease-in-out forwards",
+                "found-pulse": "foundPulse 4s ease-in-out",
+            },
         },
     },
     plugins: [],
 };
-
