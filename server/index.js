@@ -560,6 +560,46 @@ app.get('/api/getTutorialVideo', (req, res) => {
     });
 });
 
+app.get('/api/getLetterSoup', (req, res) => {
+    const difficulty = req.query.Difficulty?.toLowerCase();
+
+    if (!difficulty || !['easy', 'medium', 'hard'].includes(difficulty)) {
+        console.warn("Invalid or missing difficulty parameter");
+        return res.status(400).json({ message: "Missing or invalid 'Difficulty' parameter" });
+    }
+
+    const query = 'SELECT Grid, Words FROM LetterSoup WHERE Difficulty = ? ORDER BY RAND() LIMIT 1';
+
+    dbConnection.query(query, [difficulty], (err, results) => {
+        if (err) {
+            console.error("Database query error:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: "No LetterSoup data found for this difficulty" });
+        }
+
+        const { Grid, Words } = results[0];
+
+        try {
+            if (!Array.isArray(Grid) || !Grid.every(row => Array.isArray(row))) {
+                throw new Error("Invalid Grid format");
+            }
+            if (!Array.isArray(Words)) {
+                throw new Error("Invalid Words format");
+            }
+
+            return res.status(200).json({
+                grid: Grid,
+                words: Words
+            });
+        } catch (error) {
+            console.error("Data validation error:", error);
+            return res.status(500).json({ message: "Data format error in database" });
+        }
+    });
+});
 
 app.get('/api/getUserMedals', (req, res) => {
     const { userId } = req.query;

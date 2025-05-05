@@ -6,37 +6,17 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 
 export default function LetterSoup() {
-    const words = ["BIRD", "GIRLFRIEND", "HAMSTER", "HUSBAND", "KEYS", "LEAVES", "PET", "TOOTH", "TURTLE", "WIFE"];
+    const [words, setWords] = useState([]);
+    const [difficulty, setDifficulty] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const rows = 11;
-    const cols = 11;
-
-    const initialGrid = [
-        ["G", "L", "B", "K", "F", "X", "Y", "V", "O", "I", "I"],
-        ["U", "I", "I", "L", "T", "B", "A", "Z", "O", "I", "G"],
-        ["P", "X", "R", "J", "E", "S", "J", "W", "C", "J", "U"],
-        ["H", "H", "D", "L", "T", "A", "M", "I", "Q", "P", "S"],
-        ["U", "G", "A", "H", "F", "M", "V", "F", "Q", "F", "B"],
-        ["S", "R", "J", "M", "W", "R", "K", "E", "Y", "S", "T"],
-        ["B", "U", "K", "Y", "S", "C", "I", "Y", "S", "T", "I"],
-        ["A", "P", "T", "U", "R", "T", "L", "E", "P", "G", "E"],
-        ["N", "K", "D", "J", "X", "P", "E", "G", "N", "S", "F"],
-        ["D", "X", "D", "H", "M", "E", "E", "R", "D", "D", "U"],
-        ["U", "A", "L", "E", "T", "O", "O", "T", "H", "V", "S"]
-    ];
 
     const directions = [
-        [1, 0],
-        [0, 1],
-        [1, 1],
-        [-1, 0],
-        [0, -1],
-        [-1, -1],
-        [1, -1],
-        [-1, 1]
+        [1, 0], [0, 1], [1, 1], [-1, 0], [0, -1], [-1, -1], [1, -1], [-1, 1]
     ];
 
-    const [grid, setGrid] = useState(initialGrid);
+    const [grid, setGrid] = useState([]);
     const [selectedCells, setSelectedCells] = useState([]);
     const [foundWords, setFoundWords] = useState([]);
     const [foundWordCells, setFoundWordCells] = useState([]);
@@ -45,13 +25,45 @@ export default function LetterSoup() {
     const [message, setMessage] = useState("");
     const [currentDirection, setCurrentDirection] = useState(null);
 
-    const isWordFound = (word) => {
-        return foundWords.includes(word);
+    const fetchLetterSoupData = async (diff) => {
+        if (!diff) return;
+        setLoading(true);
+        try {
+            const response = await fetch(`http://localhost:8080/api/getLetterSoup?Difficulty=${diff}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setGrid(data.grid);
+            setWords(data.words);
+        } catch (err) {
+            console.error('Fetch error:', err);
+            setError(err.message);
+            setMessage(`Failed to load game data: ${err.message}`);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const getSelectedText = () => {
-        return selectedCells.map(([row, col]) => grid[row][col]).join("");
-    };
+    useEffect(() => {
+        const previousURL = localStorage.getItem("previousURL");
+        let initialDifficulty = 'easy'; // Valor por defecto
+        if (previousURL) {
+            const url = new URL(previousURL);
+            const difficultyFromURL = url.searchParams.get("Age");
+            if (['easy', 'medium', 'hard'].includes(difficultyFromURL)) {
+                initialDifficulty = difficultyFromURL;
+            }
+        }
+        setDifficulty(initialDifficulty);
+        fetchLetterSoupData(initialDifficulty);
+    }, []);
+
+
+    const isWordFound = (word) => foundWords.includes(word);
+
+    const getSelectedText = () => selectedCells.map(([row, col]) => grid[row][col]).join("");
 
     const startSelection = (row, col) => {
         setIsSelecting(true);
@@ -132,30 +144,47 @@ export default function LetterSoup() {
     };
 
     useEffect(() => {
-        if (foundWords.length === words.length) {
+        if (foundWords.length === words.length && words.length > 0) {
             setMessage("Congrats! You found all the words.");
         }
-    }, [foundWords]);
+    }, [foundWords, words]);
 
-    const handleMouseDown = (row, col) => {
-        startSelection(row, col);
+    const handleMouseDown = (row, col) => startSelection(row, col);
+    const handleMouseEnter = (row, col) => continueSelection(row, col);
+    const handleMouseUp = () => endSelection();
+
+    const isCellSelected = (row, col) => selectedCells.some(([r, c]) => r === row && c === col);
+    const isCellInFoundWord = (row, col) => foundWordCells.some(([r, c]) => r === row && c === col);
+
+    const handleRetry = () => {
+        fetchLetterSoupData(difficulty);
     };
 
-    const handleMouseEnter = (row, col) => {
-        continueSelection(row, col);
-    };
+    if (loading) {
+        return (
+            <div className="app min-h-screen flex flex-col bg-PS-main-purple">
+                <Header />
+                <main className="bg-PS-main-purple w-dvw h-[768px] mb-7 flex flex-col justify-center items-center">
+                    <Title>Loading...</Title>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
 
-    const handleMouseUp = () => {
-        endSelection();
-    };
-
-    const isCellSelected = (row, col) => {
-        return selectedCells.some(([r, c]) => r === row && c === col);
-    };
-
-    const isCellInFoundWord = (row, col) => {
-        return foundWordCells.some(([r, c]) => r === row && c === col);
-    };
+    if (error) {
+        return (
+            <div className="app min-h-screen flex flex-col bg-PS-main-purple">
+                <Header />
+                <main className="bg-PS-main-purple w-dvw h-[768px] mb-7 flex flex-col justify-center items-center">
+                    <Title>Error</Title>
+                    <p className="text-red-500 mb-4">{error}</p>
+                    <Button onClick={handleRetry}>Retry</Button>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -233,8 +262,7 @@ export default function LetterSoup() {
                                     style={{ width: `${(foundWords.length / words.length) * 100}%` }}
                                 ></div>
                             </div>
-
-                            {foundWords.length === words.length && (
+                            {foundWords.length === words.length && words.length > 0 && (
                                 <div className="animate-fade-in mt-4 p-1 bg-green-100 text-green-800 rounded-lg text-center font-bold">
                                     Good job!
                                 </div>
