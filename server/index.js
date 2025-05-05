@@ -580,9 +580,12 @@ app.get('/api/getLetterSoup', (req, res) => {
             return res.status(404).json({ message: "No LetterSoup data found for this difficulty" });
         }
 
-        const { Grid, Words } = results[0];
+        let { Grid, Words } = results[0];
 
         try {
+            Grid = typeof Grid === 'string' ? JSON.parse(Grid) : Grid;
+            Words = typeof Words === 'string' ? JSON.parse(Words) : Words;
+
             if (!Array.isArray(Grid) || !Grid.every(row => Array.isArray(row))) {
                 throw new Error("Invalid Grid format");
             }
