@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Title from "@/components/Title";
 import Header from "@/components/Header";
 import Button from "@/components/Button";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import {useRouter} from "next/router";
 
 export default function LetterSoup() {
     const [words, setWords] = useState([]);
     const [difficulty, setDifficulty] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-
+    const [gameCompleted, setGameCompleted] = useState(false);
     const directions = [
         [1, 0], [0, 1], [1, 1], [-1, 0], [0, -1], [-1, -1], [1, -1], [-1, 1]
     ];
@@ -24,6 +24,10 @@ export default function LetterSoup() {
     const [currentWord, setCurrentWord] = useState("");
     const [message, setMessage] = useState("");
     const [currentDirection, setCurrentDirection] = useState(null);
+    const [timeElapsed, setTimeElapsed] = useState(0);
+    const [points, setPoints] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+    const router = useRouter();
 
     const fetchLetterSoupData = async (diff) => {
         if (!diff) return;
@@ -37,6 +41,11 @@ export default function LetterSoup() {
             const data = await response.json();
             setGrid(data.grid);
             setWords(data.words);
+            setFoundWords([]);
+            setFoundWordCells([]);
+            setTimeElapsed(0);
+            setPoints(0);
+            setShowModal(false);
         } catch (err) {
             console.error('Fetch error:', err);
             setError(err.message);
@@ -48,7 +57,7 @@ export default function LetterSoup() {
 
     useEffect(() => {
         const previousURL = localStorage.getItem("previousURL");
-        let initialDifficulty = 'easy'; // Valor por defecto
+        let initialDifficulty = 'easy';
         if (previousURL) {
             const url = new URL(previousURL);
             const difficultyFromURL = url.searchParams.get("Age");
@@ -60,6 +69,40 @@ export default function LetterSoup() {
         fetchLetterSoupData(initialDifficulty);
     }, []);
 
+    useEffect(() => {
+        let timer;
+        if (!loading && !error && !showModal) {
+            timer = setInterval(() => {
+                setTimeElapsed((prev) => prev + 1);
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [loading, error, showModal]);
+
+    const calculatePoints = (seconds) => {
+        const minutes = 90;
+        if (seconds <= minutes) {
+            return 50;
+        }
+        const extraSeconds = seconds - minutes;
+        const deductions = Math.floor(extraSeconds / 30) * 5;
+        return Math.max(50 - deductions, 0);
+    };
+
+    useEffect(() => {
+        if (foundWords.length === words.length && words.length > 0 && !showModal && !gameCompleted) {
+            setMessage("Congrats! You found all the words.");
+            setShowModal(true);
+            setPoints(calculatePoints(timeElapsed));
+            setGameCompleted(true);
+        }
+    }, [foundWords, words, timeElapsed, showModal, gameCompleted]);
+
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
 
     const isWordFound = (word) => foundWords.includes(word);
 
@@ -83,7 +126,6 @@ export default function LetterSoup() {
                 const newSelectedCells = selectedCells.slice(0, -1);
                 setSelectedCells(newSelectedCells);
                 setCurrentWord(currentWord.slice(0, -1));
-
                 if (newSelectedCells.length === 1) {
                     setCurrentDirection(null);
                 }
@@ -95,25 +137,20 @@ export default function LetterSoup() {
             const [dx, dy] = currentDirection;
             const expectedRow = lastCell[0] + dx;
             const expectedCol = lastCell[1] + dy;
-
             if (row !== expectedRow || col !== expectedCol) {
                 return;
             }
         } else if (selectedCells.length === 1) {
             const dx = row - lastCell[0];
             const dy = col - lastCell[1];
-
             const isValidDirection = directions.some(([dirX, dirY]) => dirX === dx && dirY === dy);
-
             if (!isValidDirection) {
                 return;
             }
-
             setCurrentDirection([dx, dy]);
         }
 
         const isAlreadySelected = selectedCells.some(([r, c]) => r === row && c === col);
-
         if (!isAlreadySelected) {
             setSelectedCells([...selectedCells, [row, col]]);
             setCurrentWord(currentWord + grid[row][col]);
@@ -143,11 +180,12 @@ export default function LetterSoup() {
         setCurrentWord("");
     };
 
-    useEffect(() => {
-        if (foundWords.length === words.length && words.length > 0) {
-            setMessage("Congrats! You found all the words.");
-        }
-    }, [foundWords, words]);
+    const closeModal = () => {
+        setShowModal(false);
+        setTimeout(() => {
+            router.back();
+        }, 0);
+    };
 
     const handleMouseDown = (row, col) => startSelection(row, col);
     const handleMouseEnter = (row, col) => continueSelection(row, col);
@@ -157,17 +195,18 @@ export default function LetterSoup() {
     const isCellInFoundWord = (row, col) => foundWordCells.some(([r, c]) => r === row && c === col);
 
     const handleRetry = () => {
+        setGameCompleted(false);
         fetchLetterSoupData(difficulty);
     };
 
     if (loading) {
         return (
             <div className="app min-h-screen flex flex-col bg-PS-main-purple">
-                <Header />
+                <Header/>
                 <main className="bg-PS-main-purple w-dvw h-[768px] mb-7 flex flex-col justify-center items-center">
                     <Title>Loading...</Title>
                 </main>
-                <Footer />
+                <Footer/>
             </div>
         );
     }
@@ -175,13 +214,13 @@ export default function LetterSoup() {
     if (error) {
         return (
             <div className="app min-h-screen flex flex-col bg-PS-main-purple">
-                <Header />
+                <Header/>
                 <main className="bg-PS-main-purple w-dvw h-[768px] mb-7 flex flex-col justify-center items-center">
                     <Title>Error</Title>
                     <p className="text-red-500 mb-4">{error}</p>
                     <Button onClick={handleRetry}>Retry</Button>
                 </main>
-                <Footer />
+                <Footer/>
             </div>
         );
     }
@@ -198,7 +237,7 @@ export default function LetterSoup() {
                 </Link>
                 <div className="flex flex-row items-start justify-between p-4 max-w-6xl mx-auto bg-pink-50
                                 rounded-lg shadow-lg h-full border-4 border-stone-700"
-                     style={{ maxHeight: '620px', width: '1200px' }}
+                     style={{maxHeight: '620px', width: '1200px'}}
                 >
                     <div className="w-3/5">
                         <div
@@ -208,13 +247,9 @@ export default function LetterSoup() {
                                 row.map((letter, colIndex) => (
                                     <div
                                         key={`${rowIndex}-${colIndex}`}
-                                        className={`w-9 h-9 flex items-center justify-center rounded cursor-pointer 
-                                                    select-none text-lg text-white font-medium
-                                            ${ isCellSelected(rowIndex, colIndex) ? 'bg-blue-400 text-white' :
-                                            isCellInFoundWord(rowIndex, colIndex) ? 'bg-green-300 line-through' :
-                                                'bg-blue-200'
-                                        }
-                                        `}
+                                        className={`w-9 h-9 flex items-center justify-center rounded cursor-pointer select-none text-lg text-white font-medium
+                                            ${isCellSelected(rowIndex, colIndex) ? 'bg-blue-400 text-white' :
+                                            isCellInFoundWord(rowIndex, colIndex) ? 'bg-green-300 line-through' : 'bg-blue-200'}`}
                                         onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
                                         onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
                                         onMouseUp={handleMouseUp}
@@ -239,11 +274,7 @@ export default function LetterSoup() {
                                 {words.map((word, index) => (
                                     <div
                                         key={index}
-                                        className={`px-3 py-2 rounded-full text-center ${
-                                            isWordFound(word)
-                                                ? 'bg-green-500 text-white line-through animate-found-pulse'
-                                                : 'bg-gray-200 text-gray-700'
-                                        }`}
+                                        className={`px-3 py-2 rounded-full text-center ${isWordFound(word) ? 'bg-green-500 text-white line-through animate-found-pulse' : 'bg-gray-200 text-gray-700'}`}
                                     >
                                         {word}
                                     </div>
@@ -254,19 +285,39 @@ export default function LetterSoup() {
                         <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center">
                             <div className="text-2xl text-gray-600 font-bold mb-2">Your progress</div>
                             <div className="text-2xl font-bold text-pink-800">
-                                {foundWords.length} <span className="text-gray-600 font-medium">out of</span> {words.length}
+                                {foundWords.length} <span
+                                className="text-gray-600 font-medium">out of</span> {words.length}
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-4 mt-3">
                                 <div
                                     className="bg-pink-600 h-4 rounded-full transition-all duration-500 ease-in-out shadow-md"
-                                    style={{ width: `${(foundWords.length / words.length) * 100}%` }}
+                                    style={{width: `${(foundWords.length / words.length) * 100}%`}}
                                 ></div>
                             </div>
-                            {foundWords.length === words.length && words.length > 0 && (
-                                <div className="animate-fade-in mt-4 p-1 bg-green-100 text-green-800 rounded-lg text-center font-bold">
-                                    Good job!
+                            <div className="text-lg text-gray-600 font-medium mt-3">
+                                Time: <span className="font-bold text-pink-800">{formatTime(timeElapsed)}</span>
+                            </div>
+                            {showModal && (
+                                <div
+                                    className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
+                                    <div
+                                        className="p-6 rounded-xl w-3/4 max-w-lg text-center bg-amber-50 shadow-xl transform transition-all
+                                        text-green-600 scale-105"
+                                    >
+                                        <h2 className="text-3xl font-extrabold mb-2">
+                                            🎉 Congratulations!
+                                        </h2>
+                                        <p className="text-lg mb-4">You earned {points} points</p>
+                                        <button
+                                            onClick={closeModal}
+                                            className="mt-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition"
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
                                 </div>
                             )}
+
                         </div>
                     </div>
                 </div>
