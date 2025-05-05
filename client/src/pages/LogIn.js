@@ -40,6 +40,21 @@ const LogIn = () => {
             const token = `fakeTokenForUser-${Date.now()}`;
             logIn(token, ResponseData);
 
+            const getMedalsResponse = await fetch(`http://localhost:8080/api/getUserMedals?userId=${ResponseData.userId}`);
+
+            if (getMedalsResponse.ok) {
+                const medalsData = await getMedalsResponse.json();
+
+                medalsData.forEach((quiz) => {
+                    const {quizName, GoldMedal, SilverMedal, BronzeMedal} = quiz;
+                    localStorage.setItem(`${quizName}_GoldMedal`, GoldMedal);
+                    localStorage.setItem(`${quizName}_SilverMedal`, SilverMedal);
+                    localStorage.setItem(`${quizName}_BronzeMedal`, BronzeMedal);
+                });
+            } else {
+                console.error("Error fetching user medals");
+            }
+
             const redirectFrom = sessionStorage.getItem("loginRedirectFrom");
 
             if (redirectFrom === "quizGamePreview") {
@@ -54,6 +69,7 @@ const LogIn = () => {
             setShowModal(true);
         }
     };
+
 
     return (
         <div className="flex flex-col min-h-screen bg-cover bg-center m-0"

@@ -12,6 +12,43 @@ const MahjongPairs = ({dataSets, title}) => {
     const game = useMahjongGame(dataSets);
     const router = useRouter();
 
+    const handleCloseMessage = () => {
+        if (game.message?.type === "congratulations") {
+            try {
+                const previousURL = localStorage.getItem("previousURL");
+                if (previousURL) {
+                    const url = new URL(previousURL);
+                    const gameData = url.searchParams.get("Game");
+                    const age = url.searchParams.get("Age");
+
+                    if (gameData && age) {
+                        const key = `${gameData}_${age}_bestScore`;
+                        const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+
+                        if (game.score > storedScore) {
+                            localStorage.setItem(key, game.score.toString());
+                        }
+
+                        const typeMedal = age === "easy"
+                            ? "BronzeMedal"
+                            : age === "medium"
+                                ? "SilverMedal"
+                                : "GoldMedal";
+
+                        const medalKey = `${gameData}_${typeMedal}`;
+                        const medalStatus = localStorage.getItem(medalKey) === "1";
+                        if (!medalStatus) {
+                            localStorage.setItem(medalKey, "1");
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Error processing score or medal update:", error);
+            }
+        }
+        router.back();
+    };
+
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header/>
@@ -30,31 +67,7 @@ const MahjongPairs = ({dataSets, title}) => {
                             score={game.score}
                             message={game.message}
                             mistakes={game.mistakes}
-                            onCloseMessage={() => {
-                                if (game.message?.type === "congratulations") {
-                                    try {
-                                        const previousURL = localStorage.getItem("previousURL");
-                                        if (previousURL) {
-                                            const url = new URL(previousURL);
-                                            const gameData = url.searchParams.get("Game");
-                                            const age = url.searchParams.get("Age");
-
-                                            if (gameData && age) {
-                                                const key = `${gameData}_${age}_bestScore`;
-                                                const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-
-                                                if (game.score > storedScore) {
-                                                    localStorage.setItem(key, game.score.toString());
-                                                }
-                                            }
-                                        }
-                                    } catch (error) {
-                                        console.error("Error processing score update:", error);
-                                    }
-                                }
-
-                                router.back();
-                            }}
+                            onCloseMessage={handleCloseMessage}
                         />
 
                         <GameBoard
