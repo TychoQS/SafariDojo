@@ -11,6 +11,7 @@ import {useRouter} from "next/router";
 import {useProfile} from "@/pages/context/ProfileContext";
 import ModalButton from "@/components/ModalButton";
 import PremiumModal from "@/components/PremiumModal";
+import {useTranslation} from "react-i18next";
 
 export default function MyProfile() {
     const {profile, updateProfile} = useProfile();
@@ -19,6 +20,7 @@ export default function MyProfile() {
     const [showPremiumModal, setShowPremiumModal] = useState(false);
     const router = useRouter();
     const [confirmLeave, setConfirmLeave] = useState(false);
+    const { t } = useTranslation();
 
     const currentUser = profile || {name: "Unknown", email: "N/A", profilePhoto: "default", isPremium: false};
 
@@ -87,7 +89,7 @@ export default function MyProfile() {
             <section
                 className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
                 <div className="col-span-2 flex justify-center items-center gap-4">
-                    <Title>My profile</Title>
+                    <Title>{t('myprofile')}</Title>
                     <div className="relative group flex items-center justify-center">
                         <svg
                             onClick={() => setShowPremiumModal(true)}
@@ -122,43 +124,21 @@ export default function MyProfile() {
                 </div>
 
                 <div className="col-start-2 row-start-3 flex flex-col items-end space-y-6">
-                    <DisplayField size="large" label="Name" value={userName || currentUser.name}/>
-                    <DisplayField size="large" label="Email" value={currentUser.email}/>
+                    <DisplayField size="large" label={t('name')} value={userName || currentUser.name} />
+                    <DisplayField size="large" label={t('email')} value={currentUser.email}/>
+
+                    <Button size="large">
+                        <Link href="/EditProfile">{t('editprofile')}</Link>
+                    </Button>
                 </div>
 
-                <div className="col-start-1 row-start-2 flex justify-center items-start space-y-6 mb-[20px] relative">
+                <div className="col-start-1 row-start-2 flex justify-center items-start space-y-6 mb-[10px] relative">
                     <AnimalIcon animalName={profilePhoto || currentUser.profilePhoto} size="large" borderThickness={5}
                                 backgroundColor={"#FBC078"}/>
                     <Link href="/ChangeIcon"
                           className="absolute top-0 right-8 p-2 cursor-pointer hover:scale-110 transition-transform duration-300">
                         <img src="/images/EditIcon.svg" alt="Edit Icon" className="w-8 h-8"/>
                     </Link>
-                </div>
-
-                <div className="col-start-1 col-span-2 row-start-4 flex justify-between items-center">
-                    <div className="flex space-x-8">
-                        <Link href="..">
-                            <img
-                                src="/images/StatsButton.svg"
-                                alt="Stats Button"
-                                className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"
-                            />
-                        </Link>
-                        <Link href="/Goals">
-                            <img
-                                src="/images/Diana.svg"
-                                alt="Diana"
-                                className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"
-                            />
-                        </Link>
-                        <Link href="..">
-                            <img src="/images/Medals.svg" alt="Medals"
-                                 className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"/>
-                        </Link>
-                    </div>
-                    <Button size="large">
-                        <Link href="/EditProfile">edit profile</Link>
-                    </Button>
                 </div>
             </section>
 

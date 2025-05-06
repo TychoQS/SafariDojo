@@ -51,6 +51,10 @@ const resources = {
                 Maths: "Hey, I'm Emily, and Maths will never be the same with me around!",
                 Geography: "Hi, I'm Kanye, and Geography will be your new favorite subject with me!",
             },
+            name: 'Name',
+            email: 'Email',
+            editprofile: 'edit profile',
+            myprofile: 'My profile',
         },
     },
     es: {
@@ -100,7 +104,10 @@ const resources = {
                 Maths: "¡Oye, soy Emily, y las matemáticas nunca serán lo mismo conmigo!",
                 Geography: "¡Hola, soy Kanye, y la geografía será tu asignatura favorita conmigo!",
             },
-
+            name: 'Nombre',
+            email: 'Correo electrónico',
+            editprofile: 'editar perfil',
+            myprofile: 'Mi perfil',
         },
     },
     fr: {
@@ -150,6 +157,10 @@ const resources = {
                 Maths: "Salut, je suis Emily, et les maths ne seront plus jamais les mêmes avec moi!",
                 Geography: "Salut, je suis Kanye, et la géographie deviendra ton sujet préféré avec moi!",
             },
+            name: 'Nom',
+            email: 'Email',
+            editprofile: 'modifier le profil',
+            myprofile: 'Mon profil',
         },
     },
     de: {
@@ -199,22 +210,27 @@ const resources = {
                 Maths: "Hey, ich bin Emily, und Mathematik wird mit mir nie mehr dasselbe sein!",
                 Geography: "Hallo, ich bin Kanye, und Geografie wird mit mir dein neues Lieblingsfach!",
             },
+
+            name: 'Name',
+            email: 'Email',
+            editprofile: 'profil bearbeiten',
+            myprofile: 'Mein Profil',
         },
     },
 };
 
 i18n
-    .use(LanguageDetector) // Detect user language
-    .use(initReactI18next) // Bind i18next to React
+    .use(LanguageDetector)
+    .use(initReactI18next)
     .init({
         resources,
-        fallbackLng: 'en', // Default language if detection fails
+        fallbackLng: 'en',
         detection: {
-            order: ['localStorage', 'navigator'], // Check localStorage first, then browser language
-            caches: ['localStorage'], // Cache language in localStorage
+            order: ['localStorage', 'navigator'],
+            caches: ['localStorage'],
         },
         interpolation: {
-            escapeValue: false, // React already escapes values
+            escapeValue: false,
         },
     });
 

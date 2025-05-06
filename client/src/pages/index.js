@@ -8,7 +8,7 @@ import { cherryBomb } from '@/styles/fonts';
 import { useTranslation } from 'react-i18next';
 
 function Index() {
-    const { t } = useTranslation(); // Hook called at top level
+    const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState("");
     const [popularGames, setPopularGames] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
