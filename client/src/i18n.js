@@ -62,6 +62,8 @@ const resources = {
             backButton: 'Back',
             startButton: 'Start',
             bestScore: 'Best score',
+            logOutText1: 'Bye bye, you are logged out!',
+            logOutText2: 'See you later!',
         },
     },
     es: {
@@ -122,6 +124,8 @@ const resources = {
             backButton: 'Atrás',
             startButton: 'Empezar',
             bestScore: 'Mejor puntuación',
+            logOutText1: 'Has cerrado sesión',
+            logOutText2: '¡Nos vemos pronto!',
         },
     },
     fr: {
@@ -182,6 +186,8 @@ const resources = {
             backButton: 'Derrière',
             startButton: 'Commencer',
             bestScore: 'Meilleur résultat',
+            logOutText1 : 'Vous êtes déconnecté',
+            logOutText2 : 'À bientôt!',
         },
     },
     de: {
@@ -243,6 +249,8 @@ const resources = {
             backButton: 'Hinter',
             startButton: 'Anfangen',
             bestScore: 'Besseres Ergebnis',
+            logOutText1: 'Sie sind abgemeldet',
+            logOutText2: 'Bis bald!',
 
         },
     },
