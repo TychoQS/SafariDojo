@@ -7,11 +7,14 @@ import {useEffect, useState} from "react";
 import {cherryBomb} from "@/styles/fonts";
 import Carousel from "@/components/Carousel";
 import LoadingPage from "@/components/LoadingPage";
+import {useTranslation} from "react-i18next";
 
 function GameSelectionPage() {
     const router = useRouter();
     const [subject, setSubject] = useState(null);
     const [subjectData, setSubjectData] = useState(null);
+    const { t } = useTranslation();
+
 
     useEffect(() => {
         if (router.isReady) {
@@ -79,7 +82,7 @@ function GameSelectionPage() {
                     <div className={"flex flex-row justify-evenly mb-8 mt-8"}>
                         <div onClick={() => Click("easy")}>
                             <AgeSelectorButton
-                                Age={"Easy"}
+                                Age={t('difficulty.easy')}
                                 BackgroundColor={selectedButton === "easy" ? secondaryColor : primaryColor}
                                 BorderColor={selectedButton === "easy" ? primaryColor : secondaryColor}
                             />
@@ -87,7 +90,7 @@ function GameSelectionPage() {
 
                         <div onClick={() => Click("medium")}>
                             <AgeSelectorButton
-                                Age={"Medium"}
+                                Age={t('difficulty.medium')}
                                 BackgroundColor={selectedButton === "medium" ? secondaryColor : primaryColor}
                                 BorderColor={selectedButton === "medium" ? primaryColor : secondaryColor}
                             />
@@ -95,7 +98,7 @@ function GameSelectionPage() {
 
                         <div onClick={() => Click("hard")}>
                             <AgeSelectorButton
-                                Age={"Hard"}
+                                Age={t('difficulty.hard')}
                                 BackgroundColor={selectedButton === "hard" ? secondaryColor : primaryColor}
                                 BorderColor={selectedButton === "hard" ? primaryColor : secondaryColor}
                             />
@@ -104,8 +107,7 @@ function GameSelectionPage() {
 
                     <div className={"flex justify-center items-center m-4"}>
                         <div className="flex-grow h-px bg-black opacity-100"></div>
-                        <h2 className={`${cherryBomb.className} font-bold text-[4rem] text-black ml-[2rem] mr-[2rem]`}>Games
-                            Catalog</h2>
+                        <h2 className={`${cherryBomb.className} font-bold text-[4rem] text-black ml-[2rem] mr-[2rem]`}>{t('gamesCatalog')}</h2>
                         <div className="flex-grow h-px bg-black opacity-100"></div>
                     </div>
 

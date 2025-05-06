@@ -58,6 +58,7 @@ const resources = {
             editprofileTitle: 'Edit your profile',
             cancelButton: 'cancel',
             saveButton: 'save',
+            gamesCatalog: 'Games Catalog',
         },
     },
     es: {
@@ -114,6 +115,7 @@ const resources = {
             editprofileTitle: 'Edita tu perfil',
             cancelButton: 'cancelar',
             saveButton: 'guardar',
+            gamesCatalog: 'Catálogo de juegos',
         },
     },
     fr: {
@@ -170,6 +172,7 @@ const resources = {
             editprofileTitle: 'Modifier votre profil',
             cancelButton: 'annuler',
             saveButton: 'suvegarder',
+            gamesCatalog: 'Catalogue de jeux',
         },
     },
     de: {
@@ -227,6 +230,7 @@ const resources = {
             editprofileTitle: 'Bearbeite dein Profil',
             cancelButton: 'retten',
             saveButton: 'abbrechen',
+            gamesCatalog: 'Spiele-Katalog',
 
         },
     },

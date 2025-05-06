@@ -19,7 +19,7 @@ export default function EditProfile() {
     const [name, setName] = useState(user?.name || "");
     const [userName, setUserName] = useState(user?.name || "");
     const [profilePhoto, setProfilePhoto] = useState(user?.profilePhoto || "default");
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const storedName = localStorage.getItem("name");
