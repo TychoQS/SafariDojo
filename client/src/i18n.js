@@ -55,6 +55,9 @@ const resources = {
             email: 'Email',
             editprofile: 'edit profile',
             myprofile: 'My profile',
+            editprofileTitle: 'Edit your profile',
+            cancelButton: 'cancel',
+            saveButton: 'save',
         },
     },
     es: {
@@ -108,6 +111,9 @@ const resources = {
             email: 'Correo electrónico',
             editprofile: 'editar perfil',
             myprofile: 'Mi perfil',
+            editprofileTitle: 'Edita tu perfil',
+            cancelButton: 'cancelar',
+            saveButton: 'guardar',
         },
     },
     fr: {
@@ -161,6 +167,9 @@ const resources = {
             email: 'Email',
             editprofile: 'modifier le profil',
             myprofile: 'Mon profil',
+            editprofileTitle: 'Modifier votre profil',
+            cancelButton: 'annuler',
+            saveButton: 'suvegarder',
         },
     },
     de: {
@@ -215,6 +224,10 @@ const resources = {
             email: 'Email',
             editprofile: 'profil bearbeiten',
             myprofile: 'Mein Profil',
+            editprofileTitle: 'Bearbeite dein Profil',
+            cancelButton: 'retten',
+            saveButton: 'abbrechen',
+
         },
     },
 };
