@@ -6,7 +6,7 @@ import BaseModal from "@/components/BaseModal";
 import { useTranslation } from 'react-i18next';
 
 export default function Header({ showButtons = true }) {
-    const { t } = useTranslation(); // Hook to access translations
+    const { t } = useTranslation();
     const { isLoggedIn, logOut, user } = useAuth();
     const router = useRouter();
     const [showLogOutModal, setShowLogOutModal] = useState(false);

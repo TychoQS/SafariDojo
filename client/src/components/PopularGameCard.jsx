@@ -3,12 +3,13 @@ import {useRouter} from 'next/router';
 import {cherryBomb, patrickHand} from "@/styles/fonts";
 import {useAuth} from "@/pages/context/AuthContext";
 import BaseModal from "@/components/BaseModal";
+import {useTranslation} from 'react-i18next';
 
-const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) => {
+const Card = ({gameSubject, gameNumber, isCompleted: isCompletedProp = null}) => {
     const {isLoggedIn, user} = useAuth();
     const router = useRouter();
+    const {t} = useTranslation();
     const [gameName, setGameName] = useState(null);
-
     const [selectedDifficulty, setSelectedDifficulty] = useState(null);
     const [isCompleted, setIsCompleted] = useState(isCompletedProp);
     const [primaryColor, setPrimaryColor] = useState(null);
@@ -24,11 +25,11 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
                 ]);
 
                 if (colorRes.ok) {
-                    const { primaryColor } = await colorRes.json();
+                    const {primaryColor} = await colorRes.json();
                     setPrimaryColor(primaryColor);
                 }
                 if (nameRes.ok) {
-                    const { quizName } = await nameRes.json();
+                    const {quizName} = await nameRes.json();
                     setGameName(quizName);
                 }
             } catch (err) {
@@ -39,7 +40,6 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
         if (gameSubject && gameNumber) fetchData();
     }, [gameSubject, gameNumber]);
 
-
     const handleClick = async () => {
         if (selectedDifficulty === null) {
             setShowModalDifficulty(true);
@@ -48,7 +48,6 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
 
         if (!isLoggedIn && (gameNumber !== 1 || selectedDifficulty !== "easy")) {
             setShowModalLogin(true);
-            // No redirigir automáticamente, dejar que el usuario lo haga después de ver el modal
         } else {
             if (isLoggedIn) {
                 const storedGames = JSON.parse(localStorage.getItem(`completedGames_${user.id}`)) || [];
@@ -101,9 +100,9 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
             <div className="flex items-center gap-4">
                 <div className="flex flex-col justify-center items-center w-10">
                     <span className={`text-PS-light-black text-xs ${patrickHand.className}`}>
-                        {gameSubject}
+                        {t(`subjects.${gameSubject}`)}
                     </span>
-                    <div className="w-5 h-5 rounded-full" style={{backgroundColor: `#${primaryColor}`}} />
+                    <div className="w-5 h-5 rounded-full" style={{backgroundColor: `#${primaryColor}`}}/>
                 </div>
 
                 <div className={`text-2xl text-PS-light-black ${cherryBomb.className}`}>
@@ -139,7 +138,7 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
                                     : `${buttonColors[difficulty]} text-gray-600`
                             }`}
                         >
-                            {difficulty}
+                            {t(`difficulty.${difficulty.toLowerCase()}`)}
                         </button>
                     );
                 })}
@@ -156,9 +155,9 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
                      onClick={closeModalDifficulty}>
                     <div onClick={(e) => e.stopPropagation()}>
                         <BaseModal
-                            title="Please select a difficulty!"
+                            title={t('modal.select_difficulty')}
                             buttons={[
-                                {text: "Got it!", color: "gray", onClick: closeModalDifficulty},
+                                {text: t('modal.got_it'), color: "gray", onClick: closeModalDifficulty},
                             ]}
                         />
                     </div>
@@ -170,10 +169,10 @@ const Card = ({ gameSubject, gameNumber, isCompleted: isCompletedProp = null }) 
                      onClick={closeModalLogin}>
                     <div onClick={(e) => e.stopPropagation()}>
                         <BaseModal
-                            title="You must log in!"
+                            title={t('modal.must_login')}
                             buttons={[
-                                {text: "Log In", color: "green", onClick: handleLoginRedirect},
-                                {text: "Cancel", color: "gray", onClick: closeModalLogin},
+                                {text: t('modal.login'), color: "green", onClick: handleLoginRedirect},
+                                {text: t('modal.cancel'), color: "gray", onClick: closeModalLogin},
                             ]}
                         />
                     </div>

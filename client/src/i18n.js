@@ -25,6 +25,25 @@ const resources = {
             noPopularGames: 'No popular games available at this time.',
             errorLoadingGames: 'Could not load popular games. Please try again later.',
             errorSearchingGames: 'Error searching games. Please try again later.',
+            difficulty: {
+                easy: 'Easy',
+                medium: 'Medium',
+                hard: 'Hard'
+            },
+            modal: {
+                select_difficulty: 'Please select a difficulty!',
+                must_login: 'You must log in!',
+                got_it: 'Got it!',
+                login: 'Log In',
+                cancel: 'Cancel'
+            },
+            subjects: {
+                English: 'English',
+                Science: 'Science',
+                Art: 'Art',
+                Maths: 'Maths',
+                Geography: 'Geography'
+            }
         },
     },
     es: {
@@ -48,6 +67,26 @@ const resources = {
             noPopularGames: 'No hay juegos populares disponibles en este momento.',
             errorLoadingGames: 'No se pudieron cargar los juegos populares. Por favor, inténtalo más tarde.',
             errorSearchingGames: 'Error al buscar juegos. Por favor, inténtalo más tarde.',
+            difficulty: {
+                easy: 'Fácil',
+                medium: 'Medio',
+                hard: 'Difícil'
+            },
+            modal: {
+                select_difficulty: '¡Por favor, selecciona una dificultad!',
+                must_login: '¡Debes iniciar sesión!',
+                got_it: '¡Entendido!',
+                login: 'Iniciar sesión',
+                cancel: 'Cancelar'
+            },
+            subjects: {
+                English: 'Inglés',
+                Science: 'Ciencias',
+                Art: 'Arte',
+                Maths: 'Matemáticas',
+                Geography: 'Geografía'
+            }
+
         },
     },
     fr: {
@@ -71,6 +110,25 @@ const resources = {
             noPopularGames: 'Aucun jeu populaire disponible pour le moment.',
             errorLoadingGames: 'Impossible de charger les jeux populaires. Veuillez réessayer plus tard.',
             errorSearchingGames: 'Erreur lors de la recherche de jeux. Veuillez réessayer plus tard.',
+            difficulty: {
+                easy: 'Facile',
+                medium: 'Moyen',
+                hard: 'Difficile'
+            },
+            modal: {
+                select_difficulty: 'Veuillez sélectionner une difficulté!',
+                must_login: 'Vous devez vous connecter!',
+                got_it: 'Compris!',
+                login: 'Se connecter',
+                cancel: 'Annuler'
+            },
+            subjects: {
+                English: 'Anglais',
+                Science: 'Sciences',
+                Art: 'Art',
+                Maths: 'Mathématiques',
+                Geography: 'Géographie'
+            }
         },
     },
     de: {
@@ -94,6 +152,25 @@ const resources = {
             noPopularGames: 'Derzeit sind keine beliebten Spiele verfügbar.',
             errorLoadingGames: 'Beliebte Spiele konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
             errorSearchingGames: 'Fehler beim Suchen nach Spielen. Bitte versuchen Sie es später erneut.',
+            difficulty: {
+                easy: 'Einfach',
+                medium: 'Mittel',
+                hard: 'Schwer'
+            },
+            modal: {
+                select_difficulty: 'Bitte wähle einen Schwierigkeitsgrad!',
+                must_login: 'Du musst dich anmelden!',
+                got_it: 'Verstanden!',
+                login: 'Anmelden',
+                cancel: 'Abbrechen'
+            },
+            subjects: {
+                English: 'Englisch',
+                Science: 'Naturwissenschaften',
+                Art: 'Kunst',
+                Maths: 'Mathematik',
+                Geography: 'Geografie'
+            }
         },
     },
 };
