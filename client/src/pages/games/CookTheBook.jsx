@@ -402,7 +402,7 @@ const CookTheBook = () => {
                 </main>
                 {
                     lifesAvailable &&
-                    <section id={"buttons-section"} className="flex justify-center space-x-4 p-4">
+                    <section id={"buttons-section"} className="flex justify-center space-x-36 p-4">
                         { currentlyPlaying() ? (
                             <>
                                 <Button size={"large"} onClick={verifyOrder}>Verify Order</Button>
