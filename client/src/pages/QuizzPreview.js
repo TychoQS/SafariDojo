@@ -10,6 +10,8 @@ import {cherryBomb} from "@/styles/fonts";
 import {useProfile} from "@/pages/context/ProfileContext";
 import ModalButton from "@/components/ModalButton";
 import Link from "next/link";
+import {useTranslation} from "react-i18next";
+import i18n from "i18next";
 
 function QuizzPreview() {
     const {isLoggedIn, user} = useAuth();
@@ -25,6 +27,9 @@ function QuizzPreview() {
     const [showPremiumModal, setShowPremiumModal] = useState(false);
     const [gameRequiresRegister, setGameRequiresRegister] = useState(false);
     const [youtubeLink, setYoutubeLink] = useState("https://www.youtube.com/embed/dQw4w9WgXcQ");
+    const { t, i18n } = useTranslation();
+    const bestScoreSize = i18n.language === "en"  ? "w-60 h-12 " : "w-80 h-12 ";
+
 
     useEffect(() => {
         if (router.isReady) {
@@ -176,7 +181,7 @@ function QuizzPreview() {
 
                     <div className="w-full flex justify-start ml-8">
                         <Button size="small" onClick={() => router.back()}>
-                            Back
+                            {t('backButton')}
                         </Button>
                     </div>
 
@@ -205,11 +210,11 @@ function QuizzPreview() {
                 <div className="flex flex-row items-center gap-16">
                     {isLoggedIn && (
                         <div
-                            className={`w-64 h-12 text-2xl text-PS-dark-yellow bg-PS-light-black p-4 rounded-2xl shadow-md flex items-center justify-center font-black ${cherryBomb.className}`}>
-                            🏆 Best Score: {bestScore}
+                            className={`${bestScoreSize} text-2xl text-PS-dark-yellow bg-PS-light-black p-4 rounded-2xl shadow-md flex items-center justify-center font-black ${cherryBomb.className}`}>
+                            🏆 {t('bestScore')}: {bestScore}
                         </div>
                     )}
-                    <Button size="large" onClick={startGame}>Start</Button>
+                    <Button size="large" onClick={startGame}>{t('startButton')}</Button>
                 </div>
 
                 {showPremiumModal && (

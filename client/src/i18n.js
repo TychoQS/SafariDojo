@@ -59,6 +59,9 @@ const resources = {
             cancelButton: 'cancel',
             saveButton: 'save',
             gamesCatalog: 'Games Catalog',
+            backButton: 'Back',
+            startButton: 'Start',
+            bestScore: 'Best score',
         },
     },
     es: {
@@ -116,6 +119,9 @@ const resources = {
             cancelButton: 'cancelar',
             saveButton: 'guardar',
             gamesCatalog: 'Catálogo de juegos',
+            backButton: 'Atrás',
+            startButton: 'Empezar',
+            bestScore: 'Mejor puntuación',
         },
     },
     fr: {
@@ -173,6 +179,9 @@ const resources = {
             cancelButton: 'annuler',
             saveButton: 'suvegarder',
             gamesCatalog: 'Catalogue de jeux',
+            backButton: 'Derrière',
+            startButton: 'Commencer',
+            bestScore: 'Meilleur résultat',
         },
     },
     de: {
@@ -231,6 +240,9 @@ const resources = {
             cancelButton: 'retten',
             saveButton: 'abbrechen',
             gamesCatalog: 'Spiele-Katalog',
+            backButton: 'Hinter',
+            startButton: 'Anfangen',
+            bestScore: 'Besseres Ergebnis',
 
         },
     },
