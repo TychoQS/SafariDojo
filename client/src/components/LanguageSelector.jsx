@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const languages = [
     { code: 'en', name: 'EN', flag: '/flags/en.svg' },
@@ -8,27 +9,37 @@ const languages = [
 ];
 
 const LanguageSelector = ({ onLanguageChange }) => {
-    const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+    const { i18n } = useTranslation();
+    const [selectedLanguage, setSelectedLanguage] = useState(null);
     const [open, setOpen] = useState(false);
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        const savedLang = localStorage.getItem('selectedLanguage');
-        if (savedLang) {
-            const lang = languages.find((l) => l.code === savedLang);
-            if (lang) {
-                setSelectedLanguage(lang);
-            }
-        }
-    }, []);
+        const storedLanguage = localStorage.getItem('selectedLanguage');
+        const languageCode = storedLanguage || i18n.language || 'en';
+        const language = languages.find((lang) => lang.code === languageCode) || languages[0];
+        setSelectedLanguage(language);
+        i18n.changeLanguage(language.code);
+        setIsClient(true);
+    }, [i18n]);
 
     const handleSelectLanguage = (language) => {
         setSelectedLanguage(language);
         setOpen(false);
+        i18n.changeLanguage(language.code);
         localStorage.setItem('selectedLanguage', language.code);
         if (onLanguageChange) {
             onLanguageChange(language.code);
         }
     };
+
+    if (!isClient || !selectedLanguage) {
+        return (
+            <div className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700">
+                Loading...
+            </div>
+        );
+    }
 
     return (
         <div className="relative inline-block text-left">
@@ -61,7 +72,7 @@ const LanguageSelector = ({ onLanguageChange }) => {
             </div>
 
             {open && (
-                <div className="origin-top-right absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div className="origin-top-right absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                     <div className="py-1">
                         {languages.map((language, index) => (
                             <button
