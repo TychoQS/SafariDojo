@@ -29,6 +29,7 @@ DROP TRIGGER IF EXISTS PostUserCreation;
 DROP TRIGGER IF EXISTS PostQuizAddition;
 DROP TRIGGER IF EXISTS PostSubjectAddition;
 DROP TRIGGER IF EXISTS PostQuizAdditionOnSubjectQuizzes;
+
 /* Now we start creating the tables and inserting the registers */
 CREATE TABLE Users ( -- Users table
                        Id INT AUTO_INCREMENT PRIMARY KEY,
@@ -41,37 +42,7 @@ CREATE TABLE Users ( -- Users table
                        RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        LastLogoutTime TIMESTAMP DEFAULT NULL
 );
-    DROP TABLE IF EXISTS UserQuizzes;
-    DROP TABLE IF EXISTS UserWeeklyGoals;
-    DROP TABLE IF EXISTS WeeklyGoals;
-    DROP TABLE IF EXISTS PinThePlace;
-    DROP TABLE IF EXISTS SubjectQuizzes;
-    DROP TABLE IF EXISTS UserQuizzes;
-    DROP TABLE IF EXISTS MultimediaSubjects;
-    DROP TABLE IF EXISTS Multimedia;
-    DROP TABLE IF EXISTS Subjects;
-    DROP TABLE IF EXISTS Users;
-    DROP TABLE IF EXISTS Quizzes;
-    DROP TABLE IF EXISTS CookTheBook_StoryPieces;
-    DROP TABLE IF EXISTS CookTheBook_Stories;
-    DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
-    DROP PROCEDURE IF EXISTS FillUserQuizzes;
-    DROP TRIGGER IF EXISTS PostUserCreation;
-    DROP TRIGGER IF EXISTS PostQuizAddition;
-    DROP TRIGGER IF EXISTS PostSubjectAddition;
-    DROP TRIGGER IF EXISTS PostQuizAdditionOnSubjectQuizzes;
-    /* Now we start creating the tables and inserting the registers */
-    CREATE TABLE Users ( -- Users table
-                           Id INT AUTO_INCREMENT PRIMARY KEY,
-                           Name VARCHAR(100) NOT NULL,
-                           Email VARCHAR(255) NOT NULL UNIQUE,
-                           Password VARCHAR(255) NOT NULL,
-                           ProfileIcon VARCHAR(64) DEFAULT 'Sheep',
-                           Premium BOOLEAN DEFAULT FALSE,
-                           Lifes TINYINT DEFAULT 5,
-                           RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                           LastLogoutTime TIMESTAMP DEFAULT NULL
-    );
+
 
 INSERT INTO Users (Name, Email, Password, ProfileIcon) VALUES
                                                            ('Nelson Monzón', 'nelson@example.com', '9a400da2fc27de967acb85a0b50dbbcd9536c60da1eee1e4bb1f1c05a6036068', 'Lion'),
