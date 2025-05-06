@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
 import AnimalIcon from "@/components/AnimalIcon";
 
 export default function CircleLayout() {
+    const {t} = useTranslation();
     const [hoveredSubject, setHoveredSubject] = useState({subject: null, image: null, hoverText: null});
     const [subjectData, setSubjectData] = useState(null);
 
@@ -11,24 +13,41 @@ export default function CircleLayout() {
 
     const icons = [
         {
-            subject: 'English',
+            subject: "English",
             angle: 0,
-            hoverText: 'Hi, I\'m Owling, and with me, you\'ll master English like never before!'
+            hoverText: t("hoverText.English", {
+                defaultValue: "Hi, I'm Owling, and with me, you'll master English like never before!",
+            }),
         },
         {
-            subject: 'Science',
+            subject: "Science",
             angle: 72,
-            hoverText: 'Hi, I\'m Freddy, and with me, you\'ll discover the wonders of Science!'
+            hoverText: t("hoverText.Science", {
+                defaultValue: "Hi, I'm Freddy, and with me, you'll discover the wonders of Science!",
+            }),
         },
-        {subject: 'Art', angle: 144, hoverText: 'Hey, I\'m Perry, and together, we\'ll unlock the secrets of Art!'},
-        {subject: 'Maths', angle: 216, hoverText: 'Hey, I\'m Emily, and Maths will never be the same with me around!'},
         {
-            subject: 'Geography',
+            subject: "Art",
+            angle: 144,
+            hoverText: t("hoverText.Art", {
+                defaultValue: "Hey, I'm Perry, and together, we'll unlock the secrets of Art!",
+            }),
+        },
+        {
+            subject: "Maths",
+            angle: 216,
+            hoverText: t("hoverText.Maths", {
+                defaultValue: "Hey, I'm Emily, and Maths will never be the same with me around!",
+            }),
+        },
+        {
+            subject: "Geography",
             angle: 288,
-            hoverText: 'Hi, I\'m Kanye, and Geography will be your new favorite subject with me!'
-        }
+            hoverText: t("hoverText.Geography", {
+                defaultValue: "Hi, I'm Kanye, and Geography will be your new favorite subject with me!",
+            }),
+        },
     ];
-
     useEffect(() => {
         if (!hoveredSubject.subject) {
             setSubjectData(null);
@@ -56,7 +75,7 @@ export default function CircleLayout() {
         };
 
         fetchSubjectData();
-    }, [hoveredSubject.subject]);
+    }, [hoveredSubject.subject, t]);
 
     return (
         <>
@@ -115,12 +134,14 @@ export default function CircleLayout() {
                     {subjectData && hoveredSubject.subject && (
                         <div className="relative flex flex-col items-center">
                             {hoveredSubject.hoverText && (
-                                <div className="relative mb-6">
+                                <div className="relative mb-8">
                                     <div
-                                        className="bg-white text-black text-center text-lg px-6 py-4 rounded-lg shadow-lg relative max-w-xs break-words">
+                                        className="bg-white text-black text-center text-2xl font-semibold px-8 py-6 rounded-xl shadow-xl relative max-w-sm break-words"
+                                    >
                                         {hoveredSubject.hoverText}
                                         <div
-                                            className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-t-8 border-t-white border-x-8 border-x-transparent"></div>
+                                            className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-t-12 border-t-white border-x-12 border-x-transparent"
+                                        ></div>
                                     </div>
                                 </div>
                             )}

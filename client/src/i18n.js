@@ -43,7 +43,14 @@ const resources = {
                 Art: 'Art',
                 Maths: 'Maths',
                 Geography: 'Geography'
-            }
+            },
+            hoverText: {
+                English: "Hi, I'm Owling, and with me, you'll master English like never before!",
+                Science: "Hi, I'm Freddy, and with me, you'll discover the wonders of Science!",
+                Art: "Hey, I'm Perry, and together, we'll unlock the secrets of Art!",
+                Maths: "Hey, I'm Emily, and Maths will never be the same with me around!",
+                Geography: "Hi, I'm Kanye, and Geography will be your new favorite subject with me!",
+            },
         },
     },
     es: {
@@ -85,7 +92,14 @@ const resources = {
                 Art: 'Arte',
                 Maths: 'Matemáticas',
                 Geography: 'Geografía'
-            }
+            },
+            hoverText: {
+                English: "¡Hola, soy Owling, y conmigo dominarás el inglés como nunca antes!",
+                Science: "¡Hola, soy Freddy, y conmigo descubrirás las maravillas de las ciencias!",
+                Art: "¡Oye, soy Perry, y juntos desbloquearemos los secretos del arte!",
+                Maths: "¡Oye, soy Emily, y las matemáticas nunca serán lo mismo conmigo!",
+                Geography: "¡Hola, soy Kanye, y la geografía será tu asignatura favorita conmigo!",
+            },
 
         },
     },
@@ -128,7 +142,14 @@ const resources = {
                 Art: 'Art',
                 Maths: 'Mathématiques',
                 Geography: 'Géographie'
-            }
+            },
+            hoverText: {
+                English: "Salut, je suis Owling, et avec moi, tu maîtriseras l'anglais comme jamais!",
+                Science: "Salut, je suis Freddy, et avec moi, tu découvriras les merveilles des sciences!",
+                Art: "Salut, je suis Perry, et ensemble, nous dévoilerons les secrets de l'art!",
+                Maths: "Salut, je suis Emily, et les maths ne seront plus jamais les mêmes avec moi!",
+                Geography: "Salut, je suis Kanye, et la géographie deviendra ton sujet préféré avec moi!",
+            },
         },
     },
     de: {
@@ -170,7 +191,14 @@ const resources = {
                 Art: 'Kunst',
                 Maths: 'Mathematik',
                 Geography: 'Geografie'
-            }
+            },
+            hoverText: {
+                English: "Hallo, ich bin Owling, und mit mir wirst du Englisch wie nie zuvor meistern!",
+                Science: "Hallo, ich bin Freddy, und mit mir wirst du die Wunder der Naturwissenschaften entdecken!",
+                Art: "Hey, ich bin Perry, und zusammen werden wir die Geheimnisse der Kunst entschlüsseln!",
+                Maths: "Hey, ich bin Emily, und Mathematik wird mit mir nie mehr dasselbe sein!",
+                Geography: "Hallo, ich bin Kanye, und Geografie wird mit mir dein neues Lieblingsfach!",
+            },
         },
     },
 };
