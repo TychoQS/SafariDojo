@@ -20,9 +20,10 @@ export default function MyProfile() {
     const [showPremiumModal, setShowPremiumModal] = useState(false);
     const router = useRouter();
     const [confirmLeave, setConfirmLeave] = useState(false);
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const currentUser = profile || {name: "Unknown", email: "N/A", profilePhoto: "default", isPremium: false};
+    const buttonSize = i18n.language === "fr" || i18n.language === "de" ? "extraLarge" : "large";
 
     useEffect(() => {
         const storedName = localStorage.getItem("name");
@@ -126,10 +127,6 @@ export default function MyProfile() {
                 <div className="col-start-2 row-start-3 flex flex-col items-end space-y-6">
                     <DisplayField size="large" label={t('name')} value={userName || currentUser.name} />
                     <DisplayField size="large" label={t('email')} value={currentUser.email}/>
-
-                    <Button size="large">
-                        <Link href="/EditProfile">{t('editprofile')}</Link>
-                    </Button>
                 </div>
 
                 <div className="col-start-1 row-start-2 flex justify-center items-start space-y-6 mb-[10px] relative">
@@ -139,6 +136,12 @@ export default function MyProfile() {
                           className="absolute top-0 right-8 p-2 cursor-pointer hover:scale-110 transition-transform duration-300">
                         <img src="/images/EditIcon.svg" alt="Edit Icon" className="w-8 h-8"/>
                     </Link>
+                </div>
+
+                <div className="col-span-2 flex justify-center items-center gap-4">
+                    <Button size={buttonSize}>
+                        <Link href="/EditProfile">{t('editprofile')}</Link>
+                    </Button>
                 </div>
             </section>
 
