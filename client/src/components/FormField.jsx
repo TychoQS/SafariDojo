@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import Title from "@/components/Title";
 import { deliciousHandDrawn } from "@/styles/fonts";
 import { useRouter } from "next/router";
+import {useTranslation} from "react-i18next";
 
 export default function FormField({
                                       title,
@@ -21,6 +22,8 @@ export default function FormField({
     );
     const [errors, setErrors] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const {t} = useTranslation();
+
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -85,7 +88,7 @@ export default function FormField({
                     </div>
                 ))}
                 <p className={`text-[1.75rem] mt-[1rem] text-[#715DAD] ${deliciousHandDrawn.className}`}>
-                    {linkText} <a className="text-PS-light-black hover:underline" href={linkUrl}>Click here</a>
+                    {linkText} <a className="text-PS-light-black hover:underline" href={linkUrl}>{t("clickHere")}</a>
                 </p>
                 <div className="m-2 w-full text-center">
                     <Button size={buttonSize} type="submit" className="mt-30" disabled={isFormInvalid}>

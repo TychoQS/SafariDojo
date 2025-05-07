@@ -6,12 +6,23 @@ import {useRouter} from "next/router";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useProfile} from "@/pages/context/ProfileContext";
 import BaseModal from "@/components/BaseModal";
+import {useTranslation} from "react-i18next";
 
 
 const LogIn = () => {
     const {logIn} = useAuth();
     const {updateProfile} = useProfile();
     const [showModal, setShowModal] = useState(false);
+    const {t, i18n} = useTranslation();
+    const title = i18n.language === "fr" || i18n.language === "es" ? (
+        <>
+            {t("loginTitle").split("\n")[0]}
+            <br />
+            {t("loginTitle").split("\n")[1]}
+        </>
+    ) : (
+        t("loginTitle")
+    );
 
     const hashPassword = async (password) => {
         const encoder = new TextEncoder();
@@ -77,10 +88,10 @@ const LogIn = () => {
             <Header showButtons={false}/>
             <main className="flex-1 flex justify-center items-center align-middle">
                 <FormField
-                    title="Log In"
+                    title= {title}
                     inputs={[
                         {
-                            id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com",
+                            id: "UserEmail", label: t("email"), size: "large", placeholder: "example@example.com",
                             rules: {
                                 required: true,
                                 pattern: {
@@ -90,13 +101,13 @@ const LogIn = () => {
                             },
                         },
                         {
-                            id: "PasswordLogIn", label: "Password", size: "large", placeholder: "********",
+                            id: "PasswordLogIn", label: t("password"), size: "large", placeholder: "********",
                             rules: {required: true}
                         },
                     ]}
-                    buttonText="Enter"
+                    buttonText={ t("enter")}
                     buttonSize="small"
-                    linkText="Forgot your password?"
+                    linkText={ t("forgotPassword")}
                     linkUrl="/AccountRecovery"
                     onSubmit={handleLogin}
                 />
