@@ -260,25 +260,25 @@ const CookTheBook = () => {
                                 </section>
                                 <section id={"scoreboard"} className={"pb-4"}>
                                     <div className="flex items-center space-x-6">
-                                        <div id={"score-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-1 text-PS-art-color px-3 py-1 rounded-full font-bold text-2xl">
+                                        <div id={"score-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-1 text-PS-art-color px-9 py-3 rounded-full font-bold text-3xl">
                                             Score: {score}/30
                                         </div>
-                                        <div id={"level-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-2 text-PS-art-color px-3 py-1 rounded-full font-bold text-2xl">
+                                        <div id={"level-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-2 text-PS-art-color px-9 py-3 rounded-full font-bold text-3xl">
                                             Level: {currentLevel + 1}/{Stories.length}
                                         </div>
                                     </div>
                                 </section>
                             </div>
-                        <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-6 w-full max-w-7xl">
-                            <h1 className={`text-2xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{Stories[currentLevel]?.title}</h1>
+                        <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-12 w-full max-w-7xl">
+                            <h1 className={`text-4xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{Stories[currentLevel]?.title}</h1>
                             {message && (
-                                <div className={`mb-4 p-3 rounded-lg text-center font-bold ${message.includes('Correct') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}  ${cherryBomb.className}`}>
+                                <div className={`mb-4 p-6 text-3xl rounded-lg text-center font-bold ${message.includes('Correct') ? 'text-green-700' : 'text-red-700'}  ${cherryBomb.className}`}>
                                     {message}
                                 </div>
                             )}
 
-                            <section id={"time-line-section"} className="mb-8">
-                                <h2 className={`text-center text-lg font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
+                            <section id={"time-line-section"} className="mb-8 p-10">
+                                <h2 className={`text-center text-4xl font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
                                 <div id={"game-time-line"} className="relative">
                                     <div id={"time-line-line"} className="absolute h-1 bg-red-400 top-1/2 left-0 right-0 transform -translate-y-1/2 z-0"></div>
                                     <section id={"missing-pieces-section"} className="relative z-10 flex justify-between items-center py-8">
@@ -293,14 +293,14 @@ const CookTheBook = () => {
                                 transform transition-transform duration-200
                                 ${animation}`}
                                                 style={{
-                                                    width: '180px',
-                                                    height: '110px',
-                                                    margin: '0 5px',
+                                                    width: '210px',
+                                                    height: '130px',
+                                                    margin: '0 3px',
                                                 }}
                                             >
                                                 {piece ?
                                                     renderPuzzlePiece(piece, index, true) :
-                                                    <span className=" text-PS-art-color text-center text-sm px-2">Place piece {index + 1} here</span>
+                                                    <span className=" text-PS-art-color text-center text-lg p-2">Place piece {index + 1} here</span>
                                                 }
                                             </div>
                                         ))}
@@ -315,14 +315,14 @@ const CookTheBook = () => {
                             </section>
                             <section
                                 id={"pieces-section"}
-                                className="bg-PS-gray p-4 rounded-lg"
+                                className="bg-PS-gray p-8 rounded-lg"
                                 onDragOver={(e) => e.preventDefault()}
                                 onDrop={handlePoolDrop}
                             >
                                 <div className="flex flex-wrap justify-center">
                                     {shuffledPieces.map((piece, index) => renderPuzzlePiece(piece, index))}
                                     {shuffledPieces.length === 0 && (
-                                        <p className="text-gray-500 py-8">No more pieces available</p>
+                                        <p className="text-gray-900 text-2xl">No more pieces available</p>
                                     )}
                                 </div>
                             </section>
@@ -338,7 +338,7 @@ const CookTheBook = () => {
                                 </section>
                                 <section id={"scoreboard"} className={"pb-4"}>
                                     <div className="flex items-center space-x-6">
-                                        <div id={"score-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-1 text-PS-art-color px-3 py-1 rounded-full font-bold text-2xl">
+                                        <div id={"score-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-1 text-PS-art-color px-9 py-3 rounded-full font-bold text-3xl">
                                             Score: {score}/30
                                         </div>
                                     </div>

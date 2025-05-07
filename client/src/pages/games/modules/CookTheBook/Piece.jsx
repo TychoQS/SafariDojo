@@ -1,32 +1,27 @@
 import React from "react";
 
-
 const handleDragStart = (e, piece, index) => {
     e.dataTransfer.setData('pieceId', piece.id);
     e.dataTransfer.setData('pieceIndex', index);
 };
-;
-
-const randomColor = () => bgColors[Math.floor(Math.random() * bgColors.length)];
 
 export default function Piece({
-                                piece,
-                                index,
-                                isOnTimeline = false,
-                                isEmpty = false,
+                                  piece,
+                                  index,
+                                  isOnTimeline = false,
+                                  isEmpty = false,
                               }) {
-
     return(
         <div
-            key={`${piece.id}-${index}`}
+            onDragStart={(e) =>
+                handleDragStart(e, piece, isOnTimeline ? -index - 1 : index)}
             draggable
-            onDragStart={(e) => handleDragStart(e, piece, isOnTimeline ? -index - 1 : index)}
-            className={`relative ${piece.color} p-4 m-2 rounded-lg shadow-md cursor-move transition-all 
-                    hover:shadow-lg transform hover:-translate-y-1 
-                    ${isOnTimeline ? 'border-2 border-PS-art-color' : ''}`}
+            className={`relative ${piece.color} p-4 m-2 rounded-lg shadow-md cursor-move transition-all
+                hover:shadow-lg transform hover:-translate-y-1
+                ${isOnTimeline ? 'border-2 border-PS-art-color' : ''}`}
             style={{
-                width: '170px',
-                height: '100px',
+                width: '220px',
+                height: '140px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -46,7 +41,7 @@ export default function Piece({
             )`
             }}
         >
-        <span className="text-sm font-medium text-gray-800 drop-shadow-sm">
+        <span className="text-xl font-medium text-gray-800 drop-shadow-sm">
           {isEmpty ?  '' : piece.text}
         </span>
         </div>
