@@ -70,6 +70,8 @@ const resources = {
             enter: 'Enter',
             clickHere : 'Click here',
             chooseIcon: 'Choose an icon',
+            eliteMessage: 'You belong to elite!',
+            noneliteMessage: 'Become premium to stand out!'
         },
     },
     es: {
@@ -138,6 +140,8 @@ const resources = {
             enter: 'Entrar',
             clickHere : 'Pulse aquí',
             chooseIcon: 'Escoge un icono',
+            eliteMessage: '¡Ya perteneces a la élite!',
+            noneliteMessage: '¡Conéctate a la élite para destacar!'
         },
     },
     fr: {
@@ -206,6 +210,8 @@ const resources = {
             enter : 'Entrer',
             clickHere : 'Cliquez ici',
             chooseIcon : 'Choisissez une icône',
+            eliteMessage : 'Vous appartenez à l’élite!',
+            noneliteMessage : 'Devenez premium pour vous démarquer!'
         },
     },
     de: {
@@ -275,6 +281,8 @@ const resources = {
             enter: 'Enter',
             clickHere: 'Hier klicken',
             chooseIcon: 'Wählen Sie ein Symbol',
+            eliteMessage: 'Du gehörst zur Elite!',
+            noneliteMessage: "Werden Sie Premium, um aufzufallen!"
         },
     },
 };

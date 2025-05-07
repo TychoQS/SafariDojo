@@ -119,7 +119,7 @@ export default function MyProfile() {
                         </svg>
                         <div
                             className={`absolute top-full mt-4 text-PS-light-black text-lg px-3 py-1 bg-transparent rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 whitespace-nowrap ${deliciousHandDrawn.className}`}>
-                            {currentUser.isPremium ? "You belong to elite!" : "Become premium to stand out!"}
+                            {currentUser.isPremium ? t('eliteMessage') : t('noneliteMessage')}
                         </div>
                     </div>
                 </div>
