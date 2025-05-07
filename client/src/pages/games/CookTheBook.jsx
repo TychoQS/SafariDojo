@@ -347,7 +347,7 @@ const CookTheBook = () => {
                             <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-6 w-full max-w-7xl">
                                 <h1 className={`text-2xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{ lifesAvailable ? "Game completed!" : "You don't have lifes to keep playing"}</h1>
                                 <section id={"time-line-section"} className="mb-8">
-                                    <h2 className={`text-center text-lg font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
+                                    <h2 className={`text-center text-4xl font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
                                     <div id={"game-time-line"} className="relative">
                                         <div id={"time-line-line"} className="absolute h-1 bg-red-400 top-1/2 left-0 right-0 transform -translate-y-1/2 z-0"></div>
                                         <section id={"missing-pieces-section"} className="relative z-10 flex justify-between items-center py-8">
