@@ -69,6 +69,7 @@ const resources = {
             forgotPassword: 'Forgot your password?',
             enter: 'Enter',
             clickHere : 'Click here',
+            chooseIcon: 'Choose an icon',
         },
     },
     es: {
@@ -136,6 +137,7 @@ const resources = {
             forgotPassword: '¿Has olvidado tu contraseña?',
             enter: 'Entrar',
             clickHere : 'Pulse aquí',
+            chooseIcon: 'Escoge un icono',
         },
     },
     fr: {
@@ -203,6 +205,7 @@ const resources = {
             forgotPassword : 'Mot de passe oublié?',
             enter : 'Entrer',
             clickHere : 'Cliquez ici',
+            chooseIcon : 'Choisissez une icône',
         },
     },
     de: {
@@ -271,6 +274,7 @@ const resources = {
             forgotPassword: 'Passwort vergessen?',
             enter: 'Enter',
             clickHere: 'Hier klicken',
+            chooseIcon: 'Wählen Sie ein Symbol',
         },
     },
 };

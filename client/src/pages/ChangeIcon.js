@@ -7,6 +7,7 @@ import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {useAuth} from "@/pages/context/AuthContext";
 import {router} from "next/client";
+import {useTranslation} from "react-i18next";
 
 const animalNames = [
     "Giraffe", "Sheep", "Lion", "Tiger", "Monkey", "Pig", "Shark", "Seal", "Koala"
@@ -15,6 +16,7 @@ const animalNames = [
 export default function ChangeIcon() {
     const {user, setUser} = useAuth();
     const [selectedAnimal, setSelectedAnimal] = useState('');
+    const { t } = useTranslation();
 
     useEffect(() => {
         const storedPhoto = localStorage.getItem('profilePhoto');
@@ -55,7 +57,7 @@ export default function ChangeIcon() {
             <section
                 className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto, auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
                 <div className="col-span-2 flex justify-center items-center">
-                    <Title>Choose an icon</Title>
+                    <Title>{t("chooseIcon")}</Title>
                 </div>
 
                 <div className="col-start-2 flex flex-col items-end space-y-6">
@@ -87,9 +89,9 @@ export default function ChangeIcon() {
                 </div>
 
                 <div className="col-start-1 col-span-2 row-start-4 flex justify-between items-center">
-                    <Link href="/MyProfile"><Button size="large">cancel</Button></Link>
+                    <Link href="/MyProfile"><Button size="large">{t('cancelButton')}</Button></Link>
                     <Link href="/MyProfile">
-                        <Button size="large" onClick={handleSave}>save</Button>
+                        <Button size="large" onClick={handleSave}>{t('saveButton')}</Button>
                     </Link>
                 </div>
             </section>
