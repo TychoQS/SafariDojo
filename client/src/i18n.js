@@ -71,7 +71,11 @@ const resources = {
             clickHere : 'Click here',
             chooseIcon: 'Choose an icon',
             eliteMessage: 'You belong to elite!',
-            noneliteMessage: 'Become premium to stand out!'
+            noneliteMessage: 'Become premium to stand out!',
+            modalElite: 'You belong to the elite!',
+            modalEliteDescription: 'Are you sure? You will lose all your elite advantages.',
+            modalNonElite: 'Do you want to join the elite?',
+            modalNonEliteDescription: 'The subscription price is €14.99 per month.',
         },
     },
     es: {
@@ -141,7 +145,11 @@ const resources = {
             clickHere : 'Pulse aquí',
             chooseIcon: 'Escoge un icono',
             eliteMessage: '¡Ya perteneces a la élite!',
-            noneliteMessage: '¡Conéctate a la élite para destacar!'
+            noneliteMessage: '¡Conéctate a la élite para destacar!',
+            modalElite: '¡Perteneces a la élite!',
+            modalEliteDescription: '¿Estás seguro? Perderás todas tus ventajas de élite.',
+            modalNonElite: '¿Quieres unirte a la élite?',
+            modalNonEliteDescription: 'El precio de la suscripción es de 14,99 € al mes.'
         },
     },
     fr: {
@@ -211,7 +219,11 @@ const resources = {
             clickHere : 'Cliquez ici',
             chooseIcon : 'Choisissez une icône',
             eliteMessage : 'Vous appartenez à l’élite!',
-            noneliteMessage : 'Devenez premium pour vous démarquer!'
+            noneliteMessage : 'Devenez premium pour vous démarquer!',
+            modalElite : 'Vous faites partie de l’élite !',
+            modalEliteDescription : 'Êtes-vous sûr ? Vous perdrez tous vos avantages d’élite.',
+            modalNonElite : 'Voulez-vous rejoindre l’élite ?',
+            modalNonEliteDescription : 'Le prix de l’abonnement est de 14,99 € par mois.',
         },
     },
     de: {
@@ -282,7 +294,11 @@ const resources = {
             clickHere: 'Hier klicken',
             chooseIcon: 'Wählen Sie ein Symbol',
             eliteMessage: 'Du gehörst zur Elite!',
-            noneliteMessage: "Werden Sie Premium, um aufzufallen!"
+            noneliteMessage: "Werden Sie Premium, um aufzufallen!",
+            modalElite: 'Du gehörst zur Elite!',
+            modalEliteDescription: 'Bist du sicher? Du wirst all deine Elite-Vorteile verlieren.',
+            modalNonElite: 'Willst du der Elite beitreten?',
+            modalNonEliteDescription: 'Der Abonnementpreis beträgt 14,99 € pro Monat.',
         },
     },
 };

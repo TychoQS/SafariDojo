@@ -1,4 +1,5 @@
 import BaseModal from "@/components/BaseModal";
+import {useTranslation} from "react-i18next";
 
 export default function PremiumModal({
                                          isPremium,
@@ -7,12 +8,14 @@ export default function PremiumModal({
                                          onLeaveClick,
                                          onTogglePremium,
                                      }) {
+    const { t } = useTranslation();
+
     if (isPremium) {
         if (confirmLeave) {
             return (
                 <BaseModal
-                    title="You belong to the elite!"
-                    description="Are you sure? You will lose all your elite advantages."
+                    title= {t('eliteMessage')}
+                    description= {t('modalEliteDescription')}
                     buttons={[
                         {text: "Yes", color: "red", onClick: onTogglePremium},
                         {text: "No", color: "gray", onClick: onClose},
@@ -22,7 +25,7 @@ export default function PremiumModal({
         } else {
             return (
                 <BaseModal
-                    title="You belong to the elite!"
+                    title= {t('eliteMessage')}
                     children={
                         <p
                             className="text-lg text-gray-600 hover:underline cursor-pointer"
