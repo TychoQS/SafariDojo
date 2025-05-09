@@ -38,7 +38,9 @@ const resources = {
                 login: 'Log In',
                 loginModal: 'Invalid credentials. Please, try again.',
                 cancel: 'Cancel',
-                soonGame: 'This game isn’t ready yet. It’ll be available soon.'
+                soonGame: 'This game isn’t ready yet. It’ll be available soon.',
+                premiumGame: 'This game is for premium users. Do you want to see how it is played?',
+                registerGame: 'This game is for registered users. Do you want to see how it is played?'
             },
             subjects: {
                 English: 'English',
@@ -124,7 +126,9 @@ const resources = {
                 login: 'Iniciar sesión',
                 loginModal: 'Credenciales inválidas. Por favor, inténtalo de nuevo',
                 cancel: 'Cancelar',
-                soonGame: 'El juego aún no está listo. Estará disponible pronto.'
+                soonGame: 'El juego aún no está listo. Estará disponible pronto.',
+                premiumGame: 'Este juego es para usuarios premium. ¿Quieres ver cómo se juega?',
+                registerGame: 'Este juego es para usuarios registrados. ¿Quieres ver cómo se juega?'
             },
             subjects: {
                 English: 'Inglés',
@@ -173,7 +177,7 @@ const resources = {
             nameMessage: 'El nombre debe de tener al menos 3 caracteres',
             create: 'crear',
             passwordlengthMessage: 'La contrasseña debe tener al menos 8 caracteres',
-            passwordpatternMessage: 'La contraseña debe tener al menos una mayúscula y un nímero'
+            passwordpatternMessage: 'La contraseña debe tener al menos una mayúscula y un número'
 
         },
     },
@@ -211,7 +215,9 @@ const resources = {
                 login: 'Se connecter',
                 loginModal: 'Identifiants invalides. Veuillez réessayer.',
                 cancel: 'Annuler',
-                soonGame: 'Ce jeu n\'est pas encore prêt. Il sera disponible bientôt.'
+                soonGame: 'Ce jeu n\'est pas encore prêt. Il sera disponible bientôt.',
+                premiumGame: 'Ce jeu est pour les utilisateurs premium. Voulez-vous voir comment il se joue ?',
+                registerGame: 'Ce jeu est pour les utilisateurs enregistrés. Voulez-vous voir comment il se joue ?'
             },
             subjects: {
                 English: 'Anglais',
@@ -297,7 +303,9 @@ const resources = {
                 login: 'Anmelden',
                 loginModal: 'Ungültige Anmeldeinformationen. Bitte versuche es erneut.',
                 cancel: 'Abbrechen',
-                soonGame: 'Dieses Spiel ist noch nicht fertig. Es wird bald verfügbar sein.'
+                soonGame: 'Dieses Spiel ist noch nicht fertig. Es wird bald verfügbar sein.',
+                premiumGame: 'Dieses Spiel ist für Premium-Nutzer. Möchten Sie sehen, wie es gespielt wird?',
+                registerGame: 'Dieses Spiel ist für registrierte Nutzer. Möchten Sie sehen, wie es gespielt wird?'
             },
             subjects: {
                 English: 'Englisch',

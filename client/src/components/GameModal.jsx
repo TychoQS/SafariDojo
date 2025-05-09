@@ -1,12 +1,14 @@
 import React from "react";
 import { useRouter } from "next/router";
+import {useTranslation} from "react-i18next";
 
 const GameModal = ({ mode = "registrado", navigateTo = {}, onClose }) => {
     const router = useRouter();
+    const {t } = useTranslation();
 
     const messages = {
-        premium: "This game is for premium users. Do you want to see how it is played?",
-        registrado: "This game is for registered users. Do you want to see how it is played?"
+        premium: t('modal.premiumGame'),
+        registrado: t('modal.registerGame')
     };
 
     const handleYes = () => {
@@ -24,10 +26,10 @@ const GameModal = ({ mode = "registrado", navigateTo = {}, onClose }) => {
             <p className="text-lg text-gray-800 font-medium">{messages[mode]}</p>
             <div className="mt-4 flex justify-center">
                 <button onClick={handleYes} className={`${baseBtn} bg-green-500 text-gray hover:bg-green-600`}>
-                    Yes
+                    {t('yes')}
                 </button>
                 <button onClick={handleNo} className={`${baseBtn} bg-gray-300 text-gray-600 hover:bg-gray-400`}>
-                    No
+                    {t('no')}
                 </button>
             </div>
         </div>
