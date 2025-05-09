@@ -14,7 +14,7 @@ export default function PremiumModal({
         if (confirmLeave) {
             return (
                 <BaseModal
-                    title= {t('eliteMessage')}
+                    title= {t('modalElite')}
                     description= {t('modalEliteDescription')}
                     buttons={[
                         {text: t("yes"), color: "red", onClick: onTogglePremium},
@@ -25,7 +25,7 @@ export default function PremiumModal({
         } else {
             return (
                 <BaseModal
-                    title= {t('eliteMessage')}
+                    title= {t('modalElite')}
                     children={
                         <p
                             className="text-lg text-gray-600 hover:underline cursor-pointer"
