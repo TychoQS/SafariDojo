@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
-import {useRouter} from "next/router";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useProfile} from "@/pages/context/ProfileContext";
 import BaseModal from "@/components/BaseModal";
@@ -96,7 +95,7 @@ const LogIn = () => {
                                 required: true,
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Please enter a valid email."
+                                    message: t("emailMessage")
                                 },
                             },
                         },

@@ -1,11 +1,13 @@
-import React, {useEffect} from "react";
+import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
 import {useRouter} from "next/router";
+import {useTranslation} from "react-i18next";
 
 const SignUpFirstStep = () => {
     const router = useRouter();
+    const {t} = useTranslation();
 
     const handleSubmit = async (formData) => {
         const {FullName, UserEmail} = formData;
@@ -37,29 +39,30 @@ const SignUpFirstStep = () => {
             <Header showButtons={false} />
             <main className="flex-1 flex justify-center items-center align-middle">
                 <FormField
-                    title="Sign Up"
+                    title= { t("signup")}
                     inputs={[
                         {
-                            id: "FullName", label: "Name", size: "large", placeholder: "John Doe",
+                            id: "FullName", label:  t("name"), size: "large", placeholder: "John Doe",
                             rules: {
                                 required: true,
-                                minLength: { value: 3, message: "The name must have at least 3 characters." },
+                                minLength: { value: 3, message: t("nameMessage")
+                    },
                             },
                         },
                         {
-                            id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com",
+                            id: "UserEmail", label:  t("email"), size: "large", placeholder: "example@example.com",
                             rules: {
                                 required: true,
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Please enter a valid email address."
+                                    message: t("emailMessage")
                                 },
                             },
                         },
                     ]}
-                    buttonText="Next"
+                    buttonText={ t("next")}
                     buttonSize="small"
-                    linkText="Already have an account?"
+                    linkText={ t("accountLink")}
                     linkUrl="/LogIn"
                     onSubmit={handleSubmit}
                 />

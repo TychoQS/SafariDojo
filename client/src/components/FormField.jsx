@@ -69,7 +69,7 @@ export default function FormField({
     const isFormInvalid = Object.values(errors).some((error) => error) || inputs.some((input) => !formData[input.id]);
 
     return (
-        <section className="bg-[#FFDEB6] w-[32rem] h-[32rem] border-4 border-PS-dark-yellow rounded-full flex flex-col items-center justify-center mx-auto text-center">
+        <section className="bg-[#FFDEB6] w-[35rem] h-[35rem] border-4 border-PS-dark-yellow rounded-full flex flex-col items-center justify-center mx-auto text-center">
             <Title level={2}>{title}</Title>
             <form onSubmit={handleSubmit} className="flex flex-col items-center m-[1.75rem]">
                 {inputs.map((input, index) => (

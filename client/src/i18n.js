@@ -66,6 +66,7 @@ const resources = {
             logOutText1: 'Bye bye, you are logged out!',
             logOutText2: 'See you later!',
             password: 'Password',
+            confirmPassword: 'Confirm password',
             forgotPassword: 'Forgot your password?',
             enter: 'Enter',
             clickHere : 'Click here',
@@ -76,6 +77,13 @@ const resources = {
             modalEliteDescription: 'Are you sure? You will lose all your elite advantages.',
             modalNonElite: 'Do you want to join the elite?',
             modalNonEliteDescription: 'The subscription price is €14.99 per month.',
+            next: 'next',
+            accountLink: 'Already have an account?',
+            emailMessage: 'Please enter a valid email address',
+            nameMessage: 'The name must have at least 3 characters.',
+            create: 'create',
+            passwordlengthMessage: 'Password must have at least 8 characters.',
+            passwordpatternMessage: 'Password must contain at least one uppercase letter and one number.'
         },
     },
     es: {
@@ -140,6 +148,7 @@ const resources = {
             logOutText1: 'Has cerrado sesión',
             logOutText2: '¡Nos vemos pronto!',
             password: 'Contraseña',
+            confirmPassword: 'Confirma la contraseña',
             forgotPassword: '¿Has olvidado tu contraseña?',
             enter: 'Entrar',
             clickHere : 'Pulse aquí',
@@ -149,7 +158,15 @@ const resources = {
             modalElite: '¡Perteneces a la élite!',
             modalEliteDescription: '¿Estás seguro? Perderás todas tus ventajas de élite.',
             modalNonElite: '¿Quieres unirte a la élite?',
-            modalNonEliteDescription: 'El precio de la suscripción es de 14,99 € al mes.'
+            modalNonEliteDescription: 'El precio de la suscripción es de 14,99 € al mes.',
+            next: 'siguiente',
+            accountLink: '¿Ya tienes una cuenta?',
+            emailMessage: 'Por favor, introduce una dirección de correo válida',
+            nameMessage: 'El nombre debe de tener al menos 3 caracteres',
+            create: 'crear',
+            passwordlengthMessage: 'La contrasseña debe tener al menos 8 caracteres',
+            passwordpatternMessage: 'La contraseña debe tener al menos una mayúscula y un nímero'
+
         },
     },
     fr: {
@@ -214,6 +231,7 @@ const resources = {
             logOutText1 : 'Vous êtes déconnecté',
             logOutText2 : 'À bientôt!',
             password : 'Mot de passe',
+            confirmPassword : 'Confirmez le mot de passe',
             forgotPassword : 'Mot de passe oublié?',
             enter : 'Entrer',
             clickHere : 'Cliquez ici',
@@ -224,6 +242,13 @@ const resources = {
             modalEliteDescription : 'Êtes-vous sûr ? Vous perdrez tous vos avantages d’élite.',
             modalNonElite : 'Voulez-vous rejoindre l’élite ?',
             modalNonEliteDescription : 'Le prix de l’abonnement est de 14,99 € par mois.',
+            next: 'suivant',
+            accountLink: 'Vous avez déjà un compte?',
+            emailMessage: 'Veuillez entrer une adresse e-mail valide',
+            nameMessage: 'Le nom doit contenir au moins 3 caractères.',
+            create: 'créer',
+            passwordlengthMessage: 'Le mot de passe doit contenir au moins 8 caractères.',
+            passwordpatternMessage: 'Le mot de passe doit contenir au moins une lettre majuscule et un chiffre.'
         },
     },
     de: {
@@ -289,6 +314,7 @@ const resources = {
             logOutText1: 'Sie sind abgemeldet',
             logOutText2: 'Bis bald!',
             password: 'Passwort',
+            confirmPassword: 'Bestätige das Passwort',
             forgotPassword: 'Passwort vergessen?',
             enter: 'Enter',
             clickHere: 'Hier klicken',
@@ -299,6 +325,13 @@ const resources = {
             modalEliteDescription: 'Bist du sicher? Du wirst all deine Elite-Vorteile verlieren.',
             modalNonElite: 'Willst du der Elite beitreten?',
             modalNonEliteDescription: 'Der Abonnementpreis beträgt 14,99 € pro Monat.',
+            next: 'weiter',
+            accountLink: 'Haben Sie bereits ein Konto?',
+            emailMessage: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+            nameMessage: 'Der Name muss mindestens 3 Zeichen lang sein.',
+            create: 'erstellen',
+            passwordlengthMessage: 'Das Passwort muss mindestens 8 Zeichen lang sein.',
+            passwordpatternMessage: 'Das Passwort muss mindestens einen Großbuchstaben und eine Zahl enthalten.'
         },
     },
 };
