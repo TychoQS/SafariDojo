@@ -36,7 +36,9 @@ const resources = {
                 must_login: 'You must log in!',
                 got_it: 'Got it!',
                 login: 'Log In',
-                cancel: 'Cancel'
+                loginModal: 'Invalid credentials. Please, try again.',
+                cancel: 'Cancel',
+                soonGame: 'This game isn’t ready yet. It’ll be available soon.'
             },
             subjects: {
                 English: 'English',
@@ -120,7 +122,9 @@ const resources = {
                 must_login: '¡Debes iniciar sesión!',
                 got_it: '¡Entendido!',
                 login: 'Iniciar sesión',
-                cancel: 'Cancelar'
+                loginModal: 'Credenciales inválidas. Por favor, inténtalo de nuevo',
+                cancel: 'Cancelar',
+                soonGame: 'El juego aún no está listo. Estará disponible pronto.'
             },
             subjects: {
                 English: 'Inglés',
@@ -205,7 +209,9 @@ const resources = {
                 must_login: 'Vous devez vous connecter!',
                 got_it: 'Compris!',
                 login: 'Se connecter',
-                cancel: 'Annuler'
+                loginModal: 'Identifiants invalides. Veuillez réessayer.',
+                cancel: 'Annuler',
+                soonGame: 'Ce jeu n\'est pas encore prêt. Il sera disponible bientôt.'
             },
             subjects: {
                 English: 'Anglais',
@@ -289,7 +295,9 @@ const resources = {
                 must_login: 'Du musst dich anmelden!',
                 got_it: 'Verstanden!',
                 login: 'Anmelden',
-                cancel: 'Abbrechen'
+                loginModal: 'Ungültige Anmeldeinformationen. Bitte versuche es erneut.',
+                cancel: 'Abbrechen',
+                soonGame: 'Dieses Spiel ist noch nicht fertig. Es wird bald verfügbar sein.'
             },
             subjects: {
                 English: 'Englisch',

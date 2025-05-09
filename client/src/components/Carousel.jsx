@@ -4,6 +4,7 @@ import {router} from "next/client";
 import {useAuth} from "@/pages/context/AuthContext";
 import GameModal from "@/components/GameModal";
 import BaseModal from "@/components/BaseModal";
+import {useTranslation} from "react-i18next";
 
 const Carousel = ({carouselData, difficulty}) => {
     const {isLoggedIn, user} = useAuth();
@@ -13,6 +14,7 @@ const Carousel = ({carouselData, difficulty}) => {
     const [showModal, setShowModal] = useState(false);
     const [showModalSoon, setShowModalSoon] = useState(false);
     const [navigateData, setNavigateData] = useState(null);
+    const { t } = useTranslation();
 
 
     const getIndex = (index) => {
@@ -182,9 +184,9 @@ const Carousel = ({carouselData, difficulty}) => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
                     <BaseModal
                         title="Oooops"
-                        description="This game isn’t ready yet. It’ll be available soon."
+                        description= {t('modal.soonGame')}
                         buttons={[
-                            {text: "Got it!", color: "gray", onClick: () => setShowModalSoon(false)},
+                            {text: t('modal.got_it'), color: "gray", onClick: () => setShowModalSoon(false)},
                         ]}
                     />
                 </div>

@@ -115,9 +115,9 @@ const LogIn = () => {
                     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
                         <BaseModal
                             title="Oooops"
-                            description="Invalid credentials. Please, try again."
+                            description={t('modal.loginModal')}
                             buttons={[
-                                {text: "Got it!", color: "gray", onClick: () => setShowModal(false)},
+                                {text: t('modal.got_it'), color: "gray", onClick: () => setShowModal(false)},
                             ]}
                         />
                     </div>

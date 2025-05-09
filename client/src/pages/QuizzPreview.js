@@ -9,9 +9,7 @@ import Title from "@/components/Title";
 import {cherryBomb} from "@/styles/fonts";
 import {useProfile} from "@/pages/context/ProfileContext";
 import ModalButton from "@/components/ModalButton";
-import Link from "next/link";
 import {useTranslation} from "react-i18next";
-import i18n from "i18next";
 
 function QuizzPreview() {
     const {isLoggedIn, user} = useAuth();
@@ -220,18 +218,18 @@ function QuizzPreview() {
                 {showPremiumModal && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
                         <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-md mx-auto">
-                            <h2 className="text-2xl font-semibold text-gray-800">Do you want to join the elite?</h2>
+                            <h2 className="text-2xl font-semibold text-gray-800">{t('modalNonElite')}</h2>
                             <p className="text-lg text-gray-600 mt-2">
-                                The subscription price is €14.99 per month.
+                                {t('modalNonEliteDescription')}
                             </p>
                             <div className="flex justify-center gap-6 mt-6">
                                 <ModalButton
-                                    text="Yes"
+                                    text= {t('yes')}
                                     color="green"
                                     onClick={handlePremiumToggle}
                                 />
                                 <ModalButton
-                                    text="No"
+                                    text={t('no')}
                                     color="gray"
                                     onClick={() => setShowPremiumModal(false)}
                                 />
