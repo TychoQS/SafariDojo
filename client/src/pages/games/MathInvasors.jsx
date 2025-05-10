@@ -55,7 +55,6 @@ export default function MathInvasors() {
     const [Magnitude, setMagnitude] = useState(1);
     const [difficultyLoaded, setDifficultyLoaded] = useState(false);
     const [roundsCompleted, setRoundsCompleted] = useState(false);
-    const [showModal, setShowModal] = useState(false);
     let Round = 1
 
     useEffect(() => {
@@ -142,7 +141,6 @@ export default function MathInvasors() {
     }, [LifesAvailable]);
 
     const closeModal = () => {
-        setShowModal(false);
         setTimeout(() => {
             router.back();
         }, 0);
