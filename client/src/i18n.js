@@ -89,7 +89,20 @@ const resources = {
             nameMessage: 'The name must have at least 3 characters.',
             create: 'create',
             passwordlengthMessage: 'Password must have at least 8 characters.',
-            passwordpatternMessage: 'Password must contain at least one uppercase letter and one number.'
+            passwordpatternMessage: 'Password must contain at least one uppercase letter and one number.',
+            congratulations: 'Congratulations!',
+            points1: 'You have completed the game with',
+            points2: 'points',
+            gameOver: 'Game Over',
+            gameOverMessage: 'You have reached the maximum number of errors',
+            rateThisGame: 'Rate this game',
+            send: 'Send',
+            mahjong: {
+                points: 'Points',
+                completed: 'Completed',
+                noMatch: 'They don\'t match!',
+                match: 'Well done!',
+            }
         },
     },
     es: {
@@ -177,8 +190,20 @@ const resources = {
             nameMessage: 'El nombre debe de tener al menos 3 caracteres',
             create: 'crear',
             passwordlengthMessage: 'La contrasseña debe tener al menos 8 caracteres',
-            passwordpatternMessage: 'La contraseña debe tener al menos una mayúscula y un número'
-
+            passwordpatternMessage: 'La contraseña debe tener al menos una mayúscula y un número',
+            congratulations: '¡Enhorabuena!',
+            points1: 'Has completado el juego con',
+            points2: 'puntos',
+            gameOver: 'Juego terminado',
+            gameOverMessage: 'Has alcanzado el número máximo de errores',
+            rateThisGame: 'Valora este juego',
+            send: 'Enviar',
+            mahjong: {
+                points: 'Puntos',
+                completed: 'Completados',
+                noMatch: 'No coinciden.',
+                match: '¡Muy bien!',
+            }
         },
     },
     fr: {
@@ -266,7 +291,20 @@ const resources = {
             nameMessage: 'Le nom doit contenir au moins 3 caractères.',
             create: 'créer',
             passwordlengthMessage: 'Le mot de passe doit contenir au moins 8 caractères.',
-            passwordpatternMessage: 'Le mot de passe doit contenir au moins une lettre majuscule et un chiffre.'
+            passwordpatternMessage: 'Le mot de passe doit contenir au moins une lettre majuscule et un chiffre.',
+            congratulations: 'Félicitations!',
+            points1: 'Tu as terminé le jeu avec',
+            points2: 'points',
+            gameOver: 'Jeu terminé',
+            gameOverMessage: 'Vous avez atteint le nombre maximal d\'erreurs.',
+            rateThisGame: 'Évaluez ce jeu',
+            send: 'Envoyer',
+            mahjong: {
+                points: 'Points',
+                completed: 'Terminé',
+                noMatch: 'Ils ne s\'accordent pas.',
+                match: 'Très bien!',
+            }
         },
     },
     de: {
@@ -355,7 +393,20 @@ const resources = {
             nameMessage: 'Der Name muss mindestens 3 Zeichen lang sein.',
             create: 'erstellen',
             passwordlengthMessage: 'Das Passwort muss mindestens 8 Zeichen lang sein.',
-            passwordpatternMessage: 'Das Passwort muss mindestens einen Großbuchstaben und eine Zahl enthalten.'
+            passwordpatternMessage: 'Das Passwort muss mindestens einen Großbuchstaben und eine Zahl enthalten.',
+            congratulations: 'Herzlichen Glückwunsch!',
+            points1: 'Du hast das Spiel mit',
+            points2: 'Punkte',
+            gameOver: 'Spiel vorbei',
+            gameOverMessage: 'Sie haben die maximale Anzahl an Fehlern erreicht.',
+            rateThisGame: 'Bewerte dieses Spiel',
+            send: 'Senden',
+            mahjong: {
+                points: 'Punkte',
+                completed: 'Abgeschlossen',
+                noMatch: 'Sie passen nicht zusammen.',
+                match: 'Sehr gut!'
+            }
         },
     },
 };

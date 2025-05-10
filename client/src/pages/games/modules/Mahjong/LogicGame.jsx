@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 
 export default function useMahjongGame(dataSets, initialPairCount = 12) {
     const [tiles, setTiles] = useState([]);
@@ -12,9 +13,9 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
     const [message, setMessage] = useState("");
     const [moves, setMoves] = useState(0);
     const [mistakes, setMistakes] = useState(0);
-    const [pairAttempts, setPairAttempts] = useState({});
     const [score, setScore] = useState(0);
     const [availableMoves, setAvailableMoves] = useState([]);
+    const {t} = useTranslation();
 
     const groupTilesByPairAndType = (tiles) => {
         const pairGroups = {};
@@ -384,14 +385,13 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
                 const newRemovedTiles = [...removedTiles, first.tile.id, second.tile.id];
                 setRemovedTiles(newRemovedTiles);
                 setMessage({
-                    text: `Well done! "${pairId}"`,
+                    text: `${t("mahjong.match")} "${pairId}"`,
                     type: "default"
                 });
 
                 if (newRemovedTiles.length === tiles.length) {
                     setGameWon(true);
                     setMessage({
-                        text: `You have completed the game with ${score + pointsToAdd} points.`,
                         type: "congratulations"
                     });
                 }
@@ -399,7 +399,7 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
                 const newMistakes = mistakes + 1;
                 setMistakes(newMistakes);
                 setMessage({
-                    text: "They do not match.",
+                    text: t('mahjong.noMatch'),
                     type: "default"
                 });
 
@@ -409,7 +409,6 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
                 if (newPairMistakes[pairId] > 3 || newMistakes === 5) {
                     setGameWon(false);
                     setMessage({
-                        text: "You have reached the maximum number of errors.",
                         type: "game-over"
                     });
                 }

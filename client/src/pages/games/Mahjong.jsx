@@ -7,10 +7,12 @@ import useMahjongGame from "@/pages/games/modules/Mahjong/LogicGame";
 import Button from "@/components/Button";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 
 const MahjongPairs = ({dataSets, title}) => {
     const game = useMahjongGame(dataSets);
     const router = useRouter();
+    const {t} = useTranslation();
 
     const handleCloseMessage = () => {
         if (game.message?.type === "congratulations") {
@@ -57,7 +59,7 @@ const MahjongPairs = ({dataSets, title}) => {
                     <Title>{title}</Title>
 
                     <div className="mt-4 mb-2 relative w-[1150px] flex justify-start">
-                        <Button size="small" onClick={() => router.back()}> Back </Button>
+                        <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
                     </div>
 
                     <div className="w-full flex flex-col items-center">
