@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
+import ErrorReportModal from "@/components/ErrorModal";
 
 const MahjongPairs = ({dataSets, title}) => {
     const game = useMahjongGame(dataSets);
@@ -62,8 +63,9 @@ const MahjongPairs = ({dataSets, title}) => {
                 <div className="w-full max-w-screen-lg px-4 flex flex-col items-center">
                     <Title>{title}</Title>
 
-                    <div className="mt-4 mb-2 relative w-[1150px] flex justify-start">
+                    <div className="mt-4 mb-2 relative w-[1150px] flex justify-between">
                         <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
+                        <ErrorReportModal></ErrorReportModal>
                     </div>
 
                     <div className="w-full flex flex-col items-center">

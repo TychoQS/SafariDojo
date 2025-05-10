@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
 import CongratsModal from "@/components/CongratsModal";
 import {useTranslation} from "react-i18next";
+import ErrorReportModal from "@/components/ErrorModal";
 
 export default function LetterSoup() {
     const [words, setWords] = useState([]);
@@ -273,11 +274,10 @@ export default function LetterSoup() {
             <Header></Header>
             <section className=" justify-center items-center mb-7 flex flex-col  py-10 bg-PS-main-purple">
                 <Title>Letter Soup</Title>
-                <Link href={{pathname: "../GameSelectionPage", query: {Subject: "English"}}}>
-                    <div className="mt-4 mb-2 relative w-[1150px] flex justify-start">
-                        <Button size="small">{t("backButton")}</Button>
-                    </div>
-                </Link>
+                <div className="mt-4 mb-2 relative w-[1150px] flex justify-between">
+                    <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
+                    <ErrorReportModal></ErrorReportModal>
+                </div>
                 <div className="flex flex-row items-start justify-between p-4 max-w-6xl mx-auto bg-pink-50
                                 rounded-lg shadow-lg h-full border-4 border-stone-700"
                      style={{maxHeight: '620px', width: '1200px'}}
