@@ -21,7 +21,7 @@ const Lifes = forwardRef((props, ref) => {
 
             return () => clearInterval(timer);
         }
-    }, [countdown, hearts]);
+    }, [hearts]);
 
     const loseLife = () => {
         if (hearts.some(heart => heart === true)) {
@@ -34,8 +34,11 @@ const Lifes = forwardRef((props, ref) => {
         }
     };
 
+    const resetHearts = () => {setHearts([true, true, true, true, true])}
+
     useImperativeHandle(ref, () => ({
         loseLife,
+        resetHearts,
         getRemainingLives: () => hearts.filter(heart => heart === true).length,
     }));
 
@@ -56,10 +59,6 @@ const Lifes = forwardRef((props, ref) => {
     return (
         <div className="flex flex-col items-center p-6 space-y-6">
             <div className="flex items-center">
-                <div className={`mr-6 text-xl font-semibold ${novaMono.className}`}>
-                    {formatTime(countdown)}
-                </div>
-
                 <div className="lives flex items-center">
                     {renderHearts()}
                 </div>

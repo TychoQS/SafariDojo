@@ -11,6 +11,10 @@ import Lifes from "@/components/Lifes";
 import Link from "next/link";
 import {router} from "next/client";
 import {useRouter} from "next/router";
+import ErrorReportModal from "@/components/ErrorModal";
+import {t} from "i18next";
+import CongratsModal from "@/components/CongratsModal";
+import GameOverModal from "@/components/GameOverModal";
 
 function UnsetEvents(keyPressed, keyReleased) {
     window.removeEventListener("keydown", keyPressed);
@@ -34,8 +38,8 @@ export default function MathInvasors() {
     const enemiesRef = useRef([]);
     const [Score, SetScore] = useState(0);
     const [Operation, SetOperation] = useState("");
-    const CanvasWidth = 800;
-    const CanvasHeight = 430;
+    const CanvasWidth = 1150;
+    const CanvasHeight = 630;
     let Result = useRef(0);
     const [Playing, SetPlaying] = useState(false);
     const [GameOver, SetGameOver] = useState(false);
@@ -51,6 +55,7 @@ export default function MathInvasors() {
     const [Magnitude, setMagnitude] = useState(1);
     const [difficultyLoaded, setDifficultyLoaded] = useState(false);
     const [roundsCompleted, setRoundsCompleted] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     let Round = 1
 
     useEffect(() => {
@@ -119,11 +124,18 @@ export default function MathInvasors() {
         if (!LifesAvailable) {
             SetScore(0)
             SetInfo(GameOverMessage + ":" + NoLivesMessage)
-            SetButtonText("Life Store")
+            SetButtonText("Restart")
         } else {
             Start();
         }
     }, [LifesAvailable]);
+
+    const closeModal = () => {
+        setShowModal(false);
+        setTimeout(() => {
+            router.back();
+        }, 0);
+    };
 
     function IfNotLivesGameOver(lifesRef, SetGameOver, SetPlaying, keyPressed, keyReleased, animationFrameRef, ctx, canvas) {
         if (!lifesRef.current) return;
@@ -274,10 +286,6 @@ export default function MathInvasors() {
         };
 
         const animate = () => {
-            console.log(
-                "Dificultad: ", Difficulty,
-                "Magnitud: ", Magnitude
-            )
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             UpdateAndDrawPlayer(ctx);
             animateMissiles();
@@ -295,20 +303,41 @@ export default function MathInvasors() {
         };
     }, [Playing]);
 
+    if (!LifesAvailable || GameOver) return (
+        <GameOverModal
+            onCloseMessage={closeModal}
+            onRestart={Start}
+        />
+    )
+
+    if (Win) return (
+        <CongratsModal
+            points={Score}
+            onCloseMessage={closeModal}
+            onRestart={Start}
+        />
+    )
+
     return (
         <>
             <div id={""} className={"app flex flex-col h-screen bg-PS-main-purple"}>
                 <Header></Header>
-                <div className="flex items-end justify-end">
-                    <Lifes ref={lifesRef}/>
-                </div>
                 <main className="flex flex-col flex-1 items-center justify-center bg-PS-main-purple">
                     <section className={"flex flex-col"}>
                         <h1 className={`text-center text-2xl ${P2Start.className} text-PS-dark-yellow`}>Math Invasors</h1>
                         <h2 className={`text-center text-3xl ${P2Start.className} text-PS-dark-yellow`}>Score: {Score}</h2>
                         <h2 className={`text-center text-3xl ${P2Start.className} text-PS-dark-yellow`}>{Info}</h2>
+                        <section id="life-section">
+                            <Lifes ref={lifesRef}/>
+                        </section>
                     </section>
-                    <section className={"flex-1 flex items-center justify-center"}>
+                    <section className={"flex-1 flex items-center justify-center flex-col"}>
+                        <section id={"top-menu-section"} className={"flex flex-row"}>
+                            <div className="mt-4 mb-2 relative w-[1150px] flex justify-between">
+                                <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
+                                <ErrorReportModal></ErrorReportModal>
+                            </div>
+                        </section>
                         <canvas
                             ref={canvasRef}
                             width={CanvasWidth}
@@ -316,11 +345,8 @@ export default function MathInvasors() {
                             className="border-4 border-PS-dark-yellow bg-PS-light-yellow mb-4"
                         ></canvas>
                     </section>
-                    <section className={"flex flex-row mb-5 space-x-5"}>
-                        <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Maths"}}}>
-                            <Button size="small" >Back</Button>
-                        </Link>
-                        {!Playing && LifesAvailable && (
+                    <section id={"button-menu-section"} className={"flex flex-row mb-5 space-x-5"}>
+                        {!Playing &&  (
                             <Button id={"MainButton"} size={"large"} onClick={Start}>
                                 {ButtonText}
                             </Button>
@@ -339,6 +365,7 @@ export default function MathInvasors() {
         // Before others
         SetScore(0)
         SetGameOver(false);
+        SetLifesAvailable(true)
         SetWin(false);
         SetPlaying(true);
         setRoundsCompleted(false);
