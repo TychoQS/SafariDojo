@@ -1,5 +1,4 @@
 import Header from "@/components/Header";
-import Lifes from "@/components/Lifes";
 import AgeSelectorButton from "@/components/AgeSelectorButton";
 import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
@@ -72,7 +71,6 @@ function GameSelectionPage() {
         <div className={"app min-h-screen flex flex-col bg-PS-main-purple relative"}>
             <Header/>
             <div className="flex items-end justify-end">
-                <Lifes/>
             </div>
             <div className={"flex justify-center"}>
                 <img className={"h-46 w-40"} src={selectGameIcon} alt={"platypus"}/>

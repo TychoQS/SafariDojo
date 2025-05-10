@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useRouter} from "next/router";
-import Lifes from "@/components/Lifes";
 import Button from "@/components/Button";
 import Title from "@/components/Title";
 import {cherryBomb} from "@/styles/fonts";
@@ -170,7 +169,6 @@ function QuizzPreview() {
         <div id={"QuizzPreviewComponent"} className="app flex min-h-screen flex-col bg-PS-main-purple">
             <Header/>
             <div className="flex items-end justify-end">
-                <Lifes/>
             </div>
 
             <main className="flex-grow flex flex-col items-center justify-center p-6 space-y-16">
