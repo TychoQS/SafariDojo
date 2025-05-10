@@ -5,6 +5,8 @@ import Button from "@/components/Button";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
+import CongratsModal from "@/components/CongratsModal";
+import {useTranslation} from "react-i18next";
 
 export default function LetterSoup() {
     const [words, setWords] = useState([]);
@@ -15,6 +17,7 @@ export default function LetterSoup() {
     const directions = [
         [1, 0], [0, 1], [1, 1], [-1, 0], [0, -1], [-1, -1], [1, -1], [-1, 1]
     ];
+    const {t} = useTranslation();
 
     const [grid, setGrid] = useState([]);
     const [selectedCells, setSelectedCells] = useState([]);
@@ -166,8 +169,7 @@ export default function LetterSoup() {
             setFoundWords([...foundWords, selectedText]);
 
             setFoundWordCells([...foundWordCells, ...selectedCells]);
-
-            setMessage(`Great! You found: '${selectedText}'`);
+            setMessage(`${t("letterSoup.done")}: '${selectedText}'`);
             setTimeout(() => setMessage(""), 5000);
         } else if (isWordFound(selectedText)) {
             setMessage("You already found this word!");
@@ -267,7 +269,7 @@ export default function LetterSoup() {
                 <Title>Letter Soup</Title>
                 <Link href={{pathname: "../GameSelectionPage", query: {Subject: "English"}}}>
                     <div className="mt-4 mb-2 relative w-[1150px] flex justify-start">
-                        <Button size="small">Back</Button>
+                        <Button size="small">{t("backButton")}</Button>
                     </div>
                 </Link>
                 <div className="flex flex-row items-start justify-between p-4 max-w-6xl mx-auto bg-pink-50
@@ -303,7 +305,7 @@ export default function LetterSoup() {
 
                     <div className="w-2/5 pl-6 flex flex-col h-full mt-2">
                         <div className="bg-white p-6 rounded-lg shadow mb-4">
-                            <h2 className="text-2xl text-center font-semibold mb-4 text-pink-800">Words to find</h2>
+                            <h2 className="text-2xl text-center font-semibold mb-4 text-pink-800">{t('letterSoup.subtitle')}</h2>
 
                             <div className="grid grid-cols-2 gap-3">
                                 {words.map((word, index) => (
@@ -318,10 +320,10 @@ export default function LetterSoup() {
                         </div>
 
                         <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center">
-                            <div className="text-2xl text-gray-600 font-bold mb-2">Your progress</div>
+                            <div className="text-2xl text-gray-600 font-bold mb-2">{t('letterSoup.progress')}</div>
                             <div className="text-2xl font-bold text-pink-800">
                                 {foundWords.length} <span
-                                className="text-gray-600 font-medium">out of</span> {words.length}
+                                className="text-gray-600 font-medium">/</span> {words.length}
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-4 mt-3">
                                 <div
@@ -330,27 +332,13 @@ export default function LetterSoup() {
                                 ></div>
                             </div>
                             <div className="text-lg text-gray-600 font-medium mt-3">
-                                Time: <span className="font-bold text-pink-800">{formatTime(timeElapsed)}</span>
+                                {t('letterSoup.time')}: <span className="font-bold text-pink-800">{formatTime(timeElapsed)}</span>
                             </div>
                             {showModal && (
-                                <div
-                                    className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
-                                    <div
-                                        className="p-6 rounded-xl w-3/4 max-w-lg text-center bg-amber-50 shadow-xl transform transition-all
-                                        text-green-600 scale-105"
-                                    >
-                                        <h2 className="text-3xl font-extrabold mb-2">
-                                            🎉 Congratulations!
-                                        </h2>
-                                        <p className="text-lg mb-4">You earned {points} points</p>
-                                        <button
-                                            onClick={closeModal}
-                                            className="mt-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition"
-                                        >
-                                            Close
-                                        </button>
-                                    </div>
-                                </div>
+                                <CongratsModal
+                                    points={points}
+                                    onCloseMessage={closeModal}
+                                />
                             )}
 
                         </div>
