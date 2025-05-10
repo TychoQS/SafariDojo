@@ -4,6 +4,7 @@ import {cherryBomb, patrickHand} from "@/styles/fonts";
 import {useAuth} from "@/pages/context/AuthContext";
 import BaseModal from "@/components/BaseModal";
 import {useTranslation} from 'react-i18next';
+import { X, CheckCheck} from 'lucide-react';
 
 const Card = ({gameSubject, gameNumber, isCompleted: isCompletedProp = null}) => {
     const {isLoggedIn, user} = useAuth();
@@ -60,7 +61,7 @@ const Card = ({gameSubject, gameNumber, isCompleted: isCompletedProp = null}) =>
                 )) {
                     storedGames.push(newGame);
                     localStorage.setItem(`completedGames_${user.id}`, JSON.stringify(storedGames));
-                    setIsCompleted(true);
+                    //setIsCompleted(true);
                 }
             }
 
@@ -70,6 +71,33 @@ const Card = ({gameSubject, gameNumber, isCompleted: isCompletedProp = null}) =>
             });
         }
     };
+
+    useEffect(() => {
+        const EasyKey = `_BronzeMedal`;
+        const HardKey = `_GoldMedal`;
+        const MediumKey = `_SilverMedal`;
+        const COMPLETED = '1';
+        switch (selectedDifficulty) {
+            case "Easy":
+                console.log("easy");
+                if (localStorage.getItem(`${gameName}${EasyKey}`) === COMPLETED) setIsCompleted(true);
+                else setIsCompleted(false);
+                break;
+            case 'Medium':
+                console.log("medium");
+                if (localStorage.getItem(`${gameName}${MediumKey}`) === COMPLETED) setIsCompleted(true);
+                else setIsCompleted(false);
+                break;
+            case 'Hard':
+                console.log("hard");
+                if (localStorage.getItem(`${gameName}${HardKey}`) === COMPLETED) setIsCompleted(true);
+                else setIsCompleted(false);
+                break;
+            default:
+                setIsCompleted(null);
+                break;
+        }
+    }, [selectedDifficulty]);
 
     const handleDifficultyChange = (difficulty) => {
         if (selectedDifficulty === difficulty) {
@@ -144,10 +172,15 @@ const Card = ({gameSubject, gameNumber, isCompleted: isCompletedProp = null}) =>
                 })}
             </div>
 
-            <div
-                className={`flex justify-center items-center w-8 h-8 rounded-full text-lg ${isCompleted ? 'bg-green-500' : 'bg-gray-400'}`}
+            <div id={"completed-mark"}
+                className={`flex justify-center items-center w-8 h-8 rounded-full text-lg ${isCompleted !== null ? isCompleted ? 'bg-green-500' : 'bg-red-600' : 'bg-gray-400'}`}
             >
-                {isCompleted ? '✓' : '♦'}
+
+                {   isCompleted !== null ?
+                    isCompleted ? <CheckCheck className={"text-white"}/> : <X className={"text-white"}/>
+                    :
+                    '♦'
+                }
             </div>
 
             {showModalDifficulty && (
