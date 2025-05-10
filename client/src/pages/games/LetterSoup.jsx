@@ -236,6 +236,12 @@ export default function LetterSoup() {
         fetchLetterSoupData(difficulty);
     };
 
+    const playAgain = () => {
+        setShowModal(false);
+        saveScore();
+        fetchLetterSoupData(difficulty);
+    }
+
     if (loading) {
         return (
             <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -332,12 +338,14 @@ export default function LetterSoup() {
                                 ></div>
                             </div>
                             <div className="text-lg text-gray-600 font-medium mt-3">
-                                {t('letterSoup.time')}: <span className="font-bold text-pink-800">{formatTime(timeElapsed)}</span>
+                                {t('letterSoup.time')}: <span
+                                className="font-bold text-pink-800">{formatTime(timeElapsed)}</span>
                             </div>
                             {showModal && (
                                 <CongratsModal
                                     points={points}
                                     onCloseMessage={closeModal}
+                                    onRestart={playAgain}
                                 />
                             )}
 
