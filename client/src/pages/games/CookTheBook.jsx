@@ -10,6 +10,8 @@ import {cherryBomb} from "@/styles/fonts";
 import Piece from "@/pages/games/modules/CookTheBook/Piece";
 import {router} from "next/client";
 import {useRouter} from "next/router";
+import GameOverModal from "@/components/GameOverModal";
+import CongratsModal from "@/components/CongratsModal";
 
 let Stories = [];
 
@@ -25,7 +27,7 @@ function fetchStories(difficulty = 'easy') {
 const CookTheBook = () => {
     const [score, setScore] = useState(0);
     const [currentLevel, setCurrentLevel] = useState(0);
-    const [gameCompleted, setGameCompleted] = useState(false);
+    const [Win, setWin] = useState(false);
     const [shuffledPieces, setShuffledPieces] = useState([]);
     const [timelinePieces, setTimelinePieces] = useState(Array(4).fill(null));
     const [message, setMessage] = useState("");
@@ -34,6 +36,7 @@ const CookTheBook = () => {
     const lifesRef = useRef(null);
     const [lifesAvailable, setLifesAvailable] = useState(true);
     const [areStoriesFetched, setAreStoriesFetched] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [remainingLives, setRemainingLives] = useState(5);
     const router = useRouter();
 
@@ -45,7 +48,7 @@ const CookTheBook = () => {
             let fetchedStories = await response.json();
             Stories = fetchedStories['Stories'];
             setAreStoriesFetched(true);
-            setGameCompleted(false);
+            setWin(false);
         }
     };
 
@@ -68,7 +71,7 @@ const CookTheBook = () => {
 
     useEffect(() => {
         handleFinalScore();
-    }, [gameCompleted]);
+    }, [Win]);
 
     useEffect(() => {
         fetchData().then(r => initLevel(currentLevel));
@@ -79,7 +82,7 @@ const CookTheBook = () => {
         if (currentLevel < Stories.length) {
             initLevel(currentLevel);
         } else {
-            setGameCompleted(true);
+            setWin(true);
         }
     }, [currentLevel]);
 
@@ -216,7 +219,9 @@ const CookTheBook = () => {
     const resetGame = () => {
         setScore(0);
         setCurrentLevel(0);
-        setGameCompleted(false);
+        setWin(false);
+        setLifesAvailable(true)
+        setRemainingLives(5);
     };
 
     const replayGame = () => {
@@ -224,7 +229,7 @@ const CookTheBook = () => {
     }
 
     const currentlyPlaying = () => {
-        return !gameCompleted;
+        return !Win;
     }
 
 
@@ -233,6 +238,27 @@ const CookTheBook = () => {
         return <Piece piece={piece} index={index} isOnTimeline={isOnTimeline} isEmpty={!currentlyPlaying()}></Piece>
     };
 
+    const closeModal = () => {
+        setShowModal(false);
+        setTimeout(() => {
+            router.back();
+        }, 0);
+    };
+
+    if (!lifesAvailable) return (
+        <GameOverModal
+            onCloseMessage={closeModal}
+            onRestart={replayGame}
+        />
+    )
+
+    if (Win) return (
+        <CongratsModal
+            points={score}
+            onCloseMessage={closeModal}
+            onRestart={replayGame}
+        />
+    )
 
     return (
         <>
