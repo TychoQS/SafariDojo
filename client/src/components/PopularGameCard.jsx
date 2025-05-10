@@ -99,6 +99,32 @@ const Card = ({gameSubject, gameNumber, isCompleted: isCompletedProp = null}) =>
         }
     }, [selectedDifficulty]);
 
+    const getCompletedQuizColor = () => {
+        switch (selectedDifficulty) {
+            case "Easy":
+                return "bg-amber-600"
+            case 'Medium':
+                return "bg-slate-400"
+            case 'Hard':
+                return "bg-yellow-300"
+            default:
+                break;
+        }
+    }
+
+    const getNotCompletedQuizColor = () => {
+        switch (selectedDifficulty) {
+            case "Easy":
+                return "bg-amber-700"
+            case 'Medium':
+                return "bg-slate-600"
+            case 'Hard':
+                return "bg-yellow-500"
+            default:
+                break;
+        }
+    }
+
     const handleDifficultyChange = (difficulty) => {
         if (selectedDifficulty === difficulty) {
             setSelectedDifficulty(null);
@@ -173,7 +199,7 @@ const Card = ({gameSubject, gameNumber, isCompleted: isCompletedProp = null}) =>
             </div>
 
             <div id={"completed-mark"}
-                className={`flex justify-center items-center w-8 h-8 rounded-full text-lg ${isCompleted !== null ? isCompleted ? 'bg-green-500' : 'bg-red-600' : 'bg-gray-400'}`}
+                className={`flex justify-center items-center w-8 h-8 rounded-full text-lg ${isCompleted !== null ? isCompleted ? `${getCompletedQuizColor()}` : `${getNotCompletedQuizColor()}` : 'bg-gray-400'}`}
             >
 
                 {   isCompleted !== null ?
