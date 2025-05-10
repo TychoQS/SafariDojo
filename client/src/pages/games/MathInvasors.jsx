@@ -8,8 +8,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import Lifes from "@/components/Lifes";
-import Link from "next/link";
-import {router} from "next/client";
 import {useRouter} from "next/router";
 import ErrorReportModal from "@/components/ErrorModal";
 import {t} from "i18next";
