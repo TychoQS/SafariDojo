@@ -85,6 +85,17 @@ export default function MathInvasors() {
                         localStorage.setItem(key, Score.toString());
                     }
                 }
+                const typeMedal = age === "easy"
+                    ? "BronzeMedal"
+                    : age === "medium"
+                        ? "SilverMedal"
+                        : "GoldMedal";
+
+                const medalKey = `${gameData}_${typeMedal}`;
+                const medalStatus = localStorage.getItem(medalKey) === "1";
+                if (!medalStatus) {
+                    localStorage.setItem(medalKey, "1");
+                }
             } catch (error) {
                 console.error("Error processing score update:", error);
             }
