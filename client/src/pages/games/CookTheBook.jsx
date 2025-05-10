@@ -12,6 +12,9 @@ import {router} from "next/client";
 import {useRouter} from "next/router";
 import GameOverModal from "@/components/GameOverModal";
 import CongratsModal from "@/components/CongratsModal";
+import {t} from "i18next";
+import ErrorReportModal from "@/components/ErrorModal";
+import { RotateCcw } from 'lucide-react';
 
 let Stories = [];
 
@@ -52,7 +55,7 @@ const CookTheBook = () => {
         }
     };
 
-    function handleFinalScore() {
+    function handleFinalScoreWhenWinning() {
         try {
             const gameData = "Cook The Book"
             const age = router.query.Age;
@@ -63,6 +66,17 @@ const CookTheBook = () => {
                     localStorage.setItem(key, score.toString());
                 }
             }
+            const typeMedal = age === "easy"
+                ? "BronzeMedal"
+                : age === "medium"
+                    ? "SilverMedal"
+                    : "GoldMedal";
+
+            const medalKey = `${gameData}_${typeMedal}`;
+            const medalStatus = localStorage.getItem(medalKey) === "1";
+            if (!medalStatus) {
+                localStorage.setItem(medalKey, "1");
+            }
 
         } catch (error) {
             console.error("Error processing score update:", error);
@@ -70,7 +84,7 @@ const CookTheBook = () => {
     }
 
     useEffect(() => {
-        handleFinalScore();
+        handleFinalScoreWhenWinning();
     }, [Win]);
 
     useEffect(() => {
@@ -217,6 +231,7 @@ const CookTheBook = () => {
 
 
     const resetGame = () => {
+        setMessage("");
         setScore(0);
         setCurrentLevel(0);
         setWin(false);
@@ -264,16 +279,6 @@ const CookTheBook = () => {
         <>
             <div className="app flex flex-col bg-PS-main-purple min-h-screen">
                 <Header></Header>
-                <section id={"lives-section"} className={"flex flex-row items-center justify-between"}>
-                    <Link href={{pathname: "../GameSelectionPage", query: {Subject: 'Art'}}}>
-                        <div className="mb-2 mt-2">
-                            <Button size="small">Back</Button>
-                        </div>
-                    </Link>
-                    <div className="">
-                        <Lifes ref={lifesRef}/>
-                    </div>
-                </section>
                 <main id={"main-section"} className={"flex flex-col flex-1 items-center justify-start bg-PS-main-purple"}>
                     { currentlyPlaying() && lifesAvailable ? (
                         <>
@@ -293,6 +298,17 @@ const CookTheBook = () => {
                                         </div>
                                     </div>
                                 </section>
+                                <section id={"lives-section"} className={"flex flex-row items-center justify-between"}>
+                                    <div className="">
+                                        <Lifes ref={lifesRef}/>
+                                    </div>
+                                </section>
+                                <section id={"top-menu-section"} className={"flex flex-row"}>
+                                    <div className="mt-4 mb-2 relative w-[1150px] flex justify-between">
+                                        <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
+                                        <ErrorReportModal></ErrorReportModal>
+                                    </div>
+                                </section>
                             </div>
                         <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-12 w-full max-w-7xl">
                             <h1 className={`text-4xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{Stories[currentLevel]?.title}</h1>
@@ -303,7 +319,16 @@ const CookTheBook = () => {
                             )}
 
                             <section id={"time-line-section"} className="mb-8 p-10">
-                                <h2 className={`text-center text-4xl font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
+                                <div className={"flex flex-row items-center space-x-6 justify-center"}>
+                                    <h2 className={`text-center text-4xl font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
+                                    {
+                                        animation === "" && (
+                                            <button onClick={resetLevel}>
+                                                <RotateCcw className="w-6 h-6 text-red-400 hover:cursor-pointer hover:animate-spin-reverse active:animate-ping" />
+                                            </button>
+                                        )
+                                    }
+                                </div>
                                 <div id={"game-time-line"} className="relative">
                                     <div id={"time-line-line"} className="absolute h-1 bg-red-400 top-1/2 left-0 right-0 transform -translate-y-1/2 z-0"></div>
                                     <section id={"missing-pieces-section"} className="relative z-10 flex justify-between items-center py-8">
@@ -431,7 +456,6 @@ const CookTheBook = () => {
                         { currentlyPlaying() ? (
                             <>
                                 <Button size={"large"} onClick={verifyOrder}>Verify Order</Button>
-                                <Button size={"large"} onClick={resetLevel}>Reset Level</Button>
                             </>
                         ) : (
                             <Button size={"large"} onClick={replayGame}>Play Again</Button>

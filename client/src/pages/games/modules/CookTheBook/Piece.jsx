@@ -41,7 +41,7 @@ export default function Piece({
             )`
             }}
         >
-        <span className="text-xl font-medium text-gray-800 drop-shadow-sm">
+        <span className="text-lg font-medium text-gray-800 drop-shadow-sm">
           {isEmpty ?  '' : piece.text}
         </span>
         </div>
