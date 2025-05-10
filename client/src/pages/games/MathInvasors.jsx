@@ -8,8 +8,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import Lifes from "@/components/Lifes";
-import Link from "next/link";
-import {router} from "next/client";
 import {useRouter} from "next/router";
 import ErrorReportModal from "@/components/ErrorModal";
 import {t} from "i18next";
@@ -55,7 +53,6 @@ export default function MathInvasors() {
     const [Magnitude, setMagnitude] = useState(1);
     const [difficultyLoaded, setDifficultyLoaded] = useState(false);
     const [roundsCompleted, setRoundsCompleted] = useState(false);
-    const [showModal, setShowModal] = useState(false);
     let Round = 1
 
     useEffect(() => {
@@ -85,9 +82,9 @@ export default function MathInvasors() {
                         localStorage.setItem(key, Score.toString());
                     }
                 }
-                const typeMedal = age === "easy"
+                const typeMedal = age.toLowerCase() === "easy"
                     ? "BronzeMedal"
-                    : age === "medium"
+                    : age.toLowerCase() === "medium"
                         ? "SilverMedal"
                         : "GoldMedal";
 
@@ -142,7 +139,6 @@ export default function MathInvasors() {
     }, [LifesAvailable]);
 
     const closeModal = () => {
-        setShowModal(false);
         setTimeout(() => {
             router.back();
         }, 0);

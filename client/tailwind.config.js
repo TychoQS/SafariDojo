@@ -33,6 +33,14 @@ module.exports = {
                     '0%': { backgroundColor: '#86efac' },
                     '50%': { backgroundColor: '#4ade80' },
                     '100%': { backgroundColor: '#22c55e' },
+                },
+                'spin-reverse': {
+                    '0%': {
+                        transform: 'rotate(0deg)',
+                    },
+                    '100%': {
+                        transform: 'rotate(-360deg)',
+                    },
                 }
             },
             animation: {
@@ -40,6 +48,7 @@ module.exports = {
                 "fade-in": "fadeIn 3s ease-in forwards",
                 "fade-in-out": "fadeInOut 3s ease-in-out forwards",
                 "found-pulse": "foundPulse 4s ease-in-out",
+                'spin-reverse': 'spin-reverse 1s linear infinite',
             },
         },
     },
