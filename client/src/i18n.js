@@ -102,6 +102,12 @@ const resources = {
                 completed: 'Completed',
                 noMatch: 'They don\'t match!',
                 match: 'Well done!',
+            },
+            letterSoup: {
+                time: 'Time',
+                progress: 'Your progress',
+                subtitle: 'Words to find',
+                done: 'Great! You found'
             }
         },
     },
@@ -203,6 +209,12 @@ const resources = {
                 completed: 'Completados',
                 noMatch: 'No coinciden.',
                 match: '¡Muy bien!',
+            },
+            letterSoup: {
+                time: 'Tiempo',
+                progress: 'Tu progreso',
+                subtitle: 'Encuentra estas palabras',
+                done: '¡Genial! Encontraste'
             }
         },
     },
@@ -304,6 +316,12 @@ const resources = {
                 completed: 'Terminé',
                 noMatch: 'Ils ne s\'accordent pas.',
                 match: 'Très bien!',
+            },
+            letterSoup: {
+                time: 'Temps',
+                progress: 'Progrès',
+                subtitle: 'Trouver des mots',
+                done: 'Super ! Tu as trouvé'
             }
         },
     },
@@ -406,6 +424,12 @@ const resources = {
                 completed: 'Abgeschlossen',
                 noMatch: 'Sie passen nicht zusammen.',
                 match: 'Sehr gut!'
+            },
+            letterSoup:{
+                time: 'Zeit',
+                progress: 'Fortschritt',
+                subtitle: 'Wörter zu finden',
+                done: 'Super! Du hast gefunden'
             }
         },
     },
