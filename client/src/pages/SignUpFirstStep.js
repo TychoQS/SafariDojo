@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
@@ -8,6 +8,37 @@ import {useTranslation} from "react-i18next";
 const SignUpFirstStep = () => {
     const router = useRouter();
     const {t} = useTranslation();
+    useEffect(() => {
+        const emailInput = document.getElementById("UserEmail");
+        if (emailInput) {
+            emailInput.addEventListener("input", () => clearErrors(emailInput));
+        }
+
+    }, []);
+
+    const clearErrors = (emailInput) => {
+        const existingError = document.getElementById("custom-email-error");
+        if (existingError) {
+            existingError.remove();
+        }
+        emailInput.classList.remove('border-red-500');
+    };
+
+    function handleUsedEmail(message) {
+        const emailInput = document.getElementById("UserEmail");
+        const parentDiv = emailInput.closest('div');
+        const existingError = document.getElementById("custom-email-error");
+        if (existingError) {
+            existingError.textContent = message;
+        } else {
+            const errorElement = document.createElement('p');
+            errorElement.id = "custom-email-error";
+            errorElement.textContent = message;
+            errorElement.className = "text-red-500 text-sm mt-1 text-center";
+            emailInput.classList.add('border-red-500');
+            parentDiv.appendChild(errorElement);
+        }
+    }
 
     const handleSubmit = async (formData) => {
         const {FullName, UserEmail} = formData;
