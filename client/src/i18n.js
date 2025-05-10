@@ -102,6 +102,7 @@ const resources = {
                 completed: 'Completed',
                 noMatch: 'They don\'t match!',
                 match: 'Well done!',
+                locked: 'This tile is locked!',
             },
             letterSoup: {
                 time: 'Time',
@@ -209,6 +210,7 @@ const resources = {
                 completed: 'Completados',
                 noMatch: 'No coinciden.',
                 match: '¡Muy bien!',
+                locked: '¡Esa ficha está bloqueada!',
             },
             letterSoup: {
                 time: 'Tiempo',
@@ -316,6 +318,7 @@ const resources = {
                 completed: 'Terminé',
                 noMatch: 'Ils ne s\'accordent pas.',
                 match: 'Très bien!',
+                lockedTile: 'Cette tuile est verrouillée!'
             },
             letterSoup: {
                 time: 'Temps',
@@ -418,12 +421,14 @@ const resources = {
             gameOver: 'Spiel vorbei',
             gameOverMessage: 'Sie haben die maximale Anzahl an Fehlern erreicht.',
             rateThisGame: 'Bewerte dieses Spiel',
+            playAgain: 'Spiel',
             send: 'Senden',
             mahjong: {
                 points: 'Punkte',
                 completed: 'Abgeschlossen',
                 noMatch: 'Sie passen nicht zusammen.',
-                match: 'Sehr gut!'
+                match: 'Sehr gut!',
+                lockedTile: 'Diese Fliese ist gesperrt!!'
             },
             letterSoup:{
                 time: 'Zeit',

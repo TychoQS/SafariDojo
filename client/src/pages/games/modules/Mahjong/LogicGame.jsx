@@ -349,7 +349,7 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
 
         if (isTileBlocked(position)) {
             setMessage({
-                text: "This tile is locked.",
+                text: t('mahjong.locked'),
                 type: "default"
             });
             return;
