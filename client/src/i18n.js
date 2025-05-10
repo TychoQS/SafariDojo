@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import {initReactI18next} from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Translation resources for each language
@@ -73,7 +73,7 @@ const resources = {
             confirmPassword: 'Confirm password',
             forgotPassword: 'Forgot your password?',
             enter: 'Enter',
-            clickHere : 'Click here',
+            clickHere: 'Click here',
             chooseIcon: 'Choose an icon',
             eliteMessage: 'You belong to elite!',
             noneliteMessage: 'Become premium to stand out!',
@@ -130,6 +130,36 @@ const resources = {
             submit_button: 'Submit report',
             success_title: 'Thank you for your report!',
             success_message: 'Your error report has been successfully submitted. Our team will review it as soon as possible.',
+            misterydoors: {
+                correct: 'Well done!',
+                incorrect: 'Not at all... Think about it again!',
+                vaultCorrect: 'Awesome! You opened the safe!',
+                vaultIncorrect: 'So close! At least you secured some points.',
+                completedDungeon: 'Dungeon completed!',
+                introduction: {
+                    briefInstructions: "Brief instructions",
+                    ventureMessage: "Venture into the math dungeon!",
+                    howToPlay: "How to play",
+                    solveOperations: "Solve operations",
+                    chooseDoor: "Choose the door with the correct answer",
+                    completeLevels: "Complete 5 levels to earn the prize",
+                    watchOut: "Watch out! You only have 3 opportunities"
+                },
+                level: 'Level',
+                score: 'Score',
+                chooseDoor: 'Which door has the correct answer?',
+                vault: {
+                    title: 'You reached the end of the dungeon!',
+                    subtitle: 'You have 2 options',
+                    take: 'Take',
+                    leave: 'points and leave',
+                    or: 'or',
+                    tryOpen: 'Try opening the safe (+25 points)',
+                    safeCode: 'Safe code',
+                    solve: 'Solve these operations to get the big prize',
+
+                }
+            }
         },
     },
     es: {
@@ -201,7 +231,7 @@ const resources = {
             confirmPassword: 'Confirma la contraseña',
             forgotPassword: '¿Has olvidado tu contraseña?',
             enter: 'Entrar',
-            clickHere : 'Pulse aquí',
+            clickHere: 'Pulse aquí',
             chooseIcon: 'Escoge un icono',
             eliteMessage: '¡Ya perteneces a la élite!',
             noneliteMessage: '¡Conéctate a la élite para destacar!',
@@ -258,6 +288,35 @@ const resources = {
             submit_button: 'Enviar reporte',
             success_title: '¡Gracias por tu reporte!',
             success_message: 'Tu reporte de error ha sido enviado correctamente. Nuestro equipo lo revisará lo antes posible.',
+            misterydoors: {
+                correct: '¡Bien hecho!',
+                incorrect: 'Para nada... ¡Piénsalo de nuevo!',
+                vaultCorrect: '¡Increíble! ¡Abriste la caja fuerte!',
+                vaultIncorrect: '¡Estuviste cerca! Al menos aseguraste algunos puntos.',
+                completedDungeon: '¡Mazmorra completada!',
+                introduction: {
+                    briefInstructions: "Instrucciones breves",
+                    ventureMessage: "¡Adéntrate en la mazmorra matemática!",
+                    howToPlay: "Cómo jugar",
+                    solveOperations: "Resuelve operaciones",
+                    chooseDoor: "Elige la puerta con la respuesta correcta",
+                    completeLevels: "Completa 5 niveles para ganar el premio",
+                    watchOut: "¡Cuidado! Solo tienes 3 oportunidades"
+                },
+                level: 'Nivel',
+                score: 'Puntos',
+                chooseDoor: '¿Qué puerta tiene la respuesta correcta?',
+                vault: {
+                    title: '¡Llegaste al final de la mazmorra!',
+                    subtitle: 'Tienes 2 opciones',
+                    take: 'Tomar',
+                    leave: 'puntos y salir',
+                    or: 'o',
+                    tryOpen: 'Intentar abrir la caja fuerte (+25 puntos)',
+                    safeCode: 'Código de la caja',
+                    solve: 'Resuelve estas operaciones para ganar el gran premio',
+                }
+            }
         },
     },
     fr: {
@@ -323,20 +382,20 @@ const resources = {
             backButton: 'Derrière',
             startButton: 'Commencer',
             bestScore: 'Meilleur résultat',
-            logOutText1 : 'Vous êtes déconnecté',
-            logOutText2 : 'À bientôt!',
-            password : 'Mot de passe',
-            confirmPassword : 'Confirmez le mot de passe',
-            forgotPassword : 'Mot de passe oublié?',
-            enter : 'Entrer',
-            clickHere : 'Cliquez ici',
-            chooseIcon : 'Choisissez une icône',
-            eliteMessage : 'Vous appartenez à l’élite!',
-            noneliteMessage : 'Devenez premium pour vous démarquer!',
-            modalElite : 'Vous faites partie de l’élite !',
-            modalEliteDescription : 'Êtes-vous sûr ? Vous perdrez tous vos avantages d’élite.',
-            modalNonElite : 'Voulez-vous rejoindre l’élite ?',
-            modalNonEliteDescription : 'Le prix de l’abonnement est de 14,99 € par mois.',
+            logOutText1: 'Vous êtes déconnecté',
+            logOutText2: 'À bientôt!',
+            password: 'Mot de passe',
+            confirmPassword: 'Confirmez le mot de passe',
+            forgotPassword: 'Mot de passe oublié?',
+            enter: 'Entrer',
+            clickHere: 'Cliquez ici',
+            chooseIcon: 'Choisissez une icône',
+            eliteMessage: 'Vous appartenez à l’élite!',
+            noneliteMessage: 'Devenez premium pour vous démarquer!',
+            modalElite: 'Vous faites partie de l’élite !',
+            modalEliteDescription: 'Êtes-vous sûr ? Vous perdrez tous vos avantages d’élite.',
+            modalNonElite: 'Voulez-vous rejoindre l’élite ?',
+            modalNonEliteDescription: 'Le prix de l’abonnement est de 14,99 € par mois.',
             leaveElite: "Laissez l'élite",
             close: "Fermer",
             next: 'suivant',
@@ -350,7 +409,7 @@ const resources = {
             points1: 'Tu as terminé le jeu avec',
             points2: 'points',
             gameOver: 'Jeu terminé',
-            playAgain:'Rejouer',
+            playAgain: 'Rejouer',
             gameOverMessage: 'Vous avez atteint le nombre maximal d\'erreurs.',
             rateThisGame: 'Évaluez ce jeu',
             send: 'Envoyer',
@@ -386,6 +445,35 @@ const resources = {
             submit_button: 'Envoyer le rapport',
             success_title: 'Merci pour votre rapport !',
             success_message: 'Votre rapport d\'erreur a été envoyé avec succès. Notre équipe l\'examinera dès que possible.',
+            misterydoors: {
+                correct: 'Bien joué !',
+                incorrect: 'Pas du tout... Réfléchis encore !',
+                vaultCorrect: 'Génial ! Tu as ouvert le coffre !',
+                vaultIncorrect: 'Presque ! Tu as quand même gagné quelques points.',
+                completedDungeon: 'Donjon terminé !',
+                introduction: {
+                    briefInstructions: "Instructions rapides",
+                    ventureMessage: "Pars à l'aventure dans le donjon mathématique !",
+                    howToPlay: "Comment jouer",
+                    solveOperations: "Résous des opérations",
+                    chooseDoor: "Choisis la porte avec la bonne réponse",
+                    completeLevels: "Complète 5 niveaux pour gagner le prix",
+                    watchOut: "Attention ! Tu n’as que 3 chances"
+                },
+                level: 'Niveau',
+                score: 'Score',
+                chooseDoor: 'Quelle porte a la bonne réponse ?',
+                vault: {
+                    title: 'Tu as atteint la fin du donjon !',
+                    subtitle: 'Tu as 2 options',
+                    take: 'Prendre',
+                    leave: 'points et partir',
+                    or: 'ou',
+                    tryOpen: 'Tenter d’ouvrir le coffre (+25 points)',
+                    safeCode: 'Code du coffre',
+                    solve: 'Résous ces opérations pour le grand prix',
+                }
+            }
         },
     },
     de: {
@@ -490,7 +578,7 @@ const resources = {
                 match: 'Sehr gut!',
                 lockedTile: 'Diese Fliese ist gesperrt!!'
             },
-            letterSoup:{
+            letterSoup: {
                 time: 'Zeit',
                 progress: 'Fortschritt',
                 subtitle: 'Wörter zu finden',
@@ -515,6 +603,36 @@ const resources = {
             submit_button: 'Bericht senden',
             success_title: 'Vielen Dank für Ihren Bericht!',
             success_message: 'Ihr Fehlerbericht wurde erfolgreich übermittelt. Unser Team wird ihn so schnell wie möglich prüfen.',
+            misterydoors: {
+                correct: 'Gut gemacht!',
+                incorrect: 'Ganz falsch... Denk noch einmal nach!',
+                vaultCorrect: 'Super! Du hast den Safe geöffnet!',
+                vaultIncorrect: 'Fast geschafft! Wenigstens hast du ein paar Punkte gesichert.',
+                completedDungeon: 'Verlies abgeschlossen!',
+                introduction: {
+                    briefInstructions: "Kurze Anleitung",
+                    ventureMessage: "Wage dich in das Mathematik-Verlies!",
+                    howToPlay: "So spielst du",
+                    solveOperations: "Löse Rechenaufgaben",
+                    chooseDoor: "Wähle die Tür mit der richtigen Antwort",
+                    completeLevels: "Schließe 5 Level ab, um den Preis zu gewinnen",
+                    watchOut: "Achtung! Du hast nur 3 Versuche"
+                },
+                level: 'Level',
+                score: 'Punktzahl',
+                chooseDoor: 'Welche Tür hat die richtige Antwort?',
+                vault: {
+                    title: 'Du hast das Ende des Verlieses erreicht!',
+                    subtitle: 'Du hast 2 Optionen',
+                    take: 'Nehmen',
+                    leave: 'Punkte und gehen',
+                    or: 'oder',
+                    tryOpen: 'Versuche, den Safe zu öffnen (+25 Punkte)',
+                    safeCode: 'Safe-Code',
+                    solve: 'Löse diese Aufgaben, um den Hauptpreis zu gewinnen',
+                }
+            }
+
         },
     },
 };

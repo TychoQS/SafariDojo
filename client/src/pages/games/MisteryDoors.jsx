@@ -6,6 +6,10 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import {cherryBomb} from "@/styles/fonts";
 import {useRouter} from "next/router";
+import {useTranslation} from "react-i18next";
+import ErrorReportModal from "@/components/ErrorModal";
+import CongratsModal from "@/components/CongratsModal";
+import GameOverModal from "@/components/GameOverModal";
 
 const MisteryDoorsGame = () => {
     const [showStartScreen, setShowStartScreen] = useState(true);
@@ -21,6 +25,7 @@ const MisteryDoorsGame = () => {
     const [showFeedback, setShowFeedback] = useState(false);
     const [difficulty, setDifficulty] = useState("easy");
     const router = useRouter();
+    const {t} = useTranslation();
 
     const MAX_LEVELS = 5;
 
@@ -260,7 +265,7 @@ const MisteryDoorsGame = () => {
         if (selectedAnswer === correctAnswer) {
             const newScore = score + 5;
             setScore(newScore);
-            setFeedbackMessage('Well done!');
+            setFeedbackMessage(t('misterydoors.correct'));
             setShowFeedback(true);
 
             setTimeout(() => {
@@ -274,19 +279,22 @@ const MisteryDoorsGame = () => {
             }, 3000);
         } else {
             setLives(lives - 1);
-            setFeedbackMessage(`Not at all... Think about it again!`);
+            setFeedbackMessage(t('misterydoors.incorrect'));
             setShowFeedback(true);
 
             setTimeout(() => {
                 if (lives <= 1) {
                     setGameState('lose');
-                } else {
+                } else if (level < MAX_LEVELS) {
+                    setLevel(level + 1);
                     startLevel();
+                } else {
+                    generateVaultCode();
+                    setGameState('vault');
                 }
             }, 3000);
         }
     };
-
     const handleVaultInputChange = (index, value) => {
         const newGuess = [...vaultGuess];
         newGuess[index] = value;
@@ -298,17 +306,18 @@ const MisteryDoorsGame = () => {
             return parseInt(guess) === vaultCode[index].answer;
         });
 
-
         if (isCorrect) {
-            setScore(score + 5);
-            setFeedbackMessage('Awesome! You opened the safe!');
+            const newScore = score + 25;
+            setScore(newScore);
+            saveScore(newScore);
+            setFeedbackMessage(t('misterydoors.vaultCorrect'));
         } else {
-            setFeedbackMessage('So close! At least you secured some points.');
+            setFeedbackMessage(t('misterydoors.vaultIncorrect'));
         }
         setGameState('win');
     };
 
-    const saveScore = () => {
+    const saveScore = (newScore) => {
         try {
             const previousURL = localStorage.getItem("previousURL");
             if (previousURL) {
@@ -320,8 +329,8 @@ const MisteryDoorsGame = () => {
                     const key = `${gameData}_${age}_bestScore`;
                     const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
 
-                    if (score > storedScore) {
-                        localStorage.setItem(key, score.toString());
+                    if (newScore > storedScore) {
+                        localStorage.setItem(key, newScore.toString());
                     }
 
                     const typeMedal = age === "easy"
@@ -343,8 +352,8 @@ const MisteryDoorsGame = () => {
     }
 
     const takeSmallReward = () => {
-        saveScore();
-        setFeedbackMessage('Dungeon completed!');
+        saveScore(score);
+        setFeedbackMessage(t('misterydoors.completedDungeon'));
         setGameState('win');
     };
 
@@ -370,15 +379,8 @@ const MisteryDoorsGame = () => {
         setShowStartScreen(true);
     };
 
-    const getDifficultyLabel = () => {
-        switch (difficulty) {
-            case 'hard':
-                return 'Hard';
-            case 'medium':
-                return 'Medium';
-            default:
-                return 'Easy';
-        }
+    const onCloseMessage = () => {
+        router.back();
     };
 
     return (
@@ -387,11 +389,10 @@ const MisteryDoorsGame = () => {
             <main className="bg-PS-main-purple w-dvw h-dvh flex flex-col justify-center items-center">
                 <Title>Maths Dungeon</Title>
                 {gameState !== 'win' && gameState !== 'lose' && (
-                    <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Maths"}}}>
-                        <div className="mt-4 mb-2 relative w-[1200px] flex justify-start">
-                            <Button size="small">Back</Button>
-                        </div>
-                    </Link>
+                    <div className="mt-4 mb-2 relative w-[1150px] flex justify-between">
+                        <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
+                        <ErrorReportModal></ErrorReportModal>
+                    </div>
                 )}
                 <div
                     className="relative w-[1200px] h-[968px] bg-violet-700 rounded-lg overflow-hidden border-4 border-stone-700 mb-5">
@@ -400,45 +401,31 @@ const MisteryDoorsGame = () => {
                             className="absolute inset-0 flex flex-col items-center justify-center bg-stone-800 text-center p-6">
                             <div
                                 className="bg-stone-700 p-8 rounded-lg border-4 border-yellow-500 shadow-2xl text-center max-w-2xl">
-                                <h2 className={`text-5xl font-bold mb-8 text-yellow-400 ${cherryBomb.className}`}>Brief
-                                    instructions</h2>
+                                <h2 className={`text-5xl font-bold mb-8 text-yellow-400 ${cherryBomb.className}`}>{t('misterydoors.introduction.briefInstructions')}</h2>
 
                                 <div className="mb-8 space-y-6">
-                                    <p className="text-2xl font-bold mb-4 text-white">Venture into the math dungeon!</p>
+                                    <p className="text-2xl font-bold mb-4 text-white">{t('misterydoors.introduction.ventureMessage')}</p>
 
                                     <div className="bg-stone-600 p-6 rounded-lg text-left">
-                                        <h3 className="text-xl font-bold text-yellow-400 mb-2">How to play:</h3>
+                                        <h3 className="text-xl font-bold text-yellow-400 mb-2">{t('misterydoors.introduction.howToPlay')}:</h3>
                                         <ul className="list-disc pl-5 space-y-2 text-white">
-                                            <li>Solve operations</li>
-                                            <li>Choose the door with the correct answer</li>
-                                            <li>Complete 5 levels to earn the prize</li>
-                                            <li>Watch out! You only have 3 opportunities</li>
+                                            <li>{t('misterydoors.introduction.solveOperations')}</li>
+                                            <li>{t('misterydoors.introduction.chooseDoor')}</li>
+                                            <li>{t('misterydoors.introduction.completeLevels')}</li>
+                                            <li>{t('misterydoors.introduction.watchOut')}</li>
                                         </ul>
-                                    </div>
-
-                                    <div className="bg-stone-600 p-6 rounded-lg text-left">
-                                        <h3 className="text-xl font-bold text-yellow-400 mb-2">Current
-                                            difficulty: {getDifficultyLabel()}</h3>
-                                        <p className="text-white">
-                                            {difficulty === 'easy' ?
-                                                'Single-digit addition and subtraction problems.' :
-                                                difficulty === 'medium' ?
-                                                    'Two-digit addition/subtraction and simple multiplication.' :
-                                                    'Advanced problems including variable equations like "5 + ? = 12".'
-                                            }
-                                        </p>
                                     </div>
                                 </div>
 
                                 <div className="flex justify-center">
                                     <button
                                         onClick={startGame}
-                                        className={`cursor-pointer w-64 h-20 text-2xl rounded-2xl border-2 border-b-8
+                                        className={`cursor-pointer w-64 h-15 text-2xl rounded-2xl border-2 border-b-8
                                             border-PS-light-black hover:bg-orange-400 hover:border-none 
                                             bg-PS-dark-yellow font-black shadow-md text-PS-light-black
                                             focus:outline-none ${cherryBomb.className}`}
                                     >
-                                        Start playing!
+                                        {t('startButton')}
                                     </button>
                                 </div>
                             </div>
@@ -467,21 +454,18 @@ const MisteryDoorsGame = () => {
                         <>
                             <div
                                 className="absolute text-2xl top-0 left-0 w-full bg-purple-900 bg-opacity-70 p-2 flex justify-between">
-                                <div className="font-bold">Level: {level}/{MAX_LEVELS}</div>
-                                <div className="font-bold">Score: {score}</div>
+                                <div className="font-bold">{t('misterydoors.level')}: {level}/{MAX_LEVELS}</div>
+                                <div className="font-bold">{t('misterydoors.score')}: {score}</div>
                                 <div className="flex items-center">
                                     <div className="text-red-500 font-bold mr-2">
                                         {Array(lives).fill('❤️').join(' ')}
-                                    </div>
-                                    <div className="ml-4 bg-purple-800 px-3 py-1 rounded-full text-sm">
-                                        Difficulty: {getDifficultyLabel()}
                                     </div>
                                 </div>
                             </div>
 
                             <div
                                 className="absolute text-xl top-12 left-0 w-full text-center font-bold bg-purple-900 bg-opacity-70 p-2">
-                                {showFeedback ? feedbackMessage : 'Which door has the correct answer?'}
+                                {showFeedback ? feedbackMessage : t('misterydoors.chooseDoor')}
                             </div>
 
                             <div className="absolute mt-8 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-3/4">
@@ -507,23 +491,15 @@ const MisteryDoorsGame = () => {
                                     </div>
                                 )}
                             </div>
-
-                            <div
-                                className="absolute text-xs bottom-4 right-4 bg-gray-600 bg-opacity-70 p-2 rounded text-white">
-                                {problem && problem.isVariable ?
-                                    "Note: Find the value of ? that makes the equation true" :
-                                    "Note: Click on the door with the correct answer"}
-                            </div>
                         </>
                     )}
 
                     {!showStartScreen && gameState === 'vault' && (
                         <div
                             className="absolute inset-0 flex flex-col items-center justify-center bg-stone-800 text-center p-6">
-                            <h2 className="text-3xl font-bold text-yellow-400 mb-6">You reached the end of the
-                                dungeon!</h2>
+                            <h2 className="text-3xl font-bold text-yellow-400 mb-6">{t('misterydoors.vault.title')}</h2>
                             <div className="bg-stone-700 p-6 rounded-lg mb-8 w-3/4">
-                                <p className="text-white text-lg mb-6">You have 2 options:</p>
+                                <p className="text-white text-lg mb-6">{t('misterydoors.vault.subtitle')}:</p>
 
                                 <div className="flex justify-center gap-8 mb-8">
                                     <button
@@ -533,10 +509,10 @@ const MisteryDoorsGame = () => {
                                             focus:outline-none ${cherryBomb.className}`}
                                         onClick={takeSmallReward}
                                     >
-                                        Take {score} points and leave
+                                        {t('misterydoors.vault.take')} {score} {t('misterydoors.vault.leave')}
                                     </button>
-                                    <div className="text-white text-2xl font-bold flex items-center">OR</div>
-                                    <button
+                                    <div className="text-white text-2xl font-bold flex items-center">{t('misterydoors.vault.or')}</div>
+                                    <div
                                         className={`cursor-pointer w-64 h-20 text-2xl rounded-2xl border-2 border-b-8
                                             border-PS-light-black hover:bg-orange-400 hover:border-none 
                                             bg-PS-dark-yellow font-black shadow-md text-PS-light-black
@@ -544,13 +520,13 @@ const MisteryDoorsGame = () => {
                                         onClick={() => {
                                         }}
                                     >
-                                        Try opening the safe (+25 points)
-                                    </button>
+                                        {t('misterydoors.vault.tryOpen')}
+                                    </div>
                                 </div>
 
                                 <div className="bg-stone-600 p-6 rounded-lg">
-                                    <h3 className="text-2xl font-bold text-white mb-4">Safe code</h3>
-                                    <p className="text-white mb-4">Solve these operations to get the big prize:</p>
+                                    <h3 className="text-2xl font-bold text-white mb-4">{t('misterydoors.vault.safeCode')}</h3>
+                                    <p className="text-white mb-4">{t('misterydoors.vault.solve')}:</p>
 
                                     <div className="flex justify-center gap-6 mb-6">
                                         {vaultCode.map((code, index) => (
@@ -583,39 +559,18 @@ const MisteryDoorsGame = () => {
                     )}
 
                     {!showStartScreen && gameState === 'win' && (
-                        <div
-                            className="absolute inset-0 flex flex-col items-center justify-center bg-violet-700 text-white">
-                            <h2 className="text-4xl font-bold mb-4">You Win!</h2>
-                            <p className="text-2xl mb-6">{feedbackMessage}</p>
-                            <p className="text-xl mb-8">Final score: {score}</p>
-                            <Button
-                                size={"large"}
-                                onClick={restartGame}
-                            >
-                                Play Again
-                            </Button>
-                            <Button size="small" className="mt-2" onClick={() => router.back()}>
-                                Back
-                            </Button>
-                        </div>
+                        <CongratsModal
+                            points={score}
+                            onCloseMessage={onCloseMessage}
+                            onRestart={restartGame}
+                        />
                     )}
 
                     {!showStartScreen && gameState === 'lose' && (
-                        <div
-                            className="absolute inset-0 flex flex-col items-center justify-center bg-red-900 text-black">
-                            <h2 className="text-4xl font-bold mb-4 text-white">Game Over!</h2>
-                            <p className="text-2xl mb-6 text-white">No lives left...</p>
-                            <p className="text-xl mb-8 text-white">Final score: {score}</p>
-                            <Button
-                                size={"large"}
-                                onClick={restartGame}
-                            >
-                                Try Again
-                            </Button>
-                            <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Math"}}} className="mt-2">
-                                <Button size="small">Back</Button>
-                            </Link>
-                        </div>
+                        <GameOverModal
+                            onCloseMessage={onCloseMessage}
+                            onRestart={restartGame}
+                        />
                     )}
                 </div>
             </main>
