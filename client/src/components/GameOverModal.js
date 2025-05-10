@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function GameOverModal({ onCloseMessage }) {
+export default function GameOverModal({ onCloseMessage, onRestart }) {
     const { t } = useTranslation();
     const [showRating, setShowRating] = useState(false);
     const [rating, setRating] = useState(0);
@@ -48,12 +48,20 @@ export default function GameOverModal({ onCloseMessage }) {
                     </div>
                 )}
 
-                <button
-                    onClick={onCloseMessage}
-                    className="mt-4 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition"
-                >
-                    {showRating ? t("send") : t("close")}
-                </button>
+                <div className="mt-4 flex justify-center space-x-4">
+                    <button
+                        onClick={onRestart}
+                        className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-300 transition"
+                    >
+                        {t("playAgain")}
+                    </button>
+                    <button
+                        onClick={onCloseMessage}
+                        className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition"
+                    >
+                        {showRating ? t("send") : t("close")}
+                    </button>
+                </div>
             </div>
         </div>
     );

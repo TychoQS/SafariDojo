@@ -342,6 +342,7 @@ export default function useMahjongGame(dataSets, initialPairCount = 12) {
         setMistakes(0);
         setScore(0);
         setPairMistakes({});
+        setMessage("");
     };
 
     const handleTileClick = (position) => {

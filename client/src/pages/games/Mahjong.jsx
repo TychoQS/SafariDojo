@@ -14,6 +14,10 @@ const MahjongPairs = ({dataSets, title}) => {
     const router = useRouter();
     const {t} = useTranslation();
 
+    const playAgain = () =>{
+        game.initializeGame()
+    }
+
     const handleCloseMessage = () => {
         if (game.message?.type === "congratulations") {
             try {
@@ -70,6 +74,7 @@ const MahjongPairs = ({dataSets, title}) => {
                             message={game.message}
                             mistakes={game.mistakes}
                             onCloseMessage={handleCloseMessage}
+                            onRestart={playAgain}
                         />
 
                         <GameBoard
