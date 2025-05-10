@@ -82,9 +82,9 @@ export default function MathInvasors() {
                         localStorage.setItem(key, Score.toString());
                     }
                 }
-                const typeMedal = age === "easy"
+                const typeMedal = age.toLowerCase() === "easy"
                     ? "BronzeMedal"
-                    : age === "medium"
+                    : age.toLowerCase() === "medium"
                         ? "SilverMedal"
                         : "GoldMedal";
 
