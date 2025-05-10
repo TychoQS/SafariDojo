@@ -11,6 +11,7 @@ import {useRouter} from "next/router";
 import {useProfile} from "@/pages/context/ProfileContext";
 import ModalButton from "@/components/ModalButton";
 import PremiumModal from "@/components/PremiumModal";
+import {useTranslation} from "react-i18next";
 
 export default function MyProfile() {
     const {profile, updateProfile} = useProfile();
@@ -19,8 +20,10 @@ export default function MyProfile() {
     const [showPremiumModal, setShowPremiumModal] = useState(false);
     const router = useRouter();
     const [confirmLeave, setConfirmLeave] = useState(false);
+    const { t, i18n } = useTranslation();
 
     const currentUser = profile || {name: "Unknown", email: "N/A", profilePhoto: "default", isPremium: false};
+    const buttonSize = i18n.language === "fr" || i18n.language === "de" ? "extraLarge" : "large";
 
     useEffect(() => {
         const storedName = localStorage.getItem("name");
@@ -87,7 +90,7 @@ export default function MyProfile() {
             <section
                 className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6">
                 <div className="col-span-2 flex justify-center items-center gap-4">
-                    <Title>My profile</Title>
+                    <Title>{t('myprofile')}</Title>
                     <div className="relative group flex items-center justify-center">
                         <svg
                             onClick={() => setShowPremiumModal(true)}
@@ -116,17 +119,17 @@ export default function MyProfile() {
                         </svg>
                         <div
                             className={`absolute top-full mt-4 text-PS-light-black text-lg px-3 py-1 bg-transparent rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 whitespace-nowrap ${deliciousHandDrawn.className}`}>
-                            {currentUser.isPremium ? "You belong to elite!" : "Become premium to stand out!"}
+                            {currentUser.isPremium ? t('eliteMessage') : t('noneliteMessage')}
                         </div>
                     </div>
                 </div>
 
                 <div className="col-start-2 row-start-3 flex flex-col items-end space-y-6">
-                    <DisplayField size="large" label="Name" value={userName || currentUser.name}/>
-                    <DisplayField size="large" label="Email" value={currentUser.email}/>
+                    <DisplayField size="large" label={t('name')} value={userName || currentUser.name} />
+                    <DisplayField size="large" label={t('email')} value={currentUser.email}/>
                 </div>
 
-                <div className="col-start-1 row-start-2 flex justify-center items-start space-y-6 mb-[20px] relative">
+                <div className="col-start-1 row-start-2 flex justify-center items-start space-y-6 mb-[10px] relative">
                     <AnimalIcon animalName={profilePhoto || currentUser.profilePhoto} size="large" borderThickness={5}
                                 backgroundColor={"#FBC078"}/>
                     <Link href="/ChangeIcon"
@@ -135,29 +138,9 @@ export default function MyProfile() {
                     </Link>
                 </div>
 
-                <div className="col-start-1 col-span-2 row-start-4 flex justify-between items-center">
-                    <div className="flex space-x-8">
-                        <Link href="..">
-                            <img
-                                src="/images/StatsButton.svg"
-                                alt="Stats Button"
-                                className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"
-                            />
-                        </Link>
-                        <Link href="/Goals">
-                            <img
-                                src="/images/Diana.svg"
-                                alt="Diana"
-                                className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"
-                            />
-                        </Link>
-                        <Link href="..">
-                            <img src="/images/Medals.svg" alt="Medals"
-                                 className="w-16 h-16 cursor-pointer hover:scale-110 transition-transform duration-300"/>
-                        </Link>
-                    </div>
-                    <Button size="large">
-                        <Link href="/EditProfile">edit profile</Link>
+                <div className="col-span-2 flex justify-center items-center gap-4">
+                    <Button size={buttonSize}>
+                        <Link href="/EditProfile">{t('editprofile')}</Link>
                     </Button>
                 </div>
             </section>

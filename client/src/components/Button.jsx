@@ -14,6 +14,7 @@ export default function Button({ size = 'small', children, onClick }) {
     const sizeClasses = {
         small: 'w-40 h-12 text-4xl',
         large: 'w-64 h-12 text-4xl',
+        extraLarge: 'w-80 h-12 text-4xl'
     };
 
     const buttonSizeClass = sizeClasses[size] || sizeClasses.medium;

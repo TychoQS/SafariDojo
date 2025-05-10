@@ -9,6 +9,7 @@ import {useAuth} from "@/pages/context/AuthContext";
 import {useRouter} from "next/router";
 import AnimalIcon from "@/components/AnimalIcon";
 import DisplayField from "@/components/DisplayField";
+import {useTranslation} from "react-i18next";
 
 export default function EditProfile() {
     const [error, setError] = useState("");
@@ -18,6 +19,7 @@ export default function EditProfile() {
     const [name, setName] = useState(user?.name || "");
     const [userName, setUserName] = useState(user?.name || "");
     const [profilePhoto, setProfilePhoto] = useState(user?.profilePhoto || "default");
+    const { t } = useTranslation();
 
     useEffect(() => {
         const storedName = localStorage.getItem("name");
@@ -83,14 +85,14 @@ export default function EditProfile() {
                 className="grid grid-cols-2 grid-rows-[auto,auto,auto,auto] border-4 rounded-lg m-auto flex-col items-center justify-start bg-PS-light-yellow border-PS-dark-yellow mb-[-5vh] pb-[12vh] px-[8vh] gap-6"
             >
                 <div className="col-span-2 flex justify-center items-center">
-                    <Title>Edit your profile</Title>
+                    <Title>{t('editprofileTitle')}</Title>
                 </div>
 
                 <div className="col-start-2 row-start-3 flex flex-col items-end space-y-6">
                     <Input
                         id="UserName"
                         size="large"
-                        label="Name"
+                        label={t('name')}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         onError={handleError}
@@ -99,7 +101,7 @@ export default function EditProfile() {
                             minLength: {value: 2, message: "Name must be at least 2 characters."},
                         }}
                     />
-                    <DisplayField size="large" label="Email" value={user?.email || "N/A"}/>
+                    <DisplayField size="large" label={t('email')} value={user.email}/>
                 </div>
 
                 <div className="col-start-1 row-start-2 flex justify-center items-start space-y-6 mb-[20px] relative">
@@ -115,10 +117,10 @@ export default function EditProfile() {
 
                 <div className="col-start-1 col-span-2 row-start-4 flex justify-between items-center">
                     <Link href="/MyProfile">
-                        <Button size="large">cancel</Button>
+                        <Button size="large">{t('cancelButton')}</Button>
                     </Link>
                     <Button size="large" onClick={handleSave} disabled={!!error || !name.trim()}>
-                        save
+                        {t('saveButton')}
                     </Button>
                 </div>
             </section>

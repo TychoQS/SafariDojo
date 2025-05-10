@@ -1,13 +1,16 @@
-import React, {useRef} from "react";
+import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useRouter} from "next/router";
+import {useTranslation} from "react-i18next";
 
 const SignUpSecondStep = () => {
-    const { logIn } = useAuth();
+    const {logIn} = useAuth();
     const router = useRouter();
+    const {t} = useTranslation();
+
     const hashPassword = async (password) => {
         const encoder = new TextEncoder();
         const data = encoder.encode(password);
@@ -50,43 +53,43 @@ const SignUpSecondStep = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-cover bg-center m-0"
-             style={{ backgroundImage: "url('/images/LogBackground.png')" }}>
-            <Header showButtons={false} />
+             style={{backgroundImage: "url('/images/LogBackground.png')"}}>
+            <Header showButtons={false}/>
             <main className="flex-1 flex justify-center items-center align-middle">
                 <FormField
-                    title="Sign Up"
+                    title={t("signup")}
                     inputs={[
                         {
-                            id: "Password", label: "Password", size: "large", placeholder: "********",
+                            id: "Password", label: t("password"), size: "large", placeholder: "********",
                             rules: {
                                 required: true,
-                                minLength: { value: 8, message: "Password must have at least 8 characters." },
+                                minLength: {value: 8, message: t("passwordlengthMessage") },
                                 pattern: {
                                     value: /^(?=.*[A-Z])(?=.*\d)/,
-                                    message: "Password must contain at least one uppercase letter and one number.",
+                                    message: t("passwordpatternMessage"),
                                 },
                             }
                         },
                         {
-                            id: "ConfirmPassword", label: "Confirm Password", size: "large", placeholder: "********",
+                            id: "ConfirmPassword", label: t("confirmPassword"), size: "large", placeholder: "********",
                             rules: {
                                 required: true,
-                                minLength: { value: 8, message: "Password must have at least 8 characters." },
+                                minLength: {value: 8, message: t("passwordlengthMessage") },
                                 pattern: {
                                     value: /^(?=.*[A-Z])(?=.*\d)/,
-                                    message: "Password must contain at least one uppercase letter and one number.",
+                                    message: t("passwordpatternMessage"),
                                 },
                             }
                         },
                     ]}
-                    buttonText="Create"
+                    buttonText={t("create")}
                     buttonSize="small"
-                    linkText="Already have an account?"
+                    linkText={ t("accountLink")}
                     linkUrl="/LogIn"
                     onSubmit={handleSubmit}
                 />
             </main>
-            <Footer />
+            <Footer/>
         </div>
     );
 };

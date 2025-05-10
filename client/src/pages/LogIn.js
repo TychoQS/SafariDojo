@@ -2,16 +2,26 @@ import React, {useState} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormField from "@/components/FormField";
-import {useRouter} from "next/router";
 import {useAuth} from "@/pages/context/AuthContext";
 import {useProfile} from "@/pages/context/ProfileContext";
 import BaseModal from "@/components/BaseModal";
+import {useTranslation} from "react-i18next";
 
 
 const LogIn = () => {
     const {logIn} = useAuth();
     const {updateProfile} = useProfile();
     const [showModal, setShowModal] = useState(false);
+    const {t, i18n} = useTranslation();
+    const title = i18n.language === "fr" || i18n.language === "es" ? (
+        <>
+            {t("loginTitle").split("\n")[0]}
+            <br />
+            {t("loginTitle").split("\n")[1]}
+        </>
+    ) : (
+        t("loginTitle")
+    );
 
     const hashPassword = async (password) => {
         const encoder = new TextEncoder();
@@ -77,26 +87,26 @@ const LogIn = () => {
             <Header showButtons={false}/>
             <main className="flex-1 flex justify-center items-center align-middle">
                 <FormField
-                    title="Log In"
+                    title= {title}
                     inputs={[
                         {
-                            id: "UserEmail", label: "Email", size: "large", placeholder: "example@example.com",
+                            id: "UserEmail", label: t("email"), size: "large", placeholder: "example@example.com",
                             rules: {
                                 required: true,
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Please enter a valid email."
+                                    message: t("emailMessage")
                                 },
                             },
                         },
                         {
-                            id: "PasswordLogIn", label: "Password", size: "large", placeholder: "********",
+                            id: "PasswordLogIn", label: t("password"), size: "large", placeholder: "********",
                             rules: {required: true}
                         },
                     ]}
-                    buttonText="Enter"
+                    buttonText={ t("enter")}
                     buttonSize="small"
-                    linkText="Forgot your password?"
+                    linkText={ t("forgotPassword")}
                     linkUrl="/AccountRecovery"
                     onSubmit={handleLogin}
                 />
@@ -105,9 +115,9 @@ const LogIn = () => {
                     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/20">
                         <BaseModal
                             title="Oooops"
-                            description="Invalid credentials. Please, try again."
+                            description={t('modal.loginModal')}
                             buttons={[
-                                {text: "Got it!", color: "gray", onClick: () => setShowModal(false)},
+                                {text: t('modal.got_it'), color: "gray", onClick: () => setShowModal(false)},
                             ]}
                         />
                     </div>

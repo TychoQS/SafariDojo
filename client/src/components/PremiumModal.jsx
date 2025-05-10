@@ -1,4 +1,5 @@
 import BaseModal from "@/components/BaseModal";
+import {useTranslation} from "react-i18next";
 
 export default function PremiumModal({
                                          isPremium,
@@ -7,30 +8,32 @@ export default function PremiumModal({
                                          onLeaveClick,
                                          onTogglePremium,
                                      }) {
+    const { t } = useTranslation();
+
     if (isPremium) {
         if (confirmLeave) {
             return (
                 <BaseModal
-                    title="You belong to the elite!"
-                    description="Are you sure? You will lose all your elite advantages."
+                    title= {t('modalElite')}
+                    description= {t('modalEliteDescription')}
                     buttons={[
-                        {text: "Yes", color: "red", onClick: onTogglePremium},
-                        {text: "No", color: "gray", onClick: onClose},
+                        {text: t("yes"), color: "red", onClick: onTogglePremium},
+                        {text: t("no"), color: "gray", onClick: onClose},
                     ]}
                 />
             );
         } else {
             return (
                 <BaseModal
-                    title="You belong to the elite!"
+                    title= {t('modalElite')}
                     children={
                         <p
                             className="text-lg text-gray-600 hover:underline cursor-pointer"
                             onClick={onLeaveClick}
-                        > Leave the elite. </p>
+                        > {t("leaveElite")} </p>
                     }
                     buttons={[
-                        {text: "Close", color: "gray", onClick: onClose}
+                        {text: t("close"), color: "gray", onClick: onClose}
                     ]}
                 />
             );
@@ -38,11 +41,11 @@ export default function PremiumModal({
     } else {
         return (
             <BaseModal
-                title="Do you want to join the elite?"
-                description="The subscription price is €14.99 per month."
+                title= {t("modalNonElite")}
+                description= {t("modalNonEliteDescription")}
                 buttons={[
-                    {text: "Yes", color: "green", onClick: onTogglePremium},
-                    {text: "No", color: "gray", onClick: onClose},
+                    {text: t("yes"), color: "green", onClick: onTogglePremium},
+                    {text: t("no"), color: "gray", onClick: onClose},
                 ]}
             />
         );
