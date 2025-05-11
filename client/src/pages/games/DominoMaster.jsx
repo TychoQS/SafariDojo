@@ -1,7 +1,9 @@
+import React, { useState, useEffect } from 'react';
 import Header from "@/components/Header";
 import Title from "@/components/Title";
 import Button from "@/components/Button";
 import ErrorReportModal from "@/components/ErrorModal";
+import {useTranslation} from "react-i18next";
 
 const GEOMETRIC_SHAPES = [
     { id: 1, name: 'Circle', image: 'circle' },
@@ -139,6 +141,13 @@ export default function DominoMaster() {
     const [boardTiles, setBoardTiles] = useState([]);
     const [playerTiles, setPlayerTiles] = useState([]);
     const [currentLevel, setCurrentLevel] = useState(1);
+    const [draggedTile, setDraggedTile] = useState(null);
+    const [previewPosition, setPreviewPosition] = useState(null);
+    const [previewTile, setPreviewTile] = useState(null);
+    const [previewValid, setPreviewValid] = useState(false);
+    const [rotationMode, setRotationMode] = useState(false);
+    const [currentRotation, setCurrentRotation] = useState(0);
+    const [validDropPositions, setValidDropPositions] = useState([]);
     const {t} = useTranslation();
 
     useEffect(() => {
@@ -172,10 +181,14 @@ export default function DominoMaster() {
         });
 
         const shuffledTiles = tiles.sort(() => Math.random() - 0.5);
+
         const initialTile = shuffledTiles.pop();
+
         const playerTileCount = Math.min(5 + currentLevel, 7);
         const playerTiles = shuffledTiles.slice(0, playerTileCount);
+
         const remainingTiles = shuffledTiles.slice(playerTileCount);
+
         const initialRotation = Math.random() > 0.5 ? 0 : 90;
 
         setBoardTiles([{
@@ -201,13 +214,143 @@ export default function DominoMaster() {
         }]);
     };
 
-    const calculateValidPositions = () => {};
+    const calculateValidPositions = (currentBoardTiles = boardTiles) => {
+        if (!currentBoardTiles.length) return [];
 
-    useEffect(() => {}, []);
+        const positions = [];
 
-    const handleDragStart = () => {};
+        currentBoardTiles.forEach(tile => {
+            const { x, y, rotation, side1, side2 } = tile;
 
-    const handleDragOver = () => {};
+            let end1X, end1Y, end2X, end2Y;
+            const isHorizontal = rotation === 90 || rotation === 270;
+            const tileLength = 48;
+            const tileWidth = 24;
+
+            if (rotation === 0) {
+                end1X = x;
+                end1Y = y - tileLength;
+                end2X = x;
+                end2Y = y + tileLength;
+            } else if (rotation === 90) {
+                end1X = x - tileLength;
+                end1Y = y;
+                end2X = x + tileLength;
+                end2Y = y;
+            } else if (rotation === 180) {
+                end1X = x;
+                end1Y = y + tileLength;
+                end2X = x;
+                end2Y = y - tileLength;
+            } else if (rotation === 270) {
+                end1X = x + tileLength;
+                end1Y = y;
+                end2X = x - tileLength;
+                end2Y = y;
+            }
+
+            const collisionThresholdX = isHorizontal ? tileLength : tileWidth;
+            const collisionThresholdY = isHorizontal ? tileWidth : tileLength;
+
+            const isEnd1Free = !currentBoardTiles.some(t =>
+                Math.abs(t.x - end1X) < collisionThresholdX &&
+                Math.abs(t.y - end1Y) < collisionThresholdY
+            );
+
+            const isEnd2Free = !currentBoardTiles.some(t =>
+                Math.abs(t.x - end2X) < collisionThresholdX &&
+                Math.abs(t.y - end2Y) < collisionThresholdY
+            );
+
+            if (isEnd1Free) {
+                positions.push({
+                    x: end1X,
+                    y: end1Y,
+                    value: side1.type === 'shape' ? side1.value : side1.value,
+                    type: side1.type,
+                    baseRotation: (rotation + 180) % 360,
+                    isHorizontal: !isHorizontal,
+                });
+            }
+
+            if (isEnd2Free) {
+                positions.push({
+                    x: end2X,
+                    y: end2Y,
+                    value: side2.type === 'shape' ? side2.value : side2.value,
+                    type: side2.type,
+                    baseRotation: (rotation + 180) % 360,
+                    isHorizontal: !isHorizontal,
+                });
+            }
+        });
+
+        setValidDropPositions(positions);
+        return positions;
+    };
+
+    useEffect(() => {
+        if (playerTiles.length === 0 && boardTiles.length > 0) {
+            setGameFinished(true);
+            setShowCongrats(true);
+
+            const timer = setTimeout(() => {
+                if (currentLevel < 4) {
+                    setCurrentLevel(prev => prev + 1);
+                    setScore(prev => prev + 50);
+                } else {
+                    setCurrentLevel(1);
+                }
+                setShowCongrats(false);
+            }, 3000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [playerTiles.length, boardTiles.length, currentLevel]);
+
+    const handleDragStart = (e, tile) => {
+        e.dataTransfer.setData('text/plain', JSON.stringify({ tile }));
+        setDraggedTile(tile);
+        setCurrentRotation(tile.rotation || 0);
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+
+        const boardRect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - boardRect.left;
+        const y = e.clientY - boardRect.top;
+
+        setPreviewPosition({ x, y });
+
+        if (draggedTile) {
+            const nearestValidPosition = findNearestValidPosition(x, y);
+            if (nearestValidPosition) {
+                let newRotation;
+                if (nearestValidPosition.isHorizontal) {
+                    newRotation = 90;
+                } else {
+                    newRotation = 0;
+                }
+
+                setPreviewTile({
+                    ...draggedTile,
+                    x: nearestValidPosition.x,
+                    y: nearestValidPosition.y,
+                    rotation: newRotation
+                });
+                setPreviewValid(isValidTilePlacement(draggedTile, nearestValidPosition));
+            } else {
+                setPreviewTile({
+                    ...draggedTile,
+                    x,
+                    y,
+                    rotation: currentRotation
+                });
+                setPreviewValid(false);
+            }
+        }
+    };
 
     const findNearestValidPosition = (x, y) => {
         if (!validDropPositions.length) return null;
@@ -242,9 +385,61 @@ export default function DominoMaster() {
         return matchesSide1 || matchesSide2;
     };
 
-    const handleDrop = () => {};
+    const handleDrop = (e) => {
+        e.preventDefault();
 
-    useEffect(() => {}, []);
+        if (!draggedTile || !previewPosition) return;
+
+        const nearestValidPosition = findNearestValidPosition(previewPosition.x, previewPosition.y);
+
+        if (nearestValidPosition && isValidTilePlacement(draggedTile, nearestValidPosition)) {
+            const matchesSide1 = (
+                (nearestValidPosition.type === 'shape' && draggedTile.side1.type === 'name' && draggedTile.side1.value === nearestValidPosition.value) ||
+                (nearestValidPosition.type === 'name' && draggedTile.side1.type === 'shape' && draggedTile.side1.value === nearestValidPosition.value)
+            );
+
+            let newRotation;
+            if (nearestValidPosition.isHorizontal) {
+                newRotation = matchesSide1 ? 90 : 270;
+            } else {
+                newRotation = matchesSide1 ? 0 : 180;
+            }
+
+            const newTile = {
+                ...draggedTile,
+                x: nearestValidPosition.x,
+                y: nearestValidPosition.y,
+                rotation: newRotation
+            };
+
+            const newBoardTiles = [...boardTiles, newTile];
+            setBoardTiles(newBoardTiles);
+
+            setPlayerTiles(playerTiles.filter(t => t.id !== draggedTile.id));
+
+            setScore(score + 10);
+
+            calculateValidPositions(newBoardTiles);
+        }
+
+        setDraggedTile(null);
+        setPreviewPosition(null);
+        setPreviewTile(null);
+        setPreviewValid(false);
+    };
+
+    const handleKeyDown = (e) => {
+        if ((e.key === 'r' || e.key === 'R' || e.key === 'ArrowRight') && rotationMode) {
+            setCurrentRotation((currentRotation + 90) % 360);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [rotationMode, currentRotation]);
 
     const handleRestart = () => {
         setScore(0);
@@ -255,7 +450,7 @@ export default function DominoMaster() {
     return (
         <div className="app flex flex-col bg-PS-main-purple">
             <Header></Header>
-            <section className="justify-center items-center mb-7 flex flex-col py-10 bg-PS-main-purple">
+            <section className=" justify-center items-center mb-7 flex flex-col py-10 bg-PS-main-purple">
                 <Title>Domino Master</Title>
                 <div className="mt-4 mb-2 relative w-[1150px] flex justify-between">
                     <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
@@ -283,12 +478,103 @@ export default function DominoMaster() {
                             </button>
                         </div>
 
-                        <div className="relative bg-green-100 border-4 border-green-700 rounded-xl w-full h-96 mb-4 overflow-auto"/>
+                        <div
+                            className="relative bg-green-100 border-4 border-green-700 rounded-xl w-full h-96 mb-4 overflow-auto"
+                            onDragOver={handleDragOver}
+                            onDrop={handleDrop}
+                        >
+                            {boardTiles.map((tile, index) => {
+                                const isHorizontal = tile.rotation === 90 || tile.rotation === 270;
+                                const offsetX = isHorizontal ? 24 : 12;
+                                const offsetY = isHorizontal ? 12 : 24;
+
+                                return (
+                                    <div
+                                        key={`board-${tile.id}-${index}`}
+                                        className="absolute text-black"
+                                        style={{
+                                            left: `${tile.x - offsetX}px`,
+                                            top: `${tile.y - offsetY}px`,
+                                        }}
+                                    >
+                                        <DominoTile
+                                            tile={tile}
+                                            rotation={tile.rotation}
+                                            isPlaceholder={false}
+                                            onDragStart={() => {}}
+                                        />
+                                    </div>
+                                );
+                            })}
+
+                            {previewTile && (() => {
+                                const isHorizontal = previewTile.rotation === 90 || previewTile.rotation === 270;
+                                const offsetX = isHorizontal ? 24 : 12;
+                                const offsetY = isHorizontal ? 12 : 24;
+
+                                return (
+                                    <div
+                                        className="absolute"
+                                        style={{
+                                            left: `${previewTile.x - offsetX}px`,
+                                            top: `${previewTile.y - offsetY}px`,
+                                            pointerEvents: 'none'
+                                        }}
+                                    >
+                                        <DominoTile
+                                            tile={previewTile}
+                                            rotation={previewTile.rotation}
+                                            isPreview={true}
+                                            isValid={previewValid}
+                                            onDragStart={() => {}}
+                                        />
+                                    </div>
+                                );
+                            })()}
+
+                            {validDropPositions.map((pos, index) => (
+                                <div
+                                    key={`pos-${index}`}
+                                    className={`absolute w-6 h-6 rounded-full bg-yellow-300 opacity-30`}
+                                    style={{
+                                        left: `${pos.x - 12}px`,
+                                        top: `${pos.y - 12}px`,
+                                    }}
+                                />
+                            ))}
+                        </div>
 
                         <div className="bg-white p-4 rounded-xl shadow-lg w-full">
                             <h2 className="text-xl font-bold mb-2 text-blue-700">Your tokens:</h2>
 
-                            <div className="flex flex-wrap gap-2 justify-center"/>
+                            <div className="flex flex-wrap gap-2 justify-center">
+                                {playerTiles.map((tile, index) => (
+                                    <div key={`player-${tile.id}-${index}`} className="mb-2 text-black">
+                                        <DominoTile
+                                            tile={tile}
+                                            rotation={tile.rotation || 0}
+                                            onDragStart={handleDragStart}
+                                            onClick={() => {
+                                                setRotationMode(true);
+                                                setDraggedTile(tile);
+
+                                                const newPlayerTiles = [...playerTiles];
+                                                const tileIndex = newPlayerTiles.findIndex(t => t.id === tile.id);
+                                                if (tileIndex !== -1) {
+                                                    newPlayerTiles[tileIndex] = {
+                                                        ...newPlayerTiles[tileIndex],
+                                                        rotation: ((newPlayerTiles[tileIndex].rotation || 0) + 90) % 360
+                                                    };
+                                                    setPlayerTiles(newPlayerTiles);
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                ))}
+                                {playerTiles.length === 0 && (
+                                    <div className="text-gray-500 italic">No tokens left!</div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
