@@ -287,7 +287,7 @@ export default function CrossMaths() {
         else if (row0Operator === '*') row0Valid = row0Left * row0Middle === row0Right;
         else if (row0Operator === '/') row0Valid = Math.abs(row0Left / row0Middle - row0Right) < 0.0001;
 
-        if (isNaN(row0Left) || ischaN(row0Middle) || isNaN(row0Right) || !row0Valid) {
+        if (isNaN(row0Left) || isNaN(row0Middle) || isNaN(row0Right) || !row0Valid) {
             errors.push('La fila 1 no es válida.');
         }
 
