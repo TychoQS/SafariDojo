@@ -16,10 +16,11 @@ const MahjongPairs = ({dataSets, title}) => {
     const {t} = useTranslation();
 
     const playAgain = () =>{
+        saveGame();
         game.initializeGame()
     }
 
-    const handleCloseMessage = () => {
+    const saveGame = () => {
         if (game.message?.type === "congratulations") {
             try {
                 const previousURL = localStorage.getItem("previousURL");
@@ -36,9 +37,9 @@ const MahjongPairs = ({dataSets, title}) => {
                             localStorage.setItem(key, game.score.toString());
                         }
 
-                        const typeMedal = age === "easy"
+                        const typeMedal = age === "Easy"
                             ? "BronzeMedal"
-                            : age === "medium"
+                            : age === "Medium"
                                 ? "SilverMedal"
                                 : "GoldMedal";
 
@@ -53,6 +54,9 @@ const MahjongPairs = ({dataSets, title}) => {
                 console.error("Error processing score or medal update:", error);
             }
         }
+    }
+    const handleCloseMessage = () => {
+        saveGame();
         router.back();
     };
 
