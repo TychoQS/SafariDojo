@@ -3,9 +3,11 @@ import React, {useState, useEffect, useCallback, useRef} from 'react';
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 import levelsData from "../../../../database/jsondata/CallOfTheClan.json";
 import {router} from "next/client";
+import GameOverModal from "@/components/GameOverModal";
+import CongratsModal from "@/components/CongratsModal";
+import Lifes from "@/components/Lifes";
 
 
 const AnimalClassificationGame = () => {
@@ -20,6 +22,9 @@ const AnimalClassificationGame = () => {
     const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 50 });
     const allLevels = levelsData.allLevels;
     const [randomLevels, setRandomLevels] = useState([]);
+
+    const lifesRef = useRef(null);
+    const [lives, setLives] = useState(5);
 
     const newLevelSound = useRef(null);
     const failSound = useRef(null);
@@ -47,6 +52,16 @@ const AnimalClassificationGame = () => {
             setRandomLevels(selectRandomLevels(difficulty));
         }
     }, [difficulty]);
+
+    useEffect(() => {
+        if (lives === 0) {
+            if (maxScore < score) {
+                setMaxScore(score);
+            }
+            setGameFinished(true);
+            loseSound.current.play();
+        }
+    }, [lives]);
 
     function selectRandomLevels(difficulty) {
         const shuffled = [...allLevels].sort(() => 0.5 - Math.random());
@@ -126,15 +141,8 @@ const AnimalClassificationGame = () => {
                         if (newScore > maxScore) {
                             setMaxScore(newScore);
                         }
-                        if ((newScore >= 200 && difficulty === "easy") ||
-                            (newScore >= 300 && difficulty === "medium") ||
-                            (newScore >= 450 && difficulty === "hard")) {
-                            setGameWon(true);
-                            winSound.current.play();
-                            }
-                        else {
-                            loseSound.current.play();
-                        }
+                        setGameWon(true);
+                        winSound.current.play();
                     } else {
                         setTimeout(() => {
                             setLevel(prev => prev + 1);
@@ -145,12 +153,21 @@ const AnimalClassificationGame = () => {
                         }, 2000);
                     }
                 } else {
+                    if (lives === 0) {
+                        setGameFinished(true);
+                        if (score > maxScore) {
+                            setMaxScore(score);
+                        }
+                        loseSound.current.play();
+                    }
                     setMessage(`Incorrect! ${currentLevel.player.name} is a ${currentLevel.player.classification}, but ${group.name} are ${group.classification}s.`);
                     setScore(prev => prev - 50);
                     setTimeout(() => {
                         setPlayerPosition({ x: 50, y: 50 });
                         setGameActive(true);
-                        failSound.current.play()
+                        setLives(lives - 1);
+                        lifesRef.current.loseLife();
+                        failSound.current.play();
                         setMessage('Try again! Find the correct group.');
                     }, 2000);
                 }
@@ -162,6 +179,8 @@ const AnimalClassificationGame = () => {
         setRandomLevels(selectRandomLevels(difficulty));
         setLevel(1);
         setScore(0);
+        setLives(5);
+        lifesRef.current?.resetHearts();
         setPlayerPosition({ x: 50, y: 50 });
         setGameActive(true);
         setMessage('Move your animal to the correct group!');
@@ -203,6 +222,9 @@ const AnimalClassificationGame = () => {
             <Header />
 
             <main className="flex-1 flex flex-col items-center px-4 relative">
+                <div className="flex flex-col self-end">
+                    <Lifes ref={lifesRef}/>
+                </div>
                 <div className="relative w-[1000px] h-[600px] bg-blue-200 rounded-lg overflow-hidden border-4 border-blue-950 mt-5 mb-3">
                     <div className={`text-2xl justify-between p-1.5 w-full text-black flex ${cherryBomb.className}`}>
                         <div>Level: {level}/{randomLevels.length}</div>
@@ -238,27 +260,11 @@ const AnimalClassificationGame = () => {
                     ))}
 
                     {(gameWon && gameFinished) && (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-blue-400 text-black">
-                            <div className={"flex flex-col items-center justify-between w-80 h-50 mb-5 bg-sky-500 border-sky-600 border-4 rounded-2xl"}>
-                                <h2 className={`text-4xl font-bold mt-4 animate-bounce ${cherryBomb.className}`}>Congratulations!</h2>
-                                <p className="text-2xl mb-6 animate-pulse">You won a medal! 🏅</p>
-                                <p className="text-xl mb-8 text-green-800">Final score: {score}</p>
-                            </div>
-                            <Button size="large" onClick={restartGame}>Play Again</Button>
-                            <Button size="large" onClick={finishGame}>Finish game</Button>
-                        </div>
+                        <CongratsModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
                     )}
 
                     {(!gameWon && gameFinished) && (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-blue-400 text-black">
-                            <div className={"flex flex-col items-center justify-between w-80 h-50 mb-7 bg-sky-500 border-sky-600 border-4 rounded-2xl"}>
-                                <h2 className={`text-4xl font-bold mt-4 ${cherryBomb.className}`}>Game Over</h2>
-                                <p className="text-2xl mb-6 animate-pulse">Keep trying!</p>
-                                <p className="text-xl mb-8 text-red-600">Final score: {score}</p>
-                            </div>
-                            <Button size="large" onClick={restartGame}>Try Again</Button>
-                            <Button size="large" onClick={finishGame} className="mt-2">Finish game</Button>
-                        </div>
+                        <GameOverModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
                     )}
 
                 </div>

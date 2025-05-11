@@ -1,9 +1,12 @@
-import {cherryBomb} from '@/styles/fonts';
 import React, { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
 import {router} from "next/client";
+import {t} from "i18next";
+import Button from "@/components/Button";
+import CongratsModal from "@/components/CongratsModal";
+import GameOverModal from "@/components/GameOverModal";
 
 
 function initialCards(cardsDiff) {
@@ -47,8 +50,6 @@ export default function MemoryGame() {
     const [cards, setCards] = useState([]);
     const [selected, setSelected] = useState([]);
     const [matched, setMatched] = useState([]);
-    const [mistakes, setMistakes] = useState(0);
-    const [lives, setLives] = useState(3);
     const [gameOver, setGameOver] = useState(false);
     const [preview, setPreview] = useState(true);
     const [isClient, setIsClient] = useState(false);
@@ -61,6 +62,7 @@ export default function MemoryGame() {
     const winSound = useRef(null);
     const loseSound = useRef(null);
     const lifesRef = useRef(null);
+    const [lives, setLives] = useState(5);
 
     async function fetchDifficulty() {
         const previousURL = localStorage.getItem('previousURL');
@@ -96,22 +98,22 @@ export default function MemoryGame() {
             } else {
                 setScore(score - 2);
                 failSound.current.play();
-                setMistakes((prev) => prev + 1);
+                lifesRef.current.loseLife();
+                setLives(lives - 1);
                 setTimeout(() => setSelected([]), 800);
             }
         }
     }, [selected]);
 
     useEffect(() => {
-        if (mistakes === 7) {
+        if (lives === 0) {
             if (bestScore < score) {
                 setBestScore(score);
             }
             setGameOver(true);
             loseSound.current.play();
-            lifesRef.current.loseLife();
         }
-    }, [mistakes]);
+    }, [lives]);
 
     useEffect(() => {
         if (matched.length === cards.length / 2 && cards.length > 0) {
@@ -151,7 +153,8 @@ export default function MemoryGame() {
 
     function restartGame() {
         setCards(initialCards(difficulty));
-        setMistakes(0);
+        setLives(5);
+        lifesRef.current?.resetHearts();
         setScore(0);
         setGameOver(false);
         setSelected([]);
@@ -195,14 +198,11 @@ export default function MemoryGame() {
             <Header />
             <main className="flex-1 flex flex-col justify-start px-4 relative">
             <div className="flex items-center justify-between">
-                <div className={`ml-8 mt-6 text-4xl 
-                ${7 - mistakes <= 2 ? "text-red-500 animate-bounce" : "text-white animate-pulse"}`}>
-                    Tries remain: {7-mistakes}
-                </div>
+                <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
                 <div className={"ml-8 mt-6 text-4xl"}>
                     Score: {score}
                 </div>
-                <Lifes ref={lifesRef} lives={lives} />
+                <Lifes ref={lifesRef}/>
             </div>
 
                 {isClient && (
@@ -239,34 +239,11 @@ export default function MemoryGame() {
                     </div>
                 )}
 
-                {(matched.length === cards.length / 2 || gameOver) && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-main-purple bg-opacity-90 z-50">
-                        {matched.length === cards.length / 2 && (
-                            <div className="text-center text-green-600 font-bold text-3xl animate-bounce">
-                                🏅 ¡Congratulations! You've won a medal.
-                                <br />
-                                Final score: {score}
-                            </div>
-                        )}
-
-                        {gameOver && (
-                            <div className="text-center text-red-500 font-bold text-3xl animate-pulse">
-                                💀 ¡You lost! Try again.
-                                <br />
-                                Final score: {score}
-                            </div>
-                        )}
-                        <div className={"mt-8 space-x-8 flex flex-row"}>
-                            <button className={"cursor-pointer h-20 w-40 text-2xl rounded-4xl border-b-8 hover:border-none " +
-                                `border-[#6EF68B] bg-[#C9F1D2] text-black ${cherryBomb.className}`} onClick={() => restartGame()}>
-                                Play again
-                            </button>
-                            <button className={"cursor-pointer h-20 w-40 text-2xl rounded-4xl border-b-8 hover:border-none " +
-                                `border-[#6EF68B] bg-[#C9F1D2] text-black ${cherryBomb.className}`} onClick={() => finishGame()}>
-                                Finish game
-                            </button>
-                        </div>
-                    </div>
+                {matched.length === cards.length / 2 && (
+                    <CongratsModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
+                )}
+                {gameOver && (
+                    <GameOverModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
                 )}
 
             <audio ref={successSound} src="/sounds/Memory/correct_answer.mp3" preload="auto" />
