@@ -67,7 +67,191 @@ const ImagePlaceholder = ({ shapeName, size = "md" }) => {
     );
 };
 
+const DominoTile = ({
+                        tile,
+                        rotation = 0,
+                        isPlaceholder = false,
+                        isPreview = false,
+                        isValid = true,
+                        onClick,
+                        onDragStart
+                    }) => {
+    const isHorizontal = rotation === 90 || rotation === 270;
+
+    const tileStyle = {
+        transform: `rotate(${rotation}deg)`,
+    };
+
+    const tileClasses = `
+    ${isHorizontal ? 'flex-row' : 'flex-col'}
+    ${isPlaceholder ? 'opacity-50' : ''}
+    ${isPreview ? 'opacity-80' : ''}
+    ${!isValid && isPreview ? 'border-red-500' : ''}
+    ${isValid && isPreview ? 'border-green-500' : ''}
+  `;
+
+    const tileDimensions = isHorizontal
+        ? 'w-48 h-24'
+        : 'w-24 h-48';
+
+    return (
+        <div
+            className={`
+        relative cursor-move select-none
+        ${isPlaceholder ? 'cursor-default' : ''}
+      `}
+            style={tileStyle}
+            onClick={onClick}
+            onDragStart={e => onDragStart && onDragStart(e, tile)}
+            draggable={!isPlaceholder}
+        >
+            <div
+                className={`
+          bg-white border-4 border-gray-800 rounded-lg shadow-md
+          ${tileDimensions} flex ${tileClasses}
+          ${isPreview ? 'z-10' : ''}
+        `}
+            >
+                <div className={`${isHorizontal ? 'w-24' : 'w-full'} ${isHorizontal ? 'h-full' : 'h-24'} flex items-center justify-center ${isHorizontal ? 'border-r-2' : 'border-b-2'} border-gray-800`}>
+                    {tile.side1.type === 'shape' ? (
+                        <ImagePlaceholder shapeName={tile.side1.value} size="md" />
+                    ) : (
+                        <div className="font-bold text-center text-sm p-1">{tile.side1.value}</div>
+                    )}
+                </div>
+
+                <div className={`${isHorizontal ? 'w-24' : 'w-full'} ${isHorizontal ? 'h-full' : 'h-24'} flex items-center justify-center`}>
+                    {tile.side2.type === 'shape' ? (
+                        <ImagePlaceholder shapeName={tile.side2.value} size="md" />
+                    ) : (
+                        <div className="font-bold text-center text-sm p-1">{tile.side2.value}</div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export default function DominoMaster() {
+    const [score, setScore] = useState(0);
+    const [gameFinished, setGameFinished] = useState(false);
+    const [showCongrats, setShowCongrats] = useState(false);
+    const [boardTiles, setBoardTiles] = useState([]);
+    const [playerTiles, setPlayerTiles] = useState([]);
+    const [currentLevel, setCurrentLevel] = useState(1);
+    const {t} = useTranslation();
+
+    useEffect(() => {
+        startNewGame();
+    }, [currentLevel]);
+
+    const startNewGame = () => {
+        const levelShapes = [...GEOMETRIC_SHAPES].sort(() => Math.random() - 0.5)
+            .slice(0, Math.min(4 + currentLevel, GEOMETRIC_SHAPES.length));
+
+        const tiles = [];
+
+        levelShapes.forEach((shape1, i) => {
+            levelShapes.forEach((shape2, j) => {
+                if (i <= j && tiles.length < 12) {
+                    if (Math.random() > 0.5) {
+                        tiles.push({
+                            id: `${shape1.id}-${shape2.id}`,
+                            side1: { type: 'shape', value: shape1.name },
+                            side2: { type: 'name', value: shape2.name }
+                        });
+                    } else {
+                        tiles.push({
+                            id: `${shape1.id}-${shape2.id}`,
+                            side1: { type: 'name', value: shape1.name },
+                            side2: { type: 'shape', value: shape2.name }
+                        });
+                    }
+                }
+            });
+        });
+
+        const shuffledTiles = tiles.sort(() => Math.random() - 0.5);
+        const initialTile = shuffledTiles.pop();
+        const playerTileCount = Math.min(5 + currentLevel, 7);
+        const playerTiles = shuffledTiles.slice(0, playerTileCount);
+        const remainingTiles = shuffledTiles.slice(playerTileCount);
+        const initialRotation = Math.random() > 0.5 ? 0 : 90;
+
+        setBoardTiles([{
+            ...initialTile,
+            x: 400,
+            y: 200,
+            rotation: initialRotation
+        }]);
+
+        setPlayerTiles(playerTiles.map(tile => ({
+            ...tile,
+            rotation: 0
+        })));
+
+        setGameFinished(false);
+        setShowCongrats(false);
+
+        calculateValidPositions([{
+            ...initialTile,
+            x: 400,
+            y: 200,
+            rotation: initialRotation
+        }]);
+    };
+
+    const calculateValidPositions = () => {};
+
+    useEffect(() => {}, []);
+
+    const handleDragStart = () => {};
+
+    const handleDragOver = () => {};
+
+    const findNearestValidPosition = (x, y) => {
+        if (!validDropPositions.length) return null;
+
+        let nearestPos = null;
+        let minDistance = 50;
+
+        validDropPositions.forEach(pos => {
+            const distance = Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestPos = pos;
+            }
+        });
+
+        return nearestPos;
+    };
+
+    const isValidTilePlacement = (tile, position) => {
+        if (!position) return false;
+
+        const matchesSide1 = (
+            (position.type === 'shape' && tile.side1.type === 'name' && tile.side1.value === position.value) ||
+            (position.type === 'name' && tile.side1.type === 'shape' && tile.side1.value === position.value)
+        );
+
+        const matchesSide2 = (
+            (position.type === 'shape' && tile.side2.type === 'name' && tile.side2.value === position.value) ||
+            (position.type === 'name' && tile.side2.type === 'shape' && tile.side2.value === position.value)
+        );
+
+        return matchesSide1 || matchesSide2;
+    };
+
+    const handleDrop = () => {};
+
+    useEffect(() => {}, []);
+
+    const handleRestart = () => {
+        setScore(0);
+        setCurrentLevel(1);
+        startNewGame();
+    };
+
     return (
         <div className="app flex flex-col bg-PS-main-purple">
             <Header></Header>
