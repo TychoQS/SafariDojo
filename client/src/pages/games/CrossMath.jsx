@@ -33,14 +33,14 @@ export default function CrossMaths() {
         resetGame();
     }, [difficulty]);
 
-    const generateRandomPuzzle = () => {
-        const ranges = {
-            easy: { min: 1, max: 9, operators: ['+', '-'] },
-            medium: { min: 10, max: 99, operators: ['+', '-'] },
-            hard: { min: 1, max: 15, operators: ['*', '/'] }
-        };
+    const ranges = {
+        easy: { min: 1, max: 9, operators: ['+', '-'] },
+        medium: { min: 10, max: 99, operators: ['+', '-'] },
+        hard: { min: 1, max: 31, operators: ['*', '/'] }
+    };
 
-        const { min, max, operators } = ranges[difficulty] || Ranges.easy;
+    const generateRandomPuzzle = () => {
+        const { min, max, operators } = ranges[difficulty] || ranges.easy;
 
         const getRandomOperator = (prevOperator) => {
             if (operators.length <= 2) return operators[Math.floor(Math.random() * operators.length)];
@@ -96,7 +96,7 @@ export default function CrossMaths() {
                 // PASO 2: Generar la primera columna (progresión aritmética)
                 const verticalDiff = getRandomNumber(1, Math.min(5, Math.floor(topLeft / 2)));
                 const midLeft = topLeft - verticalDiff;
-                const bottomLeft = midLeft - verticalDiff;
+                const bottomLeft = verticalDiff;
 
                 if (bottomLeft <= 0) continue;
 
@@ -312,7 +312,7 @@ export default function CrossMaths() {
         const col0Middle = parseInt(puzzle[2][0].value, 10);
         const col0Bottom = parseInt(puzzle[4][0].value, 10);
         const col0Diff1 = col0Top - col0Middle;
-        const col0Diff2 = col0Middle - col0Bottom;
+        const col0Diff2 = col0Middle - (col0Middle - col0Bottom);
 
         console.log(`Validating first column: top=${col0Top}, middle=${col0Middle}, bottom=${col0Bottom}`);
         console.log(`Differences: top-middle=${col0Diff1}, middle-bottom=${col0Diff2}`);
@@ -332,11 +332,12 @@ export default function CrossMaths() {
         const col2Operator = puzzle[1][2].value;
         let col2Valid = false;
 
+        console.log("col2Top: ", col2Top, " vcol2Middle: ", col2Middle, "col2Bottom: ", col2Bottom);
+        console.log(col2Operator)
         if (col2Operator === '+') col2Valid = col2Top + col2Middle === col2Bottom;
         else if (col2Operator === '-') col2Valid = col2Top - col2Middle === col2Bottom;
         else if (col2Operator === '*') col2Valid = col2Top * col2Middle === col2Bottom;
         else if (col2Operator === '/') col2Valid = Math.abs(col2Top / col2Middle - col2Bottom) < 0.0001;
-
         if (isNaN(col2Top) || isNaN(col2Middle) || isNaN(col2Bottom) || !col2Valid) {
             errors.push('La columna 3 no es válida.');
         }
@@ -427,31 +428,48 @@ export default function CrossMaths() {
         tryGeneratePuzzle();
     };
 
+    function solveSystem(a, d, e) {
+        const b = a - e;
+        if (!Number.isInteger(b) || b <= 0) return null;
+        const c = a * b;
+        if (e === 1) {
+            return null;
+        }
+        const denominator = e - 1;
+        if (a % denominator !== 0) {
+            return null;
+        }
+        const wCandidate = a / denominator;
+        if (wCandidate < ranges.hard.min || wCandidate > ranges.hard.max || !Number.isInteger(wCandidate)) {
+            return null;
+        }
+        const w = Math.floor(wCandidate);
+        const y = d * w;
+        const x = b * w;
+        const z = e * x;
+        return { a, b, c, d, e, w, x, y, z };
+    }
+
     const generateSimpleHardPuzzle = () => {
         const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-        const topLeft = getRandomNumber(2, 6);
-        const topMiddle = getRandomNumber(2, 6);
-        const topRight = topLeft * topMiddle;
+        const topLeft = getRandomNumber(ranges.hard.min, ranges["hard"].max);
 
-        const midLeft = topLeft - 1;
-        const bottomLeft = midLeft - 1;
+        const verticalDiff = getRandomNumber(1, Math.min(5, Math.floor(topLeft / 2)));
+        const midLeft = topLeft - verticalDiff;
+        const bottomLeft = verticalDiff;
+
+        const {b:topMiddle, c: topRight, w:midMid, y:horizontalResult, x:bottomMiddle, z:bottomRight} = solveSystem(topLeft, midLeft, bottomLeft);
 
         const topOperator = '*';
         const middleOperator = '*';
         const bottomOperator = '*';
-
-        const midMid = getRandomNumber(2, 5);
-        const bottomMiddle = topMiddle * midMid;
-        const horizontalResult = midLeft * midMid;
-        const bottomRight = bottomLeft * bottomMiddle;
 
         setPreviousOperators({
             topOperator,
             middleOperator,
             bottomOperator
         });
-
         return [
             [
                 {value: '', solution: topLeft.toString(), isFixed: false},
@@ -465,7 +483,7 @@ export default function CrossMaths() {
                 {value: '', isFixed: true},
                 {value: middleOperator, isFixed: true},
                 {value: '', isFixed: true},
-                {value: middleOperator, isFixed: true},
+                {value: '+', isFixed: true},
             ],
             [
                 {value: '', solution: midLeft.toString(), isFixed: false},
@@ -490,6 +508,8 @@ export default function CrossMaths() {
             ],
         ];
     };
+
+
 
     if (!puzzle) {
         return <div className="min-h-screen flex items-center justify-center text-white">Cargando...</div>;
