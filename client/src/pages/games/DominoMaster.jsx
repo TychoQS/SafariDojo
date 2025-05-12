@@ -1,27 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from "@/components/Header";
 import Title from "@/components/Title";
 import Button from "@/components/Button";
 import ErrorReportModal from "@/components/ErrorModal";
 import {useTranslation} from "react-i18next";
+import CongratsModal from "@/components/CongratsModal";
+import GameOverModal from "@/components/GameOverModal";
+import {useRouter} from "next/router";
 
 const shapes = [
-    { name: "Circle", shape: "circle" },
-    { name: "Cone", shape: "cone" },
-    { name: "Cube", shape: "cube" },
-    { name: "Cylinder", shape: "cylinder" },
-    { name: "Diamond", shape: "diamond" },
-    { name: "Square", shape: "square" },
-    { name: "Triangle", shape: "triangle" },
-    { name: "Rectangle", shape: "rectangle" },
-    { name: "Pentagon", shape: "pentagon" },
-    { name: "Hexagon", shape: "hexagon" },
-    { name: "Octagon", shape: "octagon" },
-    { name: "Parallelogram", shape: "parallelogram" },
-    { name: "Polyhedron", shape: "polyhedron" },
-    { name: "Pyramid", shape: "pyramid" },
-    { name: "Sphere", shape: "sphere" },
-    { name: "Star", shape: "star" }
+    {name: "Circle", shape: "circle"},
+    {name: "Cone", shape: "cone"},
+    {name: "Cube", shape: "cube"},
+    {name: "Cylinder", shape: "cylinder"},
+    {name: "Diamond", shape: "diamond"},
+    {name: "Square", shape: "square"},
+    {name: "Triangle", shape: "triangle"},
+    {name: "Rectangle", shape: "rectangle"},
+    {name: "Pentagon", shape: "pentagon"},
+    {name: "Hexagon", shape: "hexagon"},
+    {name: "Octagon", shape: "octagon"},
+    {name: "Parallelogram", shape: "parallelogram"},
+    {name: "Polyhedron", shape: "polyhedron"},
+    {name: "Pyramid", shape: "pyramid"},
+    {name: "Sphere", shape: "sphere"},
+    {name: "Star", shape: "star"}
 ];
 
 const shapeImages = {
@@ -43,7 +46,7 @@ const shapeImages = {
     star: '/images/Games/Art/DominoMaster/star.svg'
 };
 
-const Shape = ({ type }) => {
+const Shape = ({type}) => {
     const imageSrc = shapeImages[type];
 
     if (!imageSrc) {
@@ -69,11 +72,13 @@ export default function GeoDomino() {
     const [board, setBoard] = useState([]);
     const [hand, setHand] = useState([]);
     const [score, setScore] = useState(0);
-    const [timer, setTimer] = useState(60);
+    const [lives, setLives] = useState(3);
     const [gameOver, setGameOver] = useState(false);
-    const [gameStarted, setGameStarted] = useState(true);
     const [message, setMessage] = useState("");
     const {t} = useTranslation();
+    const [showModal, setShowModal] = useState(false);
+    const router = useRouter();
+
 
     const startGame = () => {
         let pieces = [];
@@ -82,8 +87,8 @@ export default function GeoDomino() {
             for (let j = 0; j < shapes.length; j++) {
                 pieces.push({
                     id: `${i}-${j}`,
-                    left: { type: 'name', value: shapes[i].name },
-                    right: { type: 'shape', value: shapes[j].shape }
+                    left: {type: 'name', value: shapes[i].name},
+                    right: {type: 'shape', value: shapes[j].shape}
                 });
             }
         }
@@ -128,9 +133,8 @@ export default function GeoDomino() {
         setBoard(initialBoard);
         setHand(playerHand);
         setScore(0);
-        setTimer(60);
+        setLives(5);
         setGameOver(false);
-        setGameStarted(true);
         setMessage("");
     };
 
@@ -148,28 +152,12 @@ export default function GeoDomino() {
     }, []);
 
     useEffect(() => {
-        let interval;
-        if (gameStarted && !gameOver && timer > 0) {
-            interval = setInterval(() => {
-                setTimer((prevTimer) => prevTimer - 1);
-            }, 1000);
-        } else if (timer === 0 && !gameOver) {
+        if (lives === 0 && !gameOver) {
             setGameOver(true);
-            setMessage("You ran out of time...");
+            setMessage("Game Over! Te has quedado sin vidas");
+            setShowModal(true);
         }
-
-        return () => clearInterval(interval);
-    }, [gameStarted, gameOver, timer]);
-
-    useEffect(() => {
-        let timeout;
-        if (message && !message.includes("Congrats") && !message.includes("time")) {
-            timeout = setTimeout(() => {
-                setMessage("");
-            }, 2000);
-        }
-        return () => clearTimeout(timeout);
-    }, [message]);
+    }, [lives, gameOver]);
 
     const canPlacePiece = (piece) => {
         if (board.length === 0) return true;
@@ -211,9 +199,9 @@ export default function GeoDomino() {
             let newPiece = {...piece};
 
             if (placement === "end") {
-                if (piece.left.type !== board[board.length-1].right.type &&
-                    ((piece.left.type === 'name' && board[board.length-1].right.type === 'shape' && getShapeName(board[board.length-1].right.value) === piece.left.value) ||
-                        (piece.left.type === 'shape' && board[board.length-1].right.type === 'name' && getShapeName(piece.left.value) === board[board.length-1].right.value))) {
+                if (piece.left.type !== board[board.length - 1].right.type &&
+                    ((piece.left.type === 'name' && board[board.length - 1].right.type === 'shape' && getShapeName(board[board.length - 1].right.value) === piece.left.value) ||
+                        (piece.left.type === 'shape' && board[board.length - 1].right.type === 'name' && getShapeName(piece.left.value) === board[board.length - 1].right.value))) {
                 } else {
                     [newPiece.left, newPiece.right] = [newPiece.right, newPiece.left];
                 }
@@ -226,15 +214,17 @@ export default function GeoDomino() {
             setHand(newHand);
 
             setScore(score + 5);
-            setMessage("Good job! + 5 points");
+            setMessage("¡Buen trabajo! + 5 puntos");
 
             if (newHand.length === 0) {
                 setGameOver(true);
-                setMessage("Congrats! You filled the board.");
+                setMessage("¡Felicidades! Completaste el tablero.");
+                setShowModal(true);
             }
         } else {
             setScore(Math.max(0, score - 3));
-            setMessage("Invalid move... - 3 points penalty.");
+            setLives(lives - 1);
+            setMessage(`¡Movimiento inválido! Te quedan ${lives - 1} vidas`);
         }
     };
 
@@ -244,11 +234,67 @@ export default function GeoDomino() {
         } else {
             return (
                 <div className="flex items-center justify-center h-16 relative">
-                    <Shape type={half.value} />
-                    <div className="w-12 h-12 bg-gray-300 absolute" style={{ display: 'none' }}></div>
+                    <Shape type={half.value}/>
+                    <div className="w-12 h-12 bg-gray-300 absolute" style={{display: 'none'}}></div>
                 </div>
             );
         }
+    };
+
+    const renderHearts = () => {
+        return (
+            <div className="flex items-center">
+                {[...Array(lives)].map((_, i) => (
+                    <span key={i} className="text-3xl mx-1">❤️</span>
+                ))}
+                {[...Array(5 - lives)].map((_, i) => (
+                    <span key={i + lives} className="text-3xl mx-1 text-gray-500">🖤</span>
+                ))}
+            </div>
+        );
+    };
+
+    const saveScore = () => {
+        try {
+            const previousURL = localStorage.getItem("previousURL");
+            if (previousURL) {
+                const url = new URL(previousURL);
+                const gameData = url.searchParams.get("Game");
+                const age = url.searchParams.get("Age");
+
+                if (gameData && age) {
+                    const key = `${gameData}_${age}_bestScore`;
+                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+
+                    if (score > storedScore) {
+                        localStorage.setItem(key, score.toString());
+                    }
+
+                    const typeMedal = age === "easy"
+                        ? "BronzeMedal"
+                        : age === "medium"
+                            ? "SilverMedal"
+                            : "GoldMedal";
+
+                    const medalKey = `${gameData}_${typeMedal}`;
+                    const medalStatus = localStorage.getItem(medalKey) === "1";
+                    if (!medalStatus) {
+                        localStorage.setItem(medalKey, "1");
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error processing score or medal update:", error);
+        }
+    }
+
+
+    const closeModal = () => {
+        setShowModal(false);
+        saveScore();
+        setTimeout(() => {
+            router.back();
+        }, 0);
     };
 
     return (
@@ -264,33 +310,30 @@ export default function GeoDomino() {
                                 rounded-lg shadow-lg h-full border-4 border-stone-700"
                      style={{maxHeight: 'auto', width: '1200px'}}
                 >
-                    <div className="flex flex-col w-full bg-blue-100 rounded-lg p-2" style={{height:'500px', width:'100%'}}>
+                    <div className="flex flex-col w-full bg-blue-100 rounded-lg p-2"
+                         style={{height: '500px', width: '100%'}}>
                         <div className="max-w-5xl mx-auto">
                             <div className="flex justify-between mt-8 mb-4">
                                 <div className="p-2 text-black bg-white rounded shadow">
-                                    <p className="font-bold">Score: {score}</p>
+                                    <p className="font-bold">Puntuación: {score}</p>
                                 </div>
                                 {message && (
                                     <div
                                         key={message}
                                         className={`p-2 mb-0 text-center text-white font-bold rounded 
-                                                   ${message.includes("time") || message.includes("Invalid") ? 'bg-red-300' : 'bg-green-300'}
+                                                   ${message.includes("quedan") || message.includes("inválido") ? 'bg-red-300' : 'bg-green-300'}
                                                    animate-fade-in-out z-10`}
                                     >{message}
                                     </div>
                                 )}
-                                <div className="p-2 bg-white rounded shadow">
-                                    <p
-                                        className={`font-bold ${timer <= 20 ? 'text-amber-500' : 'text-gray-700'}
-                                                    ${timer <= 10 ? 'text-red-500' : 'text-gray-700'}`}
-                                    >
-                                        Time: {timer}s
-                                    </p>
+                                <div>
+                                    {renderHearts()}
                                 </div>
                             </div>
 
                             <div className="mb-8">
-                                <div className="flex items-center justify-items-center overflow-x-auto p-4 bg-green-200 rounded-lg min-h-30 border-2 border-stone-400">
+                                <div
+                                    className="flex items-center justify-items-center overflow-x-auto p-4 bg-green-200 rounded-lg min-h-30 border-2 border-stone-400">
                                     {board.length > 0 ? (
                                         <div className="flex flex-nowrap">
                                             {board.map((piece, index) => (
@@ -308,13 +351,13 @@ export default function GeoDomino() {
                                             ))}
                                         </div>
                                     ) : (
-                                        <p className="text-center w-full italic">The board is empty!</p>
+                                        <p className="text-center w-full italic">¡El tablero está vacío!</p>
                                     )}
                                 </div>
                             </div>
 
                             <div>
-                                <h2 className="text-xl text-gray-700 font-bold mb-2">Inventory:</h2>
+                                <h2 className="text-xl text-gray-700 font-bold mb-2">Inventario:</h2>
                                 <div className="flex flex-wrap gap-2 justify-center">
                                     {hand.map((piece, index) => (
                                         <div
@@ -333,6 +376,21 @@ export default function GeoDomino() {
                                     ))}
                                 </div>
                             </div>
+
+                            {message && showModal && message.includes('Felicidades') && (
+                                <CongratsModal
+                                    points={score}
+                                    onCloseMessage={closeModal}
+                                    onRestart={startGame}
+                                />
+                            )}
+                            {lives === 0 && showModal && (
+                                <GameOverModal
+                                    onCloseMessage={closeModal}
+                                    onRestart={startGame}
+                                />
+                            )}
+
                         </div>
                     </div>
                 </div>
