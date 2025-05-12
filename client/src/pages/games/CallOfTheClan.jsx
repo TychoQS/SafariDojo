@@ -8,6 +8,9 @@ import {router} from "next/client";
 import GameOverModal from "@/components/GameOverModal";
 import CongratsModal from "@/components/CongratsModal";
 import Lifes from "@/components/Lifes";
+import Title from "@/components/Title";
+import ErrorReportModal from "@/components/ErrorModal";
+import {useTranslation} from "react-i18next";
 
 
 const AnimalClassificationGame = () => {
@@ -30,6 +33,7 @@ const AnimalClassificationGame = () => {
     const failSound = useRef(null);
     const winSound = useRef(null);
     const loseSound = useRef(null);
+    const {t} = useTranslation();
 
     async function fetchDifficulty() {
         const previousURL = localStorage.getItem('previousURL');
@@ -133,7 +137,7 @@ const AnimalClassificationGame = () => {
 
                 if (correct) {
                     setMessage(`Correct! ${currentLevel.player.name} and ${group.name} are ${group.classification}s.`);
-                    const newScore = score + 100;
+                    const newScore = score + 5;
                     setScore(newScore);
 
                     if (level === randomLevels.length) {
@@ -161,7 +165,7 @@ const AnimalClassificationGame = () => {
                         loseSound.current.play();
                     }
                     setMessage(`Incorrect! ${currentLevel.player.name} is a ${currentLevel.player.classification}, but ${group.name} are ${group.classification}s.`);
-                    setScore(prev => prev - 50);
+                    setScore(prev => prev - 2);
                     setTimeout(() => {
                         setPlayerPosition({ x: 50, y: 50 });
                         setGameActive(true);
@@ -202,6 +206,17 @@ const AnimalClassificationGame = () => {
                     if (maxScore > storedScore) {
                         localStorage.setItem(key, maxScore.toString());
                     }
+                    const typeMedal = age === "easy"
+                        ? "BronzeMedal"
+                        : age === "medium"
+                            ? "SilverMedal"
+                            : "GoldMedal";
+
+                    const medalKey = `${gameData}_${typeMedal}`;
+                    const medalStatus = localStorage.getItem(medalKey) === "1";
+                    if (!medalStatus) {
+                        localStorage.setItem(medalKey, "1");
+                    }
                 }
             }
         } catch (error) {
@@ -218,69 +233,71 @@ const AnimalClassificationGame = () => {
     if (randomLevels.length === 0) return <div>Loading game...</div>;
 
     return (
-        <section className="app min-h-screen flex flex-col bg-PS-main-purple">
-            <Header />
-
-            <main className="flex-1 flex flex-col items-center px-4 relative">
-                <div className="flex flex-col self-end">
-                    <Lifes ref={lifesRef}/>
-                </div>
-                <div className="relative w-[1000px] h-[600px] bg-blue-200 rounded-lg overflow-hidden border-4 border-blue-950 mt-5 mb-3">
-                    <div className={`text-2xl justify-between p-1.5 w-full text-black flex ${cherryBomb.className}`}>
-                        <div>Level: {level}/{randomLevels.length}</div>
-                        <div>Score: {score}</div>
+        <div className="app min-h-screen flex flex-col bg-PS-main-purple">
+            <Header/>
+            <section className="flex-1 flex justify-center items-center py-10">
+                <div className="w-full max-w-screen-lg px-4 flex flex-col items-center">
+                    <div className="mt-[-4em]">
+                        <Title>Call of the Clan</Title>
                     </div>
 
-                    <div className={`absolute text-xl top-12 w-full text-center bg-blue-700
+                    <div className="relative w-[90em] mb-[-2em] flex justify-around">
+                        <Button size="small" onClick={finishGame}>{t("backButton")} </Button>
+                        <Lifes ref={lifesRef}/>
+                        <ErrorReportModal></ErrorReportModal>
+                    </div>
+
+                    <div className="relative w-[1000px] h-[600px] bg-blue-200 rounded-lg overflow-hidden border-4 border-blue-950 mt-5 mb-3">
+                        <div className={`text-2xl justify-between p-1.5 w-full text-black flex ${cherryBomb.className}`}>
+                            <div>Level: {level}/{randomLevels.length}</div>
+                            <div>Score: {score}</div>
+                        </div>
+
+                        <div className={`absolute text-xl top-12 w-full text-center bg-blue-700
                      bg-opacity-70 p-2`}>
-                        {message}
-                    </div>
+                            {message}
+                        </div>
 
-                    <div
-                        className="absolute text-5xl transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2"
-                        style={{ left: `${playerPosition.x}%`, top: `${playerPosition.y}%` }}
-                    >
-                        <img src={currentLevel.player.emoji} alt={currentLevel.player.name} className={"w16 h-16"}/>
-                    </div>
-
-                    {currentLevel.groups.map((group, index) => (
                         <div
-                            key={index}
-                            className="absolute text-5xl transform -translate-x-1/2 -translate-y-1/2"
-                            style={{ left: `${group.position.x}%`, top: `${group.position.y}%` }}
+                            className="absolute text-5xl transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2"
+                            style={{ left: `${playerPosition.x}%`, top: `${playerPosition.y}%` }}
                         >
-                            <div className="flex flex-col items-center text-black">
+                            <img src={currentLevel.player.emoji} alt={currentLevel.player.name} className={"w16 h-16"}/>
+                        </div>
 
-                                <span className="text-6xl mb-2"><img src={group.emoji} alt={group.name} className={"w16 h-16"}/></span>
-                                <span className="bg-white bg-opacity-70 px-2 py-1 rounded text-sm">
+                        {currentLevel.groups.map((group, index) => (
+                            <div
+                                key={index}
+                                className="absolute text-5xl transform -translate-x-1/2 -translate-y-1/2"
+                                style={{ left: `${group.position.x}%`, top: `${group.position.y}%` }}
+                            >
+                                <div className="flex flex-col items-center text-black">
+
+                                    <span className="text-6xl mb-2"><img src={group.emoji} alt={group.name} className={"w16 h-16"}/></span>
+                                    <span className="bg-white bg-opacity-70 px-2 py-1 rounded text-sm">
                   {group.name}
                 </span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
 
-                    {(gameWon && gameFinished) && (
-                        <CongratsModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
-                    )}
+                        {(gameWon && gameFinished) && (
+                            <CongratsModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
+                        )}
 
-                    {(!gameWon && gameFinished) && (
-                        <GameOverModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
-                    )}
+                        {(!gameWon && gameFinished) && (
+                            <GameOverModal onCloseMessage={finishGame} onRestart={restartGame}/>
+                        )}
 
-                </div>
-                {!gameFinished && (
-                    <div className="mt-4 mb-2 relative flex">
-                        <Button size="small" onClick={finishGame}>Back</Button>
                     </div>
-                )}
-                <audio ref={newLevelSound} src="/sounds/CallOfTheClan/newlevel-calloftheclan.mp3" preload="auto" />
-                <audio ref={failSound} src="/sounds/CallOfTheClan/fail-calloftheclan.mp3" preload="auto" />
-                <audio ref={winSound} src="/sounds/CallOfTheClan/won-calloftheclan.mp3" preload="auto" />
-                <audio ref={loseSound} src="/sounds/CallOfTheClan/lost-calloftheclan.mp3" preload="auto" />
-            </main>
-
-            <Footer />
-        </section>
+                    <audio ref={newLevelSound} src="/sounds/CallOfTheClan/newlevel-calloftheclan.mp3" preload="auto" />
+                    <audio ref={failSound} src="/sounds/CallOfTheClan/fail-calloftheclan.mp3" preload="auto" />
+                    <audio ref={winSound} src="/sounds/CallOfTheClan/won-calloftheclan.mp3" preload="auto" />
+                    <audio ref={loseSound} src="/sounds/CallOfTheClan/lost-calloftheclan.mp3" preload="auto" />
+                </div>
+            </section>
+            <Footer/>
+        </div>
     );
 };
 

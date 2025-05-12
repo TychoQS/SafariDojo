@@ -7,6 +7,7 @@ import {t} from "i18next";
 import Button from "@/components/Button";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
+import Title from "@/components/Title";
 
 
 function initialCards(cardsDiff) {
@@ -180,6 +181,17 @@ export default function MemoryGame() {
                     if (bestScore > storedScore) {
                         localStorage.setItem(key, bestScore.toString());
                     }
+                    const typeMedal = age === "easy"
+                        ? "BronzeMedal"
+                        : age === "medium"
+                            ? "SilverMedal"
+                            : "GoldMedal";
+
+                    const medalKey = `${gameData}_${typeMedal}`;
+                    const medalStatus = localStorage.getItem(medalKey) === "1";
+                    if (!medalStatus) {
+                        localStorage.setItem(medalKey, "1");
+                    }
                 }
             }
         } catch (error) {
@@ -188,7 +200,7 @@ export default function MemoryGame() {
         return router.push({
             pathname: "../GameSelectionPage",
             query: {
-               Subject: "Science"
+                Subject: "Science"
             }
         });
     }
@@ -197,6 +209,9 @@ export default function MemoryGame() {
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header />
             <main className="flex-1 flex flex-col justify-start px-4 relative">
+                <div className="mt-[-1em] self-center">
+                    <Title>Memory</Title>
+                </div>
             <div className="flex items-center justify-between">
                 <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
                 <div className={"ml-8 mt-6 text-4xl"}>
