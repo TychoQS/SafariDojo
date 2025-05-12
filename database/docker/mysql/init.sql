@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS CookTheBook_StoryPieces;
 DROP TABLE IF EXISTS CookTheBook_Stories;
 DROP TABLE IF EXISTS Mahjong;
 DROP TABLE IF EXISTS LetterSoup;
+DROP TABLE IF EXISTS Geography;
 DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
 DROP PROCEDURE IF EXISTS FillUserQuizzes;
 DROP TRIGGER IF EXISTS PostUserCreation;
@@ -808,6 +809,58 @@ VALUES
        ["X","Z","C","V","B","N","M","L","K","J","H"]]',
      '["SYMPHONY","ORCHESTRA","CONDUCTOR","VIOLINIST","PIANIST","COMPOSER","HARMONY","RHYTHM","MELODY","SONATA"]');
 
+CREATE TABLE Geography (
+                           id CHAR(2) PRIMARY KEY,
+                           name VARCHAR(100),
+                           capital VARCHAR(100),
+                           continent VARCHAR(50),
+                           difficulty ENUM('Easy', 'Medium', 'Hard'),
+                           image TEXT,
+                           hint TEXT
+);
+
+
+INSERT INTO Geography (id, name, capital, continent, difficulty, image, hint) VALUES
+                                                                                  ('ES', 'Spain', 'Madrid', 'Europe', 'Easy', '', 'Known for flamenco dancing and bullfighting.'),
+                                                                                  ('FR', 'France', 'Paris', 'Europe', 'Easy', '', 'Famous for the Eiffel Tower and fine wines.'),
+                                                                                  ('DE', 'Germany', 'Berlin', 'Europe', 'Easy', '', 'Home to Oktoberfest and historic castles.'),
+                                                                                  ('IT', 'Italy', 'Rome', 'Europe', 'Easy', '', 'Birthplace of pizza and the Colosseum.'),
+                                                                                  ('GB', 'UK', 'London', 'Europe', 'Easy', '', 'Famous for Big Ben and the Royal Family.'),
+                                                                                  ('PT', 'Portugal', 'Lisbon', 'Europe', 'Medium', '', 'Renowned for port wine and explorers like Vasco da Gama.'),
+                                                                                  ('NL', 'Netherlands', 'Amsterdam', 'Europe', 'Medium', '', 'Known for tulips and extensive canal systems.'),
+                                                                                  ('BE', 'Belgium', 'Brussels', 'Europe', 'Medium', '', 'Famous for chocolate and waffles.'),
+                                                                                  ('CH', 'Switzerland', 'Bern', 'Europe', 'Medium', '', 'Renowned for the Alps and luxury watches.'),
+                                                                                  ('AT', 'Austria', 'Vienna', 'Europe', 'Medium', '', 'Birthplace of Mozart and alpine skiing.'),
+                                                                                  ('PL', 'Poland', 'Warsaw', 'Europe', 'Medium', '', 'Known for pierogi and historic salt mines.'),
+                                                                                  ('CZ', 'Czech Republic', 'Prague', 'Europe', 'Medium', '', 'Famous for its fairy-tale castles and beer.'),
+                                                                                  ('GR', 'Greece', 'Athens', 'Europe', 'Medium', '', 'Cradle of Western civilization and ancient ruins.'),
+                                                                                  ('NO', 'Norway', 'Oslo', 'Europe', 'Medium', '', 'Known for fjords and the Northern Lights.'),
+                                                                                  ('SE', 'Sweden', 'Stockholm', 'Europe', 'Medium', '', 'Famous for IKEA and ABBA.'),
+                                                                                  ('DK', 'Denmark', 'Copenhagen', 'Europe', 'Medium', '', 'Home to LEGO and Viking history.'),
+                                                                                  ('IE', 'Ireland', 'Dublin', 'Europe', 'Medium', '', 'Known for St. Patrick’s Day and lush green landscapes.'),
+                                                                                  ('FI', 'Finland', 'Helsinki', 'Europe', 'Medium', '', 'Famous for saunas and Santa Claus.'),
+                                                                                  ('UA', 'Ukraine', 'Kyiv', 'Europe', 'Medium', '', 'Famous for borscht and the Carpathian Mountains.'),
+                                                                                  ('IS', 'Iceland', 'Reykjavik', 'Europe', 'Medium', '', 'Land of geysers, volcanoes, and the Blue Lagoon.'),
+                                                                                  ('RO', 'Romania', 'Bucharest', 'Europe', 'Hard', '', 'Home to Transylvania and Dracula legends.'),
+                                                                                  ('HU', 'Hungary', 'Budapest', 'Europe', 'Hard', '', 'Known for thermal baths and paprika.'),
+                                                                                  ('BG', 'Bulgaria', 'Sofia', 'Europe', 'Hard', '', 'Famous for rose oil and ancient Thracian ruins.'),
+                                                                                  ('SK', 'Slovakia', 'Bratislava', 'Europe', 'Hard', '', 'Known for its medieval castles and Carpathian Mountains.'),
+                                                                                  ('SI', 'Slovenia', 'Ljubljana', 'Europe', 'Hard', '', 'Famous for Lake Bled and alpine scenery.'),
+                                                                                  ('HR', 'Croatia', 'Zagreb', 'Europe', 'Hard', '', 'Known for its Adriatic coastline and Dubrovnik.'),
+                                                                                  ('LT', 'Lithuania', 'Vilnius', 'Europe', 'Hard', '', 'Famous for its Baltic heritage and amber.'),
+                                                                                  ('LV', 'Latvia', 'Riga', 'Europe', 'Hard', '', 'Known for Art Nouveau architecture and folk songs.'),
+                                                                                  ('EE', 'Estonia', 'Tallinn', 'Europe', 'Hard', '', 'Famous for its medieval old town and digital innovation.'),
+                                                                                  ('AL', 'Albania', 'Tirana', 'Europe', 'Hard', '', 'Known for its rugged mountains and Ottoman heritage.'),
+                                                                                  ('AM', 'Armenia', 'Yerevan', 'Europe', 'Hard', '', 'Home to ancient monasteries and Mount Ararat.'),
+                                                                                  ('BY', 'Belarus', 'Minsk', 'Europe', 'Hard', '', 'Known for its Soviet-era architecture and vast forests.'),
+                                                                                  ('AD', 'Andorra', 'Andorra la Vella', 'Europe', 'Hard', '', 'A tiny principality nestled in the Pyrenees.'),
+                                                                                  ('CY', 'Cyprus', 'Nicosia', 'Europe', 'Hard', '', 'Known for its beaches and ancient Greek ruins.'),
+                                                                                  ('RS', 'Serbia', 'Belgrade', 'Europe', 'Hard', '', 'Known for its vibrant nightlife and Orthodox monasteries.'),
+                                                                                  ('BA', 'Bosnia and Herzegovina', 'Sarajevo', 'Europe', 'Hard', '', 'Known for its Ottoman bridge and diverse cultures.'),
+                                                                                  ('ME', 'Montenegro', 'Podgorica', 'Europe', 'Hard', '', 'Famous for its dramatic coastline and Bay of Kotor.'),
+                                                                                  ('MD', 'Moldova', 'Chișinău', 'Europe', 'Hard', '', 'Known for its wine tours and Soviet history.'),
+                                                                                  ('MK', 'North Macedonia', 'Skopje', 'Europe', 'Hard', '', 'Home to Lake Ohrid and ancient monasteries.');
+
 show tables;
 select * from Users;
 select * from Quizzes;
@@ -822,4 +875,5 @@ select * from UserWeeklyGoals;
 select * from CookTheBook_Stories;
 select * from CookTheBook_StoryPieces;
 select * from Mahjong;
+select * from Geography;
 SET sql_notes = 1;
