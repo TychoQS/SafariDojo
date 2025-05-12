@@ -5,575 +5,305 @@ import Button from "@/components/Button";
 import ErrorReportModal from "@/components/ErrorModal";
 import {useTranslation} from "react-i18next";
 
-const GEOMETRIC_SHAPES = [
-    { id: 1, name: 'Circle', image: 'circle' },
-    { id: 2, name: 'Square', image: 'square' },
-    { id: 3, name: 'Triangle', image: 'triangle' },
-    { id: 4, name: 'Rectangle', image: 'rectangle' },
-    { id: 5, name: 'Rombo', image: 'rombo' },
-    { id: 6, name: 'Hexagon', image: 'hexagon' },
-    { id: 7, name: 'Pentagon', image: 'pentagon' },
-    { id: 8, name: 'Oval', image: 'oval' },
+const shapes = [
+    { name: "Circle", shape: "circle" },
+    { name: "Square", shape: "square" },
+    { name: "Triangle", shape: "triangle" },
+    { name: "Rectangle", shape: "rectangle" },
+    { name: "Pentagon", shape: "pentagon" },
+    { name: "Hexagon", shape: "hexagon" },
+    { name: "Star", shape: "star" }
 ];
 
-const ImagePlaceholder = ({ shapeName, size = "md" }) => {
-    const colors = {
-        'Circle': 'bg-red-400',
-        'Square': 'bg-blue-400',
-        'Triangle': 'bg-green-400',
-        'Rectangle': 'bg-yellow-400',
-        'Rombo': 'bg-purple-400',
-        'Hexagon': 'bg-pink-400',
-        'Pentagon': 'bg-orange-400',
-        'Oval': 'bg-teal-400',
-    };
-
-    const shapes = {
-        'Circle': 'rounded-full',
-        'Square': 'rounded-none',
-        'Triangle': 'triangle',
-        'Rectangle': 'h-12 w-20',
-        'Rombo': 'rotate-45',
-        'Hexagon': 'hexagon',
-        'Pentagon': 'pentagon',
-        'Oval': 'rounded-full h-12 w-20',
-    };
-
-    const sizeClasses = {
-        sm: 'h-8 w-8',
-        md: 'h-12 w-12',
-        lg: 'h-16 w-16',
-    };
-
-    let baseClasses = `${colors[shapeName]} ${sizeClasses[size]} flex items-center justify-center`;
-
-    if (['Rectangle', 'Oval'].includes(shapeName)) {
-        baseClasses = `${colors[shapeName]} flex items-center justify-center`;
-    } else if (!['Triangle', 'Hexagon', 'Pentagon'].includes(shapeName)) {
-        baseClasses = `${baseClasses} ${shapes[shapeName]}`;
+const Shape = ({ type }) => {
+    switch (type) {
+        case 'circle':
+            return <div className="w-12 h-12 rounded-full bg-blue-500"></div>;
+        case 'square':
+            return <div className="w-12 h-12 bg-red-500"></div>;
+        case 'triangle':
+            return (
+                <div className="w-0 h-0 border-l-[24px] border-r-[24px] border-b-[42px] border-l-transparent border-r-transparent border-b-green-500"></div>
+            );
+        case 'rectangle':
+            return <div className="w-16 h-8 bg-yellow-500"></div>;
+        case 'pentagon':
+            return (
+                <div className="relative w-12 h-12 flex items-center justify-center">
+                    <svg viewBox="0 0 100 100" className="w-full h-full">
+                        <polygon points="50,5 95,35 80,95 20,95 5,35" fill="purple" />
+                    </svg>
+                </div>
+            );
+        case 'hexagon':
+            return (
+                <div className="relative w-12 h-12 flex items-center justify-center">
+                    <svg viewBox="0 0 100 100" className="w-full h-full">
+                        <polygon points="50,3 100,28 100,72 50,97 0,72 0,28" fill="teal" />
+                    </svg>
+                </div>
+            );
+        case 'star':
+            return (
+                <div className="relative w-12 h-12 flex items-center justify-center">
+                    <svg viewBox="0 0 100 100" className="w-full h-full">
+                        <polygon points="50,5 61,40 95,40 67,60 79,95 50,75 21,95 33,60 5,40 39,40" fill="orange" />
+                    </svg>
+                </div>
+            );
+        default:
+            return <div className="w-12 h-12 bg-gray-300"></div>;
     }
-
-    if (shapeName === 'Triangle') {
-        return (
-            <div className="relative flex items-center justify-center" style={{width: sizeClasses[size].split(' ')[1], height: sizeClasses[size].split(' ')[0]}}>
-                <div className={`${colors[shapeName]} w-0 h-0 border-l-8 border-r-8 border-b-16 border-l-transparent border-r-transparent`}></div>
-            </div>
-        );
-    }
-
-    return (
-        <div className={baseClasses}>
-            {shapeName === 'Hexagon' && <div className="text-xs font-bold">Hex</div>}
-            {shapeName === 'Pentagon' && <div className="text-xs font-bold">Pent</div>}
-        </div>
-    );
 };
 
-const DominoTile = ({
-                        tile,
-                        rotation = 0,
-                        isPlaceholder = false,
-                        isPreview = false,
-                        isValid = true,
-                        onClick,
-                        onDragStart
-                    }) => {
-    const isHorizontal = rotation === 90 || rotation === 270;
-
-    const tileStyle = {
-        transform: `rotate(${rotation}deg)`,
-    };
-
-    const tileClasses = `
-    ${isHorizontal ? 'flex-row' : 'flex-col'}
-    ${isPlaceholder ? 'opacity-50' : ''}
-    ${isPreview ? 'opacity-80' : ''}
-    ${!isValid && isPreview ? 'border-red-500' : ''}
-    ${isValid && isPreview ? 'border-green-500' : ''}
-  `;
-
-    const tileDimensions = isHorizontal
-        ? 'w-48 h-24'
-        : 'w-24 h-48';
-
-    return (
-        <div
-            className={`
-        relative cursor-move select-none
-        ${isPlaceholder ? 'cursor-default' : ''}
-      `}
-            style={tileStyle}
-            onClick={onClick}
-            onDragStart={e => onDragStart && onDragStart(e, tile)}
-            draggable={!isPlaceholder}
-        >
-            <div
-                className={`
-          bg-white border-4 border-gray-800 rounded-lg shadow-md
-          ${tileDimensions} flex ${tileClasses}
-          ${isPreview ? 'z-10' : ''}
-        `}
-            >
-                <div className={`${isHorizontal ? 'w-24' : 'w-full'} ${isHorizontal ? 'h-full' : 'h-24'} flex items-center justify-center ${isHorizontal ? 'border-r-2' : 'border-b-2'} border-gray-800`}>
-                    {tile.side1.type === 'shape' ? (
-                        <ImagePlaceholder shapeName={tile.side1.value} size="md" />
-                    ) : (
-                        <div className="font-bold text-center text-sm p-1">{tile.side1.value}</div>
-                    )}
-                </div>
-
-                <div className={`${isHorizontal ? 'w-24' : 'w-full'} ${isHorizontal ? 'h-full' : 'h-24'} flex items-center justify-center`}>
-                    {tile.side2.type === 'shape' ? (
-                        <ImagePlaceholder shapeName={tile.side2.value} size="md" />
-                    ) : (
-                        <div className="font-bold text-center text-sm p-1">{tile.side2.value}</div>
-                    )}
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default function DominoMaster() {
+export default function GeoDomino() {
+    const [board, setBoard] = useState([]);
+    const [hand, setHand] = useState([]);
     const [score, setScore] = useState(0);
-    const [gameFinished, setGameFinished] = useState(false);
-    const [showCongrats, setShowCongrats] = useState(false);
-    const [boardTiles, setBoardTiles] = useState([]);
-    const [playerTiles, setPlayerTiles] = useState([]);
-    const [currentLevel, setCurrentLevel] = useState(1);
-    const [draggedTile, setDraggedTile] = useState(null);
-    const [previewPosition, setPreviewPosition] = useState(null);
-    const [previewTile, setPreviewTile] = useState(null);
-    const [previewValid, setPreviewValid] = useState(false);
-    const [rotationMode, setRotationMode] = useState(false);
-    const [currentRotation, setCurrentRotation] = useState(0);
-    const [validDropPositions, setValidDropPositions] = useState([]);
+    const [timer, setTimer] = useState(60);
+    const [gameOver, setGameOver] = useState(false);
+    const [gameStarted, setGameStarted] = useState(true);
+    const [message, setMessage] = useState("");
     const {t} = useTranslation();
 
-    useEffect(() => {
-        startNewGame();
-    }, [currentLevel]);
+    const startGame = () => {
+        let pieces = [];
 
-    const startNewGame = () => {
-        const levelShapes = [...GEOMETRIC_SHAPES].sort(() => Math.random() - 0.5)
-            .slice(0, Math.min(4 + currentLevel, GEOMETRIC_SHAPES.length));
-
-        const tiles = [];
-
-        levelShapes.forEach((shape1, i) => {
-            levelShapes.forEach((shape2, j) => {
-                if (i <= j && tiles.length < 12) {
-                    if (Math.random() > 0.5) {
-                        tiles.push({
-                            id: `${shape1.id}-${shape2.id}`,
-                            side1: { type: 'shape', value: shape1.name },
-                            side2: { type: 'name', value: shape2.name }
-                        });
-                    } else {
-                        tiles.push({
-                            id: `${shape1.id}-${shape2.id}`,
-                            side1: { type: 'name', value: shape1.name },
-                            side2: { type: 'shape', value: shape2.name }
-                        });
-                    }
-                }
-            });
-        });
-
-        const shuffledTiles = tiles.sort(() => Math.random() - 0.5);
-
-        const initialTile = shuffledTiles.pop();
-
-        const playerTileCount = Math.min(5 + currentLevel, 7);
-        const playerTiles = shuffledTiles.slice(0, playerTileCount);
-
-        const remainingTiles = shuffledTiles.slice(playerTileCount);
-
-        const initialRotation = Math.random() > 0.5 ? 0 : 90;
-
-        setBoardTiles([{
-            ...initialTile,
-            x: 400,
-            y: 200,
-            rotation: initialRotation
-        }]);
-
-        setPlayerTiles(playerTiles.map(tile => ({
-            ...tile,
-            rotation: 0
-        })));
-
-        setGameFinished(false);
-        setShowCongrats(false);
-
-        calculateValidPositions([{
-            ...initialTile,
-            x: 400,
-            y: 200,
-            rotation: initialRotation
-        }]);
-    };
-
-    const calculateValidPositions = (currentBoardTiles = boardTiles) => {
-        if (!currentBoardTiles.length) return [];
-
-        const positions = [];
-
-        currentBoardTiles.forEach(tile => {
-            const { x, y, rotation, side1, side2 } = tile;
-
-            let end1X, end1Y, end2X, end2Y;
-            const isHorizontal = rotation === 90 || rotation === 270;
-            const tileLength = 48;
-            const tileWidth = 24;
-
-            if (rotation === 0) {
-                end1X = x;
-                end1Y = y - tileLength;
-                end2X = x;
-                end2Y = y + tileLength;
-            } else if (rotation === 90) {
-                end1X = x - tileLength;
-                end1Y = y;
-                end2X = x + tileLength;
-                end2Y = y;
-            } else if (rotation === 180) {
-                end1X = x;
-                end1Y = y + tileLength;
-                end2X = x;
-                end2Y = y - tileLength;
-            } else if (rotation === 270) {
-                end1X = x + tileLength;
-                end1Y = y;
-                end2X = x - tileLength;
-                end2Y = y;
-            }
-
-            const collisionThresholdX = isHorizontal ? tileLength : tileWidth;
-            const collisionThresholdY = isHorizontal ? tileWidth : tileLength;
-
-            const isEnd1Free = !currentBoardTiles.some(t =>
-                Math.abs(t.x - end1X) < collisionThresholdX &&
-                Math.abs(t.y - end1Y) < collisionThresholdY
-            );
-
-            const isEnd2Free = !currentBoardTiles.some(t =>
-                Math.abs(t.x - end2X) < collisionThresholdX &&
-                Math.abs(t.y - end2Y) < collisionThresholdY
-            );
-
-            if (isEnd1Free) {
-                positions.push({
-                    x: end1X,
-                    y: end1Y,
-                    value: side1.type === 'shape' ? side1.value : side1.value,
-                    type: side1.type,
-                    baseRotation: (rotation + 180) % 360,
-                    isHorizontal: !isHorizontal,
+        for (let i = 0; i < shapes.length; i++) {
+            for (let j = 0; j < shapes.length; j++) {
+                pieces.push({
+                    id: `${i}-${j}`,
+                    left: { type: 'name', value: shapes[i].name },
+                    right: { type: 'shape', value: shapes[j].shape }
                 });
             }
-
-            if (isEnd2Free) {
-                positions.push({
-                    x: end2X,
-                    y: end2Y,
-                    value: side2.type === 'shape' ? side2.value : side2.value,
-                    type: side2.type,
-                    baseRotation: (rotation + 180) % 360,
-                    isHorizontal: !isHorizontal,
-                });
-            }
-        });
-
-        setValidDropPositions(positions);
-        return positions;
-    };
-
-    useEffect(() => {
-        if (playerTiles.length === 0 && boardTiles.length > 0) {
-            setGameFinished(true);
-            setShowCongrats(true);
-
-            const timer = setTimeout(() => {
-                if (currentLevel < 4) {
-                    setCurrentLevel(prev => prev + 1);
-                    setScore(prev => prev + 50);
-                } else {
-                    setCurrentLevel(1);
-                }
-                setShowCongrats(false);
-            }, 3000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [playerTiles.length, boardTiles.length, currentLevel]);
-
-    const handleDragStart = (e, tile) => {
-        e.dataTransfer.setData('text/plain', JSON.stringify({ tile }));
-        setDraggedTile(tile);
-        setCurrentRotation(tile.rotation || 0);
-    };
-
-    const handleDragOver = (e) => {
-        e.preventDefault();
-
-        const boardRect = e.currentTarget.getBoundingClientRect();
-        const x = e.clientX - boardRect.left;
-        const y = e.clientY - boardRect.top;
-
-        setPreviewPosition({ x, y });
-
-        if (draggedTile) {
-            const nearestValidPosition = findNearestValidPosition(x, y);
-            if (nearestValidPosition) {
-                let newRotation;
-                if (nearestValidPosition.isHorizontal) {
-                    newRotation = 90;
-                } else {
-                    newRotation = 0;
-                }
-
-                setPreviewTile({
-                    ...draggedTile,
-                    x: nearestValidPosition.x,
-                    y: nearestValidPosition.y,
-                    rotation: newRotation
-                });
-                setPreviewValid(isValidTilePlacement(draggedTile, nearestValidPosition));
-            } else {
-                setPreviewTile({
-                    ...draggedTile,
-                    x,
-                    y,
-                    rotation: currentRotation
-                });
-                setPreviewValid(false);
-            }
-        }
-    };
-
-    const findNearestValidPosition = (x, y) => {
-        if (!validDropPositions.length) return null;
-
-        let nearestPos = null;
-        let minDistance = 50;
-
-        validDropPositions.forEach(pos => {
-            const distance = Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
-            if (distance < minDistance) {
-                minDistance = distance;
-                nearestPos = pos;
-            }
-        });
-
-        return nearestPos;
-    };
-
-    const isValidTilePlacement = (tile, position) => {
-        if (!position) return false;
-
-        const matchesSide1 = (
-            (position.type === 'shape' && tile.side1.type === 'name' && tile.side1.value === position.value) ||
-            (position.type === 'name' && tile.side1.type === 'shape' && tile.side1.value === position.value)
-        );
-
-        const matchesSide2 = (
-            (position.type === 'shape' && tile.side2.type === 'name' && tile.side2.value === position.value) ||
-            (position.type === 'name' && tile.side2.type === 'shape' && tile.side2.value === position.value)
-        );
-
-        return matchesSide1 || matchesSide2;
-    };
-
-    const handleDrop = (e) => {
-        e.preventDefault();
-
-        if (!draggedTile || !previewPosition) return;
-
-        const nearestValidPosition = findNearestValidPosition(previewPosition.x, previewPosition.y);
-
-        if (nearestValidPosition && isValidTilePlacement(draggedTile, nearestValidPosition)) {
-            const matchesSide1 = (
-                (nearestValidPosition.type === 'shape' && draggedTile.side1.type === 'name' && draggedTile.side1.value === nearestValidPosition.value) ||
-                (nearestValidPosition.type === 'name' && draggedTile.side1.type === 'shape' && draggedTile.side1.value === nearestValidPosition.value)
-            );
-
-            let newRotation;
-            if (nearestValidPosition.isHorizontal) {
-                newRotation = matchesSide1 ? 90 : 270;
-            } else {
-                newRotation = matchesSide1 ? 0 : 180;
-            }
-
-            const newTile = {
-                ...draggedTile,
-                x: nearestValidPosition.x,
-                y: nearestValidPosition.y,
-                rotation: newRotation
-            };
-
-            const newBoardTiles = [...boardTiles, newTile];
-            setBoardTiles(newBoardTiles);
-
-            setPlayerTiles(playerTiles.filter(t => t.id !== draggedTile.id));
-
-            setScore(score + 10);
-
-            calculateValidPositions(newBoardTiles);
         }
 
-        setDraggedTile(null);
-        setPreviewPosition(null);
-        setPreviewTile(null);
-        setPreviewValid(false);
-    };
+        pieces = shuffleArray(pieces);
 
-    const handleKeyDown = (e) => {
-        if ((e.key === 'r' || e.key === 'R' || e.key === 'ArrowRight') && rotationMode) {
-            setCurrentRotation((currentRotation + 90) % 360);
-        }
-    };
+        const playerHand = pieces.slice(0, 7);
 
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [rotationMode, currentRotation]);
+        const initialBoard = [pieces[7]];
 
-    const handleRestart = () => {
+        setBoard(initialBoard);
+        setHand(playerHand);
         setScore(0);
-        setCurrentLevel(1);
-        startNewGame();
+        setTimer(60);
+        setGameOver(false);
+        setGameStarted(true);
+        setMessage("");
+    };
+
+    const shuffleArray = (array) => {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    };
+
+    useEffect(() => {
+        startGame();
+    }, []);
+
+    useEffect(() => {
+        let interval;
+        if (gameStarted && !gameOver && timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+        } else if (timer === 0 && !gameOver) {
+            setGameOver(true);
+            setMessage("You ran out of time...");
+        }
+
+        return () => clearInterval(interval);
+    }, [gameStarted, gameOver, timer]);
+
+    const canPlacePiece = (piece) => {
+        if (board.length === 0) return true;
+
+        const firstPiece = board[0];
+        const lastPiece = board[board.length - 1];
+
+        if (firstPiece.left.type !== piece.right.type) {
+            if (
+                (firstPiece.left.type === 'shape' && piece.right.type === 'name' && getShapeName(firstPiece.left.value) === piece.right.value) ||
+                (firstPiece.left.type === 'name' && piece.right.type === 'shape' && firstPiece.left.value === getShapeName(piece.right.value))
+            ) {
+                return "start";
+            }
+        }
+
+        if (firstPiece.left.type !== piece.left.type) {
+            if (
+                (firstPiece.left.type === 'shape' && piece.left.type === 'name' && getShapeName(firstPiece.left.value) === piece.left.value) ||
+                (firstPiece.left.type === 'name' && piece.left.type === 'shape' && firstPiece.left.value === getShapeName(piece.left.value))
+            ) {
+                return "start";
+            }
+        }
+
+        if (lastPiece.right.type !== piece.left.type) {
+            if (
+                (lastPiece.right.type === 'shape' && piece.left.type === 'name' && getShapeName(lastPiece.right.value) === piece.left.value) ||
+                (lastPiece.right.type === 'name' && piece.left.type === 'shape' && lastPiece.right.value === getShapeName(piece.left.value))
+            ) {
+                return "end";
+            }
+        }
+
+        if (lastPiece.right.type !== piece.right.type) {
+            if (
+                (lastPiece.right.type === 'shape' && piece.right.type === 'name' && getShapeName(lastPiece.right.value) === piece.right.value) ||
+                (lastPiece.right.type === 'name' && piece.right.type === 'shape' && lastPiece.right.value === getShapeName(piece.right.value))
+            ) {
+                return "end";
+            }
+        }
+
+        return false;
+    };
+
+    const getShapeName = (shapeType) => {
+        const shape = shapes.find(s => s.shape === shapeType);
+        return shape ? shape.name : "";
+    };
+
+    const playPiece = (piece, index) => {
+        if (gameOver) return;
+
+        const placement = canPlacePiece(piece);
+
+        if (placement) {
+            let newBoard = [...board];
+            let newPiece = {...piece};
+
+            if (placement === "start") {
+                if (piece.right.type !== board[0].left.type &&
+                    ((piece.right.type === 'name' && board[0].left.type === 'shape' && getShapeName(board[0].left.value) === piece.right.value) ||
+                        (piece.right.type === 'shape' && board[0].left.type === 'name' && getShapeName(piece.right.value) === board[0].left.value))) {
+                } else {
+                    [newPiece.left, newPiece.right] = [newPiece.right, newPiece.left];
+                }
+                newBoard.unshift(newPiece);
+            }
+            else if (placement === "end") {
+                if (piece.left.type !== board[board.length-1].right.type &&
+                    ((piece.left.type === 'name' && board[board.length-1].right.type === 'shape' && getShapeName(board[board.length-1].right.value) === piece.left.value) ||
+                        (piece.left.type === 'shape' && board[board.length-1].right.type === 'name' && getShapeName(piece.left.value) === board[board.length-1].right.value))) {
+                } else {
+                    [newPiece.left, newPiece.right] = [newPiece.right, newPiece.left];
+                }
+                newBoard.push(newPiece);
+            }
+
+            setBoard(newBoard);
+            const newHand = [...hand];
+            newHand.splice(index, 1);
+            setHand(newHand);
+
+            setScore(score + 5);
+            setMessage("Good job! + 5 points");
+
+            if (newHand.length === 0) {
+                setGameOver(true);
+                setMessage("Congrats! You filled the board.");
+            }
+        } else {
+            setScore(Math.max(0, score - 3));
+            setMessage("Invalid move... - 3 points penalty.");
+        }
+    };
+
+    const renderDominoHalf = (half) => {
+        if (half.type === 'name') {
+            return <div className="flex items-center justify-center h-16 text-center font-medium">{half.value}</div>;
+        } else {
+            return <div className="flex items-center justify-center h-16"><Shape type={half.value} /></div>;
+        }
     };
 
     return (
         <div className="app flex flex-col bg-PS-main-purple">
             <Header></Header>
-            <section className=" justify-center items-center mb-7 flex flex-col py-10 bg-PS-main-purple">
+            <section className="justify-center items-center mb-7 flex flex-col py-10 bg-PS-main-purple">
                 <Title>Domino Master</Title>
                 <div className="mt-4 mb-2 relative w-[1150px] flex justify-between">
                     <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
                     <ErrorReportModal></ErrorReportModal>
                 </div>
-                <div className="flex flex-col align-items-center justify-between p-4 max-w-6xl mx-auto bg-pink-50
+                <div className="flex flex-row items-start justify-between p-4 max-w-6xl mx-auto bg-pink-50
                                 rounded-lg shadow-lg h-full border-4 border-stone-700"
                      style={{maxHeight: 'auto', width: '1200px'}}
                 >
-                    <div className="flex flex-col items-center justify-center p-4 bg-blue-50 min-h-screen font-sans overflow-hidden">
-                        <h1 className="text-3xl font-bold text-blue-400 mb-5">Geometric Figures</h1>
-
-                        <div className="flex justify-between w-full max-w-3xl mt-4 mb-2">
-                            <div className="text-lg text-white font-bold bg-blue-300 py-1 px-3 rounded-lg">
-                                Level: {currentLevel}/4
-                            </div>
-                            <div className="text-lg text-white font-bold bg-green-300 py-1 px-3 rounded-lg">
-                                Points: {score}
-                            </div>
-                            <button
-                                onClick={handleRestart}
-                                className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded-lg"
-                            >
-                                Restart
-                            </button>
-                        </div>
-
-                        <div
-                            className="relative bg-green-100 border-4 border-green-700 rounded-xl w-full h-96 mb-4 overflow-auto"
-                            onDragOver={handleDragOver}
-                            onDrop={handleDrop}
-                        >
-                            {boardTiles.map((tile, index) => {
-                                const isHorizontal = tile.rotation === 90 || tile.rotation === 270;
-                                const offsetX = isHorizontal ? 24 : 12;
-                                const offsetY = isHorizontal ? 12 : 24;
-
-                                return (
-                                    <div
-                                        key={`board-${tile.id}-${index}`}
-                                        className="absolute text-black"
-                                        style={{
-                                            left: `${tile.x - offsetX}px`,
-                                            top: `${tile.y - offsetY}px`,
-                                        }}
-                                    >
-                                        <DominoTile
-                                            tile={tile}
-                                            rotation={tile.rotation}
-                                            isPlaceholder={false}
-                                            onDragStart={() => {}}
-                                        />
+                    <div className="flex flex-col w-full bg-blue-100 rounded-lg p-2" style={{height:'500px', width:'100%'}}>
+                        <div className="max-w-5xl mx-auto">
+                            <div className="flex justify-between mt-8 mb-4">
+                                <div className="p-2 text-black bg-white rounded shadow">
+                                    <p className="font-bold">Score: {score}</p>
+                                </div>
+                                {message && (
+                                    <div className={`p-2 mb-0 text-center text-white font-bold rounded 
+                                                 ${message.includes("time") || message.includes("Invalid") ? 'bg-red-300' : 'bg-green-300'}
+                                                 animate-fade-in-out`}
+                                    >{message}
                                     </div>
-                                );
-                            })}
-
-                            {previewTile && (() => {
-                                const isHorizontal = previewTile.rotation === 90 || previewTile.rotation === 270;
-                                const offsetX = isHorizontal ? 24 : 12;
-                                const offsetY = isHorizontal ? 12 : 24;
-
-                                return (
-                                    <div
-                                        className="absolute"
-                                        style={{
-                                            left: `${previewTile.x - offsetX}px`,
-                                            top: `${previewTile.y - offsetY}px`,
-                                            pointerEvents: 'none'
-                                        }}
-                                    >
-                                        <DominoTile
-                                            tile={previewTile}
-                                            rotation={previewTile.rotation}
-                                            isPreview={true}
-                                            isValid={previewValid}
-                                            onDragStart={() => {}}
-                                        />
-                                    </div>
-                                );
-                            })()}
-
-                            {validDropPositions.map((pos, index) => (
-                                <div
-                                    key={`pos-${index}`}
-                                    className={`absolute w-6 h-6 rounded-full bg-yellow-300 opacity-30`}
-                                    style={{
-                                        left: `${pos.x - 12}px`,
-                                        top: `${pos.y - 12}px`,
-                                    }}
-                                />
-                            ))}
-                        </div>
-
-                        <div className="bg-white p-4 rounded-xl shadow-lg w-full">
-                            <h2 className="text-xl font-bold mb-2 text-blue-700">Your tokens:</h2>
-
-                            <div className="flex flex-wrap gap-2 justify-center">
-                                {playerTiles.map((tile, index) => (
-                                    <div key={`player-${tile.id}-${index}`} className="mb-2 text-black">
-                                        <DominoTile
-                                            tile={tile}
-                                            rotation={tile.rotation || 0}
-                                            onDragStart={handleDragStart}
-                                            onClick={() => {
-                                                setRotationMode(true);
-                                                setDraggedTile(tile);
-
-                                                const newPlayerTiles = [...playerTiles];
-                                                const tileIndex = newPlayerTiles.findIndex(t => t.id === tile.id);
-                                                if (tileIndex !== -1) {
-                                                    newPlayerTiles[tileIndex] = {
-                                                        ...newPlayerTiles[tileIndex],
-                                                        rotation: ((newPlayerTiles[tileIndex].rotation || 0) + 90) % 360
-                                                    };
-                                                    setPlayerTiles(newPlayerTiles);
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                ))}
-                                {playerTiles.length === 0 && (
-                                    <div className="text-gray-500 italic">No tokens left!</div>
                                 )}
+                                <div className="p-2 bg-white rounded shadow">
+                                    <p
+                                        className={` font-bold ${timer <= 20 ? 'text-amber-500' : 'text-gray-700'}
+                                                    ${timer <= 10 ? 'text-red-500' : 'text-gray-700'} `}
+                                    >
+                                        Time: {timer}s
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="mb-8">
+                                <div className="flex items-center justify-items-center overflow-x-auto p-4 bg-green-200 rounded-lg min-h-30 border-2 border-stone-400">
+                                    {board.length > 0 ? (
+                                        <div className="flex flex-nowrap">
+                                            {board.map((piece, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="flex border-2 border-gray-700 rounded bg-white text-black mx-1 h-18"
+                                                >
+                                                    <div className="w-24 border-r border-gray-700">
+                                                        {renderDominoHalf(piece.left)}
+                                                    </div>
+                                                    <div className="w-24">
+                                                        {renderDominoHalf(piece.right)}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-center w-full italic">The board is empty!</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h2 className="text-xl text-gray-700 font-bold mb-2">Inventory:</h2>
+                                <div className="flex flex-wrap gap-2 justify-center">
+                                    {hand.map((piece, index) => (
+                                        <div
+                                            key={index}
+                                            className={`flex border-2 border-gray-700 rounded bg-white text-black 
+                                                        cursor-pointer transform transition hover:shadow-lg hover:scale-105`}
+                                            onClick={() => playPiece(piece, index)}
+                                        >
+                                            <div className="w-24 border-r border-gray-700">
+                                                {renderDominoHalf(piece.left)}
+                                            </div>
+                                            <div className="w-24">
+                                                {renderDominoHalf(piece.right)}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
