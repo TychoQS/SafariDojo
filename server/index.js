@@ -745,12 +745,16 @@ app.post("/api/updateMedals", async (req, res) => {
 });
 
 app.get("/api/getCountries", (req, res) => {
+    const difficulty = req.query.difficulty;
     const query = `
         SELECT *
         FROM Geography
+        WHERE difficulty = ?
     `;
 
-    dbConnection.query(query, (err, result) => {
+
+
+    dbConnection.query(query, [difficulty], (err, result) => {
         if (err) {
             console.error("Error fetching countries:", err);
             return res.status(500).json({ message: 'Something went wrong while fetching countries' });
