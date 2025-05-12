@@ -81,9 +81,40 @@ export default function GeoDomino() {
 
         pieces = shuffleArray(pieces);
 
-        const playerHand = pieces.slice(0, 7);
+        const initialPiece = pieces[0];
+        const initialBoard = [initialPiece];
 
-        const initialBoard = [pieces[7]];
+        let playerHand = [];
+        let remainingPieces = pieces.filter(p => p.id !== initialPiece.id);
+
+        let currentRight = initialPiece.right;
+        while (playerHand.length < 7 && remainingPieces.length > 0) {
+            const nextPiece = remainingPieces.find(p =>
+                p.left.type === 'name' && getShapeName(currentRight.value) === p.left.value
+            );
+
+            if (nextPiece) {
+                playerHand.push(nextPiece);
+                currentRight = nextPiece.right;
+                remainingPieces = remainingPieces.filter(p => p.id !== nextPiece.id);
+            } else {
+                const invertiblePiece = remainingPieces.find(p =>
+                    p.right.type === 'shape' && getShapeName(p.right.value) === getShapeName(currentRight.value)
+                );
+                if (invertiblePiece) {
+                    playerHand.push(invertiblePiece);
+                    currentRight = invertiblePiece.left;
+                    remainingPieces = remainingPieces.filter(p => p.id !== invertiblePiece.id);
+                } else {
+                    const randomPiece = remainingPieces[0];
+                    playerHand.push(randomPiece);
+                    currentRight = randomPiece.right;
+                    remainingPieces = remainingPieces.filter(p => p.id !== randomPiece.id);
+                }
+            }
+        }
+
+        playerHand = shuffleArray(playerHand.slice(0, 7));
 
         setBoard(initialBoard);
         setHand(playerHand);
@@ -124,26 +155,7 @@ export default function GeoDomino() {
     const canPlacePiece = (piece) => {
         if (board.length === 0) return true;
 
-        const firstPiece = board[0];
         const lastPiece = board[board.length - 1];
-
-        if (firstPiece.left.type !== piece.right.type) {
-            if (
-                (firstPiece.left.type === 'shape' && piece.right.type === 'name' && getShapeName(firstPiece.left.value) === piece.right.value) ||
-                (firstPiece.left.type === 'name' && piece.right.type === 'shape' && firstPiece.left.value === getShapeName(piece.right.value))
-            ) {
-                return "start";
-            }
-        }
-
-        if (firstPiece.left.type !== piece.left.type) {
-            if (
-                (firstPiece.left.type === 'shape' && piece.left.type === 'name' && getShapeName(firstPiece.left.value) === piece.left.value) ||
-                (firstPiece.left.type === 'name' && piece.left.type === 'shape' && firstPiece.left.value === getShapeName(piece.left.value))
-            ) {
-                return "start";
-            }
-        }
 
         if (lastPiece.right.type !== piece.left.type) {
             if (
@@ -153,7 +165,6 @@ export default function GeoDomino() {
                 return "end";
             }
         }
-
         if (lastPiece.right.type !== piece.right.type) {
             if (
                 (lastPiece.right.type === 'shape' && piece.right.type === 'name' && getShapeName(lastPiece.right.value) === piece.right.value) ||
@@ -180,16 +191,7 @@ export default function GeoDomino() {
             let newBoard = [...board];
             let newPiece = {...piece};
 
-            if (placement === "start") {
-                if (piece.right.type !== board[0].left.type &&
-                    ((piece.right.type === 'name' && board[0].left.type === 'shape' && getShapeName(board[0].left.value) === piece.right.value) ||
-                        (piece.right.type === 'shape' && board[0].left.type === 'name' && getShapeName(piece.right.value) === board[0].left.value))) {
-                } else {
-                    [newPiece.left, newPiece.right] = [newPiece.right, newPiece.left];
-                }
-                newBoard.unshift(newPiece);
-            }
-            else if (placement === "end") {
+            if (placement === "end") {
                 if (piece.left.type !== board[board.length-1].right.type &&
                     ((piece.left.type === 'name' && board[board.length-1].right.type === 'shape' && getShapeName(board[board.length-1].right.value) === piece.left.value) ||
                         (piece.left.type === 'shape' && board[board.length-1].right.type === 'name' && getShapeName(piece.left.value) === board[board.length-1].right.value))) {
