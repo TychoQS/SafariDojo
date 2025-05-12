@@ -159,7 +159,23 @@ const resources = {
                     solve: 'Solve these operations to get the big prize',
 
                 }
-            }
+            },
+            mathinvasors: {
+                score: 'Score',
+                currentoperation: 'Current Operation',
+            },
+            cookthebook: {
+                score: 'Score',
+                playAgain: 'Play Again',
+                verify: 'Verify order',
+                timeline: 'Timeline',
+                level: 'Level',
+                piece: 'Place piece',
+                here: 'here',
+                empty: 'No more pieces available',
+                bad: 'The order is not correct. Try again!',
+                good: 'Correct! You\'ve ordered the story perfectly!'
+            },
         },
     },
     es: {
@@ -316,7 +332,24 @@ const resources = {
                     safeCode: 'Código de la caja',
                     solve: 'Resuelve estas operaciones para ganar el gran premio',
                 }
-            }
+            },
+            mathinvasors: {
+                score: 'Puntos',
+                currentoperation: 'Operación actual',
+            },
+            cookthebook: {
+                score: 'Puntos',
+                playAgain: 'Jugar de nuevo',
+                verify: 'Verificar orden',
+                timeline: 'Línea de tiempo',
+                level: 'Nivel',
+                piece: 'Coloca la pieza',
+                here: 'aquí',
+                empty: 'No hay más piezas disponibles',
+                bad: 'El orden no es correcto. ¡Intenta de nuevo!',
+                good: '¡Correcto! ¡Has ordenado la historia perfectamente!'
+            },
+
         },
     },
     fr: {
@@ -473,6 +506,22 @@ const resources = {
                     safeCode: 'Code du coffre',
                     solve: 'Résous ces opérations pour le grand prix',
                 }
+            },
+            mathinvasors: {
+                score: 'Score',
+                currentoperation: 'Opération en cours',
+            },
+            cookthebook: {
+                score: 'Score',
+                playAgain: 'Rejouer',
+                verify: 'Vérifier l’ordre',
+                timeline: 'Ligne du temps',
+                level: 'Niveau',
+                piece: 'Place la pièce',
+                here: 'ici',
+                empty: 'Plus de pièces disponibles',
+                bad: 'L’ordre n’est pas correct. Réessaie !',
+                good: 'Correct ! Tu as parfaitement ordonné l’histoire !'
             }
         },
     },
@@ -631,8 +680,23 @@ const resources = {
                     safeCode: 'Safe-Code',
                     solve: 'Löse diese Aufgaben, um den Hauptpreis zu gewinnen',
                 }
+            },
+            mathinvasors: {
+                score: 'Punktzahl',
+                currentoperation: 'Aktuelle Operation',
+            },
+            cookthebook: {
+                score: 'Punktzahl',
+                playAgain: 'Nochmal spielen',
+                verify: 'Reihenfolge überprüfen',
+                timeline: 'Zeitachse',
+                level: 'Niveau',
+                piece: 'Platziere das Teil',
+                here: 'hier',
+                empty: 'Keine weiteren Teile verfügbar',
+                bad: 'Die Reihenfolge ist nicht korrekt. Versuche es erneut!',
+                good: 'Richtig! Du hast die Geschichte perfekt geordnet!'
             }
-
         },
     },
 };

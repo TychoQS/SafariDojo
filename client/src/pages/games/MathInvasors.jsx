@@ -10,6 +10,7 @@ import Button from "@/components/Button";
 import Lifes from "@/components/Lifes";
 import {useRouter} from "next/router";
 import ErrorReportModal from "@/components/ErrorModal";
+import {useTranslation} from "react-i18next";
 import {t} from "i18next";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
@@ -53,6 +54,7 @@ export default function MathInvasors() {
     const [Magnitude, setMagnitude] = useState(1);
     const [difficultyLoaded, setDifficultyLoaded] = useState(false);
     const [roundsCompleted, setRoundsCompleted] = useState(false);
+    const {t} = useTranslation();
     let Round = 1
 
     useEffect(() => {
@@ -120,23 +122,8 @@ export default function MathInvasors() {
         if (Win) {
             SetInfo(WinMessage)
             SetButtonText(RestartButtonText)
-        } else {
-            SetInfo(Operation ? `Current Operation: ${Operation}` : "");
         }
     }, [Operation, Win]);
-
-    useEffect(() => {
-        if (!difficultyLoaded) return;
-        const NoLivesMessage = "You've run out of lives!";
-        const GameOverMessage = "GAME OVER";
-        if (!LifesAvailable) {
-            SetScore(0)
-            SetInfo(GameOverMessage + ":" + NoLivesMessage)
-            SetButtonText("Restart")
-        } else {
-            Start();
-        }
-    }, [LifesAvailable]);
 
     const closeModal = () => {
         setTimeout(() => {
@@ -332,8 +319,8 @@ export default function MathInvasors() {
                 <main className="flex flex-col flex-1 items-center justify-center bg-PS-main-purple">
                     <section className={"flex flex-col"}>
                         <h1 className={`text-center text-2xl ${P2Start.className} text-PS-dark-yellow`}>Math Invasors</h1>
-                        <h2 className={`text-center text-3xl ${P2Start.className} text-PS-dark-yellow`}>Score: {Score}</h2>
-                        <h2 className={`text-center text-3xl ${P2Start.className} text-PS-dark-yellow`}>{Info}</h2>
+                        <h2 className={`text-center text-3xl ${P2Start.className} text-PS-dark-yellow`}>{t('mathinvasors.score')}: {Score}</h2>
+                        <h2 className={`text-center text-3xl ${P2Start.className} text-PS-dark-yellow`}><span>{t('mathinvasors.currentoperation')}:</span> {Operation}</h2>
                         <section id="life-section">
                             <Lifes ref={lifesRef}/>
                         </section>
@@ -355,7 +342,7 @@ export default function MathInvasors() {
                     <section id={"button-menu-section"} className={"flex flex-row mb-5 space-x-5"}>
                         {!Playing &&  (
                             <Button id={"MainButton"} size={"large"} onClick={Start}>
-                                {ButtonText}
+                                {t('startButton')}
                             </Button>
                         )}
                     </section>
