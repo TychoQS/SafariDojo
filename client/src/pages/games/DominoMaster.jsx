@@ -50,7 +50,7 @@ const Shape = ({type}) => {
     );
 };
 
-export default function GeoDomino() {
+export default function DominoMaster() {
     const [board, setBoard] = useState([]);
     const [hand, setHand] = useState([]);
     const [score, setScore] = useState(0);
@@ -59,9 +59,7 @@ export default function GeoDomino() {
     const [gameStarted, setGameStarted] = useState(false);
     const [message, setMessage] = useState("");
     const [shapes, setShapes] = useState([]);
-    const [difficulty, setDifficulty] = useState("easy");
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [setError] = useState(null);
     const {t} = useTranslation();
     const [showModal, setShowModal] = useState(false);
     const router = useRouter();
@@ -72,23 +70,16 @@ export default function GeoDomino() {
 
         if (previousURL) {
             const urlParams = new URLSearchParams(new URL(previousURL).search);
-            const ageParam = urlParams.get("Age");
-            setDifficulty(ageParam);
-        }
-    }
+            const difficulty = urlParams.get("Age");
 
-    const fetchShapes = async () => {
-        setIsLoading(true);
-        setError(null);
-        try {
             const response = await fetch(`http://localhost:8080/api/getDominoMasterShapes?difficulty=${difficulty}`);
-            if (!response.ok) {
+            if (response.ok) {
+                const data = await response.json();
+                setShapes(data.shapes);
+            } else {
                 throw new Error(`Failed to fetch shapes: ${response.statusText}`);
             }
-            const data = await response.json();
-            setShapes(data.shapes);
-        } catch (err) {
-            console.error('Error fetching shapes:', err);
+        } else {
             setError('Failed to load shapes. Using default shapes.');
             setShapes([
                 {name: "Circle", shape: "circle", image_url: "/images/Games/Art/DominoMaster/circle.svg"},
@@ -96,18 +87,15 @@ export default function GeoDomino() {
                 {name: "Triangle", shape: "triangle", image_url: "/images/Games/Art/DominoMaster/triangle.svg"},
                 {name: "Square", shape: "square", image_url: "/images/Games/Art/DominoMaster/square.svg"}
             ]);
-        } finally {
-            setIsLoading(false);
         }
-    };
+    }
 
     useEffect(() => {
-        const loadData = async () => {
+        const fetchData = async () => {
             await fetchDifficulty();
-            await fetchShapes();
         };
-        loadData();
-    }, [difficulty]);
+        fetchData();
+    }, []);
 
     const startGame = () => {
         if (shapes.length === 0) {
@@ -325,7 +313,6 @@ export default function GeoDomino() {
         }
     }
 
-
     const closeModal = () => {
         setShowModal(false);
         saveScore();
@@ -358,7 +345,7 @@ export default function GeoDomino() {
                                     <div
                                         key={message}
                                         className={`p-2 mb-0 text-center text-white font-bold rounded 
-                                                   ${message.includes("quedan") || message.includes("inválido") ? 'bg-red-300' : 'bg-green-300'}
+                                                   ${message.includes("quedan") || message.includes("inválido") ? 'bg-red-400' : 'bg-green-400'}
                                                    animate-fade-in-out z-10`}
                                     >{message}
                                     </div>
