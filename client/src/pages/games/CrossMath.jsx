@@ -454,16 +454,18 @@ export default function CrossMaths() {
                             const cellKey = `${rowIndex}-${colIndex}`;
                             const isCorrect = cellStatuses[cellKey] === true;
                             const isIncorrect = cellStatuses[cellKey] === false;
+                            const border = isCorrect
+                                ? 'border-green-500 border-6'
+                                : isIncorrect
+                                    ? 'border-red-500 border-6'
+                                    : 'border-gray-400 border-2';
+
                             return (
                                 <div
                                     key={cellKey}
-                                    className={`w-24 h-24 flex items-center justify-center border-oganize rounded
-                                                ${cell.isFixed ? 'bg-gray-700 text-white' : 'bg-white text-black'}
-                                                ${
-                                        isCorrect ? 'border-green-500' :
-                                            isIncorrect ? 'border-red-500' :
-                                                'border-gray-400'
-                                    }`}
+                                    className={`w-24 h-24 flex items-center justify-center rounded
+                                ${cell.isFixed ? 'bg-gray-700 text-white' : 'bg-white text-black'}
+                                ${border}`}
                                 >
                                     {cell.isFixed ? (
                                         <span className="font-bold text-4xl">{cell.value}</span>
