@@ -43,16 +43,12 @@ export default function MathInvasors() {
     const [Playing, SetPlaying] = useState(false);
     const [GameOver, SetGameOver] = useState(false);
     const [LifesAvailable, SetLifesAvailable] = useState(true);
-    const [gameLoaded, setGameLoaded] = useState(false);
     const [Win, SetWin] = useState(false);
     const animationFrameRef = useRef(null);
-    const [Info, SetInfo] = useState("");
-    const [ButtonText, SetButtonText] = useState("Start");
     const lifesRef = useRef(null);
     const router = useRouter();
     const [Difficulty, setDifficulty] = useState(0);
     const [Magnitude, setMagnitude] = useState(1);
-    const [difficultyLoaded, setDifficultyLoaded] = useState(false);
     const [roundsCompleted, setRoundsCompleted] = useState(false);
     const {t} = useTranslation();
     let Round = 1
@@ -69,7 +65,6 @@ export default function MathInvasors() {
                 setDifficulty(1);
                 setMagnitude(Difficulty+1);
         }
-        setDifficultyLoaded(true);
     }, [router.isReady]);
 
     useEffect(() => {
@@ -108,22 +103,6 @@ export default function MathInvasors() {
             missilesRef.current = [];
         }
     }, [Playing]);
-
-    useEffect(() => {
-        const GameOverMessage = "GAME OVER";
-        if (GameOver) {
-            SetInfo(GameOverMessage)
-            SetButtonText(RestartButtonText)
-        }
-    }, [GameOver]);
-
-    useEffect(() => {
-        const WinMessage = "You won!";
-        if (Win) {
-            SetInfo(WinMessage)
-            SetButtonText(RestartButtonText)
-        }
-    }, [Operation, Win]);
 
     const closeModal = () => {
         setTimeout(() => {
