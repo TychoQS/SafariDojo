@@ -9,7 +9,6 @@ const path = require("node:path");
 
 const dbConnection = require('./database');
 const {query, response} = require("express");
-const {log} = require("next/dist/server/typescript/utils");
 
 app.use(cors());
 app.use(express.json());
@@ -744,6 +743,27 @@ app.post("/api/updateMedals", async (req, res) => {
         return res.status(500).json({ error: "Error updating medals", details: error.message });
     }
 });
+
+app.get("/api/getCountries", (req, res) => {
+    const query = `
+        SELECT *
+        FROM Geography
+    `;
+
+    dbConnection.query(query, (err, result) => {
+        if (err) {
+            console.error("Error fetching countries:", err);
+            return res.status(500).json({ message: 'Something went wrong while fetching countries' });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'Table not created or not found' });
+        }
+
+
+        res.status(200).json(result);
+    });
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
