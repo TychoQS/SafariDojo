@@ -45,6 +45,40 @@ export default function CrossMaths() {
         hard: {min: 1, max: 31, operators: ['*', '/']}
     };
 
+    const saveScore = () => {
+        try {
+            const previousURL = localStorage.getItem("previousURL");
+            if (previousURL) {
+                const url = new URL(previousURL);
+                const gameData = url.searchParams.get("Game");
+                const age = url.searchParams.get("Age");
+
+                if (gameData && age) {
+                    const key = `${gameData}_${age}_bestScore`;
+                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
+
+                    if (points > storedScore) {
+                        localStorage.setItem(key, points.toString());
+                    }
+
+                    const typeMedal = age === "easy"
+                        ? "BronzeMedal"
+                        : age === "medium"
+                            ? "SilverMedal"
+                            : "GoldMedal";
+
+                    const medalKey = `${gameData}_${typeMedal}`;
+                    const medalStatus = localStorage.getItem(medalKey) === "1";
+                    if (!medalStatus) {
+                        localStorage.setItem(medalKey, "1");
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error processing score or medal update:", error);
+        }
+    }
+
     const generateRandomPuzzle = () => {
         const {min, max, operators} = ranges[difficulty] || ranges.easy;
 
@@ -301,6 +335,7 @@ export default function CrossMaths() {
     ];
 
     const resetGame = () => {
+        saveScore();
         let attempts = 0;
         const maxAttempts = 3;
 
@@ -328,7 +363,6 @@ export default function CrossMaths() {
                 }
             }
         };
-
         tryGeneratePuzzle();
     };
 
@@ -416,41 +450,6 @@ export default function CrossMaths() {
     if (!puzzle) {
         return <div className="min-h-screen flex items-center justify-center text-white">Cargando...</div>;
     }
-
-    const saveScore = () => {
-        try {
-            const previousURL = localStorage.getItem("previousURL");
-            if (previousURL) {
-                const url = new URL(previousURL);
-                const gameData = url.searchParams.get("Game");
-                const age = url.searchParams.get("Age");
-
-                if (gameData && age) {
-                    const key = `${gameData}_${age}_bestScore`;
-                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-
-                    if (points > storedScore) {
-                        localStorage.setItem(key, points.toString());
-                    }
-
-                    const typeMedal = age === "easy"
-                        ? "BronzeMedal"
-                        : age === "medium"
-                            ? "SilverMedal"
-                            : "GoldMedal";
-
-                    const medalKey = `${gameData}_${typeMedal}`;
-                    const medalStatus = localStorage.getItem(medalKey) === "1";
-                    if (!medalStatus) {
-                        localStorage.setItem(medalKey, "1");
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("Error processing score or medal update:", error);
-        }
-    }
-
 
     const closeModal = () => {
         setShowModal(false);
