@@ -33,7 +33,7 @@ export default function CrossMaths() {
     const [lives, setLives] = useState(3);
     const [cellStatuses, setCellStatuses] = useState({});
     const [showModal, setShowModal] = useState(false);
-    const [points, setPoints] = useState(0); // Initialize points state
+    const [points, setPoints] = useState(0);
 
     useEffect(() => {
         resetGame();
@@ -255,41 +255,43 @@ export default function CrossMaths() {
             const userValue = puzzle[r][c].value.trim();
             const correctValue = puzzle[r][c].solution.trim();
             const isCorrect = userValue === correctValue;
-            newCellStatuses[`${r}-${c}`] = isCorrect;
 
             if (userValue !== '') {
+                newCellStatuses[`${r}-${c}`] = isCorrect;
                 if (isCorrect) {
                     correctCount++;
                     if (cellStatuses[`${r}-${c}`] !== true) {
-                        pointsChange += 10;
+                        pointsChange += cellStatuses[`${r}-${c}`] === false ? 1 : 10;
                     }
                 } else {
                     incorrectCount++;
                     pointsChange -= 5;
+                    newCellStatuses[`${r}-${c}`] = false;
                 }
             }
         });
 
-        setPoints(prevPoints => Math.max(0, prevPoints + pointsChange));
+        const newPoints = Math.max(0, points + pointsChange);
+        setPoints(newPoints);
         setCellStatuses(newCellStatuses);
 
         if (incorrectCount > 0) {
             const newLives = Math.max(0, lives - incorrectCount);
             setLives(newLives);
-            setMessage(`Incorrect cells: ${incorrectCount}. Lives remaining: ${newLives}. Points: ${points + pointsChange}`);
+            setMessage(`Incorrect cells: ${incorrectCount}. Lives remaining: ${newLives}. Points: ${newPoints}`);
             if (newLives === 0) {
-                setMessage(`Game Over! No lives remaining. Final Points: ${points + pointsChange}`);
+                setMessage(`Game Over! No lives remaining. Final Points: ${newPoints}`);
                 setShowModal(true);
                 setIsComplete(true);
             }
         } else {
             const allFilled = solutionCells.every(([r, c]) => puzzle[r][c].value !== '');
             if (allFilled && Object.values(newCellStatuses).every(status => status)) {
-                setMessage(`Congratulations! You completed the CrossMaths correctly. Points: ${points + pointsChange}`);
+                setMessage(`Congratulations! You completed the CrossMaths correctly. Points: ${newPoints}`);
                 setShowModal(true);
                 setIsComplete(true);
             } else {
-                setMessage(`All cells correct so far. Fill in all cells to complete. Points: ${points + pointsChange}`);
+                setMessage(`All cells correct so far. Fill in all cells to complete. Points: ${newPoints}`);
             }
         }
     };
@@ -445,7 +447,6 @@ export default function CrossMaths() {
                         ))}
                     </div>
                 </div>
-
 
                 <div className="grid grid-cols-5 gap-1 mb-4 w-[500px] mt-6">
                     {puzzle.map((row, rowIndex) =>
