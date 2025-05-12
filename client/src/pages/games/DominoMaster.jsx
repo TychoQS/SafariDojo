@@ -4,28 +4,10 @@ import Title from "@/components/Title";
 import Button from "@/components/Button";
 import ErrorReportModal from "@/components/ErrorModal";
 import {useTranslation} from "react-i18next";
+import Footer from "@/components/Footer";
+import {useRouter} from "next/router";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
-import {useRouter} from "next/router";
-
-const shapes = [
-    {name: "Circle", shape: "circle"},
-    {name: "Cone", shape: "cone"},
-    {name: "Cube", shape: "cube"},
-    {name: "Cylinder", shape: "cylinder"},
-    {name: "Diamond", shape: "diamond"},
-    {name: "Square", shape: "square"},
-    {name: "Triangle", shape: "triangle"},
-    {name: "Rectangle", shape: "rectangle"},
-    {name: "Pentagon", shape: "pentagon"},
-    {name: "Hexagon", shape: "hexagon"},
-    {name: "Octagon", shape: "octagon"},
-    {name: "Parallelogram", shape: "parallelogram"},
-    {name: "Polyhedron", shape: "polyhedron"},
-    {name: "Pyramid", shape: "pyramid"},
-    {name: "Sphere", shape: "sphere"},
-    {name: "Star", shape: "star"}
-];
 
 const shapeImages = {
     circle: '/images/Games/Art/DominoMaster/circle.svg',
@@ -74,13 +56,65 @@ export default function GeoDomino() {
     const [score, setScore] = useState(0);
     const [lives, setLives] = useState(3);
     const [gameOver, setGameOver] = useState(false);
+    const [gameStarted, setGameStarted] = useState(false);
     const [message, setMessage] = useState("");
+    const [shapes, setShapes] = useState([]);
+    const [difficulty, setDifficulty] = useState("easy");
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
     const {t} = useTranslation();
     const [showModal, setShowModal] = useState(false);
     const router = useRouter();
 
 
+    async function fetchDifficulty() {
+        const previousURL = localStorage.getItem('previousURL');
+
+        if (previousURL) {
+            const urlParams = new URLSearchParams(new URL(previousURL).search);
+            const ageParam = urlParams.get("Age");
+            setDifficulty(ageParam);
+        }
+    }
+
+    const fetchShapes = async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`http://localhost:8080/api/getDominoMasterShapes?difficulty=${difficulty}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch shapes: ${response.statusText}`);
+            }
+            const data = await response.json();
+            setShapes(data.shapes);
+        } catch (err) {
+            console.error('Error fetching shapes:', err);
+            setError('Failed to load shapes. Using default shapes.');
+            setShapes([
+                {name: "Circle", shape: "circle", image_url: "/images/Games/Art/DominoMaster/circle.svg"},
+                {name: "Rectangle", shape: "rectangle", image_url: "/images/Games/Art/DominoMaster/rectangle.svg"},
+                {name: "Triangle", shape: "triangle", image_url: "/images/Games/Art/DominoMaster/triangle.svg"},
+                {name: "Square", shape: "square", image_url: "/images/Games/Art/DominoMaster/square.svg"}
+            ]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        const loadData = async () => {
+            await fetchDifficulty();
+            await fetchShapes();
+        };
+        loadData();
+    }, [difficulty]);
+
     const startGame = () => {
+        if (shapes.length === 0) {
+            setMessage("No shapes available. Please try again.");
+            return;
+        }
+
         let pieces = [];
 
         for (let i = 0; i < shapes.length; i++) {
@@ -135,6 +169,7 @@ export default function GeoDomino() {
         setScore(0);
         setLives(5);
         setGameOver(false);
+        setGameStarted(true);
         setMessage("");
     };
 
@@ -148,8 +183,10 @@ export default function GeoDomino() {
     };
 
     useEffect(() => {
-        startGame();
-    }, []);
+        if (shapes.length > 0 && !gameStarted) {
+            startGame();
+        }
+    }, [shapes]);
 
     useEffect(() => {
         if (lives === 0 && !gameOver) {
@@ -395,6 +432,7 @@ export default function GeoDomino() {
                     </div>
                 </div>
             </section>
+            <Footer></Footer>
         </div>
     );
 }

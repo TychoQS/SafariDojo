@@ -22,6 +22,8 @@ DROP TABLE IF EXISTS Quizzes;
 DROP TABLE IF EXISTS CookTheBook_StoryPieces;
 DROP TABLE IF EXISTS CookTheBook_Stories;
 DROP TABLE IF EXISTS Mahjong;
+DROP TABLE IF EXISTS Shapes;
+DROP TABLE IF EXISTS DominoMasterShapes;
 DROP TABLE IF EXISTS LetterSoup;
 DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
 DROP PROCEDURE IF EXISTS FillUserQuizzes;
@@ -592,6 +594,69 @@ VALUES ('easy',
         '[["D","E","M","O","C","R","A","C","Y","X","Q"],["E","L","E","C","T","I","O","N","Z","X","C"],["P","A","R","L","I","A","M","E","N","T","P"],["P","R","E","S","I","D","E","N","T","Q","W"],["C","O","N","S","T","I","T","U","T","I","O"],["F","R","E","E","D","O","M","X","Z","C","V"],["J","U","S","T","I","C","E","P","O","I","U"],["L","I","B","E","R","T","Y","Q","W","E","R"],["E","Q","U","A","L","I","T","Y","X","Z","C"],["R","I","G","H","T","S","P","O","I","U","Y"],["X","Z","C","V","B","N","M","L","K","J","H"]]',
         '["DEMOCRACY","ELECTION","PARLIAMENT","PRESIDENT","CONSTITUTION","FREEDOM","JUSTICE","LIBERTY","EQUALITY","RIGHTS"]');
 
+CREATE TABLE Shapes (
+        Id INT AUTO_INCREMENT PRIMARY KEY,
+        Name VARCHAR(50) NOT NULL UNIQUE,
+        Shape VARCHAR(50) NOT NULL UNIQUE,
+        ImageURL VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Shapes (Name, Shape, ImageURL) VALUES
+       ('Circle', 'circle', '/images/Games/Art/DominoMaster/circle.svg'),
+       ('Cone', 'cone', '/images/Games/Art/DominoMaster/cone.svg'),
+       ('Cube', 'cube', '/images/Games/Art/DominoMaster/cube.svg'),
+       ('Cylinder', 'cylinder', '/images/Games/Art/DominoMaster/cylinder.svg'),
+       ('Diamond', 'diamond', '/images/Games/Art/DominoMaster/diamond.svg'),
+       ('Square', 'square', '/images/Games/Art/DominoMaster/square.svg'),
+       ('Triangle', 'triangle', '/images/Games/Art/DominoMaster/triangle.svg'),
+       ('Rectangle', 'rectangle', '/images/Games/Art/DominoMaster/rectangle.svg'),
+       ('Pentagon', 'pentagon', '/images/Games/Art/DominoMaster/pentagon.svg'),
+       ('Hexagon', 'hexagon', '/images/Games/Art/DominoMaster/hexagon.svg'),
+       ('Octagon', 'octagon', '/images/Games/Art/DominoMaster/octagon.svg'),
+       ('Parallelogram', 'parallelogram', '/images/Games/Art/DominoMaster/parallelogram.svg'),
+       ('Polyhedron', 'polyhedron', '/images/Games/Art/DominoMaster/polyhedron.svg'),
+       ('Pyramid', 'pyramid', '/images/Games/Art/DominoMaster/pyramid.svg'),
+       ('Sphere', 'sphere', '/images/Games/Art/DominoMaster/sphere.svg'),
+       ('Star', 'star', '/images/Games/Art/DominoMaster/star.svg');
+
+CREATE TABLE DominoMasterShapes (
+        ShapeId INT,
+        Difficulty VARCHAR(10) NOT NULL,
+        PRIMARY KEY (ShapeId, Difficulty),
+        FOREIGN KEY (ShapeId) REFERENCES Shapes(Id),
+        CONSTRAINT valid_difficulty CHECK (Difficulty IN ('easy', 'medium', 'hard'))
+);
+
+INSERT INTO DominoMasterShapes (ShapeId, Difficulty) VALUES
+         ((SELECT Id FROM Shapes WHERE Shape = 'circle'), 'easy'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'rectangle'), 'easy'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'triangle'), 'easy'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'square'), 'easy'),
+
+         ((SELECT Id FROM Shapes WHERE Shape = 'circle'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'rectangle'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'triangle'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'square'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'pentagon'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'hexagon'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'octagon'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'star'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'pyramid'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'diamond'), 'medium'),
+
+         ((SELECT Id FROM Shapes WHERE Shape = 'pentagon'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'hexagon'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'octagon'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'star'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'pyramid'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'diamond'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'cone'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'cube'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'cylinder'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'parallelogram'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'polyhedron'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'sphere'), 'hard');
+
 show tables;
 select * from Users;
 select * from Quizzes;
@@ -606,4 +671,6 @@ select * from UserWeeklyGoals;
 select * from CookTheBook_Stories;
 select * from CookTheBook_StoryPieces;
 select * from Mahjong;
+select * from Shapes;
+select * from DominoMasterShapes;
 SET sql_notes = 1;

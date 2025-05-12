@@ -9,7 +9,6 @@ const path = require("node:path");
 
 const dbConnection = require('./database');
 const {query, response} = require("express");
-const {log} = require("next/dist/server/typescript/utils");
 
 app.use(cors());
 app.use(express.json());
@@ -34,7 +33,7 @@ app.post("/api/signup", (req, res) => { // DEPRECATED U SHOULD USE DB INSTEAD
                     console.error("Error al escribir en el archivo:", writeErr);
                     return res.status(500).json({ message: "Error al guardar el usuario" });
                 }
-                res.status(201).json({ message: "Usuario registrado con éxito", userData });
+                res.status(201).json({ message: "Usuario registrado con Ã©xito", userData });
             });
         });
     } catch (error) {
@@ -217,7 +216,7 @@ app.get('/api/popularGames', (req, res) => {
         GROUP BY sq.QuizId, q.QuizName, s.Name
         ORDER BY CompletedCount DESC
             LIMIT 5;
-`;
+    `;
     dbConnection.query(query, (err, result) => {
         if (err) {
             console.error("Error fetching popular games:", err);
@@ -290,11 +289,11 @@ app.get('/api/searchGames', (req, res) => {
             q.QuizName,
             s.Name
         FROM SubjectQuizzes sq
-        LEFT JOIN Quizzes q ON q.Id = sq.QuizId
-        LEFT JOIN Subjects s ON s.Id = sq.SubjectId
+                 LEFT JOIN Quizzes q ON q.Id = sq.QuizId
+                 LEFT JOIN Subjects s ON s.Id = sq.SubjectId
         WHERE q.QuizName LIKE ? OR s.Name LIKE ?
         ORDER BY q.QuizName
-        LIMIT 10;
+            LIMIT 10;
     `;
 
     const searchTerm = `%${query}%`;
@@ -653,19 +652,19 @@ app.post("/api/updateMedals", async (req, res) => {
         //console.log("medals:", JSON.stringify(medals, null, 2));
 
         if (!userId || !Array.isArray(medals)) {
-            console.log("Error: Datos inválidos recibidos");
-            return res.status(400).json({ error: "Invalid data", details: "userId debe ser un número y medals debe ser un array" });
+            console.log("Error: Datos invÃ¡lidos recibidos");
+            return res.status(400).json({ error: "Invalid data", details: "userId debe ser un nÃºmero y medals debe ser un array" });
         }
 
-        console.log(`Procesando actualización de medallas para usuario ID: ${userId}`);
+        console.log(`Procesando actualizaciÃ³n de medallas para usuario ID: ${userId}`);
 
-        // Verificar la conexión a la base de datos
+        // Verificar la conexiÃ³n a la base de datos
         dbConnection.query('SELECT 1 as connection_test', (error, results) => {
             if (error) {
-                console.error('Error al verificar la conexión:', error);
+                console.error('Error al verificar la conexiÃ³n:', error);
                 return;
             }
-            console.log('Conexión a la base de datos verificada:', results);
+            console.log('ConexiÃ³n a la base de datos verificada:', results);
         });
 
         // Procesar cada medalla
@@ -682,11 +681,11 @@ app.post("/api/updateMedals", async (req, res) => {
                         return;
                     }
                     quizResult = results;
-                    console.log("Resultado de la búsqueda del quiz:", quizResult);
+                    console.log("Resultado de la bÃºsqueda del quiz:", quizResult);
 
                     if (!quizResult || quizResult.length === 0) {
                         console.warn(`Quiz no encontrado: ${medal.quizName}`);
-                        // Vamos a buscar todos los quizzes para depuración
+                        // Vamos a buscar todos los quizzes para depuraciÃ³n
                         dbConnection.query('SELECT Id, QuizName FROM Quizzes LIMIT 10', (error, results) => {
                             if (error) {
                                 console.error('Error while reading 10 quizes:', error);
@@ -715,8 +714,8 @@ app.post("/api/updateMedals", async (req, res) => {
                         quizId
                     ];
 
-                    console.log("Query de actualización:", updateQuery);
-                    console.log("Parámetros:", params);
+                    console.log("Query de actualizaciÃ³n:", updateQuery);
+                    console.log("ParÃ¡metros:", params);
 
                     dbConnection.query(updateQuery, params, (error, results) => {
                         if (error) {
@@ -725,7 +724,7 @@ app.post("/api/updateMedals", async (req, res) => {
                         }
                         console.log('Register updated in UserQuizzes successfully', results);
                         updateResult = results;
-                        console.log("Resultado de la actualización:", updateResult);
+                        console.log("Resultado de la actualizaciÃ³n:", updateResult);
                         console.log(`Medallas actualizadas para quiz: ${medal.quizName} (Oro: ${medal.GoldMedal}, Plata: ${medal.SilverMedal}, Bronce: ${medal.BronzeMedal})`);
                     });
                 });
@@ -735,7 +734,7 @@ app.post("/api/updateMedals", async (req, res) => {
             }
         }
 
-        console.log("Actualización de medallas completada para usuario:", userId);
+        console.log("ActualizaciÃ³n de medallas completada para usuario:", userId);
         console.log("=============================================");
         return res.status(200).json({ message: "Medals updated successfully" });
     } catch (error) {
@@ -743,6 +742,32 @@ app.post("/api/updateMedals", async (req, res) => {
         console.log("=============================================");
         return res.status(500).json({ error: "Error updating medals", details: error.message });
     }
+});
+
+app.get('/api/getDominoMasterShapes', (req, res) => {
+    const difficulty = req.query.difficulty;
+    const validDifficulties = ['easy', 'medium', 'hard'];
+
+    if (!validDifficulties.includes(difficulty)) {
+        return res.status(400).json({ message: 'Invalid difficulty level' });
+    }
+
+    const query = `
+        SELECT s.Name AS name, s.Shape AS shape, s.ImageURL AS image_url
+        FROM Shapes s
+        JOIN DominoMasterShapes dms ON s.Id = dms.ShapeId
+        WHERE dms.Difficulty = ?`;
+
+    dbConnection.query(query, [difficulty], (err, result) => {
+        if (err) {
+            console.error('Error fetching Domino Master shapes:', err);
+            return res.status(500).json({ message: 'Something went wrong' });
+        }
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'No shapes found for the specified difficulty' });
+        }
+        return res.status(200).json({ shapes: result });
+    });
 });
 
 app.listen(PORT, () => {
