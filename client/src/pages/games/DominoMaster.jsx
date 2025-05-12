@@ -7,53 +7,62 @@ import {useTranslation} from "react-i18next";
 
 const shapes = [
     { name: "Circle", shape: "circle" },
+    { name: "Cone", shape: "cone" },
+    { name: "Cube", shape: "cube" },
+    { name: "Cylinder", shape: "cylinder" },
+    { name: "Diamond", shape: "diamond" },
     { name: "Square", shape: "square" },
     { name: "Triangle", shape: "triangle" },
     { name: "Rectangle", shape: "rectangle" },
     { name: "Pentagon", shape: "pentagon" },
     { name: "Hexagon", shape: "hexagon" },
+    { name: "Octagon", shape: "octagon" },
+    { name: "Parallelogram", shape: "parallelogram" },
+    { name: "Polyhedron", shape: "polyhedron" },
+    { name: "Pyramid", shape: "pyramid" },
+    { name: "Sphere", shape: "sphere" },
     { name: "Star", shape: "star" }
 ];
 
+const shapeImages = {
+    circle: '/images/Games/Art/DominoMaster/circle.svg',
+    cone: '/images/Games/Art/DominoMaster/cone.svg',
+    cube: '/images/Games/Art/DominoMaster/cube.svg',
+    cylinder: '/images/Games/Art/DominoMaster/cylinder.svg',
+    diamond: '/images/Games/Art/DominoMaster/diamond.svg',
+    square: '/images/Games/Art/DominoMaster/square.svg',
+    triangle: '/images/Games/Art/DominoMaster/triangle.svg',
+    rectangle: '/images/Games/Art/DominoMaster/rectangle.svg',
+    pentagon: '/images/Games/Art/DominoMaster/pentagon.svg',
+    hexagon: '/images/Games/Art/DominoMaster/hexagon.svg',
+    octagon: '/images/Games/Art/DominoMaster/octagon.svg',
+    parallelogram: '/images/Games/Art/DominoMaster/parallelogram.svg',
+    polyhedron: '/images/Games/Art/DominoMaster/polyhedron.svg',
+    pyramid: '/images/Games/Art/DominoMaster/pyramid.svg',
+    sphere: '/images/Games/Art/DominoMaster/sphere.svg',
+    star: '/images/Games/Art/DominoMaster/star.svg'
+};
+
 const Shape = ({ type }) => {
-    switch (type) {
-        case 'circle':
-            return <div className="w-12 h-12 rounded-full bg-blue-500"></div>;
-        case 'square':
-            return <div className="w-12 h-12 bg-red-500"></div>;
-        case 'triangle':
-            return (
-                <div className="w-0 h-0 border-l-[24px] border-r-[24px] border-b-[42px] border-l-transparent border-r-transparent border-b-green-500"></div>
-            );
-        case 'rectangle':
-            return <div className="w-16 h-8 bg-yellow-500"></div>;
-        case 'pentagon':
-            return (
-                <div className="relative w-12 h-12 flex items-center justify-center">
-                    <svg viewBox="0 0 100 100" className="w-full h-full">
-                        <polygon points="50,5 95,35 80,95 20,95 5,35" fill="purple" />
-                    </svg>
-                </div>
-            );
-        case 'hexagon':
-            return (
-                <div className="relative w-12 h-12 flex items-center justify-center">
-                    <svg viewBox="0 0 100 100" className="w-full h-full">
-                        <polygon points="50,3 100,28 100,72 50,97 0,72 0,28" fill="teal" />
-                    </svg>
-                </div>
-            );
-        case 'star':
-            return (
-                <div className="relative w-12 h-12 flex items-center justify-center">
-                    <svg viewBox="0 0 100 100" className="w-full h-full">
-                        <polygon points="50,5 61,40 95,40 67,60 79,95 50,75 21,95 33,60 5,40 39,40" fill="orange" />
-                    </svg>
-                </div>
-            );
-        default:
-            return <div className="w-12 h-12 bg-gray-300"></div>;
+    const imageSrc = shapeImages[type];
+
+    if (!imageSrc) {
+        console.warn(`No image found for shape type: ${type}`);
+        return <div className="w-12 h-12 bg-gray-300"></div>;
     }
+
+    return (
+        <img
+            src={imageSrc}
+            alt={type}
+            className="w-12 h-12 object-contain"
+            onError={(e) => {
+                console.error(`Failed to load image: ${imageSrc}`);
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'block';
+            }}
+        />
+    );
 };
 
 export default function GeoDomino() {
@@ -152,6 +161,16 @@ export default function GeoDomino() {
         return () => clearInterval(interval);
     }, [gameStarted, gameOver, timer]);
 
+    useEffect(() => {
+        let timeout;
+        if (message && !message.includes("Congrats") && !message.includes("time")) {
+            timeout = setTimeout(() => {
+                setMessage("");
+            }, 2000);
+        }
+        return () => clearTimeout(timeout);
+    }, [message]);
+
     const canPlacePiece = (piece) => {
         if (board.length === 0) return true;
 
@@ -223,7 +242,12 @@ export default function GeoDomino() {
         if (half.type === 'name') {
             return <div className="flex items-center justify-center h-16 text-center font-medium">{half.value}</div>;
         } else {
-            return <div className="flex items-center justify-center h-16"><Shape type={half.value} /></div>;
+            return (
+                <div className="flex items-center justify-center h-16 relative">
+                    <Shape type={half.value} />
+                    <div className="w-12 h-12 bg-gray-300 absolute" style={{ display: 'none' }}></div>
+                </div>
+            );
         }
     };
 
@@ -247,16 +271,18 @@ export default function GeoDomino() {
                                     <p className="font-bold">Score: {score}</p>
                                 </div>
                                 {message && (
-                                    <div className={`p-2 mb-0 text-center text-white font-bold rounded 
-                                                 ${message.includes("time") || message.includes("Invalid") ? 'bg-red-300' : 'bg-green-300'}
-                                                 animate-fade-in-out`}
+                                    <div
+                                        key={message}
+                                        className={`p-2 mb-0 text-center text-white font-bold rounded 
+                                                   ${message.includes("time") || message.includes("Invalid") ? 'bg-red-300' : 'bg-green-300'}
+                                                   animate-fade-in-out z-10`}
                                     >{message}
                                     </div>
                                 )}
                                 <div className="p-2 bg-white rounded shadow">
                                     <p
-                                        className={` font-bold ${timer <= 20 ? 'text-amber-500' : 'text-gray-700'}
-                                                    ${timer <= 10 ? 'text-red-500' : 'text-gray-700'} `}
+                                        className={`font-bold ${timer <= 20 ? 'text-amber-500' : 'text-gray-700'}
+                                                    ${timer <= 10 ? 'text-red-500' : 'text-gray-700'}`}
                                     >
                                         Time: {timer}s
                                     </p>
@@ -272,10 +298,10 @@ export default function GeoDomino() {
                                                     key={index}
                                                     className="flex border-2 border-gray-700 rounded bg-white text-black mx-1 h-18"
                                                 >
-                                                    <div className="w-24 border-r border-gray-700">
+                                                    <div className="w-28 border-r border-gray-700">
                                                         {renderDominoHalf(piece.left)}
                                                     </div>
-                                                    <div className="w-24">
+                                                    <div className="w-28">
                                                         {renderDominoHalf(piece.right)}
                                                     </div>
                                                 </div>
@@ -297,10 +323,10 @@ export default function GeoDomino() {
                                                         cursor-pointer transform transition hover:shadow-lg hover:scale-105`}
                                             onClick={() => playPiece(piece, index)}
                                         >
-                                            <div className="w-24 border-r border-gray-700">
+                                            <div className="w-28 border-r border-gray-700">
                                                 {renderDominoHalf(piece.left)}
                                             </div>
-                                            <div className="w-24">
+                                            <div className="w-28">
                                                 {renderDominoHalf(piece.right)}
                                             </div>
                                         </div>
