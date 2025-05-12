@@ -2,11 +2,12 @@ import Header from "@/components/Header";
 import AgeSelectorButton from "@/components/AgeSelectorButton";
 import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {cherryBomb} from "@/styles/fonts";
 import Carousel from "@/components/Carousel";
 import LoadingPage from "@/components/LoadingPage";
 import {useTranslation} from "react-i18next";
+import Button from "@/components/Button";
 
 function GameSelectionPage() {
     const router = useRouter();
@@ -72,8 +73,20 @@ function GameSelectionPage() {
             <Header/>
             <div className="flex items-end justify-end">
             </div>
-            <div className={"flex justify-center"}>
-                <img className={"h-46 w-40"} src={selectGameIcon} alt={"platypus"}/>
+            <div className="relative w-full h-[200px] flex items-center px-20">
+                <Button
+                    className="ml-4"
+                    size="small"
+                    onClick={() => router.back()}
+                >
+                    {t('backButton')}
+                </Button>
+
+                <img
+                    className="absolute left-1/2 transform -translate-x-1/2 h-46 w-40"
+                    src={selectGameIcon}
+                    alt="platypus"
+                />
             </div>
             <main className={"flex flex-grow justify-center"}>
                 <div className="w-[90%] bg-[#E4EFED] rounded-sm rounded-b-none">

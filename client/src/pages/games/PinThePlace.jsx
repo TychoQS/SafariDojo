@@ -9,6 +9,7 @@ import gameData from "../../../../database/jsondata/PinThePlace.json";
 import EuropeMap from "@/pages/games/modules/PinThePlace/EuropeMap";
 import AfricaMap from "@/pages/games/modules/PinThePlace/AfricaMap";
 import AsiaMap from "@/pages/games/modules/PinThePlace/AsiaMap";
+import {useRouter} from "next/router";
 
 const maps = {
     EUROPEAN_COUNTRIES: EuropeMap,
@@ -24,13 +25,25 @@ const EuropeGeographyGame = () => {
     const [gameFinished, setGameFinished] = useState(false);
     const [clickedCountries, setClickedCountries] = useState([]);
     const [map, setMap] = useState(null);
+    const router = useRouter();
 
     useEffect(() => {
-        const selectedMap = selectRandomMap();
+        const selectedMap = "EUROPEAN_COUNTRIES"
         setMap(selectedMap);
 
-        const gameCountries = [...gameData[selectedMap]].sort(() => 0.5 - Math.random());
-        setSelectedCountries(gameCountries.slice(0, 10));
+        const fetchCountries = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/getCountries");
+                const data = await response.json();
+
+                const shuffled = [...data].sort(() => 0.5 - Math.random());
+                setSelectedCountries(shuffled.slice(0, 10));
+            } catch (error) {
+                console.error("Error fetching countries:", error);
+            }
+        };
+
+        fetchCountries();
     }, [map]);
 
     const selectRandomMap = () => {
@@ -67,7 +80,8 @@ const EuropeGeographyGame = () => {
     }
 
     const restartGame = () => {
-        const selectedMap = selectRandomMap();
+        // const selectedMap = selectRandomMap();
+        const selectedMap = "EUROPEAN_COUNTRIES"
         setMap(selectedMap);
         const shuffled = [...gameData[selectedMap]].sort(() => 0.5 - Math.random());
         setSelectedCountries(shuffled.slice(0, 10));
