@@ -16,6 +16,7 @@ import {useTranslation} from "react-i18next";
 import {t} from "i18next";
 import ErrorReportModal from "@/components/ErrorModal";
 import { RotateCcw } from 'lucide-react';
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
 
 let Stories = [];
 
@@ -57,36 +58,9 @@ const CookTheBook = () => {
         }
     };
 
-    function handleFinalScoreWhenWinning() {
-        try {
-            const gameData = "Cook The Book"
-            const age = router.query.Age;
-            if (gameData && age) {
-                const key = `${gameData}_${age}_bestScore`;
-                const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-                if (score > storedScore) {
-                    localStorage.setItem(key, score.toString());
-                }
-            }
-            const typeMedal = age === "easy"
-                ? "BronzeMedal"
-                : age === "medium"
-                    ? "SilverMedal"
-                    : "GoldMedal";
-
-            const medalKey = `${gameData}_${typeMedal}`;
-            const medalStatus = localStorage.getItem(medalKey) === "1";
-            if (!medalStatus) {
-                localStorage.setItem(medalKey, "1");
-            }
-
-        } catch (error) {
-            console.error("Error processing score update:", error);
-        }
-    }
 
     useEffect(() => {
-        handleFinalScoreWhenWinning();
+        saveGameData(score);
     }, [Win]);
 
     useEffect(() => {

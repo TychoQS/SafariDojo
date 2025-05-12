@@ -9,6 +9,7 @@ import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import ErrorReportModal from "@/components/ErrorModal";
+import saveGameData from "../../StorageServices/SaveDataFinishedGame"
 
 const MahjongPairs = ({dataSets, title}) => {
     const game = useMahjongGame(dataSets);
@@ -16,47 +17,13 @@ const MahjongPairs = ({dataSets, title}) => {
     const {t} = useTranslation();
 
     const playAgain = () =>{
-        saveGame();
+        saveGameData(game.score);
         game.initializeGame()
     }
 
-    const saveGame = () => {
-        if (game.message?.type === "congratulations") {
-            try {
-                const previousURL = localStorage.getItem("previousURL");
-                if (previousURL) {
-                    const url = new URL(previousURL);
-                    const gameData = url.searchParams.get("Game");
-                    const age = url.searchParams.get("Age");
 
-                    if (gameData && age) {
-                        const key = `${gameData}_${age}_bestScore`;
-                        const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-
-                        if (game.score > storedScore) {
-                            localStorage.setItem(key, game.score.toString());
-                        }
-
-                        const typeMedal = age === "Easy"
-                            ? "BronzeMedal"
-                            : age === "Medium"
-                                ? "SilverMedal"
-                                : "GoldMedal";
-
-                        const medalKey = `${gameData}_${typeMedal}`;
-                        const medalStatus = localStorage.getItem(medalKey) === "1";
-                        if (!medalStatus) {
-                            localStorage.setItem(medalKey, "1");
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error("Error processing score or medal update:", error);
-            }
-        }
-    }
     const handleCloseMessage = () => {
-        saveGame();
+        saveGameData(game.score);
         router.back();
     };
 
