@@ -9,7 +9,6 @@ const path = require("node:path");
 
 const dbConnection = require('./database');
 const {query, response} = require("express");
-const {log} = require("next/dist/server/typescript/utils");
 
 app.use(cors());
 app.use(express.json());
