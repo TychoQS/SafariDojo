@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import {useRouter} from "next/router";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
 
 const shapeImages = {
     circle: '/images/Games/Art/DominoMaster/circle.svg',
@@ -279,43 +280,9 @@ export default function DominoMaster() {
         );
     };
 
-    const saveScore = () => {
-        try {
-            const previousURL = localStorage.getItem("previousURL");
-            if (previousURL) {
-                const url = new URL(previousURL);
-                const gameData = url.searchParams.get("Game");
-                const age = url.searchParams.get("Age");
-
-                if (gameData && age) {
-                    const key = `${gameData}_${age}_bestScore`;
-                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-
-                    if (score > storedScore) {
-                        localStorage.setItem(key, score.toString());
-                    }
-
-                    const typeMedal = age === "easy"
-                        ? "BronzeMedal"
-                        : age === "medium"
-                            ? "SilverMedal"
-                            : "GoldMedal";
-
-                    const medalKey = `${gameData}_${typeMedal}`;
-                    const medalStatus = localStorage.getItem(medalKey) === "1";
-                    if (!medalStatus) {
-                        localStorage.setItem(medalKey, "1");
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("Error processing score or medal update:", error);
-        }
-    }
-
     const closeModal = () => {
         setShowModal(false);
-        saveScore();
+        saveGameData(score);
         setTimeout(() => {
             router.back();
         }, 0);
