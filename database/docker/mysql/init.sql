@@ -810,9 +810,9 @@ VALUES
      '["SYMPHONY","ORCHESTRA","CONDUCTOR","VIOLINIST","PIANIST","COMPOSER","HARMONY","RHYTHM","MELODY","SONATA"]');
 
 CREATE TABLE Memory (
-    id INT AUTO_INCREMENT PRIMARY KEY;
-    content VARCHAR(255) NOT NULL;
-    pair VARCHAR(128) NOT NULL;);
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    content VARCHAR(255) NOT NULL,
+    pair VARCHAR(128) NOT NULL);
 
 INSERT INTO Memory (content, pair) VALUES   ('/images/Games/Science/Memory/mano.png', 'Hand'),
                                             ('/images/Games/Science/Memory/pie.avif', 'Feet'),
@@ -824,7 +824,7 @@ INSERT INTO Memory (content, pair) VALUES   ('/images/Games/Science/Memory/mano.
                                             ('/images/Games/Science/Memory/pierna.avif', 'Leg'),
                                             ('/images/Games/Science/Memory/brazo.avif', 'Arm'),
                                             ('/images/Games/Science/Memory/cerebro.png', 'Brain'),
-                                            ('/images/Games/Science/Memory/corazon.png', 'Heart')
+                                            ('/images/Games/Science/Memory/corazon.png', 'Heart');
 
 
 show tables;
