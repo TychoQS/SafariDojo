@@ -8,22 +8,17 @@ import Button from "@/components/Button";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
 import Title from "@/components/Title";
+import ErrorReportModal from "@/components/ErrorModal";
 
 
-function initialCards(cardsDiff) {
-    const allPairs = [
-        { id: 1, content: "/images/Games/Science/Memory/mano.png", match: "Hand" },
-        { id: 2, content: "/images/Games/Science/Memory/pie.avif", match: "Feet" },
-        { id: 3, content: "/images/Games/Science/Memory/oreja.avif", match: "Ear" },
-        { id: 4, content: "/images/Games/Science/Memory/nariz.avif", match: "Nose" },
-        { id: 5, content: "/images/Games/Science/Memory/ojo.png", match: "Eye" },
-        { id: 6, content: "/images/Games/Science/Memory/boca.png", match: "Mouth" },
-        { id: 7, content: "/images/Games/Science/Memory/tobillo.png", match: "Ankle" },
-        { id: 8, content: "/images/Games/Science/Memory/pierna.avif", match: "Leg" },
-        { id: 9, content: "/images/Games/Science/Memory/brazo.avif", match: "Arm" },
-        { id: 10, content: "/images/Games/Science/Memory/cerebro.png", match: "Brain" },
-        { id: 11, content: "/images/Games/Science/Memory/corazon.png", match: "Heart" }
-    ];
+async function initialCards(cardsDiff) {
+    const response = await fetch("http://localhost:8080/api/memory")
+    if (!response.ok) {
+        console.error("Error fetching memory cards");
+        return [];
+    }
+    const fetchedPairs = await response.json();
+    const allPairs = fetchedPairs.pairs;
 
     const shuffled = [...allPairs].sort(() => Math.random() - 0.5);
 
@@ -41,7 +36,7 @@ function initialCards(cardsDiff) {
     let cards = [];
     pairs.forEach((pair, index) => {
         cards.push({ id: index * 2, value: pair.content, pairId: index });
-        cards.push({ id: index * 2 + 1, value: pair.match, pairId: index });
+        cards.push({ id: index * 2 + 1, value: pair.pair, pairId: index });
     });
 
     return cards.sort(() => Math.random() - 0.5);
@@ -84,7 +79,7 @@ export default function MemoryGame() {
 
     useEffect(() => {
         if (difficulty) {
-            setCards(initialCards(difficulty));
+            initialCards(difficulty).then(setCards);
         }
     }, [difficulty]);
 
@@ -218,6 +213,7 @@ export default function MemoryGame() {
                     Score: {score}
                 </div>
                 <Lifes ref={lifesRef}/>
+                <ErrorReportModal></ErrorReportModal>
             </div>
 
                 {isClient && (

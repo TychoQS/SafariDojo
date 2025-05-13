@@ -9,7 +9,6 @@ const path = require("node:path");
 
 const dbConnection = require('./database');
 const {query, response} = require("express");
-const {log} = require("next/dist/server/typescript/utils");
 
 app.use(cors());
 app.use(express.json());
@@ -744,6 +743,18 @@ app.post("/api/updateMedals", async (req, res) => {
         return res.status(500).json({ error: "Error updating medals", details: error.message });
     }
 });
+
+app.get("/api/memory", async (req, res) => {
+    const query = `SELECT * FROM Memory;`;
+
+    dbConnection.query(query, (error, results) => {
+        if (error) {
+            return res.status(500).json({ message: "Error occurred." });
+        }
+
+        res.status(200).json({pairs: results});
+    })
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
