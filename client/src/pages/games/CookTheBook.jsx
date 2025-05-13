@@ -12,6 +12,7 @@ import {router} from "next/client";
 import {useRouter} from "next/router";
 import GameOverModal from "@/components/GameOverModal";
 import CongratsModal from "@/components/CongratsModal";
+import {useTranslation} from "react-i18next";
 import {t} from "i18next";
 import ErrorReportModal from "@/components/ErrorModal";
 import { RotateCcw } from 'lucide-react';
@@ -41,6 +42,7 @@ const CookTheBook = () => {
     const [areStoriesFetched, setAreStoriesFetched] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [remainingLives, setRemainingLives] = useState(5);
+    const {t} = useTranslation();
     const router = useRouter();
 
     const fetchData = async () => {
@@ -202,14 +204,14 @@ const CookTheBook = () => {
     const verifyOrder = () => {
         const isCorrectOrder = timelinePieces.every((piece, index) => piece?.order === index + 1);
         if (isCorrectOrder) {
-            setMessage("Correct! You've ordered the story perfectly!");
+            setMessage("Correct");
             setAnimation("animate-bounce");
             setScore(score + 10);
             setTimeout(() => {
                 setCurrentLevel(currentLevel + 1);
             }, 2500);
         } else {
-            setMessage("The order is not correct. Try again!");
+            setMessage("Incorrect");
             setAnimation("animate-shake");
             setScore(score - 2);
             setRemainingLives(prev => {
@@ -291,10 +293,10 @@ const CookTheBook = () => {
                                 <section id={"scoreboard"} className={"pb-4"}>
                                     <div className="flex items-center space-x-6">
                                         <div id={"score-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-1 text-PS-art-color px-9 py-3 rounded-full font-bold text-3xl">
-                                            Score: {score}/30
+                                            <span>{t('cookthebook.score')}</span>: {score}/30
                                         </div>
                                         <div id={"level-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-2 text-PS-art-color px-9 py-3 rounded-full font-bold text-3xl">
-                                            Level: {currentLevel + 1}/{Stories.length}
+                                            <span>{t('cookthebook.level')}</span>: {currentLevel + 1}/{Stories.length}
                                         </div>
                                     </div>
                                 </section>
@@ -314,13 +316,13 @@ const CookTheBook = () => {
                             <h1 className={`text-4xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{Stories[currentLevel]?.title}</h1>
                             {message && (
                                 <div className={`mb-4 p-6 text-3xl rounded-lg text-center font-bold ${message.includes('Correct') ? 'text-green-700' : 'text-red-700'}  ${cherryBomb.className}`}>
-                                    {message}
+                                    {message.includes('Correct') ? t('cookthebook.good') : t('cookthebook.bad')}
                                 </div>
                             )}
 
                             <section id={"time-line-section"} className="mb-8 p-10">
                                 <div className={"flex flex-row items-center space-x-6 justify-center"}>
-                                    <h2 className={`text-center text-4xl font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}>Timeline</h2>
+                                    <h2 className={`text-center text-4xl font-semibold mb-2 text-PS-art-color ${cherryBomb.className}`}><span>{t('cookthebook.timeline')}</span></h2>
                                     {
                                         animation === "" && (
                                             <button onClick={resetLevel}>
@@ -350,7 +352,7 @@ const CookTheBook = () => {
                                             >
                                                 {piece ?
                                                     renderPuzzlePiece(piece, index, true) :
-                                                    <span className=" text-PS-art-color text-center text-lg p-2">Place piece {index + 1} here</span>
+                                                    <span className=" text-PS-art-color text-center text-lg p-2"><span>{t('cookthebook.piece')}</span> {index + 1} <span>{t('cookthebook.here')}</span></span>
                                                 }
                                             </div>
                                         ))}
@@ -372,7 +374,7 @@ const CookTheBook = () => {
                                 <div className="flex flex-wrap justify-center">
                                     {shuffledPieces.map((piece, index) => renderPuzzlePiece(piece, index))}
                                     {shuffledPieces.length === 0 && (
-                                        <p className="text-gray-900 text-2xl">No more pieces available</p>
+                                        <p className="text-gray-900 text-2xl">{t('cookthebook.empty')}</p>
                                     )}
                                 </div>
                             </section>
@@ -389,7 +391,7 @@ const CookTheBook = () => {
                                 <section id={"scoreboard"} className={"pb-4"}>
                                     <div className="flex items-center space-x-6">
                                         <div id={"score-board"} className="bg-PS-light-yellow border-PS-dark-yellow border-1 text-PS-art-color px-9 py-3 rounded-full font-bold text-3xl">
-                                            Score: {score}/30
+                                            <span>{t('cookthebook.score')}</span>: {score}/30
                                         </div>
                                     </div>
                                 </section>
@@ -455,10 +457,10 @@ const CookTheBook = () => {
                     <section id={"buttons-section"} className="flex justify-center space-x-36 p-4">
                         { currentlyPlaying() ? (
                             <>
-                                <Button size={"large"} onClick={verifyOrder}>Verify Order</Button>
+                                <Button size={"extraLarge"} onClick={verifyOrder}>{t('cookthebook.verify')}</Button>
                             </>
                         ) : (
-                            <Button size={"large"} onClick={replayGame}>Play Again</Button>
+                            <Button size={"large"} onClick={replayGame}>{t('cookthebook.playAgain')}</Button>
                         )}
 
                     </section>

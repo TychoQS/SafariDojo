@@ -769,6 +769,31 @@ app.get("/api/getCountries", (req, res) => {
     });
 })
 
+app.get("/api/getPaintings", (req, res) => {
+    const difficulty = req.query.difficulty;
+    const query = `
+        SELECT *
+        FROM DetectiveLupin
+        WHERE difficulty = ?
+    `;
+
+
+
+    dbConnection.query(query, [difficulty], (err, result) => {
+        if (err) {
+            console.error("Error fetching countries:", err);
+            return res.status(500).json({ message: 'Something went wrong while fetching countries' });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'Table not created or not found' });
+        }
+
+
+        res.status(200).json(result);
+    });
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
