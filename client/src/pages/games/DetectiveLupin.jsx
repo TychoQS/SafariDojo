@@ -6,6 +6,8 @@ import {useRouter} from "next/router";
 import {useTranslation} from "react-i18next";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
+import Button from "@/components/Button";
+import ErrorReportModal from "@/components/ErrorModal";
 
 
 function fetchPaintings(difficulty = 'easy') {
@@ -95,7 +97,6 @@ function DetectiveLupin() {
     function nextGame() {
         setCurrentIndex(prev => prev + 1);
         setGuess("");
-        setMessage("");
         setWaiting(false);
     }
 
@@ -107,6 +108,7 @@ function DetectiveLupin() {
         setGuess("");
         if (lifesRef.current) lifesRef.current.resetHearts();
         setGameFinished(false);
+        setWaiting(false);
     }
 
     const closeModal = () => {
@@ -145,48 +147,56 @@ function DetectiveLupin() {
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
             <Header></Header>
             <section className={"min-h-screen flex flex-col justify-evenly bg-PS-main-purple"}>
+                <div className="w-[50rem] max-w-6xl mx-auto flex flex-col mt-8">
+                    {!gameFinished && (
+                        <div className="w-full relative mb-4 h-[2.5rem] flex items-center">
+                            <div className="absolute left-0">
+                                <Button size="small" onClick={() => router.back()}>
+                                    {t("backButton")}
+                                </Button>
+                            </div>
+                            <div className="absolute left-1/2 -translate-x-1/2"><Lifes ref={lifesRef} /></div>
+                            <div className="absolute right-0"><ErrorReportModal /></div>
+                        </div>
+                    )}
 
-                <div className="flex items-end justify-end">
-                    <Lifes ref={lifesRef} />
-                </div>
-
-                <div className="h-150 w-175 flex flex-col self-center items-center justify-evenly border-4 rounded-2xl
+                    <div className="h-150 w-full flex flex-col self-center items-center justify-evenly border-4 rounded-2xl
             border-PS-dark-yellow bg-PS-light-yellow">
 
-                    <div className="max-w-80 max-h-80 min-h-50 flex justify-center items-center">
-                        <img src={`${currentPainting?.image}`} alt={`${currentPainting?.name}`} className="max-w-full max-h-full object-contain"/>
-                    </div>
+                        <div className="max-w-80 max-h-80 min-h-50 flex justify-center items-center">
+                            <img src={`${currentPainting?.image}`} alt={`${currentPainting?.name}`} className="max-w-full max-h-full object-contain border-4 border-black"/>
+                        </div>
 
-                    <div className="flex flex-col justify-center items-center gap-10">
-                        {!waiting && (
-                            <input className={"bg-[#F2C1BB] h-[50px] w-[350px] px-4 py-3 text-[20px] text-gray-600 outline-none rounded-lg border-2 transition-colors" +
-                                " duration-300 border-solid border-[#F67C6E] focus:border-[black] focus:text-black"}
-                                   placeholder={"Introduce the painting name..."} value={guess}
-                                   onChange={(e) => setGuess(e.target.value)}
-                                   onKeyDown={(e) => {if(e.key === "Enter") validatePicture();}
-                                   }/>
-                        )}
+                        <div className="flex flex-col justify-center items-center gap-10">
+                            {!waiting && (
+                                <input className={"bg-[#F2C1BB] h-[50px] w-[350px] px-4 py-3 text-[20px] text-gray-600 outline-none rounded-lg border-2 transition-colors" +
+                                    " duration-300 border-solid border-[#F67C6E] focus:border-[black] focus:text-black"}
+                                       placeholder={"Introduce the painting name..."} value={guess}
+                                       onChange={(e) => setGuess(e.target.value)}
+                                       onKeyDown={(e) => {if(e.key === "Enter") validatePicture();}
+                                       }/>
+                            )}
 
-                        {(!waiting && !gameFinished) ?
-                            <button className={"cursor-pointer h-15 w-35 rounded-2xl " +
-                                "text-lg border-2 border-[#F67C6E] bg-[#F2C1BB] text-black duration-300 hover:scale-110 " +
-                                "hover:bg-[#F67C6E]"}
-                                    onClick={() => validatePicture()}>
-                                Resolve
-                            </button> : null}
-
-                        {(waiting && !gameFinished) ?
-                            <div className={"flex flex-col items-center gap-6"}>
-                                {getMessage()}
+                            {(!waiting && !gameFinished) ?
                                 <button className={"cursor-pointer h-15 w-35 rounded-2xl " +
                                     "text-lg border-2 border-[#F67C6E] bg-[#F2C1BB] text-black duration-300 hover:scale-110 " +
                                     "hover:bg-[#F67C6E]"}
-                                        onClick={() => nextGame()}>
-                                    Next
-                                </button>
-                            </div>
-                            : null}
-                    </div>
+                                        onClick={() => validatePicture()}>
+                                    Resolve
+                                </button> : null}
+
+                            {(waiting && !gameFinished) ?
+                                <div className={"flex flex-col items-center gap-6"}>
+                                    {getMessage()}
+                                    <button className={"cursor-pointer h-15 w-35 rounded-2xl " +
+                                        "text-lg border-2 border-[#F67C6E] bg-[#F2C1BB] text-black duration-300 hover:scale-110 " +
+                                        "hover:bg-[#F67C6E]"}
+                                            onClick={() => nextGame()}>
+                                        Next
+                                    </button>
+                                </div>
+                                : null}
+                        </div>
                         {(gameFinished) &&
                             <CongratsModal
                                 points={score}
@@ -202,8 +212,12 @@ function DetectiveLupin() {
                             />
                         )}
 
-                    <div className={"text-black text-2xl font-black"}>{score}</div>
+                        <div className={"flex items-center justify-center"}>
+                            <p className={"text-black text-2xl font-black"}>Score: <span className={"font-bold text-4xl"}>{score}</span></p>
+                        </div>
+                    </div>
                 </div>
+
             </section>
             <Footer></Footer>
         </div>
