@@ -21,19 +21,19 @@ const AnimalClassificationGame = () => {
     const [gameActive, setGameActive] = useState(true);
     const [gameFinished, setGameFinished] = useState(false);
     const [gameWon, setGameWon] = useState(false);
-    const [message, setMessage] = useState('Move your animal to the correct group!');
+    const {t} = useTranslation();
+    const [message, setMessage] = useState(t('calloftheclan.firstMessage'));
     const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 50 });
     const allLevels = levelsData.allLevels;
+
     const [randomLevels, setRandomLevels] = useState([]);
-
     const lifesRef = useRef(null);
-    const [lives, setLives] = useState(5);
 
+    const [lives, setLives] = useState(5);
     const newLevelSound = useRef(null);
     const failSound = useRef(null);
     const winSound = useRef(null);
     const loseSound = useRef(null);
-    const {t} = useTranslation();
 
     async function fetchDifficulty() {
         const previousURL = localStorage.getItem('previousURL');
@@ -153,7 +153,7 @@ const AnimalClassificationGame = () => {
                             setPlayerPosition({ x: 50, y: 50 });
                             setGameActive(true);
                             newLevelSound.current.play()
-                            setMessage('Move your animal to the correct group!');
+                            setMessage(t('calloftheclan.firstMessage'));
                         }, 2000);
                     }
                 } else {
@@ -172,7 +172,7 @@ const AnimalClassificationGame = () => {
                         setLives(lives - 1);
                         lifesRef.current.loseLife();
                         failSound.current.play();
-                        setMessage('Try again! Find the correct group.');
+                        setMessage(t('calloftheclan.incorrectMessage'));
                     }, 2000);
                 }
             }
@@ -187,7 +187,7 @@ const AnimalClassificationGame = () => {
         lifesRef.current?.resetHearts();
         setPlayerPosition({ x: 50, y: 50 });
         setGameActive(true);
-        setMessage('Move your animal to the correct group!');
+        setMessage(t('calloftheclan.firstMessage'));
         setGameFinished(false);
         setGameWon(false);
     };
@@ -249,8 +249,8 @@ const AnimalClassificationGame = () => {
 
                     <div className="relative w-[1000px] h-[600px] bg-blue-200 rounded-lg overflow-hidden border-4 border-blue-950 mt-5 mb-3">
                         <div className={`text-2xl justify-between p-1.5 w-full text-black flex ${cherryBomb.className}`}>
-                            <div>Level: {level}/{randomLevels.length}</div>
-                            <div>Score: {score}</div>
+                            <div>{t('calloftheclan.level')}: {level}/{randomLevels.length}</div>
+                            <div>{t('calloftheclan.score')}: {score}</div>
                         </div>
 
                         <div className={`absolute text-xl top-12 w-full text-center bg-blue-700

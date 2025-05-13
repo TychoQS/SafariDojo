@@ -159,6 +159,12 @@ const resources = {
                     solve: 'Solve these operations to get the big prize',
 
                 }
+            },
+            calloftheclan: {
+                firstMessage: 'Move your animal to the correct group!',
+                incorrectMessage: 'Try again! Find the correct group.',
+                level: 'Level',
+                score: 'Score',
             }
         },
     },
@@ -316,6 +322,12 @@ const resources = {
                     safeCode: 'Código de la caja',
                     solve: 'Resuelve estas operaciones para ganar el gran premio',
                 }
+            },
+            calloftheclan: {
+                firstMessage: '¡Mueve el animal del medio al grupo correspondiente!',
+                incorrectMessage: 'Prueba otra vez. ¡Encuentra el grupo correcto!',
+                level: 'Nivel',
+                score: 'Puntos',
             }
         },
     },
@@ -473,6 +485,12 @@ const resources = {
                     safeCode: 'Code du coffre',
                     solve: 'Résous ces opérations pour le grand prix',
                 }
+            },
+            calloftheclan: {
+                firstMessage: 'Déplace l\'animal du milieu vers le groupe correspondant!',
+                incorrectMessage: 'Essayez à nouveau! Trouvez le groupe correct.',
+                level: 'Niveau',
+                score: 'Score',
             }
         },
     },
@@ -631,8 +649,13 @@ const resources = {
                     safeCode: 'Safe-Code',
                     solve: 'Löse diese Aufgaben, um den Hauptpreis zu gewinnen',
                 }
+            },
+            calloftheclan: {
+                firstMessage: 'Bewege das Tier in die entsprechende Gruppe!',
+                incorrectMessage: 'Versuchen Sie es erneut! Finden Sie die richtige Gruppe.',
+                level: 'Level',
+                score: 'Punktzahl',
             }
-
         },
     },
 };
