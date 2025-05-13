@@ -10,7 +10,6 @@ CREATE DATABASE IF NOT EXISTS SafariDojoDB;
 DROP TABLE IF EXISTS UserQuizzes;
 DROP TABLE IF EXISTS UserWeeklyGoals;
 DROP TABLE IF EXISTS WeeklyGoals;
-DROP TABLE IF EXISTS PinThePlace;
 DROP TABLE IF EXISTS SubjectQuizzes;
 DROP TABLE IF EXISTS UserQuizzes;
 DROP TABLE IF EXISTS MultimediaSubjects;
@@ -24,6 +23,7 @@ DROP TABLE IF EXISTS CookTheBook_Stories;
 DROP TABLE IF EXISTS Mahjong;
 DROP TABLE IF EXISTS LetterSoup;
 DROP TABLE IF EXISTS Geography;
+DROP TABLE IF EXISTS DetectiveLupin;
 DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
 DROP PROCEDURE IF EXISTS FillUserQuizzes;
 DROP TRIGGER IF EXISTS PostUserCreation;
@@ -65,7 +65,7 @@ CREATE TABLE Quizzes ( -- Quiz table
 INSERT INTO Quizzes (QuizName, Premium, Register, Tutorial) VALUES
                                                                 ('Pin The Place', TRUE, FALSE, NULL),
                                                                 ('Detective MrWorldWide', FALSE, FALSE, NULL),
-                                                                ('Where Is My Country?', FALSE, TRUE, NULL),
+                                                                ('Where Is My Country', FALSE, TRUE, NULL),
                                                                 ('Domino Master', TRUE, FALSE, NULL),
                                                                 ('Detective Lupin', FALSE, FALSE, NULL),
                                                                 ('Cook The Book', FALSE, TRUE, 'https://youtu.be/EUbBz0BaD3Y'),
@@ -303,14 +303,6 @@ INSERT INTO MultimediaSubjects (IdMultimedia, IdSubject) VALUES (1, 5),
                                                                 (13, 4),
                                                                 (14, 2),
                                                                 (15, 1);
-
-CREATE TABLE PinThePlace (
-                             CountryId INT PRIMARY KEY,
-                             Name VARCHAR(100),
-                             Capital VARCHAR(100),
-                             Continent VARCHAR(50),
-                             Difficulty TINYINT
-);
 
 
 CREATE TABLE WeeklyGoals (
@@ -861,6 +853,28 @@ INSERT INTO Geography (id, name, capital, continent, difficulty, image, hint) VA
                                                                                   ('MD', 'Moldova', 'Chișinău', 'Europe', 'Hard', '', 'Known for its wine tours and Soviet history.'),
                                                                                   ('MK', 'North Macedonia', 'Skopje', 'Europe', 'Hard', '', 'Home to Lake Ohrid and ancient monasteries.');
 
+CREATE TABLE DetectiveLupin (
+                           id INT PRIMARY KEY,
+                           name VARCHAR(100),
+                           artist VARCHAR(100),
+                           difficulty ENUM('Easy', 'Medium', 'Hard'),
+                           image TEXT
+);
+
+INSERT INTO DetectiveLupin (id, name, artist, difficulty, image) VALUES
+                                                                (1, 'Mona Lisa', 'Leonardo da Vinci', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Mona_Lisa.jpg'),
+                                                                (2, 'The Starry Night', 'Vincent van Gogh', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg'),
+                                                                (3, 'The Persistence of Memory', 'Salvador Dalí', 'Medium', 'https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg'),
+                                                                (4, 'The Last Supper', 'Leonardo da Vinci', 'Medium', 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Leonardo_da_Vinci_-_The_Last_Supper_high_res.jpg'),
+                                                                (5, 'Girl with a Pearl Earring', 'Johannes Vermeer', 'Medium', 'https://upload.wikimedia.org/wikipedia/commons/d/d7/Meisje_met_de_parel.jpg'),
+                                                                (6, 'American Gothic', 'Grant Wood', 'Hard', 'https://upload.wikimedia.org/wikipedia/commons/7/78/Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg'),
+                                                                (7, 'The Scream', 'Edvard Munch', 'Medium', 'https://upload.wikimedia.org/wikipedia/commons/f/f4/The_Scream.jpg'),
+                                                                (8, 'Water Lilies', 'Claude Monet', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg'),
+                                                                (9, 'The Birth of Venus', 'Sandro Botticelli', 'Hard', 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Birth_of_Venus_Botticelli.jpg'),
+                                                                (10, 'Sunflowers', 'Vincent van Gogh', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Vincent_Willem_van_Gogh_127.jpg');
+
+
+
 show tables;
 select * from Users;
 select * from Quizzes;
@@ -869,11 +883,11 @@ select * from Subjects;
 select * from SubjectQuizzes;
 select * from Multimedia;
 select * from MultimediaSubjects;
-select * from PinThePlace;
 select * from WeeklyGoals;
 select * from UserWeeklyGoals;
 select * from CookTheBook_Stories;
 select * from CookTheBook_StoryPieces;
 select * from Mahjong;
 select * from Geography;
+select * from DetectiveLupin;
 SET sql_notes = 1;
