@@ -1,15 +1,14 @@
 import React, {useState, useEffect, useRef} from "react";
-import images from '../../../../database/jsondata/DetectiveMrWorldWide.json';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
-import Link from "next/link";
 import Title from "@/components/Title";
 import Button from "@/components/Button";
 import {useRouter} from "next/router";
 import ErrorReportModal from "@/components/ErrorModal";
 import {useTranslation} from "react-i18next";
 import CongratsModal from "@/components/CongratsModal";
+import GameOverModal from "@/components/GameOverModal";
 
 const MAX_CLIPPATHS = 6;
 
@@ -69,14 +68,13 @@ function DetectiveMrWorldWide() {
         setFullImage(true);
         if (isGuessCorrect()) {
             setScore(prevScore => prevScore + 5);
-            console.log("TRIES: ", tries);
         } else {
             lifesRef.current.loseLife();
             setTries(prev => prev - 1);
         }
 
-        if (currentIndex > gameCountries.length - 1 || tries <= 1) {
-            setGameStatus("semiFinished");
+        if (currentIndex === gameCountries.length - 1) {
+            setGameStatus("finished");
             setBestScore(Math.max(bestScore, score));
         } else {
             setGameStatus("waiting");
@@ -108,17 +106,18 @@ function DetectiveMrWorldWide() {
         setGameStatus("playing")
         setFullImage(false);
         setClipPathIndex(getRandomNumber());
+        console.log(gameCountries);
     }
 
-    function resetGame() {
-        setTries(5);
+    function restartGame() {
+        fetchGameData().then(r => {console.log("Countries' flag loaded")});
         setCurrentIndex(0);
-        setScore(0);
-        setGameStatus("playing");
-        fetchGameData();
-        setGuess("");
         setFullImage(false);
+        setTries(5);
+        setScore(0);
+        setGuess("");
         setClipPathIndex(getRandomNumber());
+        setGameStatus("playing");
     }
 
     const getClipPathStyle = () => {
@@ -186,9 +185,7 @@ function DetectiveMrWorldWide() {
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header></Header>
             <section className={"min-h-screen flex flex-col justify-evenly bg-PS-main-purple"}>
-                <div className="flex items-end justify-end">
-                    <Lifes ref={lifesRef}/>
-                </div>
+
                 <Title>Detective Mr. WorldWide</Title>
                 <div className={"w-[50rem] max-w-6xl mx-auto"}>
                     {gameStatus !== "finished" && (
@@ -264,13 +261,20 @@ function DetectiveMrWorldWide() {
 
                                 </div> : null}
 
-                            {gameStatus === "finished" &&
+                            {(gameStatus === "finished") &&
                                 <CongratsModal
                                     points={score}
                                     onCloseMessage={closeModal}
-                                    onRestart={resetGame}
+                                    onRestart={restartGame}
                                 />
                             }
+
+                            {tries === 0 && (
+                                <GameOverModal
+                                    onCloseMessage={closeModal}
+                                    onRestart={restartGame}
+                                />
+                            )}
 
                         </div>
                         {gameStatus !== "finished" ? (

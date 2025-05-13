@@ -91,6 +91,7 @@ const EuropeGeographyGame = () => {
         fetchGameData().then(r => {console.log("Loaded game countries")})
         setCurrentCountryIndex(0);
         setScore(0);
+        setTries(5);
         setClickedCountries([]);
         setGameFinished(false);
     }
@@ -157,9 +158,7 @@ const EuropeGeographyGame = () => {
                     </div>
                 )}
 
-                {/* Contenedor principal del juego */}
                 <div className="w-full flex flex-col">
-                    {/* Cabecera del tablero */}
                     <div className="relative flex justify-center items-center bg-blue-700 text-[#eaeaea] h-[4rem] border-4 border-b-0 border-black font-bold text-[1rem]">
                         {gameFinished ? (
                             <div className="flex flex-col justify-center items-center">
@@ -178,21 +177,20 @@ const EuropeGeographyGame = () => {
                         )}
                     </div>
 
-                    {/* Tablero del mapa */}
                     <div className="flex justify-center items-center bg-blue-400 border-4 border-t-0 border-black">
                         {MapComponent && <MapComponent
                             getCountryColor={getCountryColor}
                             handleCountryClick={handleCountryClick}/>}
                     </div>
 
-                    {(gameFinished && tries == 0) && (
+                    {(gameFinished && tries > 0) && (
                         <CongratsModal
                             points={score}
                             onCloseMessage={closeModal}
                             onRestart={restartGame}
                         />
                     )}
-                    {(gameFinished && tries > 0) && (
+                    {(tries === 0) && (
                         <GameOverModal
                             onCloseMessage={closeModal}
                             onRestart={restartGame}
