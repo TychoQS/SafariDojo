@@ -688,7 +688,7 @@ const resources = {
             cookthebook: {
                 score: 'Punktzahl',
                 playAgain: 'Nochmal spielen',
-                verify: 'Reihenfolge überprüfen',
+                verify: 'Bestellung prüfen',
                 timeline: 'Zeitachse',
                 level: 'Niveau',
                 piece: 'Platziere das Teil',

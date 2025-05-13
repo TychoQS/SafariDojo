@@ -457,7 +457,7 @@ const CookTheBook = () => {
                     <section id={"buttons-section"} className="flex justify-center space-x-36 p-4">
                         { currentlyPlaying() ? (
                             <>
-                                <Button size={"large"} onClick={verifyOrder}>{t('cookthebook.verify')}</Button>
+                                <Button size={"extraLarge"} onClick={verifyOrder}>{t('cookthebook.verify')}</Button>
                             </>
                         ) : (
                             <Button size={"large"} onClick={replayGame}>{t('cookthebook.playAgain')}</Button>
