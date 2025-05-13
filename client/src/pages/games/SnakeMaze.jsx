@@ -86,7 +86,7 @@ export default function MazeGame() {
 
     const {t} = useTranslation();
 
-    async function fetchDifficulty() {
+    useEffect(() => {
         const previousURL = localStorage.getItem('previousURL');
 
         if (previousURL) {
@@ -97,22 +97,13 @@ export default function MazeGame() {
         } else {
             console.error("No previous URL found in localStorage");
         }
-    }
+    }, [])
 
     useEffect(() => {
-        fetchDifficulty().then(() => {
-            if (difficulty === "hard") {
-                setMazeState(mazeHard)
-            }
-            if (difficulty === "medium") {
-                setMazeState(mazeMedium)
-            }
-            if (startSound.current) {
-                startSound.current.play().catch((err) => {
-                    console.warn("Start sound failed to play automatically:", err);
-                });
-            }
-        })
+        if (difficulty) {
+            generateMaze();
+            restartGame();
+        }
     }, [difficulty]);
 
     const movePlayer = (dx, dy) => {
@@ -204,17 +195,21 @@ export default function MazeGame() {
         };
     }, [playerPos, gameWon]);
 
-    const restartGame = () => {
-        startSound.current.play();
+    function generateMaze() {
         if (difficulty === "hard") {
-            setMazeState(mazeHard)
+            setMazeState(mazeHard);
         }
-        if (difficulty === "medium") {
-            setMazeState(mazeMedium)
+        else if (difficulty === "medium") {
+            setMazeState(mazeMedium);
         }
         else {
-            setMazeState(mazeEasy)
+            setMazeState(mazeEasy);
         }
+    }
+
+    const restartGame = () => {
+        startSound.current.play();
+        generateMaze();
         setLives(3);
         livesRef.current?.resetHearts();
         setPlayerPos({ x: 1, y: 1 });
