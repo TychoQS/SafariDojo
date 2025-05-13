@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS CookTheBook_StoryPieces;
 DROP TABLE IF EXISTS CookTheBook_Stories;
 DROP TABLE IF EXISTS Mahjong;
 DROP TABLE IF EXISTS LetterSoup;
+DROP TABLE IF EXISTS Memory;
 DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
 DROP PROCEDURE IF EXISTS FillUserQuizzes;
 DROP TRIGGER IF EXISTS PostUserCreation;
@@ -807,6 +808,24 @@ VALUES
        ["S","O","N","A","T","A","Q","W","E","R","T"],
        ["X","Z","C","V","B","N","M","L","K","J","H"]]',
      '["SYMPHONY","ORCHESTRA","CONDUCTOR","VIOLINIST","PIANIST","COMPOSER","HARMONY","RHYTHM","MELODY","SONATA"]');
+
+CREATE TABLE Memory (
+    id INT AUTO_INCREMENT PRIMARY KEY;
+    content VARCHAR(255) NOT NULL;
+    pair VARCHAR(128) NOT NULL;);
+
+INSERT INTO Memory (content, pair) VALUES   ('/images/Games/Science/Memory/mano.png', 'Hand'),
+                                            ('/images/Games/Science/Memory/pie.avif', 'Feet'),
+                                            ('/images/Games/Science/Memory/oreja.avif', 'Ear'),
+                                            ('/images/Games/Science/Memory/nariz.avif', 'Nose'),
+                                            ('/images/Games/Science/Memory/ojo.png', 'Eye'),
+                                            ('/images/Games/Science/Memory/boca.png', 'Mouth'),
+                                            ('/images/Games/Science/Memory/tobillo.png', 'Ankle'),
+                                            ('/images/Games/Science/Memory/pierna.avif', 'Leg'),
+                                            ('/images/Games/Science/Memory/brazo.avif', 'Arm'),
+                                            ('/images/Games/Science/Memory/cerebro.png', 'Brain'),
+                                            ('/images/Games/Science/Memory/corazon.png', 'Heart')
+
 
 show tables;
 select * from Users;
