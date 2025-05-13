@@ -2,24 +2,66 @@ import React, {useState, useEffect, useRef} from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
-import gameData from "../../../../database/jsondata/Geography.json";
 import AnswerOption from "@/pages/games/modules/WhereIsMyCountry/AnswerOption";
-import Link from "next/link";
 import Button from "@/components/Button";
+import {useRouter} from "next/router";
+import ErrorReportModal from "@/components/ErrorModal";
+import {useTranslation} from "react-i18next";
+import GameOverModal from "@/components/GameOverModal";
+import CongratsModal from "@/components/CongratsModal";
+
+
+function fetchCountries(difficulty = 'easy') {
+    return fetch(`http://localhost:8080/api/getCountries?` + new URLSearchParams({
+        difficulty: difficulty.toLowerCase()
+    }), {
+        method: "GET",
+        headers: {'Content-Type': 'application/json'},
+    });
+}
+
+let gameData = [];
 
 function WhereIsMyCountry() {
+    const {t} = useTranslation();
+
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
+
     const [gameStatus, setGameStatus] = useState("loading");
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [gameCountries, setGameCountries] = useState([]);
     const [optionCountries, setOptionCountries] = useState([]);
     const [clickedCountries, setClickedCountries] = useState([]);
+
     const lifesRef = useRef(null);
+    const [tries, setTries] = useState(5);
+
+    const router = useRouter();
+    const fetchGameData = async () => {
+        if (!router.isReady) return;
+        let difficulty = router.query.Age || "easy";
+        const response = await fetchCountries(difficulty);
+        if (response.ok) {
+            let fetchedCountries = await response.json();
+            fetchedCountries.sort(() => 0.5 - Math.random());
+            gameData = fetchedCountries;
+            setGameCountries(fetchedCountries.slice(0,10));
+
+            setGameStatus("loading");
+            setCurrentIndex(0);
+            setClickedCountries([]);
+            setScore(0);
+        }
+    }
 
     useEffect(() => {
-        initializeGame();
-    }, []);
+        if (router.isReady) {
+            initializeGame();
+        }
+
+    }, [router.isReady, router.query.Age]);
 
     useEffect(() => {
         if (gameCountries.length > 0) {
@@ -35,17 +77,15 @@ function WhereIsMyCountry() {
     }, [gameCountries, currentIndex]);
 
     const initializeGame= () => {
-        const selectedCountries = getRandomCountries(10);
+        fetchGameData().then(r => (console.log("Loaded game countries")));
+
         setGameStatus("loading");
-        setGameCountries(selectedCountries);
+        setTries(5);
         setCurrentIndex(0);
         setClickedCountries([]);
         setScore(0);
-    }
 
-    function getRandomCountries(upperBound) {
-        const countries = [...gameData].sort(() => 0.5 - Math.random());
-        return countries.slice(0, upperBound);
+        if (lifesRef.current) lifesRef.current.resetHearts();
     }
 
     function generateOptionCountries() {
@@ -77,14 +117,17 @@ function WhereIsMyCountry() {
 
         setClickedCountries(prev => ({...prev, [countryName]: isCorrect(countryName) ? "correct" : "incorrect"}));
 
-        if ((countryName === gameCountries[currentIndex]?.name) && (gameStatus === "active")) {
+        if (countryName === gameCountries[currentIndex]?.name) {
             setScore(prevScore => prevScore + 5);
+        } else {
+            lifesRef.current.loseLife();
+            setTries(prev => prev - 1);
         }
 
-        if (currentIndex + 1 < gameCountries.length) {
+        if (currentIndex + 1 < gameCountries.length || tries > 0) {
             setGameStatus("waiting");
         }
-        else {
+        else if (currentIndex >= gameCountries.length - 1) {
             setGameStatus("finished");
             setBestScore(prevBest => Math.max(prevBest, score))
         }
@@ -98,42 +141,68 @@ function WhereIsMyCountry() {
         if (currentIndex + 1 < gameCountries.length) {
             setCurrentIndex(prevIndex => prevIndex + 1);
             setGameStatus("active");
-        }
+        } else setGameStatus("finished");
 
         setClickedCountries([]);
+    }
+
+    const closeModal = () => {
+        saveScore();
+        setTimeout(() => {
+            router.back();
+        }, 0);
+    };
+
+    function saveScore() {
+        try {
+            const gameTitle = "Where Is My Country?";
+            const age = router.query.Age;
+            if (age) {
+                const key = `${gameTitle}_${age}_bestScore`;
+                const storesScore = parseInt(localStorage.getItem(key) || "0", 10);
+                if (score > storesScore) {
+                    localStorage.setItem(key, score.toString());
+                }
+            }
+
+            const currentScore = parseInt(localStorage.getItem(`${gameTitle}_${age}_bestScore`) || "0", 10);
+            const medalType = age === "easy"
+                ? "BronzeMedal" : age === "medium" ? "SilverMedal" : "GoldMedal";
+            const medalKey = `${gameTitle}_${medalType}`;
+            const medalStatus = localStorage.getItem(medalKey) === "1";
+            if (!medalStatus && currentScore > (gameCountries.length - 2 * 5)) {
+                localStorage.setItem(medalKey, "1");
+            }
+        } catch (error) {
+            console.error("Error processing score update: ", error);
+        }
     }
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
             <Header></Header>
             <section className={"min-h-screen flex flex-col justify-evenly bg-PS-main-purple"}>
-                <div className="flex items-end justify-end">
-                    <Lifes ref={lifesRef}/>
-                </div>
 
                 <div className="w-175 flex flex-col self-center items-center justify-center border-4 rounded-3xl
             border-PS-dark-yellow bg-PS-light-yellow">
                     <div className="flex items-center justify-center w-full h-[5rem] bg-gray-500 rounded-t-2xl relative">
-                        {(gameStatus !== "finished") ? (
-                                <div className={"text-black text-2xl flex justify-center"}>
-                                    <p className="text-gray-600 font-light">Score: <span className={"font-bold text-black"}>{score}</span></p>
-                                    <p className={"flex absolute right-4"}>{currentIndex+1}/{gameCountries.length}</p>
-                                    <Link href={{pathname: "../GameSelectionPage", query: {Subject: "Geography"}}}>
-                                        <div className="flex absolute left-4 top-4">
-                                            <Button size="small">Back</Button>
-                                        </div>
-                                    </Link>
-                                </div>
-                            ) :
-                            <div className={"text-black text-2xl flex justify-center text-center flex-col"}>
-                                <p className={"font-bold text-2xl"}>GAME OVER</p>
-                                <div className={"flex flex-row gap-[2rem] text-xl"}>
-                                    <p>Final Score: <span>{score}</span></p>
-                                    <p>Best Score: <span>{bestScore}</span></p>
+                        {gameStatus !== "finished" && (
+                            <div className="w-full relative mb-4 h-[2.5rem] flex items-center">
+                                <div className="absolute left-0">
+                                    <Button size="small" onClick={() => router.back()}>
+                                        {t("backButton")}
+                                    </Button>
                                 </div>
 
+                                <div className="absolute left-1/2 -translate-x-1/2">
+                                    <Lifes ref={lifesRef} />
+                                </div>
+
+                                <div className="absolute right-0">
+                                    <ErrorReportModal />
+                                </div>
                             </div>
-                        }
+                        )}
 
                     </div>
                     <div className={"flex items-center justify-center flex-col gap-[1rem] m-10"}>
@@ -185,14 +254,18 @@ function WhereIsMyCountry() {
                                 </div>
                             </div>
                         )}
-                        {gameStatus === "finished" && (
-                            <div className={"mt-[2rem]"}>
-                                <Button
-                                    size="large"
-                                    onClick={() => initializeGame()}>
-                                    Retry
-                                </Button>
-                            </div>
+                        {(gameStatus === "finished" && tries > 0) && (
+                            <CongratsModal
+                                points={score}
+                                onCloseMessage={closeModal}
+                                onRestart={initializeGame}
+                            />
+                        )}
+                        {(tries === 0) && (
+                            <GameOverModal
+                                onCloseMessage={closeModal}
+                                onRestart={initializeGame}
+                            />
                         )}
                     </div>
 
