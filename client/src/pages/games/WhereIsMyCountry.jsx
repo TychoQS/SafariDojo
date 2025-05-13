@@ -9,6 +9,7 @@ import ErrorReportModal from "@/components/ErrorModal";
 import {useTranslation} from "react-i18next";
 import GameOverModal from "@/components/GameOverModal";
 import CongratsModal from "@/components/CongratsModal";
+import Title from "@/components/Title";
 
 
 function fetchCountries(difficulty = 'easy') {
@@ -182,39 +183,40 @@ function WhereIsMyCountry() {
         <div className="app min-h-screen flex flex-col bg-PS-main-purple ">
             <Header></Header>
             <section className={"min-h-screen flex flex-col justify-evenly bg-PS-main-purple"}>
-
-                <div className="w-175 flex flex-col self-center items-center justify-center border-4 rounded-3xl
-            border-PS-dark-yellow bg-PS-light-yellow">
-                    <div className="flex items-center justify-center w-full h-[5rem] bg-gray-500 rounded-t-2xl relative">
-                        {gameStatus !== "finished" && (
-                            <div className="w-full relative mb-4 h-[2.5rem] flex items-center">
-                                <div className="absolute left-0">
-                                    <Button size="small" onClick={() => router.back()}>
-                                        {t("backButton")}
-                                    </Button>
-                                </div>
-
-                                <div className="absolute left-1/2 -translate-x-1/2">
-                                    <Lifes ref={lifesRef} />
-                                </div>
-
-                                <div className="absolute right-0">
-                                    <ErrorReportModal />
-                                </div>
+                <Title>Where Is My Country?</Title>
+                <div className="w-[60rem] max-w-6xl mx-auto flex flex-col mt-8">
+                    {gameStatus !== "finished" && (
+                        <div className="w-full relative mb-4 h-[2.5rem] flex items-center">
+                            <div className="absolute left-0">
+                                <Button size="small" onClick={() => router.back()}>
+                                    {t("backButton")}
+                                </Button>
                             </div>
-                        )}
-
-                    </div>
-                    <div className={"flex items-center justify-center flex-col gap-[1rem] m-10"}>
-
-                        <div className={"flex w-[80%] h-40 text-[2rem] items-center justify-center self-center m-2"}>
-                            <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" role="img">
-                                <path
-                                    d="M9.29289 1.29289C9.48043 1.10536 9.73478 1 10 1H18C19.6569 1 21 2.34315 21 4V8C21 8.55228 20.5523 9 20 9C19.4477 9 19 8.55228 19 8V4C19 3.44772 18.5523 3 18 3H11V8C11 8.55228 10.5523 9 10 9H5V20C5 20.5523 5.44772 21 6 21H10C10.5523 21 11 21.4477 11 22C11 22.5523 10.5523 23 10 23H6C4.34315 23 3 21.6569 3 20V8C3 7.73478 3.10536 7.48043 3.29289 7.29289L9.29289 1.29289ZM6.41421 7H9V4.41421L6.41421 7ZM20.1716 18.7574C20.6951 17.967 21 17.0191 21 16C21 13.2386 18.7614 11 16 11C13.2386 11 11 13.2386 11 16C11 18.7614 13.2386 21 16 21C17.0191 21 17.967 20.6951 18.7574 20.1716L21.2929 22.7071C21.6834 23.0976 22.3166 23.0976 22.7071 22.7071C23.0976 22.3166 23.0976 21.6834 22.7071 21.2929L20.1716 18.7574ZM13 16C13 14.3431 14.3431 13 16 13C17.6569 13 19 14.3431 19 16C19 17.6569 17.6569 19 16 19C14.3431 19 13 17.6569 13 16Z"
-                                    fill="#000000"/>
-                            </svg>
-                            <p className={"text-center text-black"}>{getCountryHint()}</p>
+                            <div className="absolute left-1/2 -translate-x-1/2"><Lifes ref={lifesRef} /></div>
+                            <div className="absolute right-0"><ErrorReportModal /></div>
                         </div>
+                    )}
+                    <div className="w-full flex flex-col self-center items-center justify-center border-4 rounded-3xl
+            border-PS-dark-yellow bg-PS-light-yellow">
+                        <div className="flex items-center justify-center w-full h-[5rem] bg-gray-500 rounded-t-2xl relative">
+                            {(gameStatus !== "finished") ? (
+                                <div className={"text-black text-2xl flex justify-center"}>
+                                    <p className="text-gray-600 font-light">Score: <span className={"font-bold text-black"}>{score}</span></p>
+                                    <p className={"flex absolute right-4"}>{currentIndex+1}/{gameCountries.length}</p>
+                                </div>
+                            ) : null}
+
+                        </div>
+                        <div className={"flex items-center justify-center flex-col gap-[1rem] m-10"}>
+
+                            <div className={"flex w-[80%] h-40 text-[2rem] items-center justify-center self-center m-2"}>
+                                <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" role="img">
+                                    <path
+                                        d="M9.29289 1.29289C9.48043 1.10536 9.73478 1 10 1H18C19.6569 1 21 2.34315 21 4V8C21 8.55228 20.5523 9 20 9C19.4477 9 19 8.55228 19 8V4C19 3.44772 18.5523 3 18 3H11V8C11 8.55228 10.5523 9 10 9H5V20C5 20.5523 5.44772 21 6 21H10C10.5523 21 11 21.4477 11 22C11 22.5523 10.5523 23 10 23H6C4.34315 23 3 21.6569 3 20V8C3 7.73478 3.10536 7.48043 3.29289 7.29289L9.29289 1.29289ZM6.41421 7H9V4.41421L6.41421 7ZM20.1716 18.7574C20.6951 17.967 21 17.0191 21 16C21 13.2386 18.7614 11 16 11C13.2386 11 11 13.2386 11 16C11 18.7614 13.2386 21 16 21C17.0191 21 17.967 20.6951 18.7574 20.1716L21.2929 22.7071C21.6834 23.0976 22.3166 23.0976 22.7071 22.7071C23.0976 22.3166 23.0976 21.6834 22.7071 21.2929L20.1716 18.7574ZM13 16C13 14.3431 14.3431 13 16 13C17.6569 13 19 14.3431 19 16C19 17.6569 17.6569 19 16 19C14.3431 19 13 17.6569 13 16Z"
+                                        fill="#000000"/>
+                                </svg>
+                                <p className={"text-center text-black"}>{getCountryHint()}</p>
+                            </div>
 
 
                             <div className={"flex flex-col justify-center gap-[2rem]"}>
@@ -247,29 +249,31 @@ function WhereIsMyCountry() {
                                         clickedCountries={clickedCountries}/>
                                 </div>
                             </div>
-                        {gameStatus === "waiting" && (
-                            <div>
-                                <div className="mt-[2rem]">
-                                    <Button size="small" onClick={() => nextGame()}>Next</Button>
+                            {gameStatus === "waiting" && (
+                                <div>
+                                    <div className="mt-[2rem]">
+                                        <Button size="small" onClick={() => nextGame()}>Next</Button>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                        {(gameStatus === "finished" && tries > 0) && (
-                            <CongratsModal
-                                points={score}
-                                onCloseMessage={closeModal}
-                                onRestart={initializeGame}
-                            />
-                        )}
-                        {(tries === 0) && (
-                            <GameOverModal
-                                onCloseMessage={closeModal}
-                                onRestart={initializeGame}
-                            />
-                        )}
-                    </div>
+                            )}
+                            {(gameStatus === "finished" && tries > 0) && (
+                                <CongratsModal
+                                    points={score}
+                                    onCloseMessage={closeModal}
+                                    onRestart={initializeGame}
+                                />
+                            )}
+                            {(tries === 0) && (
+                                <GameOverModal
+                                    onCloseMessage={closeModal}
+                                    onRestart={initializeGame}
+                                />
+                            )}
+                        </div>
 
+                    </div>
                 </div>
+
             </section>
             <Footer></Footer>
         </div>
