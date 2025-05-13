@@ -180,7 +180,7 @@ export default function DominoMaster() {
     useEffect(() => {
         if (lives === 0 && !gameOver) {
             setGameOver(true);
-            setMessage("Game Over! Te has quedado sin vidas");
+            setMessage(t("dominomaster.gameover"));
             setShowModal(true);
         }
     }, [lives, gameOver]);
@@ -240,17 +240,23 @@ export default function DominoMaster() {
             setHand(newHand);
 
             setScore(score + 5);
-            setMessage("¡Buen trabajo! + 5 puntos");
+            setMessage({
+                text: `${t("dominomaster.goodjob")} `,
+                type: "success"
+            });
 
             if (newHand.length === 0) {
                 setGameOver(true);
-                setMessage("¡Felicidades! Completaste el tablero.");
+                setMessage(t("dominomaster.congrats"));
                 setShowModal(true);
             }
         } else {
             setScore(Math.max(0, score - 3));
             setLives(lives - 1);
-            setMessage(`¡Movimiento inválido! Te quedan ${lives - 1} vidas`);
+            setMessage({
+                text: `${t("dominomaster.invalid")} ${lives - 1} ${t("dominomaster.livesleft")}`,
+                type: "error"
+            });
         }
     };
 
@@ -266,6 +272,16 @@ export default function DominoMaster() {
             );
         }
     };
+
+    useEffect(() => {
+        let timeout;
+        if (message.text && !message.text.includes("Congrats")) {
+            timeout = setTimeout(() => {
+                setMessage({ text: "", type: "" });
+            }, 2000);
+        }
+        return () => clearTimeout(timeout);
+    }, [message]);
 
     const renderHearts = () => {
         return (
@@ -288,6 +304,11 @@ export default function DominoMaster() {
         }, 0);
     };
 
+    const restartGame = () => {
+        setShowModal(false);
+        startGame()
+        saveGameData(score);
+    };
     return (
         <div className="app flex flex-col bg-PS-main-purple">
             <Header></Header>
@@ -306,15 +327,16 @@ export default function DominoMaster() {
                         <div className="max-w-5xl mx-auto">
                             <div className="flex justify-between mt-8 mb-4">
                                 <div className="p-2 text-black bg-white rounded shadow">
-                                    <p className="font-bold">Puntuación: {score}</p>
+                                    <p className="font-bold">{t("dominomaster.score")}: {score}</p>
                                 </div>
-                                {message && (
+                                {message.text && (
                                     <div
-                                        key={message}
+                                        key={message.text}
                                         className={`p-2 mb-0 text-center text-white font-bold rounded 
-                                                   ${message.includes("quedan") || message.includes("inválido") ? 'bg-red-400' : 'bg-green-400'}
-                                                   animate-fade-in-out z-10`}
-                                    >{message}
+                                        ${message.type === 'error' ? 'bg-red-400' : message.type === 'success' ? 'bg-green-400' : 'bg-blue-300'}
+                                        animate-fade-in-out z-10`}
+                                    >
+                                        {message.text}
                                     </div>
                                 )}
                                 <div>
@@ -342,13 +364,13 @@ export default function DominoMaster() {
                                             ))}
                                         </div>
                                     ) : (
-                                        <p className="text-center w-full italic">¡El tablero está vacío!</p>
+                                        <p className="text-center w-full italic">{t("dominomaster.emptyboard")}</p>
                                     )}
                                 </div>
                             </div>
 
                             <div>
-                                <h2 className="text-xl text-gray-700 font-bold mb-2">Inventario:</h2>
+                                <h2 className="text-xl text-gray-700 font-bold mb-2">{t("dominomaster.inventory")}:</h2>
                                 <div className="flex flex-wrap gap-2 justify-center">
                                     {hand.map((piece, index) => (
                                         <div
@@ -368,17 +390,17 @@ export default function DominoMaster() {
                                 </div>
                             </div>
 
-                            {message && showModal && message.includes('Felicidades') && (
+                            {message && showModal && (
                                 <CongratsModal
                                     points={score}
                                     onCloseMessage={closeModal}
-                                    onRestart={startGame}
+                                    onRestart={restartGame}
                                 />
                             )}
                             {lives === 0 && showModal && (
                                 <GameOverModal
                                     onCloseMessage={closeModal}
-                                    onRestart={startGame}
+                                    onRestart={restartGame}
                                 />
                             )}
 

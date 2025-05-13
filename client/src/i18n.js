@@ -111,6 +111,16 @@ const resources = {
                 subtitle: 'Words to find',
                 done: 'Great! You found'
             },
+            dominomaster: {
+                score: 'Score',
+                gameover: 'Game over! No lives left...',
+                goodjob: 'Good job! + 5 points',
+                congrats: 'Congrats! You filled the board.',
+                invalid: 'Invalid movement! You have',
+                livesleft: 'lives left.',
+                emptyboard: 'The board is empty!',
+                inventory: 'Inventory'
+            },
             report_error_button_title: 'Report an error',
             report_error_title: 'Report an error',
             title_label: 'Error title',
@@ -284,6 +294,16 @@ const resources = {
                 progress: 'Tu progreso',
                 subtitle: 'Encuentra estas palabras',
                 done: '¡Genial! Encontraste'
+            },
+            dominomaster: {
+                score: "Puntuación",
+                gameover: "¡Fin del juego! No quedan vidas...",
+                goodjob: "¡Buen trabajo! +5 puntos",
+                congrats: "¡Felicidades! Has completado el tablero.",
+                invalid: "¡Movimiento inválido! Te quedan",
+                livesleft: "vidas.",
+                emptyboard: "¡El tablero está vacío!",
+                inventory: "Inventario"
             },
             report_error_button_title: 'Reportar un error',
             report_error_title: 'Reportar un error',
@@ -459,6 +479,16 @@ const resources = {
                 subtitle: 'Trouver des mots',
                 done: 'Super ! Tu as trouvé'
             },
+            dominomaster: {
+                score: "Score",
+                gameover: "Fin de partie! Plus de vies restantes...",
+                goodjob: "Bon travail! +5 points",
+                congrats: "Félicitations! Vous avez rempli le plateau.",
+                invalid: "Mouvement invalide! Il vous reste",
+                livesleft: "vies.",
+                emptyboard: "Le plateau est vide!",
+                inventory: "Inventaire"
+            },
             report_error_button_title: 'Signaler une erreur',
             report_error_title: 'Signaler une erreur',
             title_label: 'Titre de l\'erreur',
@@ -632,6 +662,16 @@ const resources = {
                 progress: 'Fortschritt',
                 subtitle: 'Wörter zu finden',
                 done: 'Super! Du hast gefunden'
+            },
+            dominomaster: {
+                score: "Punktzahl",
+                gameover: "Spiel vorbei! Keine Leben mehr...",
+                goodjob: "Gute Arbeit! +5 Punkte",
+                congrats: "Glückwunsch! Du hast das Spielfeld gefüllt.",
+                invalid: "Ungültiger Zug! Du hast noch",
+                livesleft: "Leben.",
+                emptyboard: "Das Spielfeld ist leer!",
+                inventory: "Inventar"
             },
             report_error_button_title: 'Fehler melden',
             report_error_title: 'Fehler melden',
