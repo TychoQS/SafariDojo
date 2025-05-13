@@ -690,7 +690,7 @@ const resources = {
                 playAgain: 'Nochmal spielen',
                 verify: 'Bestellung prüfen',
                 timeline: 'Zeitachse',
-                level: 'Niveau',
+                level: 'Level',
                 piece: 'Platziere das Teil',
                 here: 'hier',
                 empty: 'Keine weiteren Teile verfügbar',
