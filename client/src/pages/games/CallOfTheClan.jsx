@@ -4,8 +4,8 @@ import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import levelsData from "../../../../database/jsondata/CallOfTheClan.json";
 import {router} from "next/client";
+import LoadingPage from "@/components/LoadingPage";
 
 
 const AnimalClassificationGame = () => {
@@ -15,10 +15,12 @@ const AnimalClassificationGame = () => {
     const [maxScore, setMaxScore] = useState(0);
     const [gameActive, setGameActive] = useState(true);
     const [gameFinished, setGameFinished] = useState(false);
+    const [gameLoaded, setGameLoaded] = useState(false);
     const [gameWon, setGameWon] = useState(false);
     const [message, setMessage] = useState('Move your animal to the correct group!');
     const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 50 });
-    const allLevels = levelsData.allLevels;
+    const [allLevels, setAllLevels] = useState([]);
+    const [currentLevel, setCurrentLevel] = useState(null);
     const [randomLevels, setRandomLevels] = useState([]);
 
     const newLevelSound = useRef(null);
@@ -38,30 +40,53 @@ const AnimalClassificationGame = () => {
         }
     }
 
+    async function fetchLevels() {
+        const response = await fetch('http://localhost:8080/api/calloftheclan');
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
+    }
+
     useEffect(() => {
-        fetchDifficulty();
+        async function loadData() {
+            try {
+                const levelResponse = await fetchLevels();
+                const levels = levelResponse?.allLevels || [];
+                setAllLevels(levels);
+                await fetchDifficulty();
+            } catch (err) {
+                console.error("Error loading data:", err);
+            }
+        }
+
+        loadData();
     }, []);
 
     useEffect(() => {
-        if (difficulty) {
-            setRandomLevels(selectRandomLevels(difficulty));
+        if (allLevels.length > 0 && difficulty) {
+            const selectedRandomLevels = selectRandomLevels(difficulty);
+            setRandomLevels(selectedRandomLevels);
+            console.log("Niveles seleccionados: ", selectedRandomLevels); // Verifica los niveles seleccionados
+            const initialLevel = selectedRandomLevels[Math.min(level - 1, selectedRandomLevels.length - 1)];
+            setCurrentLevel(initialLevel);
+            setGameLoaded(true);
         }
-    }, [difficulty]);
+    }, [allLevels, difficulty]);
+
+    useEffect(() => {
+        if (randomLevels.length > 0 && level > 0) {
+            const newCurrentLevel = randomLevels[Math.min(level - 1, randomLevels.length - 1)];
+            setCurrentLevel(newCurrentLevel);
+        }
+    }, [randomLevels, level]);
 
     function selectRandomLevels(difficulty) {
         const shuffled = [...allLevels].sort(() => 0.5 - Math.random());
-        if (difficulty === "hard") {
-            return shuffled.slice(0, 6);
-        }
-
-        if (difficulty === "medium") {
-            return shuffled.slice(0, 5);
-        }
-
+        if (difficulty === "hard") return shuffled.slice(0, 6);
+        if (difficulty === "medium") return shuffled.slice(0, 5);
         return shuffled.slice(0, 4);
     }
-
-    const currentLevel = randomLevels[Math.min(level - 1, randomLevels.length - 1)] || allLevels[0];
 
     const handleKeyDown = useCallback((e) => {
         if (!gameActive) return;
@@ -196,9 +221,12 @@ const AnimalClassificationGame = () => {
         });
     }
 
-    if (randomLevels.length === 0) return <div>Loading game...</div>;
+    if (randomLevels.length === 0) return <LoadingPage></LoadingPage>
 
     return (
+        !gameLoaded ?
+            <LoadingPage></LoadingPage>
+        :
         <section className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header />
 
