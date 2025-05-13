@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Link from "next/link";
 import Lifes from "@/components/Lifes";
+import {useRouter} from "next/router";
 
 
 function getImage() {
@@ -12,27 +13,63 @@ function getImage() {
     return images[image] || {Name: "", Image: ""};
 }
 
+function fetchPaintings(difficulty = 'easy') {
+    return fetch(`http://localhost:8080/api/getPaintings?` + new URLSearchParams({
+        difficulty: difficulty.toLowerCase()
+    }), {
+        method: "GET",
+        headers: {'Content-Type': 'application/json'},
+    });
+}
+
 function DetectiveLupin() {
     const [guess, setGuess] = useState("");
     const [message, setMessage] = useState("");
+
     const [item, setItem] = useState({Name: "", Image: ""});
     const [loading, setLoading] = useState(true);
+
     const [next, setNext] = useState(false);
     const [score, setScore] = useState(0);
+
     const [bestScore, setBestScore] = useState(0);
     const [tries, setTries] = useState(4);
+
     const [finished, setFinished] = useState(false);
+    const [gamePaintings, setGamePaintings] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const lifesRef = useRef(null);
+
+    let currentPainting = gamePaintings[currentIndex];
+
+    const router = useRouter();
+    const fetchGameData = async () => {
+        if (!router.isReady) return;
+        let difficulty = router.query.Age || "easy";
+        const response = await fetchPaintings(difficulty);
+        if (response.ok) {
+            let fetchedPaintings = await response.json();
+            fetchedPaintings.sort(() => 0.5 - Math.random());
+            setGamePaintings(fetchedPaintings.slice(0,5));
+
+        }
+
+    }
 
     useEffect(() => {
         setItem(getImage());
         setLoading(false);
     }, []);
 
+    useEffect(() => {
+        if (router.isReady) {
+            fetchGameData().then(r => (console.log("Loaded game countries")));
+            setCurrentIndex(0);
+        }
+    }, [router.isReady, router.query.Age]);
+
     if (loading) return <p>Loading...</p>;
 
-    const name = item.Name;
-    const paint = item.Image;
 
     function validatePicture(name, guess) {
         if (tries === 0) {
@@ -41,9 +78,9 @@ function DetectiveLupin() {
                 lifesRef.current.loseLife();
             }
         }
-        if (name.trim().toLowerCase() === guess.trim().toLowerCase()) {
-            setMessage("Very good, I'm proud of you!!!")
-            setScore(score + 100);
+        if (currentPainting?.name.trim().toLowerCase() === guess.trim().toLowerCase()) {
+            setMessage("Nice!")
+            setScore(prev => prev + 5);
         } else {
             setMessage("Nice try!");
         }
@@ -56,7 +93,8 @@ function DetectiveLupin() {
         setGuess("");
         setMessage("");
         setNext(false);
-        setTries(tries-1);
+        setTries(prev => prev - 1);
+        setCurrentIndex(prev => prev + 1);
     }
 
     return (
@@ -72,8 +110,7 @@ function DetectiveLupin() {
             border-PS-dark-yellow bg-PS-light-yellow">
 
                     <div className="max-w-80 max-h-80 flex justify-center items-center">
-                        {paint ? <img src={paint} alt={name} className="max-w-full max-h-full object-contain"/> :
-                            <p>No image available</p>}
+                        <img src={`${currentPainting?.image}`} alt={`${currentPainting?.name}`} className="max-w-full max-h-full object-contain"/>
                     </div>
 
                     {message && <p className={"text-black text-xl"}>{message}</p>}
@@ -114,7 +151,6 @@ function DetectiveLupin() {
                     </div>
 
                     <div className={"text-black text-2xl font-black"}>{score}</div>
-                    {finished ? <div className={"text-black text-2xl font-black"}>Best score: {bestScore}</div> : null}
                 </div>
             </section>
             <Footer></Footer>
