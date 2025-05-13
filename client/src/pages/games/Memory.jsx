@@ -258,7 +258,7 @@ export default function MemoryGame() {
                     <CongratsModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
                 )}
                 {gameOver && (
-                    <GameOverModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
+                    <GameOverModal onCloseMessage={finishGame} onRestart={restartGame}/>
                 )}
 
             <audio ref={successSound} src="/sounds/Memory/correct_answer.mp3" preload="auto" />
