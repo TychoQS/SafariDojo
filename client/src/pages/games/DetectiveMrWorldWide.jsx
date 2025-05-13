@@ -54,7 +54,7 @@ function DetectiveMrWorldWide() {
 
     useEffect(() => {
         if (router.isReady) {
-            fetchGameData().then(r => (console.log("Loaded game countries")));
+            fetchGameData().then(() => (console.log("Loaded game countries")));
         }
     }, [router.isReady, router.query.Age]);
 
@@ -106,11 +106,10 @@ function DetectiveMrWorldWide() {
         setGameStatus("playing")
         setFullImage(false);
         setClipPathIndex(getRandomNumber());
-        console.log(gameCountries);
     }
 
     function restartGame() {
-        fetchGameData().then(r => {console.log("Countries' flag loaded")});
+        fetchGameData().then(() => {console.log("Countries' flags loaded")});
         setCurrentIndex(0);
         setFullImage(false);
         setTries(5);
