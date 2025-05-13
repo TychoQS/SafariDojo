@@ -861,18 +861,39 @@ CREATE TABLE DetectiveLupin (
                            image TEXT
 );
 
-INSERT INTO DetectiveLupin (id, name, artist, difficulty, image) VALUES
-                                                                (1, 'Mona Lisa', 'Leonardo da Vinci', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Mona_Lisa.jpg'),
-                                                                (2, 'The Starry Night', 'Vincent van Gogh', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg'),
-                                                                (3, 'The Persistence of Memory', 'Salvador Dalí', 'Medium', 'https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg'),
-                                                                (4, 'The Last Supper', 'Leonardo da Vinci', 'Medium', 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Leonardo_da_Vinci_-_The_Last_Supper_high_res.jpg'),
-                                                                (5, 'Girl with a Pearl Earring', 'Johannes Vermeer', 'Medium', 'https://upload.wikimedia.org/wikipedia/commons/d/d7/Meisje_met_de_parel.jpg'),
-                                                                (6, 'American Gothic', 'Grant Wood', 'Hard', 'https://upload.wikimedia.org/wikipedia/commons/7/78/Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg'),
-                                                                (7, 'The Scream', 'Edvard Munch', 'Medium', 'https://upload.wikimedia.org/wikipedia/commons/f/f4/The_Scream.jpg'),
-                                                                (8, 'Water Lilies', 'Claude Monet', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg'),
-                                                                (9, 'The Birth of Venus', 'Sandro Botticelli', 'Hard', 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Birth_of_Venus_Botticelli.jpg'),
-                                                                (10, 'Sunflowers', 'Vincent van Gogh', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Vincent_Willem_van_Gogh_127.jpg');
+INSERT INTO Paintings (id, name, artist, difficulty, image) VALUES
+                                                                (1, 'Mona Lisa', 'Leonardo da Vinci', 'Easy', '/images/Games/Art/MonaLisa.avif'),
+                                                                (2, 'The Starry Night', 'Vincent van Gogh', 'Easy', '/images/Games/Art/TheStarryNight.avif'),
+                                                                (3, 'Sunflowers', 'Vincent van Gogh', 'Easy', '/images/Games/Art/Sunflowers.avif'),
+                                                                (4, 'Water Lilies', 'Claude Monet', 'Easy', '/images/Games/Art/WaterLilies.avif'),
+                                                                (5, 'A Sunday on La Grande Jatte', 'Georges Seurat', 'Easy', '/images/Games/Art/ASundayOnLaGrandeJatte.avif'),
+                                                                (6, 'The Sleeping Gypsy', 'Henri Rousseau', 'Easy', '/images/Games/Art/TheSleepingGypsy.avif'),
+                                                                (7, 'Composition II in Red, Blue, and Yellow', 'Piet Mondrian', 'Easy', '/images/Games/Art/CompositionIiInRedBlueAndYellow.avif'),
+                                                                (8, 'The Snail', 'Henri Matisse', 'Easy', '/images/Games/Art/TheSnail.avif'),
+                                                                (9, 'Dogs Playing Poker', 'Cassius Marcellus Coolidge', 'Easy', '/images/Games/Art/DogsPlayingPoker.avif'),
+                                                                (10, 'Balloon Girl', 'Banksy', 'Easy', '/images/Games/Art/BalloonGirl.avif'),
 
+                                                                (11, 'The Last Supper', 'Leonardo da Vinci', 'Medium', '/images/Games/Art/TheLastSupper.avif'),
+                                                                (12, 'Girl with a Pearl Earring', 'Johannes Vermeer', 'Medium', '/images/Games/Art/GirlWithAPearlEarring.avif'),
+                                                                (13, 'The Scream', 'Edvard Munch', 'Medium', '/images/Games/Art/TheScream.avif'),
+                                                                (14, 'The Hay Wain', 'John Constable', 'Medium', '/images/Games/Art/TheHayWain.avif'),
+                                                                (15, 'Liberty Leading the People', 'Eugène Delacroix', 'Medium', '/images/Games/Art/LibertyLeadingThePeople.avif'),
+                                                                (16, 'Dance at Le Moulin de la Galette', 'Pierre-Auguste Renoir', 'Medium', '/images/Games/Art/DanceAtLeMoulinDeLaGalette.avif'),
+                                                                (17, 'Whistler’s Mother', 'James McNeill Whistler', 'Medium', '/images/Games/Art/WhistlersMother.avif'),
+                                                                (18, 'The Treachery of Images', 'René Magritte', 'Medium', '/images/Games/Art/TheTreacheryOfImages.avif'),
+                                                                (19, 'Olympia', 'Édouard Manet', 'Medium', '/images/Games/Art/Olympia.avif'),
+                                                                (20, 'The Sleeping Venus', 'Giorgione', 'Medium', '/images/Games/Art/TheSleepingVenus.avif'),
+
+                                                                (21, 'The Birth of Venus', 'Sandro Botticelli', 'Hard', '/images/Games/Art/TheBirthOfVenus.avif'),
+                                                                (22, 'American Gothic', 'Grant Wood', 'Hard', '/images/Games/Art/AmericanGothic.avif'),
+                                                                (23, 'Guernica', 'Pablo Picasso', 'Hard', '/images/Games/Art/Guernica.avif'),
+                                                                (24, 'The Garden of Earthly Delights', 'Hieronymus Bosch', 'Hard', '/images/Games/Art/TheGardenOfEarthlyDelights.avif'),
+                                                                (25, 'Las Meninas', 'Diego Velázquez', 'Hard', '/images/Games/Art/LasMeninas.avif'),
+                                                                (26, 'Arnolfini Portrait', 'Jan van Eyck', 'Hard', '/images/Games/Art/ArnolfiniPortrait.avif'),
+                                                                (27, 'The Night Watch', 'Rembrandt', 'Hard', '/images/Games/Art/TheNightWatch.avif'),
+                                                                (28, 'Libyan Sibyl (Sistine Chapel)', 'Michelangelo', 'Hard', '/images/Games/Art/LibyanSibylSistineChapel.avif'),
+                                                                (29, 'The Raft of the Medusa', 'Théodore Géricault', 'Hard', '/images/Games/Art/TheRaftOfTheMedusa.avif'),
+                                                                (30, 'Napoleon Crossing the Alps', 'Jacques-Louis David', 'Hard', '/images/Games/Art/NapoleonCrossingTheAlps.avif');
 
 
 show tables;
