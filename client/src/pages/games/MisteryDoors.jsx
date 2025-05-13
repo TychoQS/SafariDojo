@@ -3,13 +3,13 @@ import Title from "@/components/Title";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 import {cherryBomb} from "@/styles/fonts";
 import {useRouter} from "next/router";
 import {useTranslation} from "react-i18next";
 import ErrorReportModal from "@/components/ErrorModal";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
 
 const MisteryDoorsGame = () => {
     const [showStartScreen, setShowStartScreen] = useState(true);
@@ -309,7 +309,7 @@ const MisteryDoorsGame = () => {
         if (isCorrect) {
             const newScore = score + 25;
             setScore(newScore);
-            saveScore(newScore);
+            saveGameData(newScore);
             setFeedbackMessage(t('misterydoors.vaultCorrect'));
         } else {
             setFeedbackMessage(t('misterydoors.vaultIncorrect'));
@@ -317,42 +317,8 @@ const MisteryDoorsGame = () => {
         setGameState('win');
     };
 
-    const saveScore = (newScore) => {
-        try {
-            const previousURL = localStorage.getItem("previousURL");
-            if (previousURL) {
-                const url = new URL(previousURL);
-                const gameData = url.searchParams.get("Game");
-                const age = url.searchParams.get("Age");
-
-                if (gameData && age) {
-                    const key = `${gameData}_${age}_bestScore`;
-                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-
-                    if (newScore > storedScore) {
-                        localStorage.setItem(key, newScore.toString());
-                    }
-
-                    const typeMedal = age === "easy"
-                        ? "BronzeMedal"
-                        : age === "medium"
-                            ? "SilverMedal"
-                            : "GoldMedal";
-
-                    const medalKey = `${gameData}_${typeMedal}`;
-                    const medalStatus = localStorage.getItem(medalKey) === "1";
-                    if (!medalStatus) {
-                        localStorage.setItem(medalKey, "1");
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("Error processing score or medal update:", error);
-        }
-    }
-
     const takeSmallReward = () => {
-        saveScore(score);
+        saveGameData(score);
         setFeedbackMessage(t('misterydoors.completedDungeon'));
         setGameState('win');
     };
