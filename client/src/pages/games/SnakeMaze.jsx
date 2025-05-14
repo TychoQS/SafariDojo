@@ -83,6 +83,7 @@ export default function MazeGame() {
     const appleSound = useRef(null);
     const dropSound = useRef(null);
     const winSound = useRef(null);
+    const loseSound = useRef(null);
 
     const {t} = useTranslation();
 
@@ -122,7 +123,6 @@ export default function MazeGame() {
                 setPlayerPos({ x: newX, y: newY });
                 setScore(score + 5);
                 appleSound.current.play();
-
                 const updatedMaze = mazeState.map((row, rowIndex) =>
                     row.map((cell, colIndex) =>
                         rowIndex === newY && colIndex === newX ? 0 : cell
@@ -132,17 +132,8 @@ export default function MazeGame() {
             }
             else if (tileType === 3) {
                 dropSound.current.play();
-                setPlayerPos({ x: newX, y: newY });
-                setScore(score - 2);
-                livesRef.current.loseLife();
-                setLives(lives - 1);
-                if (lives === 0) {
-                    if (bestScore < score) {
-                        setBestScore(score);
-                    }
-                    setGameOver(true);
-                    // loseSound.current.play();
-                }
+                setPlayerPos({ x: 1, y: 1 });
+                loseLive();
             }
             else if (tileType === 4) {
                 if (score > bestScore) {
@@ -218,6 +209,19 @@ export default function MazeGame() {
         setScore(0);
     };
 
+    function loseLive() {
+        setScore(score - 2);
+        livesRef.current.loseLife();
+        setLives(lives - 1);
+        if (lives === 0) {
+            if (bestScore < score) {
+                setBestScore(score);
+            }
+            setGameOver(true);
+            loseSound.current.play();
+        }
+    }
+
     function finishGame() {
         try {
             const previousURL = localStorage.getItem("previousURL");
@@ -266,19 +270,14 @@ export default function MazeGame() {
                 <div className="mt-[-4em]">
                     <Title>Snake Maze</Title>
                 </div>
-                {gameWon ? (
-                    <div className="text-green-600 font-bold">Congrats! You won a medal.</div>
-                ) : (
-                    <div className={"relative w-[60em] mb-3 flex justify-between"}>
-                        <Button size="small" onClick={finishGame}>{t("backButton")} </Button>
-                        <div className={"text-3xl"}>Score: {score}</div>
-                        <div className={"mt-[-1.5em]"}>
-                            <Lifes ref={livesRef} />
-                        </div>
-                        <ErrorReportModal></ErrorReportModal>
+                <div className={"relative w-[60em] mb-3 flex justify-between"}>
+                    <Button size="small" onClick={finishGame}>{t("backButton")} </Button>
+                    <div className={"text-3xl"}>Score: {score}</div>
+                    <div className={"mt-[-1.5em]"}>
+                        <Lifes ref={livesRef} />
                     </div>
-
-                )}
+                    <ErrorReportModal></ErrorReportModal>
+                </div>
 
                 <div className="bg-white border-4 border-gray-800 relative"
                      style={{width: mazeState[0].length * cellSize, height: mazeState.length * cellSize}}>
@@ -287,10 +286,7 @@ export default function MazeGame() {
                             <div
                                 key={`${x}-${y}`}
                                 className={`absolute ${
-                                    cell === 1 ? 'bg-gray-800' :
-                                        cell === 2 ? 'bg-yellow-400' :
-                                            cell === 3 ? 'bg-red-600' :
-                                                cell === 4 ? 'bg-green-500' : 'bg-white'
+                                    cell === 1 ? 'bg-yellow-950' : 'bg-yellow-200'
                                 }`}
                                 style={{
                                     left: x * cellSize,
@@ -298,17 +294,42 @@ export default function MazeGame() {
                                     width: cellSize,
                                     height: cellSize
                                 }}
-                            />
+                            >
+                                {cell === 2 && <img src={"/images/Games/Science/SnakeMaze/mouse.svg"} alt={"mouse"}
+                                                    style={{
+                                                    left: playerPos.x * cellSize + cellSize * 0.1,
+                                                    top: playerPos.y * cellSize + cellSize * 0.1,
+                                                    width: cellSize * .9,
+                                                    height: cellSize * .9
+                                                    }}
+                                />}
+                                {cell === 3 && <img src={"/images/Games/Science/SnakeMaze/eagle.svg"} alt={"eagle"}
+                                                    style={{
+                                                        left: playerPos.x * cellSize + cellSize * 0.1,
+                                                        top: playerPos.y * cellSize + cellSize * 0.1,
+                                                        width: cellSize * .9,
+                                                        height: cellSize * .9
+                                                    }}
+                                />}
+                                {cell === 4 && <img src={"/images/Games/Science/SnakeMaze/hole.svg"} alt={"hole"}
+                                                    style={{
+                                                        left: playerPos.x * cellSize + cellSize * 0.1,
+                                                        top: playerPos.y * cellSize + cellSize * 0.1,
+                                                        width: cellSize * .9,
+                                                        height: cellSize * .9
+                                                    }}
+                                />}
+                            </div>
                         ))
                     ))}
 
-                    <div
-                        className="absolute bg-red-500 rounded-full"
+                    <img src={"/images/Games/Science/SnakeMaze/snake.svg"} alt={"snake"}
+                        className="absolute"
                         style={{
-                            left: playerPos.x * cellSize + cellSize * 0.2,
-                            top: playerPos.y * cellSize + cellSize * 0.2,
-                            width: cellSize * 0.6,
-                            height: cellSize * 0.6,
+                            left: playerPos.x * cellSize + cellSize * 0.1,
+                            top: playerPos.y * cellSize + cellSize * 0.1,
+                            width: cellSize * .9,
+                            height: cellSize * .9,
                             transition: 'left 0.15s, top 0.15s'
                         }}
                     />
@@ -323,9 +344,10 @@ export default function MazeGame() {
                 )}
 
                 <audio ref={startSound} src="/sounds/SnakeMaze/startSound.mp3" preload="auto "/>
-                <audio ref={appleSound} src="/sounds/SnakeMaze/appleSound.mp3" preload="auto" />
+                <audio ref={appleSound} src="/sounds/SnakeMaze/biteSound.mp3" preload="auto" />
                 <audio ref={dropSound} src="/sounds/SnakeMaze/dropSound.mp3" preload="auto" />
-                <audio ref={winSound} src="/sounds/SnakeMaze/winSound.mp3" preload="auto" />
+                <audio ref={winSound} src="/sounds/SnakeMaze/winSound.mp3" preload="auto "/>
+                <audio ref={loseSound} src="/sounds/SnakeMaze/loseSound.mp3" preload="auto" />
             </section>
             <Footer />
         </div>
