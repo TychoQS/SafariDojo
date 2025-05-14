@@ -12,6 +12,7 @@ import ErrorReportModal from "@/components/ErrorModal";
 import {useTranslation} from "react-i18next";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
 
 const maps = {
     EUROPEAN_COUNTRIES: EuropeMap,
@@ -104,40 +105,15 @@ const EuropeGeographyGame = () => {
     };
 
     const closeModal = () => {
-        saveScore();
+        saveGameData(score);
         setTimeout(() => {
             router.back();
         }, 0);
     };
 
     const playAgain = () => {
-        saveScore();
+        saveGameData(score);
         restartGame();
-    }
-
-    function saveScore() {
-        try {
-            const gameTitle = "Pin The Place";
-            const age = router.query.Age;
-            if (age) {
-                const key = `${gameTitle}_${age}_bestScore`;
-                const storesScore = parseInt(localStorage.getItem(key) || "0", 10);
-                if (score > storesScore) {
-                    localStorage.setItem(key, score.toString());
-                }
-            }
-
-            const currentScore = parseInt(localStorage.getItem(`${gameTitle}_${age}_bestScore`) || "0", 10);
-            const medalType = age === "easy"
-                ? "BronzeMedal" : age === "medium" ? "SilverMedal" : "GoldMedal";
-            const medalKey = `${gameTitle}_${medalType}`;
-            const medalStatus = localStorage.getItem(medalKey) === "1";
-            if (!medalStatus && currentScore > (selectedCountries.length - 2 * 5)) {
-                localStorage.setItem(medalKey, "1");
-            }
-        } catch (error) {
-            console.error("Error processing score update: ", error);
-        }
     }
 
     return (<div className="app min-h-screen flex flex-col bg-PS-main-purple ">

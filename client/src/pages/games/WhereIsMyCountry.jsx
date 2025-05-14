@@ -10,6 +10,7 @@ import {useTranslation} from "react-i18next";
 import GameOverModal from "@/components/GameOverModal";
 import CongratsModal from "@/components/CongratsModal";
 import Title from "@/components/Title";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
 
 
 function fetchCountries(difficulty = 'easy') {
@@ -148,40 +149,15 @@ function WhereIsMyCountry() {
     }
 
     const closeModal = () => {
-        saveScore();
+        saveGameData(score);
         setTimeout(() => {
             router.back();
         }, 0);
     };
 
     const playAgain = () => {
-        saveScore();
+        saveGameData(score);
         initializeGame();
-    }
-
-    function saveScore() {
-        try {
-            const gameTitle = "Where Is My Country?";
-            const age = router.query.Age;
-            if (age) {
-                const key = `${gameTitle}_${age}_bestScore`;
-                const storesScore = parseInt(localStorage.getItem(key) || "0", 10);
-                if (score > storesScore) {
-                    localStorage.setItem(key, score.toString());
-                }
-            }
-
-            const currentScore = parseInt(localStorage.getItem(`${gameTitle}_${age}_bestScore`) || "0", 10);
-            const medalType = age === "easy"
-                ? "BronzeMedal" : age === "medium" ? "SilverMedal" : "GoldMedal";
-            const medalKey = `${gameTitle}_${medalType}`;
-            const medalStatus = localStorage.getItem(medalKey) === "1";
-            if (!medalStatus && currentScore > (gameCountries.length - 2 * 5)) {
-                localStorage.setItem(medalKey, "1");
-            }
-        } catch (error) {
-            console.error("Error processing score update: ", error);
-        }
     }
 
     return (

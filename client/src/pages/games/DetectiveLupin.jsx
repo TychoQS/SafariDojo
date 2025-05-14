@@ -8,6 +8,7 @@ import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
 import Button from "@/components/Button";
 import ErrorReportModal from "@/components/ErrorModal";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
 
 function fetchPaintings(difficulty = 'easy') {
     return fetch(`http://localhost:8080/api/getPaintings?` + new URLSearchParams({
@@ -270,40 +271,15 @@ function DetectiveLupin() {
     }
 
     const closeModal = () => {
-        saveScore();
+        saveGameData(score);
         setTimeout(() => {
             router.back();
         }, 0);
     };
 
     const playAgain = () => {
-        saveScore();
+        saveGameData(score);
         restartGame();
-    }
-
-    function saveScore() {
-        try {
-            const gameTitle = "Detective Lupin";
-            const age = router.query.Age;
-            if (age) {
-                const key = `${gameTitle}_${age}_bestScore`;
-                const storesScore = parseInt(localStorage.getItem(key) || "0", 10);
-                if (score > storesScore) {
-                    localStorage.setItem(key, score.toString());
-                }
-            }
-
-            const currentScore = parseInt(localStorage.getItem(`${gameTitle}_${age}_bestScore`) || "0", 10);
-            const medalType = age === "easy"
-                ? "BronzeMedal" : age === "medium" ? "SilverMedal" : "GoldMedal";
-            const medalKey = `${gameTitle}_${medalType}`;
-            const medalStatus = localStorage.getItem(medalKey) === "1";
-            if (!medalStatus && currentScore > (gamePaintings.length - 2 * 5)) {
-                localStorage.setItem(medalKey, "1");
-            }
-        } catch (error) {
-            console.error("Error processing score update: ", error);
-        }
     }
 
     return (
