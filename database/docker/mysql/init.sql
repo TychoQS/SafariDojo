@@ -10,6 +10,7 @@ CREATE DATABASE IF NOT EXISTS SafariDojoDB;
 DROP TABLE IF EXISTS UserQuizzes;
 DROP TABLE IF EXISTS UserWeeklyGoals;
 DROP TABLE IF EXISTS WeeklyGoals;
+DROP TABLE IF EXISTS PinThePlace;
 DROP TABLE IF EXISTS SubjectQuizzes;
 DROP TABLE IF EXISTS UserQuizzes;
 DROP TABLE IF EXISTS MultimediaSubjects;
@@ -21,6 +22,8 @@ DROP TABLE IF EXISTS Quizzes;
 DROP TABLE IF EXISTS CookTheBook_StoryPieces;
 DROP TABLE IF EXISTS CookTheBook_Stories;
 DROP TABLE IF EXISTS Mahjong;
+DROP TABLE IF EXISTS Shapes;
+DROP TABLE IF EXISTS DominoMasterShapes;
 DROP TABLE IF EXISTS LetterSoup;
 DROP TABLE IF EXISTS Geography;
 DROP TABLE IF EXISTS DetectiveLupin;
@@ -30,6 +33,7 @@ DROP TRIGGER IF EXISTS PostUserCreation;
 DROP TRIGGER IF EXISTS PostQuizAddition;
 DROP TRIGGER IF EXISTS PostSubjectAddition;
 DROP TRIGGER IF EXISTS PostQuizAdditionOnSubjectQuizzes;
+
 /* Now we start creating the tables and inserting the registers */
 CREATE TABLE Users ( -- Users table
                        Id INT AUTO_INCREMENT PRIMARY KEY,
@@ -65,7 +69,7 @@ CREATE TABLE Quizzes ( -- Quiz table
 INSERT INTO Quizzes (QuizName, Premium, Register, Tutorial) VALUES
                                                                 ('Pin The Place', TRUE, FALSE, NULL),
                                                                 ('Detective MrWorldWide', FALSE, FALSE, NULL),
-                                                                ('Where Is My Country', FALSE, TRUE, NULL),
+                                                                ('Where Is My Country?', FALSE, TRUE, NULL),
                                                                 ('Domino Master', TRUE, FALSE, NULL),
                                                                 ('Detective Lupin', FALSE, FALSE, NULL),
                                                                 ('Cook The Book', FALSE, TRUE, 'https://youtu.be/EUbBz0BaD3Y'),
@@ -853,6 +857,69 @@ INSERT INTO Geography (id, name, capital, continent, difficulty, image, hint) VA
                                                                                   ('MD', 'Moldova', 'Chișinău', 'Europe', 'Hard', '', 'Known for its wine tours and Soviet history.'),
                                                                                   ('MK', 'North Macedonia', 'Skopje', 'Europe', 'Hard', '', 'Home to Lake Ohrid and ancient monasteries.');
 
+CREATE TABLE Shapes (
+        Id INT AUTO_INCREMENT PRIMARY KEY,
+        Name VARCHAR(50) NOT NULL UNIQUE,
+        Shape VARCHAR(50) NOT NULL UNIQUE,
+        ImageURL VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Shapes (Name, Shape, ImageURL) VALUES
+       ('Circle', 'circle', '/images/Games/Art/DominoMaster/circle.svg'),
+       ('Cone', 'cone', '/images/Games/Art/DominoMaster/cone.svg'),
+       ('Cube', 'cube', '/images/Games/Art/DominoMaster/cube.svg'),
+       ('Cylinder', 'cylinder', '/images/Games/Art/DominoMaster/cylinder.svg'),
+       ('Diamond', 'diamond', '/images/Games/Art/DominoMaster/diamond.svg'),
+       ('Square', 'square', '/images/Games/Art/DominoMaster/square.svg'),
+       ('Triangle', 'triangle', '/images/Games/Art/DominoMaster/triangle.svg'),
+       ('Rectangle', 'rectangle', '/images/Games/Art/DominoMaster/rectangle.svg'),
+       ('Pentagon', 'pentagon', '/images/Games/Art/DominoMaster/pentagon.svg'),
+       ('Hexagon', 'hexagon', '/images/Games/Art/DominoMaster/hexagon.svg'),
+       ('Octagon', 'octagon', '/images/Games/Art/DominoMaster/octagon.svg'),
+       ('Parallelogram', 'parallelogram', '/images/Games/Art/DominoMaster/parallelogram.svg'),
+       ('Polyhedron', 'polyhedron', '/images/Games/Art/DominoMaster/polyhedron.svg'),
+       ('Pyramid', 'pyramid', '/images/Games/Art/DominoMaster/pyramid.svg'),
+       ('Sphere', 'sphere', '/images/Games/Art/DominoMaster/sphere.svg'),
+       ('Star', 'star', '/images/Games/Art/DominoMaster/star.svg');
+
+CREATE TABLE DominoMasterShapes (
+        ShapeId INT,
+        Difficulty VARCHAR(10) NOT NULL,
+        PRIMARY KEY (ShapeId, Difficulty),
+        FOREIGN KEY (ShapeId) REFERENCES Shapes(Id),
+        CONSTRAINT valid_difficulty CHECK (Difficulty IN ('easy', 'medium', 'hard'))
+);
+
+INSERT INTO DominoMasterShapes (ShapeId, Difficulty) VALUES
+         ((SELECT Id FROM Shapes WHERE Shape = 'circle'), 'easy'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'rectangle'), 'easy'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'triangle'), 'easy'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'square'), 'easy'),
+
+         ((SELECT Id FROM Shapes WHERE Shape = 'circle'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'rectangle'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'triangle'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'square'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'pentagon'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'hexagon'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'octagon'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'star'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'pyramid'), 'medium'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'diamond'), 'medium'),
+
+         ((SELECT Id FROM Shapes WHERE Shape = 'pentagon'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'hexagon'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'octagon'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'star'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'pyramid'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'diamond'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'cone'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'cube'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'cylinder'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'parallelogram'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'polyhedron'), 'hard'),
+         ((SELECT Id FROM Shapes WHERE Shape = 'sphere'), 'hard');
+
 CREATE TABLE DetectiveLupin (
                            id INT PRIMARY KEY,
                            name VARCHAR(100),
@@ -911,4 +978,6 @@ select * from CookTheBook_StoryPieces;
 select * from Mahjong;
 select * from Geography;
 select * from DetectiveLupin;
+select * from Shapes;
+select * from DominoMasterShapes;
 SET sql_notes = 1;

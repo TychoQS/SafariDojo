@@ -744,6 +744,32 @@ app.post("/api/updateMedals", async (req, res) => {
     }
 });
 
+app.get('/api/getDominoMasterShapes', (req, res) => {
+    const difficulty = req.query.difficulty;
+    const validDifficulties = ['easy', 'medium', 'hard'];
+
+    if (!validDifficulties.includes(difficulty)) {
+        return res.status(400).json({ message: 'Invalid difficulty level' });
+    }
+
+    const query = `
+        SELECT s.Name AS name, s.Shape AS shape, s.ImageURL AS image_url
+        FROM Shapes s
+        JOIN DominoMasterShapes dms ON s.Id = dms.ShapeId
+        WHERE dms.Difficulty = ?`;
+
+    dbConnection.query(query, [difficulty], (err, result) => {
+        if (err) {
+            console.error('Error fetching Domino Master shapes:', err);
+            return res.status(500).json({ message: 'Something went wrong' });
+        }
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'No shapes found for the specified difficulty' });
+        }
+        return res.status(200).json({ shapes: result });
+    });
+});
+
 app.get("/api/getCountries", (req, res) => {
     const difficulty = req.query.difficulty;
     const query = `
