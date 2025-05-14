@@ -160,6 +160,23 @@ const resources = {
 
                 }
             },
+            mathinvasors: {
+                score: 'Score',
+                currentoperation: 'Current Operation',
+            },
+            cookthebook: {
+                score: 'Score',
+                playAgain: 'Play Again',
+                verify: 'Verify order',
+                timeline: 'Timeline',
+                level: 'Level',
+                piece: 'Place piece',
+                here: 'here',
+                empty: 'No more pieces available',
+                bad: 'The order is not correct. Try again!',
+                good: 'Correct! You\'ve ordered the story perfectly!'
+            },
+            },
             calloftheclan: {
                 firstMessage: 'Move your animal to the correct group!',
                 incorrectMessage: 'Try again! Find the correct group.',
@@ -329,6 +346,24 @@ const resources = {
                 level: 'Nivel',
                 score: 'Puntos',
             }
+            },
+            mathinvasors: {
+                score: 'Puntos',
+                currentoperation: 'Operación actual',
+            },
+            cookthebook: {
+                score: 'Puntos',
+                playAgain: 'Jugar de nuevo',
+                verify: 'Verificar orden',
+                timeline: 'Línea de tiempo',
+                level: 'Nivel',
+                piece: 'Coloca la pieza',
+                here: 'aquí',
+                empty: 'No hay más piezas disponibles',
+                bad: 'El orden no es correcto. ¡Intenta de nuevo!',
+                good: '¡Correcto! ¡Has ordenado la historia perfectamente!'
+            },
+
         },
     },
     fr: {
@@ -491,6 +526,22 @@ const resources = {
                 incorrectMessage: 'Essayez à nouveau! Trouvez le groupe correct.',
                 level: 'Niveau',
                 score: 'Score',
+            },
+            mathinvasors: {
+                score: 'Score',
+                currentoperation: 'Opération en cours',
+            },
+            cookthebook: {
+                score: 'Score',
+                playAgain: 'Rejouer',
+                verify: 'Vérifier l’ordre',
+                timeline: 'Ligne du temps',
+                level: 'Niveau',
+                piece: 'Place la pièce',
+                here: 'ici',
+                empty: 'Plus de pièces disponibles',
+                bad: 'L’ordre n’est pas correct. Réessaie !',
+                good: 'Correct ! Tu as parfaitement ordonné l’histoire !'
             }
         },
     },
@@ -655,6 +706,22 @@ const resources = {
                 incorrectMessage: 'Versuchen Sie es erneut! Finden Sie die richtige Gruppe.',
                 level: 'Level',
                 score: 'Punktzahl',
+            },
+            mathinvasors: {
+                score: 'Punktzahl',
+                currentoperation: 'Aktuelle Operation',
+            },
+            cookthebook: {
+                score: 'Punktzahl',
+                playAgain: 'Nochmal spielen',
+                verify: 'Bestellung prüfen',
+                timeline: 'Zeitachse',
+                level: 'Level',
+                piece: 'Platziere das Teil',
+                here: 'hier',
+                empty: 'Keine weiteren Teile verfügbar',
+                bad: 'Die Reihenfolge ist nicht korrekt. Versuche es erneut!',
+                good: 'Richtig! Du hast die Geschichte perfekt geordnet!'
             }
         },
     },

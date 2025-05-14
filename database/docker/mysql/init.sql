@@ -23,6 +23,13 @@ DROP TABLE IF EXISTS CookTheBook_StoryPieces;
 DROP TABLE IF EXISTS CookTheBook_Stories;
 DROP TABLE IF EXISTS Mahjong;
 DROP TABLE IF EXISTS LetterSoup;
+DROP TABLE IF EXISTS Geography;
+DROP TABLE IF EXISTS DetectiveLupin;
+DROP TABLE IF EXISTS group_positions;
+DROP TABLE IF EXISTS level_groups;
+DROP TABLE IF EXISTS level_players;
+DROP TABLE IF EXISTS animals;
+DROP TABLE IF EXISTS levels;
 DROP TABLE IF EXISTS Memory;
 DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
 DROP PROCEDURE IF EXISTS FillUserQuizzes;
@@ -65,15 +72,15 @@ CREATE TABLE Quizzes ( -- Quiz table
 INSERT INTO Quizzes (QuizName, Premium, Register, Tutorial) VALUES
                                                                 ('Pin The Place', TRUE, FALSE, NULL),
                                                                 ('Detective MrWorldWide', FALSE, FALSE, NULL),
-                                                                ('Where Is My Country?', FALSE, TRUE, NULL),
+                                                                ('Where Is My Country', FALSE, TRUE, NULL),
                                                                 ('Domino Master', TRUE, FALSE, NULL),
                                                                 ('Detective Lupin', FALSE, FALSE, NULL),
                                                                 ('Cook The Book', FALSE, TRUE, 'https://youtu.be/EUbBz0BaD3Y'),
                                                                 ('Math Invasors', FALSE, TRUE, 'https://youtu.be/przb2puT3lg'),
-                                                                ('Mistery Doors', TRUE, FALSE, NULL),
+                                                                ('Mistery Doors', TRUE, FALSE, 'https://youtu.be/rw-i_AwR7G8'),
                                                                 ('Cross Math', FALSE, FALSE, NULL),
                                                                 ('Crossword', FALSE, FALSE, NULL),
-                                                                ('Letter Soup', FALSE, TRUE, NULL),
+                                                                ('Letter Soup', FALSE, TRUE, 'https://youtu.be/mdDlEF4_kG4'),
                                                                 ('Mahjong', TRUE, FALSE, 'https://youtu.be/6VlVbPj-4FY'),
                                                                 ('Call Of The Clan', FALSE, FALSE, NULL),
                                                                 ('Snake Maze', FALSE, TRUE, NULL),
@@ -303,14 +310,6 @@ INSERT INTO MultimediaSubjects (IdMultimedia, IdSubject) VALUES (1, 5),
                                                                 (13, 4),
                                                                 (14, 2),
                                                                 (15, 1);
-
-CREATE TABLE PinThePlace (
-                             CountryId INT PRIMARY KEY,
-                             Name VARCHAR(100),
-                             Capital VARCHAR(100),
-                             Continent VARCHAR(50),
-                             Difficulty TINYINT
-);
 
 
 CREATE TABLE WeeklyGoals (
@@ -827,6 +826,333 @@ INSERT INTO Memory (content, pair) VALUES   ('/images/Games/Science/Memory/mano.
                                             ('/images/Games/Science/Memory/corazon.png', 'Heart');
 
 
+CREATE TABLE Geography (
+                           id CHAR(2) PRIMARY KEY,
+                           name VARCHAR(100),
+                           capital VARCHAR(100),
+                           continent VARCHAR(50),
+                           difficulty ENUM('Easy', 'Medium', 'Hard'),
+                           image TEXT,
+                           hint TEXT
+);
+
+
+INSERT INTO Geography (id, name, capital, continent, difficulty, image, hint) VALUES
+                                                                                  ('ES', 'Spain', 'Madrid', 'Europe', 'Easy', '', 'Known for flamenco dancing and bullfighting.'),
+                                                                                  ('FR', 'France', 'Paris', 'Europe', 'Easy', '', 'Famous for the Eiffel Tower and fine wines.'),
+                                                                                  ('DE', 'Germany', 'Berlin', 'Europe', 'Easy', '', 'Home to Oktoberfest and historic castles.'),
+                                                                                  ('IT', 'Italy', 'Rome', 'Europe', 'Easy', '', 'Birthplace of pizza and the Colosseum.'),
+                                                                                  ('GB', 'UK', 'London', 'Europe', 'Easy', '', 'Famous for Big Ben and the Royal Family.'),
+                                                                                  ('PT', 'Portugal', 'Lisbon', 'Europe', 'Medium', '', 'Renowned for port wine and explorers like Vasco da Gama.'),
+                                                                                  ('NL', 'Netherlands', 'Amsterdam', 'Europe', 'Medium', '', 'Known for tulips and extensive canal systems.'),
+                                                                                  ('BE', 'Belgium', 'Brussels', 'Europe', 'Medium', '', 'Famous for chocolate and waffles.'),
+                                                                                  ('CH', 'Switzerland', 'Bern', 'Europe', 'Medium', '', 'Renowned for the Alps and luxury watches.'),
+                                                                                  ('AT', 'Austria', 'Vienna', 'Europe', 'Medium', '', 'Birthplace of Mozart and alpine skiing.'),
+                                                                                  ('PL', 'Poland', 'Warsaw', 'Europe', 'Medium', '', 'Known for pierogi and historic salt mines.'),
+                                                                                  ('CZ', 'Czech Republic', 'Prague', 'Europe', 'Medium', '', 'Famous for its fairy-tale castles and beer.'),
+                                                                                  ('GR', 'Greece', 'Athens', 'Europe', 'Medium', '', 'Cradle of Western civilization and ancient ruins.'),
+                                                                                  ('NO', 'Norway', 'Oslo', 'Europe', 'Medium', '', 'Known for fjords and the Northern Lights.'),
+                                                                                  ('SE', 'Sweden', 'Stockholm', 'Europe', 'Medium', '', 'Famous for IKEA and ABBA.'),
+                                                                                  ('DK', 'Denmark', 'Copenhagen', 'Europe', 'Medium', '', 'Home to LEGO and Viking history.'),
+                                                                                  ('IE', 'Ireland', 'Dublin', 'Europe', 'Medium', '', 'Known for St. Patrick’s Day and lush green landscapes.'),
+                                                                                  ('FI', 'Finland', 'Helsinki', 'Europe', 'Medium', '', 'Famous for saunas and Santa Claus.'),
+                                                                                  ('UA', 'Ukraine', 'Kyiv', 'Europe', 'Medium', '', 'Famous for borscht and the Carpathian Mountains.'),
+                                                                                  ('IS', 'Iceland', 'Reykjavik', 'Europe', 'Medium', '', 'Land of geysers, volcanoes, and the Blue Lagoon.'),
+                                                                                  ('RO', 'Romania', 'Bucharest', 'Europe', 'Hard', '', 'Home to Transylvania and Dracula legends.'),
+                                                                                  ('HU', 'Hungary', 'Budapest', 'Europe', 'Hard', '', 'Known for thermal baths and paprika.'),
+                                                                                  ('BG', 'Bulgaria', 'Sofia', 'Europe', 'Hard', '', 'Famous for rose oil and ancient Thracian ruins.'),
+                                                                                  ('SK', 'Slovakia', 'Bratislava', 'Europe', 'Hard', '', 'Known for its medieval castles and Carpathian Mountains.'),
+                                                                                  ('SI', 'Slovenia', 'Ljubljana', 'Europe', 'Hard', '', 'Famous for Lake Bled and alpine scenery.'),
+                                                                                  ('HR', 'Croatia', 'Zagreb', 'Europe', 'Hard', '', 'Known for its Adriatic coastline and Dubrovnik.'),
+                                                                                  ('LT', 'Lithuania', 'Vilnius', 'Europe', 'Hard', '', 'Famous for its Baltic heritage and amber.'),
+                                                                                  ('LV', 'Latvia', 'Riga', 'Europe', 'Hard', '', 'Known for Art Nouveau architecture and folk songs.'),
+                                                                                  ('EE', 'Estonia', 'Tallinn', 'Europe', 'Hard', '', 'Famous for its medieval old town and digital innovation.'),
+                                                                                  ('AL', 'Albania', 'Tirana', 'Europe', 'Hard', '', 'Known for its rugged mountains and Ottoman heritage.'),
+                                                                                  ('AM', 'Armenia', 'Yerevan', 'Europe', 'Hard', '', 'Home to ancient monasteries and Mount Ararat.'),
+                                                                                  ('BY', 'Belarus', 'Minsk', 'Europe', 'Hard', '', 'Known for its Soviet-era architecture and vast forests.'),
+                                                                                  ('AD', 'Andorra', 'Andorra la Vella', 'Europe', 'Hard', '', 'A tiny principality nestled in the Pyrenees.'),
+                                                                                  ('CY', 'Cyprus', 'Nicosia', 'Europe', 'Hard', '', 'Known for its beaches and ancient Greek ruins.'),
+                                                                                  ('RS', 'Serbia', 'Belgrade', 'Europe', 'Hard', '', 'Known for its vibrant nightlife and Orthodox monasteries.'),
+                                                                                  ('BA', 'Bosnia and Herzegovina', 'Sarajevo', 'Europe', 'Hard', '', 'Known for its Ottoman bridge and diverse cultures.'),
+                                                                                  ('ME', 'Montenegro', 'Podgorica', 'Europe', 'Hard', '', 'Famous for its dramatic coastline and Bay of Kotor.'),
+                                                                                  ('MD', 'Moldova', 'Chișinău', 'Europe', 'Hard', '', 'Known for its wine tours and Soviet history.'),
+                                                                                  ('MK', 'North Macedonia', 'Skopje', 'Europe', 'Hard', '', 'Home to Lake Ohrid and ancient monasteries.');
+
+CREATE TABLE DetectiveLupin (
+                           id INT PRIMARY KEY,
+                           name VARCHAR(100),
+                           artist VARCHAR(100),
+                           difficulty ENUM('Easy', 'Medium', 'Hard'),
+                           image TEXT
+);
+
+INSERT INTO DetectiveLupin (id, name, artist, difficulty, image) VALUES
+                                                                (1, 'Mona Lisa', 'Leonardo da Vinci', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Mona_Lisa.jpg'),
+                                                                (2, 'The Starry Night', 'Vincent van Gogh', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg'),
+                                                                (3, 'The Persistence of Memory', 'Salvador Dalí', 'Medium', 'https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg'),
+                                                                (4, 'The Last Supper', 'Leonardo da Vinci', 'Medium', 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Leonardo_da_Vinci_-_The_Last_Supper_high_res.jpg'),
+                                                                (5, 'Girl with a Pearl Earring', 'Johannes Vermeer', 'Medium', 'https://upload.wikimedia.org/wikipedia/commons/d/d7/Meisje_met_de_parel.jpg'),
+                                                                (6, 'American Gothic', 'Grant Wood', 'Hard', 'https://upload.wikimedia.org/wikipedia/commons/7/78/Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg'),
+                                                                (7, 'The Scream', 'Edvard Munch', 'Medium', 'https://upload.wikimedia.org/wikipedia/commons/f/f4/The_Scream.jpg'),
+                                                                (8, 'Water Lilies', 'Claude Monet', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg'),
+                                                                (9, 'The Birth of Venus', 'Sandro Botticelli', 'Hard', 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Birth_of_Venus_Botticelli.jpg'),
+                                                                (10, 'Sunflowers', 'Vincent van Gogh', 'Easy', 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Vincent_Willem_van_Gogh_127.jpg');
+
+
+CREATE TABLE levels (
+                        level_id INT AUTO_INCREMENT PRIMARY KEY,
+                        level_number INT NOT NULL
+);
+
+
+CREATE TABLE animals (
+                         animal_id INT AUTO_INCREMENT PRIMARY KEY,
+                         type VARCHAR(50) NOT NULL,
+                         name VARCHAR(50) NOT NULL,
+                         classification VARCHAR(50) NOT NULL,
+                         emoji VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE level_players (
+                               level_player_id INT AUTO_INCREMENT PRIMARY KEY,
+                               level_id INT NOT NULL,
+                               animal_id INT NOT NULL,
+                               FOREIGN KEY (level_id) REFERENCES levels(level_id),
+                               FOREIGN KEY (animal_id) REFERENCES animals(animal_id)
+);
+
+
+CREATE TABLE level_groups (
+                              level_group_id INT AUTO_INCREMENT PRIMARY KEY,
+                              level_id INT NOT NULL,
+                              animal_id INT NOT NULL,
+                              FOREIGN KEY (level_id) REFERENCES levels(level_id),
+                              FOREIGN KEY (animal_id) REFERENCES animals(animal_id)
+);
+
+
+CREATE TABLE group_positions (
+                                 position_id INT AUTO_INCREMENT PRIMARY KEY,
+                                 level_group_id INT NOT NULL,
+                                 position_x FLOAT NOT NULL,
+                                 position_y FLOAT NOT NULL,
+                                 FOREIGN KEY (level_group_id) REFERENCES level_groups(level_group_id)
+);
+
+
+
+
+INSERT INTO levels (level_number) VALUES (1), (2), (3), (4), (5), (6);
+
+
+INSERT INTO animals (type, name, classification, emoji) VALUES
+
+                                                            ('dog', 'Dog', 'mammal', '/images/Games/Science/CallOfTheClan/dog.svg'),
+                                                            ('eagle', 'Eagle', 'bird', '/images/Games/Science/CallOfTheClan/eagle.svg'),
+                                                            ('turtle', 'Turtle', 'reptile', '/images/Games/Science/CallOfTheClan/turtle.svg'),
+                                                            ('lobster', 'Lobster', 'crustacean', '/images/Games/Science/CallOfTheClan/lobster.svg'),
+                                                            ('spider', 'Spider', 'arachnid', '/images/Games/Science/CallOfTheClan/spider.svg'),
+                                                            ('penguin', 'Penguin', 'bird', '/images/Games/Science/CallOfTheClan/penguin.svg'),
+-- Groups
+                                                            ('frogs', 'Frogs', 'amphibian', '/images/Games/Science/CallOfTheClan/frog.svg'),
+                                                            ('fish', 'Fish', 'fish', '/images/Games/Science/CallOfTheClan/fish.svg'),
+                                                            ('cats', 'Cats', 'mammal', '/images/Games/Science/CallOfTheClan/cat.svg'),
+                                                            ('birds', 'Birds', 'bird', '/images/Games/Science/CallOfTheClan/bird.svg'),
+                                                            ('butterflies', 'Butterflies', 'insect', '/images/Games/Science/CallOfTheClan/butterfly.svg'),
+                                                            ('bats', 'Bats', 'mammal', '/images/Games/Science/CallOfTheClan/bat.svg'),
+                                                            ('snakes', 'Snakes', 'reptile', '/images/Games/Science/CallOfTheClan/snake.svg'),
+                                                            ('dolphins', 'Dolphins', 'mammal', '/images/Games/Science/CallOfTheClan/dolphin.svg'),
+                                                            ('crabs', 'Crabs', 'crustacean', '/images/Games/Science/CallOfTheClan/crab.svg'),
+                                                            ('octopus', 'Octopus', 'mollusk', '/images/Games/Science/CallOfTheClan/octopus.svg'),
+                                                            ('seahorses', 'Seahorses', 'fish', '/images/Games/Science/CallOfTheClan/seahorse.svg'),
+                                                            ('scorpions', 'Scorpions', 'arachnid', '/images/Games/Science/CallOfTheClan/scorpion.svg'),
+                                                            ('ants', 'Ants', 'insect', '/images/Games/Science/CallOfTheClan/ant.svg'),
+                                                            ('snails', 'Snails', 'mollusk', '/images/Games/Science/CallOfTheClan/snail.svg'),
+                                                            ('beetles', 'Beetles', 'insect', '/images/Games/Science/CallOfTheClan/beetle.svg'),
+                                                            ('seals', 'Seals', 'mammal', '/images/Games/Science/CallOfTheClan/seal.svg'),
+                                                            ('ducks', 'Ducks', 'bird', '/images/Games/Science/CallOfTheClan/duck.svg'),
+                                                            ('sharks', 'Sharks', 'fish', '/images/Games/Science/CallOfTheClan/shark.svg'),
+                                                            ('whales', 'Whales', 'mammal', '/images/Games/Science/CallOfTheClan/whale.svg');
+
+-- Nivel 1: Dog
+INSERT INTO level_players (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'dog';
+
+-- Nivel 2: Eagle
+INSERT INTO level_players (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'eagle';
+
+-- Nivel 3: Turtle
+INSERT INTO level_players (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'turtle';
+
+-- Nivel 4: Lobster
+INSERT INTO level_players (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'lobster';
+
+-- Nivel 5: Spider
+INSERT INTO level_players (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'spider';
+
+-- Nivel 6: Penguin
+INSERT INTO level_players (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'penguin';
+
+-- Insertar los grupos de cada nivel y sus posiciones
+
+-- Nivel 1: Dog - Grupos: frogs, fish, cats, birds
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'frogs';
+SET @level1_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level1_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'fish';
+SET @level1_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level1_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'cats';
+SET @level1_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level1_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'birds';
+SET @level1_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level1_group4, 80, 70);
+
+-- Nivel 2: Eagle - Grupos: butterflies, birds, bats, frogs
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'butterflies';
+SET @level2_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level2_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'birds';
+SET @level2_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level2_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'bats';
+SET @level2_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level2_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'frogs';
+SET @level2_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level2_group4, 80, 70);
+
+-- Nivel 3: Turtle - Grupos: snakes, dolphins, crabs, butterflies
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'snakes';
+SET @level3_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level3_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'dolphins';
+SET @level3_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level3_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'crabs';
+SET @level3_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level3_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'butterflies';
+SET @level3_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level3_group4, 80, 70);
+
+-- Nivel 4: Lobster - Grupos: crabs, octopus, fish, seahorses
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'crabs';
+SET @level4_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level4_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'octopus';
+SET @level4_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level4_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'fish';
+SET @level4_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level4_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'seahorses';
+SET @level4_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level4_group4, 80, 70);
+
+-- Nivel 5: Spider - Grupos: scorpions, ants, snails, beetles
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'scorpions';
+SET @level5_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level5_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'ants';
+SET @level5_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level5_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'snails';
+SET @level5_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level5_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'beetles';
+SET @level5_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level5_group4, 80, 70);
+
+-- Nivel 6: Penguin - Grupos: seals, ducks, sharks, whales
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'seals';
+SET @level6_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level6_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'ducks';
+SET @level6_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level6_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'sharks';
+SET @level6_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level6_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'whales';
+SET @level6_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level6_group4, 80, 70);
+
+
+
 show tables;
 select * from Users;
 select * from Quizzes;
@@ -835,10 +1161,16 @@ select * from Subjects;
 select * from SubjectQuizzes;
 select * from Multimedia;
 select * from MultimediaSubjects;
-select * from PinThePlace;
 select * from WeeklyGoals;
 select * from UserWeeklyGoals;
 select * from CookTheBook_Stories;
 select * from CookTheBook_StoryPieces;
 select * from Mahjong;
+select * from Geography;
+select * from DetectiveLupin;
+select * from group_positions;
+select * from level_groups;
+select * from level_players;
+select * from animals;
+select * from levels;
 SET sql_notes = 1;
