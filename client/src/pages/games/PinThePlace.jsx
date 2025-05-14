@@ -110,6 +110,11 @@ const EuropeGeographyGame = () => {
         }, 0);
     };
 
+    const playAgain = () => {
+        saveScore();
+        restartGame();
+    }
+
     function saveScore() {
         try {
             const gameTitle = "Pin The Place";
@@ -187,13 +192,13 @@ const EuropeGeographyGame = () => {
                         <CongratsModal
                             points={score}
                             onCloseMessage={closeModal}
-                            onRestart={restartGame}
+                            onRestart={playAgain}
                         />
                     )}
                     {(tries === 0) && (
                         <GameOverModal
                             onCloseMessage={closeModal}
-                            onRestart={restartGame}
+                            onRestart={playAgain}
                         />
                     )}
                 </div>

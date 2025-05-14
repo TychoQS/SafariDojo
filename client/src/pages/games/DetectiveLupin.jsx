@@ -276,6 +276,11 @@ function DetectiveLupin() {
         }, 0);
     };
 
+    const playAgain = () => {
+        saveScore();
+        restartGame();
+    }
+
     function saveScore() {
         try {
             const gameTitle = "Detective Lupin";
@@ -389,14 +394,14 @@ function DetectiveLupin() {
                             <CongratsModal
                                 points={score}
                                 onCloseMessage={closeModal}
-                                onRestart={restartGame}
+                                onRestart={playAgain}
                             />
                         )}
 
                         {tries === 0 && (
                             <GameOverModal
                                 onCloseMessage={closeModal}
-                                onRestart={restartGame}
+                                onRestart={playAgain}
                             />
                         )}
 

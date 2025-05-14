@@ -155,6 +155,11 @@ function DetectiveMrWorldWide() {
         }, 0);
     };
 
+    const playAgain = () => {
+        saveScore();
+        restartGame();
+    }
+
     function saveScore() {
         try {
             const gameTitle = "Detective MrWorldWide";
@@ -264,14 +269,14 @@ function DetectiveMrWorldWide() {
                                 <CongratsModal
                                     points={score}
                                     onCloseMessage={closeModal}
-                                    onRestart={restartGame}
+                                    onRestart={playAgain}
                                 />
                             }
 
                             {tries === 0 && (
                                 <GameOverModal
                                     onCloseMessage={closeModal}
-                                    onRestart={restartGame}
+                                    onRestart={playAgain}
                                 />
                             )}
 

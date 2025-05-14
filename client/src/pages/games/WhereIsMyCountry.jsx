@@ -154,6 +154,11 @@ function WhereIsMyCountry() {
         }, 0);
     };
 
+    const playAgain = () => {
+        saveScore();
+        initializeGame();
+    }
+
     function saveScore() {
         try {
             const gameTitle = "Where Is My Country?";
@@ -260,13 +265,13 @@ function WhereIsMyCountry() {
                                 <CongratsModal
                                     points={score}
                                     onCloseMessage={closeModal}
-                                    onRestart={initializeGame}
+                                    onRestart={playAgain}
                                 />
                             )}
                             {(tries === 0) && (
                                 <GameOverModal
                                     onCloseMessage={closeModal}
-                                    onRestart={initializeGame}
+                                    onRestart={playAgain}
                                 />
                             )}
                         </div>
