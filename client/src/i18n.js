@@ -176,7 +176,6 @@ const resources = {
                 bad: 'The order is not correct. Try again!',
                 good: 'Correct! You\'ve ordered the story perfectly!'
             },
-            },
             calloftheclan: {
                 firstMessage: 'Move your animal to the correct group!',
                 incorrectMessage: 'Try again! Find the correct group.',
@@ -184,6 +183,7 @@ const resources = {
                 score: 'Score',
             }
         },
+    },
     es: {
         translation: {
             home: 'Inicio',
