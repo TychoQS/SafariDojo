@@ -11,9 +11,9 @@ import Lifes from "@/components/Lifes";
 import {useRouter} from "next/router";
 import ErrorReportModal from "@/components/ErrorModal";
 import {useTranslation} from "react-i18next";
-import {t} from "i18next";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
 
 function UnsetEvents(keyPressed, keyReleased) {
     window.removeEventListener("keydown", keyPressed);
@@ -26,8 +26,6 @@ function SetEvents(keyPressed, keyReleased) {
 }
 
 const MaxRounds = 11;
-const RestartButtonText = "Restart";
-
 
 const RightAnswerPoints = 5;
 export default function MathInvasors() {
@@ -69,30 +67,7 @@ export default function MathInvasors() {
 
     useEffect(() => {
         if (roundsCompleted) {
-            try {
-                const gameData = "Math Invasors";
-                const age = router.query.Age;
-                if (gameData && age) {
-                    const key = `${gameData}_${age}_bestScore`;
-                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-                    if (Score > storedScore) {
-                        localStorage.setItem(key, Score.toString());
-                    }
-                }
-                const typeMedal = age.toLowerCase() === "easy"
-                    ? "BronzeMedal"
-                    : age.toLowerCase() === "medium"
-                        ? "SilverMedal"
-                        : "GoldMedal";
-
-                const medalKey = `${gameData}_${typeMedal}`;
-                const medalStatus = localStorage.getItem(medalKey) === "1";
-                if (!medalStatus) {
-                    localStorage.setItem(medalKey, "1");
-                }
-            } catch (error) {
-                console.error("Error processing score update:", error);
-            }
+            saveGameData(Score);
         }
     }, [roundsCompleted, Score, router.query.Age]);
 

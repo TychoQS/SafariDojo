@@ -7,6 +7,7 @@ import ErrorReportModal from "@/components/ErrorModal";
 import Footer from "@/components/Footer";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
 
 export default function CrossMaths() {
     const router = useRouter();
@@ -45,39 +46,6 @@ export default function CrossMaths() {
         hard: {min: 1, max: 31, operators: ['*', '/']}
     };
 
-    const saveScore = () => {
-        try {
-            const previousURL = localStorage.getItem("previousURL");
-            if (previousURL) {
-                const url = new URL(previousURL);
-                const gameData = url.searchParams.get("Game");
-                const age = url.searchParams.get("Age");
-
-                if (gameData && age) {
-                    const key = `${gameData}_${age}_bestScore`;
-                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-
-                    if (points > storedScore) {
-                        localStorage.setItem(key, points.toString());
-                    }
-
-                    const typeMedal = age === "easy"
-                        ? "BronzeMedal"
-                        : age === "medium"
-                            ? "SilverMedal"
-                            : "GoldMedal";
-
-                    const medalKey = `${gameData}_${typeMedal}`;
-                    const medalStatus = localStorage.getItem(medalKey) === "1";
-                    if (!medalStatus) {
-                        localStorage.setItem(medalKey, "1");
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("Error processing score or medal update:", error);
-        }
-    }
 
     const generateRandomPuzzle = () => {
         const {min, max, operators} = ranges[difficulty] || ranges.easy;
@@ -335,7 +303,7 @@ export default function CrossMaths() {
     ];
 
     const resetGame = () => {
-        saveScore();
+        saveGameData();
         let attempts = 0;
         const maxAttempts = 3;
 
