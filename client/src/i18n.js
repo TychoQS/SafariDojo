@@ -184,7 +184,6 @@ const resources = {
                 score: 'Score',
             }
         },
-    },
     es: {
         translation: {
             home: 'Inicio',
@@ -363,9 +362,7 @@ const resources = {
                 bad: 'El orden no es correcto. ¡Intenta de nuevo!',
                 good: '¡Correcto! ¡Has ordenado la historia perfectamente!'
             },
-
         },
-    },
     fr: {
         translation: {
             home: 'Accueil',

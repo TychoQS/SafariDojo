@@ -1,10 +1,9 @@
 import {cherryBomb} from '@/styles/fonts';
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Link from "next/link";
-import {router} from "next/client";
+import {useRouter} from "next/router";
 import GameOverModal from "@/components/GameOverModal";
 import CongratsModal from "@/components/CongratsModal";
 import Lifes from "@/components/Lifes";
@@ -24,14 +23,13 @@ const AnimalClassificationGame = () => {
     const [gameLoaded, setGameLoaded] = useState(false);
     const [gameWon, setGameWon] = useState(false);
     const {t} = useTranslation();
-    const [message, setMessage] = useState(t('calloftheclan.firstMessage'));
+    const [message, setMessage] = useState(t("calloftheclan.firstMessage"));
     const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 50 });
     const [allLevels, setAllLevels] = useState([]);
     const [currentLevel, setCurrentLevel] = useState(null);
-    const allLevels = levelsData.allLevels;
-
     const [randomLevels, setRandomLevels] = useState([]);
     const lifesRef = useRef(null);
+    const router = useRouter();
 
     const [lives, setLives] = useState(5);
     const newLevelSound = useRef(null);
@@ -54,8 +52,7 @@ const AnimalClassificationGame = () => {
     async function fetchLevels() {
         const response = await fetch('http://localhost:8080/api/calloftheclan');
         if (response.ok) {
-            const data = await response.json();
-            return data;
+            return await response.json();
         }
     }
 
@@ -78,7 +75,6 @@ const AnimalClassificationGame = () => {
         if (allLevels.length > 0 && difficulty) {
             const selectedRandomLevels = selectRandomLevels(difficulty);
             setRandomLevels(selectedRandomLevels);
-            console.log("Niveles seleccionados: ", selectedRandomLevels); // Verifica los niveles seleccionados
             const initialLevel = selectedRandomLevels[Math.min(level - 1, selectedRandomLevels.length - 1)];
             setCurrentLevel(initialLevel);
             setGameLoaded(true);
@@ -100,7 +96,7 @@ const AnimalClassificationGame = () => {
             setGameFinished(true);
             loseSound.current.play();
         }
-    }, [lives]);
+    }, [lives, maxScore, score]);
 
     function selectRandomLevels(difficulty) {
         const shuffled = [...allLevels].sort(() => 0.5 - Math.random());
@@ -179,32 +175,25 @@ const AnimalClassificationGame = () => {
                             setLevel(prev => prev + 1);
                             setPlayerPosition({ x: 50, y: 50 });
                             setGameActive(true);
-                            newLevelSound.current.play()
-                            setMessage(t('calloftheclan.firstMessage'));
+                            newLevelSound.current.play();
+                            setMessage(t("calloftheclan.firstMessage"));
                         }, 2000);
                     }
                 } else {
-                    if (lives === 0) {
-                        setGameFinished(true);
-                        if (score > maxScore) {
-                            setMaxScore(score);
-                        }
-                        loseSound.current.play();
-                    }
                     setMessage(`Incorrect! ${currentLevel.player.name} is a ${currentLevel.player.classification}, but ${group.name} are ${group.classification}s.`);
                     setScore(prev => prev - 2);
                     setTimeout(() => {
                         setPlayerPosition({ x: 50, y: 50 });
                         setGameActive(true);
-                        setLives(lives - 1);
+                        setLives(prev => prev - 1);
                         lifesRef.current.loseLife();
                         failSound.current.play();
-                        setMessage(t('calloftheclan.incorrectMessage'));
+                        setMessage(t("calloftheclan.incorrectMessage"));
                     }, 2000);
                 }
             }
         });
-    }, [playerPosition, gameActive, currentLevel, level, randomLevels.length]);
+    }, [playerPosition, gameActive, currentLevel, level, randomLevels.length, score, maxScore, t]);
 
     const restartGame = () => {
         setRandomLevels(selectRandomLevels(difficulty));
@@ -214,7 +203,7 @@ const AnimalClassificationGame = () => {
         lifesRef.current?.resetHearts();
         setPlayerPosition({ x: 50, y: 50 });
         setGameActive(true);
-        setMessage(t('calloftheclan.firstMessage'));
+        setMessage(t("calloftheclan.firstMessage"));
         setGameFinished(false);
         setGameWon(false);
     };
@@ -257,36 +246,30 @@ const AnimalClassificationGame = () => {
         });
     }
 
-    if (randomLevels.length === 0) return <LoadingPage></LoadingPage>
+    if (!gameLoaded) return <LoadingPage />;
 
     return (
-        !gameLoaded ?
-            <LoadingPage></LoadingPage>
-        :
         <section className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header />
-        <div className="app min-h-screen flex flex-col bg-PS-main-purple">
-            <Header/>
             <section className="flex-1 flex justify-center items-center py-10">
                 <div className="w-full max-w-screen-lg px-4 flex flex-col items-center">
                     <div className="mt-[-4em]">
                         <Title>Call of the Clan</Title>
                     </div>
 
-                    <div className="relative w-[90em] mb-[-2em] flex justify-around">
+                    <div className="relative w-full mb-[-2em] flex justify-around">
                         <Button size="small" onClick={finishGame}>{t("backButton")} </Button>
                         <Lifes ref={lifesRef}/>
-                        <ErrorReportModal></ErrorReportModal>
+                        <ErrorReportModal />
                     </div>
 
                     <div className="relative w-[1000px] h-[600px] bg-blue-200 rounded-lg overflow-hidden border-4 border-blue-950 mt-5 mb-3">
                         <div className={`text-2xl justify-between p-1.5 w-full text-black flex ${cherryBomb.className}`}>
-                            <div>{t('calloftheclan.level')}: {level}/{randomLevels.length}</div>
-                            <div>{t('calloftheclan.score')}: {score}</div>
+                            <div>{t("calloftheclan.level")}: {level}/{randomLevels.length}</div>
+                            <div>{t("calloftheclan.score")}: {score}</div>
                         </div>
 
-                        <div className={`absolute text-xl top-12 w-full text-center bg-blue-700
-                     bg-opacity-70 p-2`}>
+                        <div className={`absolute text-xl top-12 w-full text-center bg-blue-700 bg-opacity-70 p-2`}>
                             {message}
                         </div>
 
@@ -294,7 +277,7 @@ const AnimalClassificationGame = () => {
                             className="absolute text-5xl transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2"
                             style={{ left: `${playerPosition.x}%`, top: `${playerPosition.y}%` }}
                         >
-                            <img src={currentLevel.player.emoji} alt={currentLevel.player.name} className={"w16 h-16"}/>
+                            <img src={currentLevel.player.emoji} alt={currentLevel.player.name} className="w-16 h-16"/>
                         </div>
 
                         {currentLevel.groups.map((group, index) => (
@@ -304,11 +287,12 @@ const AnimalClassificationGame = () => {
                                 style={{ left: `${group.position.x}%`, top: `${group.position.y}%` }}
                             >
                                 <div className="flex flex-col items-center text-black">
-
-                                    <span className="text-6xl mb-2"><img src={group.emoji} alt={group.name} className={"w16 h-16"}/></span>
+                                    <span className="text-6xl mb-2">
+                                        <img src={group.emoji} alt={group.name} className="w-16 h-16"/>
+                                    </span>
                                     <span className="bg-white bg-opacity-70 px-2 py-1 rounded text-sm">
-                  {group.name}
-                </span>
+                                        {group.name}
+                                    </span>
                                 </div>
                             </div>
                         ))}
@@ -320,8 +304,8 @@ const AnimalClassificationGame = () => {
                         {(!gameWon && gameFinished) && (
                             <GameOverModal onCloseMessage={finishGame} onRestart={restartGame}/>
                         )}
-
                     </div>
+
                     <audio ref={newLevelSound} src="/sounds/CallOfTheClan/newlevel-calloftheclan.mp3" preload="auto" />
                     <audio ref={failSound} src="/sounds/CallOfTheClan/fail-calloftheclan.mp3" preload="auto" />
                     <audio ref={winSound} src="/sounds/CallOfTheClan/won-calloftheclan.mp3" preload="auto" />
@@ -329,7 +313,7 @@ const AnimalClassificationGame = () => {
                 </div>
             </section>
             <Footer/>
-        </div>
+        </section>
     );
 };
 
