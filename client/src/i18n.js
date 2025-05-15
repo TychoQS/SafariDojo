@@ -63,6 +63,7 @@ const resources = {
             editprofileTitle: 'Edit your profile',
             cancelButton: 'cancel',
             saveButton: 'save',
+            solveButton: 'Solve',
             gamesCatalog: 'Games Catalog',
             backButton: 'Back',
             startButton: 'Start',
@@ -186,6 +187,10 @@ const resources = {
                 correct: 'Correct',
                 incorrect: 'Incorrect',
                 search: 'Search',
+            },
+            detectiveLupin: {
+                enterLetter: 'Enter a letter here',
+                instructions: 'Use Backspace to delete and Enter to validate',
             }
         },
     },
@@ -248,6 +253,7 @@ const resources = {
             editprofileTitle: 'Edita tu perfil',
             cancelButton: 'cancelar',
             saveButton: 'guardar',
+            solveButton: 'Resolver',
             gamesCatalog: 'Catálogo de juegos',
             backButton: 'Atrás',
             startButton: 'Empezar',
@@ -371,6 +377,10 @@ const resources = {
                 incorrect: 'Incorrecto',
                 search: 'Buscar',
             },
+            detectiveLupin: {
+                enterLetter: 'Ingresa una letra aquí',
+                instructions: 'Usa Retroceso para borrar y Enter para validar',
+            }
         },
     },
     fr: {
@@ -432,6 +442,7 @@ const resources = {
             editprofileTitle: 'Modifier votre profil',
             cancelButton: 'annuler',
             saveButton: 'suvegarder',
+            solveButton: 'Résoudre',
             gamesCatalog: 'Catalogue de jeux',
             backButton: 'Derrière',
             startButton: 'Commencer',
@@ -555,7 +566,12 @@ const resources = {
                 incorrect: 'Incorrect',
                 search: 'Rechercher',
 
+            },
+            detectiveLupin: {
+                enterLetter: 'Entrez une lettre ici',
+                instructions: 'Utilisez Retour arrière pour supprimer et Entrée pour valider',
             }
+
         },
     },
     de: {
@@ -618,6 +634,7 @@ const resources = {
             editprofileTitle: 'Bearbeite dein Profil',
             cancelButton: 'retten',
             saveButton: 'abbrechen',
+            solveButton: 'Lösen',
             gamesCatalog: 'Spiele-Katalog',
             backButton: 'Hinter',
             startButton: 'Anfangen',
@@ -740,6 +757,10 @@ const resources = {
                 correct: 'Richtig',
                 incorrect: 'Falsch',
                 search: 'Suchen',
+            },
+            detectiveLupin: {
+                enterLetter: 'Gib hier einen Buchstaben ein',
+                instructions: 'Verwende Rückschritt zum Löschen und Enter zum Bestätigen',
             }
         },
     },
