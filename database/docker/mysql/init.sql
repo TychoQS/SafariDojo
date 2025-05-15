@@ -332,112 +332,112 @@ CREATE TABLE UserWeeklyGoals (
                                  FOREIGN KEY (WeeklyGoalId) REFERENCES WeeklyGoals(Id)
 );
 
-    CREATE TABLE CookTheBook_Stories (
-                                         Id INTEGER AUTO_INCREMENT PRIMARY KEY,
-                                         Title TEXT NOT NULL
-    );
+CREATE TABLE CookTheBook_Stories (
+                                     Id INTEGER AUTO_INCREMENT PRIMARY KEY,
+                                     Title TEXT NOT NULL
+);
 
-    -- Tabla para piezas de historias con dificultad
-    CREATE TABLE CookTheBook_StoryPieces (
-                                             Id INTEGER AUTO_INCREMENT,
-                                             StoryId INTEGER NOT NULL,
-                                             Difficulty VARCHAR(10) NOT NULL, -- Columna de dificultad: 'easy', 'medium', 'hard'
-                                             PieceOrder INTEGER NOT NULL,
-                                             Text TEXT NOT NULL,
-                                             PRIMARY KEY (Id, Difficulty),  -- Clave primaria compuesta
-                                             FOREIGN KEY (StoryId) REFERENCES CookTheBook_Stories(Id) ON DELETE CASCADE,
-                                             UNIQUE KEY (StoryId, Difficulty, PieceOrder)  -- Asegura que no hay duplicados para la misma historia, dificultad y orden
-    );
+-- Tabla para piezas de historias con dificultad
+CREATE TABLE CookTheBook_StoryPieces (
+                                         Id INTEGER AUTO_INCREMENT,
+                                         StoryId INTEGER NOT NULL,
+                                         Difficulty VARCHAR(10) NOT NULL, -- Columna de dificultad: 'easy', 'medium', 'hard'
+                                         PieceOrder INTEGER NOT NULL,
+                                         Text TEXT NOT NULL,
+                                         PRIMARY KEY (Id, Difficulty),  -- Clave primaria compuesta
+                                         FOREIGN KEY (StoryId) REFERENCES CookTheBook_Stories(Id) ON DELETE CASCADE,
+                                         UNIQUE KEY (StoryId, Difficulty, PieceOrder)  -- Asegura que no hay duplicados para la misma historia, dificultad y orden
+);
 
-    INSERT INTO CookTheBook_Stories (Title) VALUES
-                                                ('Little Red Riding Hood'),
-                                                ('The Three Little Pigs'),
-                                                ('Hansel and Gretel'),
-                                                ('Goldilocks and the Three Bears');
+INSERT INTO CookTheBook_Stories (Title) VALUES
+                                            ('Little Red Riding Hood'),
+                                            ('The Three Little Pigs'),
+                                            ('Hansel and Gretel'),
+                                            ('Goldilocks and the Three Bears');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (1, 'easy', 1, 'A little girl went to visit her grandmother in the woods.'),
-                                                                                    (1, 'easy', 2, 'On her way, she met a wicked wolf.'),
-                                                                                    (1, 'easy', 3, 'The wolf rushed to grandmother''s house and disguised himself.'),
-                                                                                    (1, 'easy', 4, 'A hunter rescued Little Red and her grandmother.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (1, 'easy', 1, 'A little girl went to visit her grandmother in the woods.'),
+                                                                                (1, 'easy', 2, 'On her way, she met a wicked wolf.'),
+                                                                                (1, 'easy', 3, 'The wolf rushed to grandmother''s house and disguised himself.'),
+                                                                                (1, 'easy', 4, 'A hunter rescued Little Red and her grandmother.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (1, 'medium', 1, 'Little Red Riding Hood lived near the forest.'),
-                                                                                    (1, 'medium', 2, 'Her mother sent her to visit her sick grandmother.'),
-                                                                                    (1, 'medium', 3, 'She met a wolf who tricked her into taking the long path.'),
-                                                                                    (1, 'medium', 4, 'The wolf ate grandmother and disguised himself.'),
-                                                                                    (1, 'medium', 5, 'A hunter rescued them from the wolf''s belly.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (1, 'medium', 1, 'Little Red Riding Hood lived near the forest.'),
+                                                                                (1, 'medium', 2, 'Her mother sent her to visit her sick grandmother.'),
+                                                                                (1, 'medium', 3, 'She met a wolf who tricked her into taking the long path.'),
+                                                                                (1, 'medium', 4, 'The wolf ate grandmother and disguised himself.'),
+                                                                                (1, 'medium', 5, 'A hunter rescued them from the wolf''s belly.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (1, 'hard', 1, 'A girl always wore a red hood that her grandmother gave her.'),
-                                                                                    (1, 'hard', 2, 'She went to bring food to her sick grandmother in the forest.'),
-                                                                                    (1, 'hard', 3, 'The wolf tricked her into taking the longer path while he hurried ahead.'),
-                                                                                    (1, 'hard', 4, 'The wolf ate grandmother and wore her clothes.'),
-                                                                                    (1, 'hard', 5, '"What big teeth you have, Grandmother!" said the girl.'),
-                                                                                    (1, 'hard', 6, 'The hunter cut open the wolf and saved both of them.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (1, 'hard', 1, 'A girl always wore a red hood that her grandmother gave her.'),
+                                                                                (1, 'hard', 2, 'She went to bring food to her sick grandmother in the forest.'),
+                                                                                (1, 'hard', 3, 'The wolf tricked her into taking the longer path while he hurried ahead.'),
+                                                                                (1, 'hard', 4, 'The wolf ate grandmother and wore her clothes.'),
+                                                                                (1, 'hard', 5, '"What big teeth you have, Grandmother!" said the girl.'),
+                                                                                (1, 'hard', 6, 'The hunter cut open the wolf and saved both of them.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (2, 'easy', 1, 'Three pigs decided to build their own houses.'),
-                                                                                    (2, 'easy', 2, 'The first two built houses of straw and sticks.'),
-                                                                                    (2, 'easy', 3, 'The third pig built a strong brick house.'),
-                                                                                    (2, 'easy', 4, 'The wolf fell into a pot when trying to enter by the chimney.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (2, 'easy', 1, 'Three pigs decided to build their own houses.'),
+                                                                                (2, 'easy', 2, 'The first two built houses of straw and sticks.'),
+                                                                                (2, 'easy', 3, 'The third pig built a strong brick house.'),
+                                                                                (2, 'easy', 4, 'The wolf fell into a pot when trying to enter by the chimney.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (2, 'medium', 1, 'Three little pigs left home to build their own houses.'),
-                                                                                    (2, 'medium', 2, 'The first built a straw house the wolf blew down.'),
-                                                                                    (2, 'medium', 3, 'The second built a stick house the wolf also destroyed.'),
-                                                                                    (2, 'medium', 4, 'The third built a brick house the wolf couldn''t blow down.'),
-                                                                                    (2, 'medium', 5, 'The wolf fell into boiling water trying to enter by the chimney.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (2, 'medium', 1, 'Three little pigs left home to build their own houses.'),
+                                                                                (2, 'medium', 2, 'The first built a straw house the wolf blew down.'),
+                                                                                (2, 'medium', 3, 'The second built a stick house the wolf also destroyed.'),
+                                                                                (2, 'medium', 4, 'The third built a brick house the wolf couldn''t blow down.'),
+                                                                                (2, 'medium', 5, 'The wolf fell into boiling water trying to enter by the chimney.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (2, 'hard', 1, 'A mother pig sent her three children out into the world.'),
-                                                                                    (2, 'hard', 2, 'The lazy first pig quickly built a house of straw.'),
-                                                                                    (2, 'hard', 3, 'The second pig built a slightly better house of sticks.'),
-                                                                                    (2, 'hard', 4, 'The third pig worked hard to build a house of bricks.'),
-                                                                                    (2, 'hard', 5, 'The wolf blew down the houses of straw and sticks.'),
-                                                                                    (2, 'hard', 6, 'The wolf fell into a pot trying to enter the brick house chimney.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (2, 'hard', 1, 'A mother pig sent her three children out into the world.'),
+                                                                                (2, 'hard', 2, 'The lazy first pig quickly built a house of straw.'),
+                                                                                (2, 'hard', 3, 'The second pig built a slightly better house of sticks.'),
+                                                                                (2, 'hard', 4, 'The third pig worked hard to build a house of bricks.'),
+                                                                                (2, 'hard', 5, 'The wolf blew down the houses of straw and sticks.'),
+                                                                                (2, 'hard', 6, 'The wolf fell into a pot trying to enter the brick house chimney.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (3, 'easy', 1, 'Two children were abandoned in the forest by their parents.'),
-                                                                                    (3, 'easy', 2, 'They found a house made of candy and began to eat it.'),
-                                                                                    (3, 'easy', 3, 'The witch captured them and planned to eat them.'),
-                                                                                    (3, 'easy', 4, 'Gretel pushed the witch into the oven and they escaped.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (3, 'easy', 1, 'Two children were abandoned in the forest by their parents.'),
+                                                                                (3, 'easy', 2, 'They found a house made of candy and began to eat it.'),
+                                                                                (3, 'easy', 3, 'The witch captured them and planned to eat them.'),
+                                                                                (3, 'easy', 4, 'Gretel pushed the witch into the oven and they escaped.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (3, 'medium', 1, 'A father was convinced to abandon his children in the forest.'),
-                                                                                    (3, 'medium', 2, 'The children got lost in the depths of the forest.'),
-                                                                                    (3, 'medium', 3, 'They found a delicious house made of candy and sweets.'),
-                                                                                    (3, 'medium', 4, 'The witch locked Hansel in a cage to fatten him up.'),
-                                                                                    (3, 'medium', 5, 'Gretel pushed the witch into the oven and they took her jewels.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (3, 'medium', 1, 'A father was convinced to abandon his children in the forest.'),
+                                                                                (3, 'medium', 2, 'The children got lost in the depths of the forest.'),
+                                                                                (3, 'medium', 3, 'They found a delicious house made of candy and sweets.'),
+                                                                                (3, 'medium', 4, 'The witch locked Hansel in a cage to fatten him up.'),
+                                                                                (3, 'medium', 5, 'Gretel pushed the witch into the oven and they took her jewels.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (3, 'hard', 1, 'During a famine, a stepmother convinced a father to abandon his children.'),
-                                                                                    (3, 'hard', 2, 'Hansel dropped pebbles to find their way back home.'),
-                                                                                    (3, 'hard', 3, 'Later he used breadcrumbs, but birds ate them all.'),
-                                                                                    (3, 'hard', 4, 'Starving, they found a house made of bread and cake.'),
-                                                                                    (3, 'hard', 5, 'The witch locked Hansel in a cage and enslaved Gretel.'),
-                                                                                    (3, 'hard', 6, 'Gretel tricked the witch into the oven and freed her brother.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (3, 'hard', 1, 'During a famine, a stepmother convinced a father to abandon his children.'),
+                                                                                (3, 'hard', 2, 'Hansel dropped pebbles to find their way back home.'),
+                                                                                (3, 'hard', 3, 'Later he used breadcrumbs, but birds ate them all.'),
+                                                                                (3, 'hard', 4, 'Starving, they found a house made of bread and cake.'),
+                                                                                (3, 'hard', 5, 'The witch locked Hansel in a cage and enslaved Gretel.'),
+                                                                                (3, 'hard', 6, 'Gretel tricked the witch into the oven and freed her brother.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (4, 'easy', 1, 'Goldilocks found an empty house in the forest.'),
-                                                                                    (4, 'easy', 2, 'She ate porridge, broke a chair, and fell asleep in a bed.'),
-                                                                                    (4, 'easy', 3, 'The bears came home and found someone had been there.'),
-                                                                                    (4, 'easy', 4, 'They found her sleeping and she ran away scared.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (4, 'easy', 1, 'Goldilocks found an empty house in the forest.'),
+                                                                                (4, 'easy', 2, 'She ate porridge, broke a chair, and fell asleep in a bed.'),
+                                                                                (4, 'easy', 3, 'The bears came home and found someone had been there.'),
+                                                                                (4, 'easy', 4, 'They found her sleeping and she ran away scared.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (4, 'medium', 1, 'Goldilocks wandered into the forest and found a bear house.'),
-                                                                                    (4, 'medium', 2, 'She tasted three bowls of porridge and ate the just right one.'),
-                                                                                    (4, 'medium', 3, 'She sat in three chairs and broke Baby Bear''s chair.'),
-                                                                                    (4, 'medium', 4, 'She tried all beds and fell asleep in the smallest one.'),
-                                                                                    (4, 'medium', 5, 'The bears found her and she jumped out the window in fright.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (4, 'medium', 1, 'Goldilocks wandered into the forest and found a bear house.'),
+                                                                                (4, 'medium', 2, 'She tasted three bowls of porridge and ate the just right one.'),
+                                                                                (4, 'medium', 3, 'She sat in three chairs and broke Baby Bear''s chair.'),
+                                                                                (4, 'medium', 4, 'She tried all beds and fell asleep in the smallest one.'),
+                                                                                (4, 'medium', 5, 'The bears found her and she jumped out the window in fright.');
 
-    INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
-                                                                                    (4, 'hard', 1, 'Three bears made porridge for breakfast in their forest home.'),
-                                                                                    (4, 'hard', 2, 'They went for a walk while waiting for it to cool.'),
-                                                                                    (4, 'hard', 3, 'Goldilocks found their house and went inside uninvited.'),
-                                                                                    (4, 'hard', 4, 'She tried each porridge and ate Baby Bear''s bowl.'),
-                                                                                    (4, 'hard', 5, 'She sat in each chair and broke the smallest one.'),
-                                                                                    (4, 'hard', 6, 'She fell asleep in Baby Bear''s bed until the bears returned.');
+INSERT INTO CookTheBook_StoryPieces (StoryId, Difficulty, PieceOrder, Text) VALUES
+                                                                                (4, 'hard', 1, 'Three bears made porridge for breakfast in their forest home.'),
+                                                                                (4, 'hard', 2, 'They went for a walk while waiting for it to cool.'),
+                                                                                (4, 'hard', 3, 'Goldilocks found their house and went inside uninvited.'),
+                                                                                (4, 'hard', 4, 'She tried each porridge and ate Baby Bear''s bowl.'),
+                                                                                (4, 'hard', 5, 'She sat in each chair and broke the smallest one.'),
+                                                                                (4, 'hard', 6, 'She fell asleep in Baby Bear''s bed until the bears returned.');
 
 
 CREATE TABLE Mahjong (
@@ -448,79 +448,79 @@ CREATE TABLE Mahjong (
 
 
 INSERT INTO Mahjong (Age , form1, form2) VALUES
-    -- EASY
-    ('easy', 'RED', '/images/Mahjong/red.svg'),
-    ('easy', 'BLUE', '/images/Mahjong/blue.svg'),
-    ('easy', 'PINK', '/images/Mahjong/pink.svg'),
-    ('easy', 'GREEN', '/images/Mahjong/green.svg'),
-    ('easy', 'YELLOW', '/images/Mahjong/yellow.svg'),
-    ('easy', 'ORANGE', '/images/Mahjong/orange.svg'),
-    ('easy', 'BROWN', '/images/Mahjong/brown.svg'),
-    ('easy', 'WHITE', '/images/Mahjong/white.svg'),
-    ('easy', 'BLACK', '/images/Mahjong/black.svg'),
-    ('easy', 'ONE', '/images/Mahjong/1.svg'),
-    ('easy', 'TWO', '/images/Mahjong/2.svg'),
-    ('easy', 'THREE', '/images/Mahjong/3.svg'),
-    ('easy', 'FOUR', '/images/Mahjong/4.svg'),
-    ('easy', 'FIVE', '/images/Mahjong/5.svg'),
-    ('easy', 'SIX', '/images/Mahjong/6.svg'),
-    ('easy', 'SEVEN', '/images/Mahjong/7.svg'),
-    ('easy', 'EIGHT', '/images/Mahjong/8.svg'),
-    ('easy', 'NINE', '/images/Mahjong/9.svg'),
+                                             -- EASY
+                                             ('easy', 'RED', '/images/Mahjong/red.svg'),
+                                             ('easy', 'BLUE', '/images/Mahjong/blue.svg'),
+                                             ('easy', 'PINK', '/images/Mahjong/pink.svg'),
+                                             ('easy', 'GREEN', '/images/Mahjong/green.svg'),
+                                             ('easy', 'YELLOW', '/images/Mahjong/yellow.svg'),
+                                             ('easy', 'ORANGE', '/images/Mahjong/orange.svg'),
+                                             ('easy', 'BROWN', '/images/Mahjong/brown.svg'),
+                                             ('easy', 'WHITE', '/images/Mahjong/white.svg'),
+                                             ('easy', 'BLACK', '/images/Mahjong/black.svg'),
+                                             ('easy', 'ONE', '/images/Mahjong/1.svg'),
+                                             ('easy', 'TWO', '/images/Mahjong/2.svg'),
+                                             ('easy', 'THREE', '/images/Mahjong/3.svg'),
+                                             ('easy', 'FOUR', '/images/Mahjong/4.svg'),
+                                             ('easy', 'FIVE', '/images/Mahjong/5.svg'),
+                                             ('easy', 'SIX', '/images/Mahjong/6.svg'),
+                                             ('easy', 'SEVEN', '/images/Mahjong/7.svg'),
+                                             ('easy', 'EIGHT', '/images/Mahjong/8.svg'),
+                                             ('easy', 'NINE', '/images/Mahjong/9.svg'),
 
-    -- MEDIUM
-    ('medium', 'CLOUDY', '/images/Mahjong/cloudy.svg'),
-    ('medium', 'RAINY', '/images/Mahjong/rainy.svg'),
-    ('medium', 'SNOWY', '/images/Mahjong/snowy.svg'),
-    ('medium', 'STORMY', '/images/Mahjong/stormy.svg'),
-    ('medium', 'SUNNY', '/images/Mahjong/sunny.svg'),
-    ('medium', 'WINDY', '/images/Mahjong/windy.svg'),
-    ('medium', '+ BIG', 'BIGGEST'),
-    ('medium', '< BIG', 'BIGGER'),
-    ('medium', '+ SMALL', 'SMALLEST'),
-    ('medium', '< SMALL', 'SMALLER'),
-    ('medium', '+ IMPORTANT', 'MOST IMPORTANT'),
-    ('medium', '< IMPORTANT', 'MORE IMPORTANT'),
-    ('medium', '+ FAST', 'FASTEST'),
-    ('medium', '< FAST', 'FASTER'),
-    ('medium', '+ SLOW', 'SLOWEST'),
-    ('medium', '< SLOW', 'SLOWER'),
-    ('medium', '+ HIGH', 'HIGHEST'),
-    ('medium', '< HIGH', 'HIGHER'),
-    ('medium', '+ LOW', 'LOWEST'),
-    ('medium', '< LOW', 'LOWER'),
-    ('medium', '+ STRONG', 'STRONGEST'),
-    ('medium', '< STRONG', 'STRONGER'),
+                                             -- MEDIUM
+                                             ('medium', 'CLOUDY', '/images/Mahjong/cloudy.svg'),
+                                             ('medium', 'RAINY', '/images/Mahjong/rainy.svg'),
+                                             ('medium', 'SNOWY', '/images/Mahjong/snowy.svg'),
+                                             ('medium', 'STORMY', '/images/Mahjong/stormy.svg'),
+                                             ('medium', 'SUNNY', '/images/Mahjong/sunny.svg'),
+                                             ('medium', 'WINDY', '/images/Mahjong/windy.svg'),
+                                             ('medium', '+ BIG', 'BIGGEST'),
+                                             ('medium', '< BIG', 'BIGGER'),
+                                             ('medium', '+ SMALL', 'SMALLEST'),
+                                             ('medium', '< SMALL', 'SMALLER'),
+                                             ('medium', '+ IMPORTANT', 'MOST IMPORTANT'),
+                                             ('medium', '< IMPORTANT', 'MORE IMPORTANT'),
+                                             ('medium', '+ FAST', 'FASTEST'),
+                                             ('medium', '< FAST', 'FASTER'),
+                                             ('medium', '+ SLOW', 'SLOWEST'),
+                                             ('medium', '< SLOW', 'SLOWER'),
+                                             ('medium', '+ HIGH', 'HIGHEST'),
+                                             ('medium', '< HIGH', 'HIGHER'),
+                                             ('medium', '+ LOW', 'LOWEST'),
+                                             ('medium', '< LOW', 'LOWER'),
+                                             ('medium', '+ STRONG', 'STRONGEST'),
+                                             ('medium', '< STRONG', 'STRONGER'),
 
-    -- HARD
-    ('hard', 'BE', 'WAS/WERE'),
-    ('hard', 'BEGIN', 'BEGAN'),
-    ('hard', 'COME', 'CAME'),
-    ('hard', 'DO', 'DID'),
-    ('hard', 'EAT', 'ATE'),
-    ('hard', 'GO', 'WENT'),
-    ('hard', 'HAVE', 'HAD'),
-    ('hard', 'MAKE', 'MADE'),
-    ('hard', 'SEE', 'SAW'),
-    ('hard', 'TAKE', 'TOOK'),
-    ('hard', 'WRITE', 'WROTE'),
-    ('hard', 'SLEEP', 'SLEPT'),
-    ('hard', 'SPEAK', 'SPOKE'),
-    ('hard', 'SWIM', 'SWAM'),
-    ('hard', 'RUN', 'RAN'),
-    ('hard', 'DRIVE', 'DROVE'),
-    ('hard', 'SING', 'SANG'),
-    ('hard', 'BUY', 'BOUGHT'),
-    ('hard', 'CHOOSE', 'CHOSE'),
-    ('hard', 'ABOVE', '/images/Mahjong/above.png'),
-    ('hard', 'BEHIND', '/images/Mahjong/behind.png'),
-    ('hard', 'BESIDE', '/images/Mahjong/beside.png'),
-    ('hard', 'BETWEEN', '/images/Mahjong/between.png'),
-    ('hard', 'IN', '/images/Mahjong/in.png'),
-    ('hard', 'IN FRONT OF', '/images/Mahjong/infrontof.png'),
-    ('hard', 'NEAR', '/images/Mahjong/near.png'),
-    ('hard', 'ON', '/images/Mahjong/on.png'),
-    ('hard', 'UNDER', '/images/Mahjong/under.png')
+                                             -- HARD
+                                             ('hard', 'BE', 'WAS/WERE'),
+                                             ('hard', 'BEGIN', 'BEGAN'),
+                                             ('hard', 'COME', 'CAME'),
+                                             ('hard', 'DO', 'DID'),
+                                             ('hard', 'EAT', 'ATE'),
+                                             ('hard', 'GO', 'WENT'),
+                                             ('hard', 'HAVE', 'HAD'),
+                                             ('hard', 'MAKE', 'MADE'),
+                                             ('hard', 'SEE', 'SAW'),
+                                             ('hard', 'TAKE', 'TOOK'),
+                                             ('hard', 'WRITE', 'WROTE'),
+                                             ('hard', 'SLEEP', 'SLEPT'),
+                                             ('hard', 'SPEAK', 'SPOKE'),
+                                             ('hard', 'SWIM', 'SWAM'),
+                                             ('hard', 'RUN', 'RAN'),
+                                             ('hard', 'DRIVE', 'DROVE'),
+                                             ('hard', 'SING', 'SANG'),
+                                             ('hard', 'BUY', 'BOUGHT'),
+                                             ('hard', 'CHOOSE', 'CHOSE'),
+                                             ('hard', 'ABOVE', '/images/Mahjong/above.png'),
+                                             ('hard', 'BEHIND', '/images/Mahjong/behind.png'),
+                                             ('hard', 'BESIDE', '/images/Mahjong/beside.png'),
+                                             ('hard', 'BETWEEN', '/images/Mahjong/between.png'),
+                                             ('hard', 'IN', '/images/Mahjong/in.png'),
+                                             ('hard', 'IN FRONT OF', '/images/Mahjong/infrontof.png'),
+                                             ('hard', 'NEAR', '/images/Mahjong/near.png'),
+                                             ('hard', 'ON', '/images/Mahjong/on.png'),
+                                             ('hard', 'UNDER', '/images/Mahjong/under.png')
 ;
 
 CREATE TABLE LetterSoup (
@@ -812,9 +812,9 @@ VALUES
      '["SYMPHONY","ORCHESTRA","CONDUCTOR","VIOLINIST","PIANIST","COMPOSER","HARMONY","RHYTHM","MELODY","SONATA"]');
 
 CREATE TABLE Memory (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    content VARCHAR(255) NOT NULL,
-    pair VARCHAR(128) NOT NULL);
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        content VARCHAR(255) NOT NULL,
+                        pair VARCHAR(128) NOT NULL);
 
 INSERT INTO Memory (content, pair) VALUES   ('/images/Games/Science/Memory/mano.png', 'Hand'),
                                             ('/images/Games/Science/Memory/pie.avif', 'Feet'),
@@ -882,109 +882,76 @@ INSERT INTO Geography (id, name, capital, continent, difficulty, image, hint) VA
                                                                                   ('MK', 'North Macedonia', 'Skopje', 'Europe', 'Hard', '', 'Home to Lake Ohrid and ancient monasteries.');
 
 CREATE TABLE Shapes (
-        Id INT AUTO_INCREMENT PRIMARY KEY,
-        Name VARCHAR(50) NOT NULL UNIQUE,
-        Shape VARCHAR(50) NOT NULL UNIQUE,
-        ImageURL VARCHAR(255) NOT NULL
+                        Id INT AUTO_INCREMENT PRIMARY KEY,
+                        Name VARCHAR(50) NOT NULL UNIQUE,
+                        Shape VARCHAR(50) NOT NULL UNIQUE,
+                        ImageURL VARCHAR(255) NOT NULL
 );
 
 INSERT INTO Shapes (Name, Shape, ImageURL) VALUES
-       ('Circle', 'circle', '/images/Games/Art/DominoMaster/circle.svg'),
-       ('Cone', 'cone', '/images/Games/Art/DominoMaster/cone.svg'),
-       ('Cube', 'cube', '/images/Games/Art/DominoMaster/cube.svg'),
-       ('Cylinder', 'cylinder', '/images/Games/Art/DominoMaster/cylinder.svg'),
-       ('Diamond', 'diamond', '/images/Games/Art/DominoMaster/diamond.svg'),
-       ('Square', 'square', '/images/Games/Art/DominoMaster/square.svg'),
-       ('Triangle', 'triangle', '/images/Games/Art/DominoMaster/triangle.svg'),
-       ('Rectangle', 'rectangle', '/images/Games/Art/DominoMaster/rectangle.svg'),
-       ('Pentagon', 'pentagon', '/images/Games/Art/DominoMaster/pentagon.svg'),
-       ('Hexagon', 'hexagon', '/images/Games/Art/DominoMaster/hexagon.svg'),
-       ('Octagon', 'octagon', '/images/Games/Art/DominoMaster/octagon.svg'),
-       ('Parallelogram', 'parallelogram', '/images/Games/Art/DominoMaster/parallelogram.svg'),
-       ('Polyhedron', 'polyhedron', '/images/Games/Art/DominoMaster/polyhedron.svg'),
-       ('Pyramid', 'pyramid', '/images/Games/Art/DominoMaster/pyramid.svg'),
-       ('Sphere', 'sphere', '/images/Games/Art/DominoMaster/sphere.svg'),
-       ('Star', 'star', '/images/Games/Art/DominoMaster/star.svg');
+                                               ('Circle', 'circle', '/images/Games/Art/DominoMaster/circle.svg'),
+                                               ('Cone', 'cone', '/images/Games/Art/DominoMaster/cone.svg'),
+                                               ('Cube', 'cube', '/images/Games/Art/DominoMaster/cube.svg'),
+                                               ('Cylinder', 'cylinder', '/images/Games/Art/DominoMaster/cylinder.svg'),
+                                               ('Diamond', 'diamond', '/images/Games/Art/DominoMaster/diamond.svg'),
+                                               ('Square', 'square', '/images/Games/Art/DominoMaster/square.svg'),
+                                               ('Triangle', 'triangle', '/images/Games/Art/DominoMaster/triangle.svg'),
+                                               ('Rectangle', 'rectangle', '/images/Games/Art/DominoMaster/rectangle.svg'),
+                                               ('Pentagon', 'pentagon', '/images/Games/Art/DominoMaster/pentagon.svg'),
+                                               ('Hexagon', 'hexagon', '/images/Games/Art/DominoMaster/hexagon.svg'),
+                                               ('Octagon', 'octagon', '/images/Games/Art/DominoMaster/octagon.svg'),
+                                               ('Parallelogram', 'parallelogram', '/images/Games/Art/DominoMaster/parallelogram.svg'),
+                                               ('Polyhedron', 'polyhedron', '/images/Games/Art/DominoMaster/polyhedron.svg'),
+                                               ('Pyramid', 'pyramid', '/images/Games/Art/DominoMaster/pyramid.svg'),
+                                               ('Sphere', 'sphere', '/images/Games/Art/DominoMaster/sphere.svg'),
+                                               ('Star', 'star', '/images/Games/Art/DominoMaster/star.svg');
 
 CREATE TABLE DominoMasterShapes (
-        ShapeId INT,
-        Difficulty VARCHAR(10) NOT NULL,
-        PRIMARY KEY (ShapeId, Difficulty),
-        FOREIGN KEY (ShapeId) REFERENCES Shapes(Id),
-        CONSTRAINT valid_difficulty CHECK (Difficulty IN ('easy', 'medium', 'hard'))
+                                    ShapeId INT,
+                                    Difficulty VARCHAR(10) NOT NULL,
+                                    PRIMARY KEY (ShapeId, Difficulty),
+                                    FOREIGN KEY (ShapeId) REFERENCES Shapes(Id),
+                                    CONSTRAINT valid_difficulty CHECK (Difficulty IN ('easy', 'medium', 'hard'))
 );
 
 INSERT INTO DominoMasterShapes (ShapeId, Difficulty) VALUES
-         ((SELECT Id FROM Shapes WHERE Shape = 'circle'), 'easy'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'rectangle'), 'easy'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'triangle'), 'easy'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'square'), 'easy'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'circle'), 'easy'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'rectangle'), 'easy'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'triangle'), 'easy'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'square'), 'easy'),
 
-         ((SELECT Id FROM Shapes WHERE Shape = 'circle'), 'medium'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'rectangle'), 'medium'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'triangle'), 'medium'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'square'), 'medium'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'pentagon'), 'medium'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'hexagon'), 'medium'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'octagon'), 'medium'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'star'), 'medium'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'pyramid'), 'medium'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'diamond'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'circle'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'rectangle'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'triangle'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'square'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'pentagon'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'hexagon'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'octagon'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'star'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'pyramid'), 'medium'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'diamond'), 'medium'),
 
-         ((SELECT Id FROM Shapes WHERE Shape = 'pentagon'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'hexagon'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'octagon'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'star'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'pyramid'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'diamond'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'cone'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'cube'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'cylinder'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'parallelogram'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'polyhedron'), 'hard'),
-         ((SELECT Id FROM Shapes WHERE Shape = 'sphere'), 'hard');
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'pentagon'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'hexagon'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'octagon'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'star'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'pyramid'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'diamond'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'cone'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'cube'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'cylinder'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'parallelogram'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'polyhedron'), 'hard'),
+                                                         ((SELECT Id FROM Shapes WHERE Shape = 'sphere'), 'hard');
 
 CREATE TABLE DetectiveLupin (
-                           id INT PRIMARY KEY,
-                           name VARCHAR(100),
-                           artist VARCHAR(100),
-                           difficulty ENUM('Easy', 'Medium', 'Hard'),
-                           image TEXT
+                                id INT PRIMARY KEY,
+                                name VARCHAR(100),
+                                artist VARCHAR(100),
+                                difficulty ENUM('Easy', 'Medium', 'Hard'),
+                                image TEXT
 );
 
-INSERT INTO Paintings (id, name, artist, difficulty, image) VALUES
-                                                                (1, 'Mona Lisa', 'Leonardo da Vinci', 'Easy', '/images/Games/Art/MonaLisa.avif'),
-                                                                (2, 'The Starry Night', 'Vincent van Gogh', 'Easy', '/images/Games/Art/TheStarryNight.avif'),
-                                                                (3, 'Sunflowers', 'Vincent van Gogh', 'Easy', '/images/Games/Art/Sunflowers.avif'),
-                                                                (4, 'Water Lilies', 'Claude Monet', 'Easy', '/images/Games/Art/WaterLilies.avif'),
-                                                                (5, 'A Sunday on La Grande Jatte', 'Georges Seurat', 'Easy', '/images/Games/Art/ASundayOnLaGrandeJatte.avif'),
-                                                                (6, 'The Sleeping Gypsy', 'Henri Rousseau', 'Easy', '/images/Games/Art/TheSleepingGypsy.avif'),
-                                                                (7, 'Composition II in Red, Blue, and Yellow', 'Piet Mondrian', 'Easy', '/images/Games/Art/CompositionIiInRedBlueAndYellow.avif'),
-                                                                (8, 'The Snail', 'Henri Matisse', 'Easy', '/images/Games/Art/TheSnail.avif'),
-                                                                (9, 'Dogs Playing Poker', 'Cassius Marcellus Coolidge', 'Easy', '/images/Games/Art/DogsPlayingPoker.avif'),
-                                                                (10, 'Balloon Girl', 'Banksy', 'Easy', '/images/Games/Art/BalloonGirl.avif'),
-
-                                                                (11, 'The Last Supper', 'Leonardo da Vinci', 'Medium', '/images/Games/Art/TheLastSupper.avif'),
-                                                                (12, 'Girl with a Pearl Earring', 'Johannes Vermeer', 'Medium', '/images/Games/Art/GirlWithAPearlEarring.avif'),
-                                                                (13, 'The Scream', 'Edvard Munch', 'Medium', '/images/Games/Art/TheScream.avif'),
-                                                                (14, 'The Hay Wain', 'John Constable', 'Medium', '/images/Games/Art/TheHayWain.avif'),
-                                                                (15, 'Liberty Leading the People', 'Eugène Delacroix', 'Medium', '/images/Games/Art/LibertyLeadingThePeople.avif'),
-                                                                (16, 'Dance at Le Moulin de la Galette', 'Pierre-Auguste Renoir', 'Medium', '/images/Games/Art/DanceAtLeMoulinDeLaGalette.avif'),
-                                                                (17, 'Whistler’s Mother', 'James McNeill Whistler', 'Medium', '/images/Games/Art/WhistlersMother.avif'),
-                                                                (18, 'The Treachery of Images', 'René Magritte', 'Medium', '/images/Games/Art/TheTreacheryOfImages.avif'),
-                                                                (19, 'Olympia', 'Édouard Manet', 'Medium', '/images/Games/Art/Olympia.avif'),
-                                                                (20, 'The Sleeping Venus', 'Giorgione', 'Medium', '/images/Games/Art/TheSleepingVenus.avif'),
-
-                                                                (21, 'The Birth of Venus', 'Sandro Botticelli', 'Hard', '/images/Games/Art/TheBirthOfVenus.avif'),
-                                                                (22, 'American Gothic', 'Grant Wood', 'Hard', '/images/Games/Art/AmericanGothic.avif'),
-                                                                (23, 'Guernica', 'Pablo Picasso', 'Hard', '/images/Games/Art/Guernica.avif'),
-                                                                (24, 'The Garden of Earthly Delights', 'Hieronymus Bosch', 'Hard', '/images/Games/Art/TheGardenOfEarthlyDelights.avif'),
-                                                                (25, 'Las Meninas', 'Diego Velázquez', 'Hard', '/images/Games/Art/LasMeninas.avif'),
-                                                                (26, 'Arnolfini Portrait', 'Jan van Eyck', 'Hard', '/images/Games/Art/ArnolfiniPortrait.avif'),
-                                                                (27, 'The Night Watch', 'Rembrandt', 'Hard', '/images/Games/Art/TheNightWatch.avif'),
-                                                                (28, 'Libyan Sibyl (Sistine Chapel)', 'Michelangelo', 'Hard', '/images/Games/Art/LibyanSibylSistineChapel.avif'),
-                                                                (29, 'The Raft of the Medusa', 'Théodore Géricault', 'Hard', '/images/Games/Art/TheRaftOfTheMedusa.avif'),
-                                                                (30, 'Napoleon Crossing the Alps', 'Jacques-Louis David', 'Hard', '/images/Games/Art/NapoleonCrossingTheAlps.avif');
 
 CREATE TABLE levels (
                         level_id INT AUTO_INCREMENT PRIMARY KEY,
