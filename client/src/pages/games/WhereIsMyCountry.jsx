@@ -28,7 +28,6 @@ function WhereIsMyCountry() {
     const {t} = useTranslation();
 
     const [score, setScore] = useState(0);
-    const [bestScore, setBestScore] = useState(0);
 
     const [gameStatus, setGameStatus] = useState("loading");
 
@@ -79,7 +78,7 @@ function WhereIsMyCountry() {
     }, [gameCountries, currentIndex]);
 
     const initializeGame= () => {
-        fetchGameData().then(r => (console.log("Loaded game countries")));
+        fetchGameData().then(() => (console.log("Loaded game countries")));
 
         setGameStatus("loading");
         setTries(5);
@@ -131,7 +130,6 @@ function WhereIsMyCountry() {
         }
         else if (currentIndex >= gameCountries.length - 1) {
             setGameStatus("finished");
-            setBestScore(prevBest => Math.max(prevBest, score))
         }
     }
 
@@ -182,7 +180,7 @@ function WhereIsMyCountry() {
                         <div className="flex items-center justify-center w-full h-[5rem] bg-gray-500 rounded-t-2xl relative">
                             {(gameStatus !== "finished") ? (
                                 <div className={"text-black text-2xl flex justify-center"}>
-                                    <p className="text-gray-600 font-light">Score: <span className={"font-bold text-black"}>{score}</span></p>
+                                    <p className="text-gray-600 font-light">{t("score")} <span className={"font-bold text-black"}>{score}</span></p>
                                     <p className={"flex absolute right-4"}>{currentIndex+1}/{gameCountries.length}</p>
                                 </div>
                             ) : null}
@@ -233,7 +231,7 @@ function WhereIsMyCountry() {
                             {gameStatus === "waiting" && (
                                 <div>
                                     <div className="mt-[2rem]">
-                                        <Button size="small" onClick={() => nextGame()}>Next</Button>
+                                        <Button size="small" onClick={() => nextGame()}>{t("geography.nextButton")}</Button>
                                     </div>
                                 </div>
                             )}

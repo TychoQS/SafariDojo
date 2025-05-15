@@ -185,6 +185,7 @@ const resources = {
                 finishButton: 'Finish',
                 correct: 'Correct',
                 incorrect: 'Incorrect',
+                search: 'Search',
             }
         },
     },
@@ -368,6 +369,7 @@ const resources = {
                 finishButton: 'Finalizar',
                 correct: 'Correcto',
                 incorrect: 'Incorrecto',
+                search: 'Buscar',
             },
         },
     },
@@ -551,6 +553,8 @@ const resources = {
                 finishButton: 'Terminer',
                 correct: 'Correct',
                 incorrect: 'Incorrect',
+                search: 'Rechercher',
+
             }
         },
     },
@@ -617,7 +621,7 @@ const resources = {
             gamesCatalog: 'Spiele-Katalog',
             backButton: 'Hinter',
             startButton: 'Anfangen',
-            score: 'Ergebnis',
+            score: 'Punktzahl',
             bestScore: 'Besseres Ergebnis',
             logOutText1: 'Sie sind abgemeldet',
             logOutText2: 'Bis bald!',
@@ -735,6 +739,7 @@ const resources = {
                 finishButton: 'Beenden',
                 correct: 'Richtig',
                 incorrect: 'Falsch',
+                search: 'Suchen',
             }
         },
     },

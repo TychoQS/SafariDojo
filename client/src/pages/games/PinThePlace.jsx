@@ -59,7 +59,7 @@ const EuropeGeographyGame = () => {
         if (router.isReady) {
             const selectedMap = "EUROPEAN_COUNTRIES"
             setMap(selectedMap);
-            fetchGameData().then(r => (console.log("Loaded game countries")));
+            fetchGameData().then(() => (console.log("Loaded game countries")));
         }
 
     }, [router.isReady, router.query.Age]);
@@ -89,7 +89,7 @@ const EuropeGeographyGame = () => {
     };
 
     const restartGame = () => {
-        fetchGameData().then(r => {console.log("Loaded game countries")})
+        fetchGameData().then(() => {console.log("Loaded game countries")})
         setCurrentCountryIndex(0);
         setScore(0);
         setTries(5);
@@ -141,21 +141,14 @@ const EuropeGeographyGame = () => {
 
                 <div className="w-full flex flex-col">
                     <div className="relative flex justify-center items-center bg-blue-700 text-[#eaeaea] h-[4rem] border-4 border-b-0 border-black font-bold text-[1rem]">
-                        {gameFinished ? (
-                            <div className="flex flex-col justify-center items-center">
-                                <h2 className="text-2xl font-bold">Game Over!</h2>
-                                <p className="text-sm">Final score: <span className="font-bold"> {Math.round(score)}</span></p>
-                            </div>
-                        ) : (
                             <div className="flex items-center w-full">
                                 <p className="absolute left-0 p-[2rem]">{currentCountryIndex+1}/{selectedCountries.length}</p>
                                 <div className="flex flex-col justify-center items-center text-xl mx-auto">
-                                    <p>Search:</p>
+                                    <p>{t("geography.search")}:</p>
                                     <p className="font-bold text-PS-dark-yellow text-[1.5rem]">{selectedCountries[currentCountryIndex].name}</p>
                                 </div>
-                                <p className="absolute right-0 text-[1rem] p-[2rem]">Score: {Math.round(score)} </p>
+                                <p className="absolute right-0 text-[1rem] p-[2rem]">{t("score")}: {Math.round(score)} </p>
                             </div>
-                        )}
                     </div>
 
                     <div className="flex justify-center items-center bg-blue-400 border-4 border-t-0 border-black">
