@@ -100,8 +100,8 @@ const AnimalClassificationGame = () => {
 
     function selectRandomLevels(difficulty) {
         const shuffled = [...allLevels].sort(() => 0.5 - Math.random());
-        if (difficulty === "hard") return shuffled.slice(0, 6);
-        if (difficulty === "medium") return shuffled.slice(0, 5);
+        if (difficulty.toLowerCase() === "hard") return shuffled.slice(0, 6);
+        if (difficulty.toLowerCase() === "medium") return shuffled.slice(0, 5);
         return shuffled.slice(0, 4);
     }
 
