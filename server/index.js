@@ -770,6 +770,18 @@ app.get('/api/getDominoMasterShapes', (req, res) => {
     });
 });
 
+app.get("/api/memory", async (req, res) => {
+    const query = `SELECT * FROM Memory;`;
+
+    dbConnection.query(query, (error, results) => {
+        if (error) {
+            return res.status(500).json({ message: "Error occurred." });
+        }
+
+        res.status(200).json({pairs: results});
+    })
+})
+
 app.get("/api/getCountries", (req, res) => {
     const difficulty = req.query.difficulty;
     const query = `
@@ -819,6 +831,71 @@ app.get("/api/getPaintings", (req, res) => {
         res.status(200).json(result);
     });
 })
+
+app.get("/api/calloftheclan", (req, res) => {
+    const query = `
+        SELECT JSON_OBJECT(
+            'allLevels', 
+            (
+                SELECT JSON_ARRAYAGG(level_data)
+                FROM (
+                    SELECT JSON_OBJECT(
+                        'player', JSON_OBJECT(
+                            'type', p_animal.type,
+                            'name', p_animal.name,
+                            'classification', p_animal.classification,
+                            'emoji', p_animal.emoji
+                        ),
+                        'groups', (
+                            SELECT JSON_ARRAYAGG(group_data)
+                            FROM (
+                                SELECT JSON_OBJECT(
+                                    'type', g_animal.type,
+                                    'name', g_animal.name,
+                                    'classification', g_animal.classification,
+                                    'emoji', g_animal.emoji,
+                                    'position', JSON_OBJECT(
+                                        'x', gp.position_x,
+                                        'y', gp.position_y
+                                    )
+                                ) AS group_data
+                                FROM level_groups lg
+                                JOIN animals g_animal ON lg.animal_id = g_animal.animal_id
+                                JOIN group_positions gp ON lg.level_group_id = gp.level_group_id
+                                WHERE lg.level_id = lvl.level_id
+                                ORDER BY gp.position_x, gp.position_y
+                            ) AS ordered_groups
+                        )
+                    ) AS level_data
+                    FROM levels lvl
+                    JOIN level_players lp ON lvl.level_id = lp.level_id
+                    JOIN animals p_animal ON lp.animal_id = p_animal.animal_id
+                    ORDER BY lvl.level_number
+                ) AS ordered_levels
+            )
+        ) AS json_output
+    `;
+
+    dbConnection.query(query, (err, result) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ message: 'Error getting call of the clan data' });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'No data found' });
+        }
+
+        try {
+            const jsonData = result[0].json_output;
+            const parsedData = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+            return res.status(200).json(parsedData);
+        } catch (parseError) {
+            console.error("JSON parsing error:", parseError);
+            return res.status(500).json({ message: 'Error processing data', details: parseError.message });
+        }
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

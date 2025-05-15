@@ -186,6 +186,15 @@ const resources = {
                 bad: 'The order is not correct. Try again!',
                 good: 'Correct! You\'ve ordered the story perfectly!'
             },
+            calloftheclan: {
+                firstMessage: 'Move your animal to the correct group!',
+                incorrectMessage: 'Try again! Find the correct group.',
+                level: 'Level',
+                score: 'Score',
+            },
+            snakemaze: {
+                score: 'Score'
+            }
         },
     },
     es: {
@@ -353,6 +362,12 @@ const resources = {
                     solve: 'Resuelve estas operaciones para ganar el gran premio',
                 }
             },
+            calloftheclan: {
+                firstMessage: '¡Mueve el animal del medio al grupo correspondiente!',
+                incorrectMessage: 'Prueba otra vez. ¡Encuentra el grupo correcto!',
+                level: 'Nivel',
+                score: 'Puntos',
+            },
             mathinvasors: {
                 score: 'Puntos',
                 currentoperation: 'Operación actual',
@@ -369,7 +384,9 @@ const resources = {
                 bad: 'El orden no es correcto. ¡Intenta de nuevo!',
                 good: '¡Correcto! ¡Has ordenado la historia perfectamente!'
             },
-
+            snakemaze: {
+                score: 'Puntos'
+            }
         },
     },
     fr: {
@@ -537,6 +554,12 @@ const resources = {
                     solve: 'Résous ces opérations pour le grand prix',
                 }
             },
+            calloftheclan: {
+                firstMessage: 'Déplace l\'animal du milieu vers le groupe correspondant!',
+                incorrectMessage: 'Essayez à nouveau! Trouvez le groupe correct.',
+                level: 'Niveau',
+                score: 'Score',
+            },
             mathinvasors: {
                 score: 'Score',
                 currentoperation: 'Opération en cours',
@@ -552,6 +575,9 @@ const resources = {
                 empty: 'Plus de pièces disponibles',
                 bad: 'L’ordre n’est pas correct. Réessaie !',
                 good: 'Correct ! Tu as parfaitement ordonné l’histoire !'
+            },
+            snakemaze: {
+                score: 'Score'
             }
         },
     },
@@ -721,6 +747,12 @@ const resources = {
                     solve: 'Löse diese Aufgaben, um den Hauptpreis zu gewinnen',
                 }
             },
+            calloftheclan: {
+                firstMessage: 'Bewege das Tier in die entsprechende Gruppe!',
+                incorrectMessage: 'Versuchen Sie es erneut! Finden Sie die richtige Gruppe.',
+                level: 'Level',
+                score: 'Punktzahl',
+            },
             mathinvasors: {
                 score: 'Punktzahl',
                 currentoperation: 'Aktuelle Operation',
@@ -736,6 +768,9 @@ const resources = {
                 empty: 'Keine weiteren Teile verfügbar',
                 bad: 'Die Reihenfolge ist nicht korrekt. Versuche es erneut!',
                 good: 'Richtig! Du hast die Geschichte perfekt geordnet!'
+            },
+            snakemaze: {
+                score: 'Punktzahl'
             }
         },
     },

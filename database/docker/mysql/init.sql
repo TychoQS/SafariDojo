@@ -27,6 +27,12 @@ DROP TABLE IF EXISTS DominoMasterShapes;
 DROP TABLE IF EXISTS LetterSoup;
 DROP TABLE IF EXISTS Geography;
 DROP TABLE IF EXISTS DetectiveLupin;
+DROP TABLE IF EXISTS group_positions;
+DROP TABLE IF EXISTS level_groups;
+DROP TABLE IF EXISTS level_players;
+DROP TABLE IF EXISTS animals;
+DROP TABLE IF EXISTS levels;
+DROP TABLE IF EXISTS Memory;
 DROP PROCEDURE IF EXISTS FillSubjectQuizzes;
 DROP PROCEDURE IF EXISTS FillUserQuizzes;
 DROP TRIGGER IF EXISTS PostUserCreation;
@@ -69,7 +75,7 @@ CREATE TABLE Quizzes ( -- Quiz table
 INSERT INTO Quizzes (QuizName, Premium, Register, Tutorial) VALUES
                                                                 ('Pin The Place', TRUE, FALSE, NULL),
                                                                 ('Detective MrWorldWide', FALSE, FALSE, NULL),
-                                                                ('Where Is My Country?', FALSE, TRUE, NULL),
+                                                                ('Where Is My Country', FALSE, TRUE, NULL),
                                                                 ('Domino Master', TRUE, FALSE, NULL),
                                                                 ('Detective Lupin', FALSE, FALSE, NULL),
                                                                 ('Cook The Book', FALSE, TRUE, 'https://youtu.be/EUbBz0BaD3Y'),
@@ -805,6 +811,24 @@ VALUES
        ["X","Z","C","V","B","N","M","L","K","J","H"]]',
      '["SYMPHONY","ORCHESTRA","CONDUCTOR","VIOLINIST","PIANIST","COMPOSER","HARMONY","RHYTHM","MELODY","SONATA"]');
 
+CREATE TABLE Memory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    content VARCHAR(255) NOT NULL,
+    pair VARCHAR(128) NOT NULL);
+
+INSERT INTO Memory (content, pair) VALUES   ('/images/Games/Science/Memory/mano.png', 'Hand'),
+                                            ('/images/Games/Science/Memory/pie.avif', 'Feet'),
+                                            ('/images/Games/Science/Memory/oreja.avif', 'Ear'),
+                                            ('/images/Games/Science/Memory/nariz.avif', 'Nose'),
+                                            ('/images/Games/Science/Memory/ojo.png', 'Eye'),
+                                            ('/images/Games/Science/Memory/boca.png', 'Mouth'),
+                                            ('/images/Games/Science/Memory/tobillo.png', 'Ankle'),
+                                            ('/images/Games/Science/Memory/pierna.avif', 'Leg'),
+                                            ('/images/Games/Science/Memory/brazo.avif', 'Arm'),
+                                            ('/images/Games/Science/Memory/cerebro.png', 'Brain'),
+                                            ('/images/Games/Science/Memory/corazon.png', 'Heart');
+
+
 CREATE TABLE Geography (
                            id CHAR(2) PRIMARY KEY,
                            name VARCHAR(100),
@@ -962,6 +986,259 @@ INSERT INTO Paintings (id, name, artist, difficulty, image) VALUES
                                                                 (29, 'The Raft of the Medusa', 'Théodore Géricault', 'Hard', '/images/Games/Art/TheRaftOfTheMedusa.avif'),
                                                                 (30, 'Napoleon Crossing the Alps', 'Jacques-Louis David', 'Hard', '/images/Games/Art/NapoleonCrossingTheAlps.avif');
 
+CREATE TABLE levels (
+                        level_id INT AUTO_INCREMENT PRIMARY KEY,
+                        level_number INT NOT NULL
+);
+
+
+CREATE TABLE animals (
+                         animal_id INT AUTO_INCREMENT PRIMARY KEY,
+                         type VARCHAR(50) NOT NULL,
+                         name VARCHAR(50) NOT NULL,
+                         classification VARCHAR(50) NOT NULL,
+                         emoji VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE level_players (
+                               level_player_id INT AUTO_INCREMENT PRIMARY KEY,
+                               level_id INT NOT NULL,
+                               animal_id INT NOT NULL,
+                               FOREIGN KEY (level_id) REFERENCES levels(level_id),
+                               FOREIGN KEY (animal_id) REFERENCES animals(animal_id)
+);
+
+
+CREATE TABLE level_groups (
+                              level_group_id INT AUTO_INCREMENT PRIMARY KEY,
+                              level_id INT NOT NULL,
+                              animal_id INT NOT NULL,
+                              FOREIGN KEY (level_id) REFERENCES levels(level_id),
+                              FOREIGN KEY (animal_id) REFERENCES animals(animal_id)
+);
+
+
+CREATE TABLE group_positions (
+                                 position_id INT AUTO_INCREMENT PRIMARY KEY,
+                                 level_group_id INT NOT NULL,
+                                 position_x FLOAT NOT NULL,
+                                 position_y FLOAT NOT NULL,
+                                 FOREIGN KEY (level_group_id) REFERENCES level_groups(level_group_id)
+);
+
+
+
+
+INSERT INTO levels (level_number) VALUES (1), (2), (3), (4), (5), (6);
+
+
+INSERT INTO animals (type, name, classification, emoji) VALUES
+
+                                                            ('dog', 'Dog', 'mammal', '/images/Games/Science/CallOfTheClan/dog.svg'),
+                                                            ('eagle', 'Eagle', 'bird', '/images/Games/Science/CallOfTheClan/eagle.svg'),
+                                                            ('turtle', 'Turtle', 'reptile', '/images/Games/Science/CallOfTheClan/turtle.svg'),
+                                                            ('lobster', 'Lobster', 'crustacean', '/images/Games/Science/CallOfTheClan/lobster.svg'),
+                                                            ('spider', 'Spider', 'arachnid', '/images/Games/Science/CallOfTheClan/spider.svg'),
+                                                            ('penguin', 'Penguin', 'bird', '/images/Games/Science/CallOfTheClan/penguin.svg'),
+-- Groups
+                                                            ('frogs', 'Frogs', 'amphibian', '/images/Games/Science/CallOfTheClan/frog.svg'),
+                                                            ('fish', 'Fish', 'fish', '/images/Games/Science/CallOfTheClan/fish.svg'),
+                                                            ('cats', 'Cats', 'mammal', '/images/Games/Science/CallOfTheClan/cat.svg'),
+                                                            ('birds', 'Birds', 'bird', '/images/Games/Science/CallOfTheClan/bird.svg'),
+                                                            ('butterflies', 'Butterflies', 'insect', '/images/Games/Science/CallOfTheClan/butterfly.svg'),
+                                                            ('bats', 'Bats', 'mammal', '/images/Games/Science/CallOfTheClan/bat.svg'),
+                                                            ('snakes', 'Snakes', 'reptile', '/images/Games/Science/CallOfTheClan/snake.svg'),
+                                                            ('dolphins', 'Dolphins', 'mammal', '/images/Games/Science/CallOfTheClan/dolphin.svg'),
+                                                            ('crabs', 'Crabs', 'crustacean', '/images/Games/Science/CallOfTheClan/crab.svg'),
+                                                            ('octopus', 'Octopus', 'mollusk', '/images/Games/Science/CallOfTheClan/octopus.svg'),
+                                                            ('seahorses', 'Seahorses', 'fish', '/images/Games/Science/CallOfTheClan/seahorse.svg'),
+                                                            ('scorpions', 'Scorpions', 'arachnid', '/images/Games/Science/CallOfTheClan/scorpion.svg'),
+                                                            ('ants', 'Ants', 'insect', '/images/Games/Science/CallOfTheClan/ant.svg'),
+                                                            ('snails', 'Snails', 'mollusk', '/images/Games/Science/CallOfTheClan/snail.svg'),
+                                                            ('beetles', 'Beetles', 'insect', '/images/Games/Science/CallOfTheClan/beetle.svg'),
+                                                            ('seals', 'Seals', 'mammal', '/images/Games/Science/CallOfTheClan/seal.svg'),
+                                                            ('ducks', 'Ducks', 'bird', '/images/Games/Science/CallOfTheClan/duck.svg'),
+                                                            ('sharks', 'Sharks', 'fish', '/images/Games/Science/CallOfTheClan/shark.svg'),
+                                                            ('whales', 'Whales', 'mammal', '/images/Games/Science/CallOfTheClan/whale.svg');
+
+-- Nivel 1: Dog
+INSERT INTO level_players (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'dog';
+
+-- Nivel 2: Eagle
+INSERT INTO level_players (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'eagle';
+
+-- Nivel 3: Turtle
+INSERT INTO level_players (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'turtle';
+
+-- Nivel 4: Lobster
+INSERT INTO level_players (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'lobster';
+
+-- Nivel 5: Spider
+INSERT INTO level_players (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'spider';
+
+-- Nivel 6: Penguin
+INSERT INTO level_players (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'penguin';
+
+-- Insertar los grupos de cada nivel y sus posiciones
+
+-- Nivel 1: Dog - Grupos: frogs, fish, cats, birds
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'frogs';
+SET @level1_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level1_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'fish';
+SET @level1_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level1_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'cats';
+SET @level1_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level1_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 1, animal_id FROM animals WHERE type = 'birds';
+SET @level1_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level1_group4, 80, 70);
+
+-- Nivel 2: Eagle - Grupos: butterflies, birds, bats, frogs
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'butterflies';
+SET @level2_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level2_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'birds';
+SET @level2_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level2_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'bats';
+SET @level2_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level2_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 2, animal_id FROM animals WHERE type = 'frogs';
+SET @level2_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level2_group4, 80, 70);
+
+-- Nivel 3: Turtle - Grupos: snakes, dolphins, crabs, butterflies
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'snakes';
+SET @level3_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level3_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'dolphins';
+SET @level3_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level3_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'crabs';
+SET @level3_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level3_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 3, animal_id FROM animals WHERE type = 'butterflies';
+SET @level3_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level3_group4, 80, 70);
+
+-- Nivel 4: Lobster - Grupos: crabs, octopus, fish, seahorses
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'crabs';
+SET @level4_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level4_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'octopus';
+SET @level4_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level4_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'fish';
+SET @level4_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level4_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 4, animal_id FROM animals WHERE type = 'seahorses';
+SET @level4_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level4_group4, 80, 70);
+
+-- Nivel 5: Spider - Grupos: scorpions, ants, snails, beetles
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'scorpions';
+SET @level5_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level5_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'ants';
+SET @level5_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level5_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'snails';
+SET @level5_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level5_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 5, animal_id FROM animals WHERE type = 'beetles';
+SET @level5_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level5_group4, 80, 70);
+
+-- Nivel 6: Penguin - Grupos: seals, ducks, sharks, whales
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'seals';
+SET @level6_group1 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level6_group1, 20, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'ducks';
+SET @level6_group2 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level6_group2, 80, 30);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'sharks';
+SET @level6_group3 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level6_group3, 20, 70);
+
+INSERT INTO level_groups (level_id, animal_id)
+SELECT 6, animal_id FROM animals WHERE type = 'whales';
+SET @level6_group4 = LAST_INSERT_ID();
+INSERT INTO group_positions (level_group_id, position_x, position_y)
+VALUES (@level6_group4, 80, 70);
+
+
 
 show tables;
 select * from Users;
@@ -980,4 +1257,9 @@ select * from Geography;
 select * from DetectiveLupin;
 select * from Shapes;
 select * from DominoMasterShapes;
+select * from group_positions;
+select * from level_groups;
+select * from level_players;
+select * from animals;
+select * from levels;
 SET sql_notes = 1;

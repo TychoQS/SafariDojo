@@ -1,43 +1,42 @@
-import {cherryBomb} from '@/styles/fonts';
 import React, { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Lifes from "@/components/Lifes";
 import {router} from "next/client";
+import {t} from "i18next";
+import Button from "@/components/Button";
+import CongratsModal from "@/components/CongratsModal";
+import GameOverModal from "@/components/GameOverModal";
+import Title from "@/components/Title";
+import ErrorReportModal from "@/components/ErrorModal";
 
 
-function initialCards(cardsDiff) {
-    const allPairs = [
-        { id: 1, content: "/images/Games/Science/Memory/mano.png", match: "Hand" },
-        { id: 2, content: "/images/Games/Science/Memory/pie.avif", match: "Feet" },
-        { id: 3, content: "/images/Games/Science/Memory/oreja.avif", match: "Ear" },
-        { id: 4, content: "/images/Games/Science/Memory/nariz.avif", match: "Nose" },
-        { id: 5, content: "/images/Games/Science/Memory/ojo.png", match: "Eye" },
-        { id: 6, content: "/images/Games/Science/Memory/boca.png", match: "Mouth" },
-        { id: 7, content: "/images/Games/Science/Memory/tobillo.png", match: "Ankle" },
-        { id: 8, content: "/images/Games/Science/Memory/pierna.avif", match: "Leg" },
-        { id: 9, content: "/images/Games/Science/Memory/brazo.avif", match: "Arm" },
-        { id: 10, content: "/images/Games/Science/Memory/cerebro.png", match: "Brain" },
-        { id: 11, content: "/images/Games/Science/Memory/corazon.png", match: "Heart" }
-    ];
+async function initialCards(cardsDiff) {
+    const response = await fetch("http://localhost:8080/api/memory")
+    if (!response.ok) {
+        console.error("Error fetching memory cards");
+        return [];
+    }
+    const fetchedPairs = await response.json();
+    const allPairs = fetchedPairs.pairs;
 
     const shuffled = [...allPairs].sort(() => Math.random() - 0.5);
 
     let numberOfPairs;
-        if (cardsDiff === "hard") {
-            numberOfPairs = 6;
-        } else if (cardsDiff === "medium") {
-            numberOfPairs = 5;
-        } else {
-            numberOfPairs = 4;
-        }
+    if (cardsDiff === "hard") {
+        numberOfPairs = 6;
+    } else if (cardsDiff === "medium") {
+        numberOfPairs = 5;
+    } else {
+        numberOfPairs = 4;
+    }
 
     const pairs = shuffled.slice(0, numberOfPairs);
 
     let cards = [];
     pairs.forEach((pair, index) => {
         cards.push({ id: index * 2, value: pair.content, pairId: index });
-        cards.push({ id: index * 2 + 1, value: pair.match, pairId: index });
+        cards.push({ id: index * 2 + 1, value: pair.pair, pairId: index });
     });
 
     return cards.sort(() => Math.random() - 0.5);
@@ -47,8 +46,6 @@ export default function MemoryGame() {
     const [cards, setCards] = useState([]);
     const [selected, setSelected] = useState([]);
     const [matched, setMatched] = useState([]);
-    const [mistakes, setMistakes] = useState(0);
-    const [lives, setLives] = useState(3);
     const [gameOver, setGameOver] = useState(false);
     const [preview, setPreview] = useState(true);
     const [isClient, setIsClient] = useState(false);
@@ -61,6 +58,12 @@ export default function MemoryGame() {
     const winSound = useRef(null);
     const loseSound = useRef(null);
     const lifesRef = useRef(null);
+    const [lives, setLives] = useState(5);
+    const [isActive, setIsActive] = useState(true);
+    const [timeLeft, setTimeLeft] = useState(5);
+    const [isComplete, setIsComplete] = useState(false);
+
+    const progressPercentage = (timeLeft / 5) * 100;
 
     async function fetchDifficulty() {
         const previousURL = localStorage.getItem('previousURL');
@@ -81,7 +84,7 @@ export default function MemoryGame() {
 
     useEffect(() => {
         if (difficulty) {
-            setCards(initialCards(difficulty));
+            initialCards(difficulty).then(setCards);
         }
     }, [difficulty]);
 
@@ -96,22 +99,22 @@ export default function MemoryGame() {
             } else {
                 setScore(score - 2);
                 failSound.current.play();
-                setMistakes((prev) => prev + 1);
+                lifesRef.current.loseLife();
+                setLives(lives - 1);
                 setTimeout(() => setSelected([]), 800);
             }
         }
     }, [selected]);
 
     useEffect(() => {
-        if (mistakes === 7) {
+        if (lives === 0) {
             if (bestScore < score) {
                 setBestScore(score);
             }
             setGameOver(true);
             loseSound.current.play();
-            lifesRef.current.loseLife();
         }
-    }, [mistakes]);
+    }, [lives]);
 
     useEffect(() => {
         if (matched.length === cards.length / 2 && cards.length > 0) {
@@ -129,10 +132,31 @@ export default function MemoryGame() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setPreview(false);
+            setIsActive(false);
         }, 5000);
 
         return () => clearTimeout(timer);
     }, []);
+
+    useEffect(() => {
+        let interval = null;
+
+        if (isActive && timeLeft > 0) {
+            interval = setInterval(() => {
+                setTimeLeft(prevTime => {
+                    if (prevTime <= 0.1) {
+                        clearInterval(interval);
+                        setIsActive(false);
+                        setIsComplete(true);
+                        return 0;
+                    }
+                    return prevTime - 0.1;
+                });
+            }, 100);
+        }
+
+        return () => clearInterval(interval);
+    }, [isActive, timeLeft]);
 
     useEffect(() => {
         setIsClient(true);
@@ -149,17 +173,21 @@ export default function MemoryGame() {
         }
     };
 
-    function restartGame() {
-        setCards(initialCards(difficulty));
-        setMistakes(0);
+    async function restartGame() {
+        setCards(await initialCards(difficulty));
+        setLives(5);
+        lifesRef.current?.resetHearts();
         setScore(0);
         setGameOver(false);
         setSelected([]);
         setMatched([]);
         setPreview(true);
+        setIsActive(true);
+        setTimeLeft(5);
 
         setTimeout(() => {
             setPreview(false);
+            setIsActive(false);
         }, 5000);
     }
 
@@ -177,6 +205,17 @@ export default function MemoryGame() {
                     if (bestScore > storedScore) {
                         localStorage.setItem(key, bestScore.toString());
                     }
+                    const typeMedal = age === "easy"
+                        ? "BronzeMedal"
+                        : age === "medium"
+                            ? "SilverMedal"
+                            : "GoldMedal";
+
+                    const medalKey = `${gameData}_${typeMedal}`;
+                    const medalStatus = localStorage.getItem(medalKey) === "1";
+                    if (!medalStatus) {
+                        localStorage.setItem(medalKey, "1");
+                    }
                 }
             }
         } catch (error) {
@@ -185,7 +224,7 @@ export default function MemoryGame() {
         return router.push({
             pathname: "../GameSelectionPage",
             query: {
-               Subject: "Science"
+                Subject: "Science"
             }
         });
     }
@@ -194,18 +233,32 @@ export default function MemoryGame() {
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header />
             <main className="flex-1 flex flex-col justify-start px-4 relative">
-            <div className="flex items-center justify-between">
-                <div className={`ml-8 mt-6 text-4xl 
-                ${7 - mistakes <= 2 ? "text-red-500 animate-bounce" : "text-white animate-pulse"}`}>
-                    Tries remain: {7-mistakes}
+                <div className="mt-[-1em] self-center">
+                    <Title>Memory</Title>
                 </div>
-                <div className={"ml-8 mt-6 text-4xl"}>
-                    Score: {score}
+                <div className="flex items-center justify-between">
+                    <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
+                    <div className={"ml-8 mt-6 text-4xl"}>
+                        Score: {score}
+                    </div>
+                    {isActive &&
+                        <div className="w-50">
+                            <div className="text-md text-black mb-1 flex justify-between">
+                                <span>{Math.ceil(timeLeft)}s</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
+                                <div
+                                    className={`h-full transition-all duration-100 ${isComplete ? 'bg-red-500' : 'bg-blue-500'}`}
+                                    style={{ width: `${progressPercentage}%` }}
+                                ></div>
+                            </div>
+                        </div>
+                    }
+                    <Lifes ref={lifesRef}/>
+                    <ErrorReportModal></ErrorReportModal>
                 </div>
-                <Lifes ref={lifesRef} lives={lives} />
-            </div>
 
-                {isClient && (
+                {isClient && cards && cards.length > 0 && (
                     <div className={`mb-8 grid justify-items-center 
                     ${difficulty === "easy" ? "grid-cols-4" : difficulty === "medium" ? "grid-cols-5" : "grid-cols-6"}`}>
                         {cards.map((card) => {
@@ -219,18 +272,19 @@ export default function MemoryGame() {
                                     onClick={() => handleClick(card)}
                                     className={`cursor-pointer mt-8 flex items-center justify-center w-44 h-60 border rounded-xl text-xl 
                             shadow-md transition-transform duration-300 ease-in-out transform text-black ${
-                                        isFlipped ? "rotate-y-360 bg-white" : "bg-gray-300"
+                                        isFlipped ? "bg-white" : "bg-gray-300"
                                     } ${isMatched ? "opacity-0 scale-75" : "hover:scale-105"}`}
                                     style={{
                                         perspective: "1000px",
                                         transition: "all 0.8s ease",
+                                        transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
                                     }}
                                 >
                                     {isFlipped ? (
                                         typeof card.value === "string" && card.value.startsWith("/images") ? (
-                                            <img src={card.value} alt="Card" className="w-24 h-24 object-contain" />
+                                            <img src={card.value} alt="Card" className="w-24 h-24 object-contain" style={{ transform: "rotateY(180deg)" }} />
                                         ) : (
-                                            <span>{card.value}</span>
+                                            <span style={{ transform: "rotateY(180deg)" }}>{card.value}</span>
                                         )
                                     ) : "?"}
                                 </div>
@@ -239,40 +293,17 @@ export default function MemoryGame() {
                     </div>
                 )}
 
-                {(matched.length === cards.length / 2 || gameOver) && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-PS-main-purple bg-opacity-90 z-50">
-                        {matched.length === cards.length / 2 && (
-                            <div className="text-center text-green-600 font-bold text-3xl animate-bounce">
-                                🏅 ¡Congratulations! You've won a medal.
-                                <br />
-                                Final score: {score}
-                            </div>
-                        )}
-
-                        {gameOver && (
-                            <div className="text-center text-red-500 font-bold text-3xl animate-pulse">
-                                💀 ¡You lost! Try again.
-                                <br />
-                                Final score: {score}
-                            </div>
-                        )}
-                        <div className={"mt-8 space-x-8 flex flex-row"}>
-                            <button className={"cursor-pointer h-20 w-40 text-2xl rounded-4xl border-b-8 hover:border-none " +
-                                `border-[#6EF68B] bg-[#C9F1D2] text-black ${cherryBomb.className}`} onClick={() => restartGame()}>
-                                Play again
-                            </button>
-                            <button className={"cursor-pointer h-20 w-40 text-2xl rounded-4xl border-b-8 hover:border-none " +
-                                `border-[#6EF68B] bg-[#C9F1D2] text-black ${cherryBomb.className}`} onClick={() => finishGame()}>
-                                Finish game
-                            </button>
-                        </div>
-                    </div>
+                {matched.length === cards.length / 2 && (
+                    <CongratsModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
+                )}
+                {gameOver && (
+                    <GameOverModal onCloseMessage={finishGame} onRestart={restartGame}/>
                 )}
 
-            <audio ref={successSound} src="/sounds/Memory/correct_answer.mp3" preload="auto" />
-            <audio ref={failSound} src="/sounds/Memory/fail_answer.mp3" preload="auto" />
-            <audio ref={winSound} src="/sounds/Memory/win_game.mp3" preload="auto" />
-            <audio ref={loseSound} src="/sounds/Memory/lose_game.mp3" preload="auto" />
+                <audio ref={successSound} src="/sounds/Memory/correct_answer.mp3" preload="auto" />
+                <audio ref={failSound} src="/sounds/Memory/fail_answer.mp3" preload="auto" />
+                <audio ref={winSound} src="/sounds/Memory/win_game.mp3" preload="auto" />
+                <audio ref={loseSound} src="/sounds/Memory/lose_game.mp3" preload="auto" />
             </main>
 
             <Footer />
