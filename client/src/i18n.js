@@ -63,9 +63,11 @@ const resources = {
             editprofileTitle: 'Edit your profile',
             cancelButton: 'cancel',
             saveButton: 'save',
+            solveButton: 'Solve',
             gamesCatalog: 'Games Catalog',
             backButton: 'Back',
             startButton: 'Start',
+            score: 'Score',
             bestScore: 'Best score',
             logOutText1: 'Bye bye, you are logged out!',
             logOutText2: 'See you later!',
@@ -194,6 +196,20 @@ const resources = {
             },
             snakemaze: {
                 score: 'Score'
+            },
+            geography: {
+                resolveButton: 'Resolve',
+                nextButton: 'Next',
+                flagPlaceholder: 'Introduce the flag name...',
+                actualName: 'Actual Name',
+                finishButton: 'Finish',
+                correct: 'Correct',
+                incorrect: 'Incorrect',
+                search: 'Search',
+            },
+            detectiveLupin: {
+                enterLetter: 'Enter a letter here',
+                instructions: 'Use Backspace to delete and Enter to validate',
             }
         },
     },
@@ -256,9 +272,11 @@ const resources = {
             editprofileTitle: 'Edita tu perfil',
             cancelButton: 'cancelar',
             saveButton: 'guardar',
+            solveButton: 'Resolver',
             gamesCatalog: 'Catálogo de juegos',
             backButton: 'Atrás',
             startButton: 'Empezar',
+            score: 'Puntuación',
             bestScore: 'Mejor puntuación',
             logOutText1: 'Has cerrado sesión',
             logOutText2: '¡Nos vemos pronto!',
@@ -386,6 +404,20 @@ const resources = {
             },
             snakemaze: {
                 score: 'Puntos'
+            },
+            geography: {
+                resolveButton: 'Resolver',
+                nextButton: 'Siguiente',
+                flagPlaceholder: 'Introduce el nombre de la bandera...',
+                actualName: 'Nombre real',
+                finishButton: 'Finalizar',
+                correct: 'Correcto',
+                incorrect: 'Incorrecto',
+                search: 'Buscar',
+            },
+            detectiveLupin: {
+                enterLetter: 'Ingresa una letra aquí',
+                instructions: 'Usa Retroceso para borrar y Enter para validar',
             }
         },
     },
@@ -448,9 +480,11 @@ const resources = {
             editprofileTitle: 'Modifier votre profil',
             cancelButton: 'annuler',
             saveButton: 'suvegarder',
+            solveButton: 'Résoudre',
             gamesCatalog: 'Catalogue de jeux',
             backButton: 'Derrière',
             startButton: 'Commencer',
+            score: 'Résultat',
             bestScore: 'Meilleur résultat',
             logOutText1: 'Vous êtes déconnecté',
             logOutText2: 'À bientôt!',
@@ -578,7 +612,22 @@ const resources = {
             },
             snakemaze: {
                 score: 'Score'
-            }
+            },
+            geography: {
+                resolveButton: 'Résoudre',
+                nextButton: 'Suivant',
+                flagPlaceholder: 'Entrez le nom du drapeau...',
+                actualName: 'Nom réel',
+                finishButton: 'Terminer',
+                correct: 'Correct',
+                incorrect: 'Incorrect',
+                search: 'Rechercher',
+
+            },
+            detectiveLupin: {
+                enterLetter: 'Entrez une lettre ici',
+                instructions: 'Utilisez Retour arrière pour supprimer et Entrée pour valider',
+            },
         },
     },
     de: {
@@ -641,9 +690,11 @@ const resources = {
             editprofileTitle: 'Bearbeite dein Profil',
             cancelButton: 'retten',
             saveButton: 'abbrechen',
+            solveButton: 'Lösen',
             gamesCatalog: 'Spiele-Katalog',
             backButton: 'Hinter',
             startButton: 'Anfangen',
+            score: 'Punktzahl',
             bestScore: 'Besseres Ergebnis',
             logOutText1: 'Sie sind abgemeldet',
             logOutText2: 'Bis bald!',
@@ -771,7 +822,21 @@ const resources = {
             },
             snakemaze: {
                 score: 'Punktzahl'
-            }
+            },
+            geography: {
+                resolveButton: 'Lösen',
+                nextButton: 'Weiter',
+                flagPlaceholder: 'Gib den Namen der Flagge ein...',
+                actualName: 'Tatsächlicher Name',
+                finishButton: 'Beenden',
+                correct: 'Richtig',
+                incorrect: 'Falsch',
+                search: 'Suchen',
+            },
+            detectiveLupin: {
+                enterLetter: 'Gib hier einen Buchstaben ein',
+                instructions: 'Verwende Rückschritt zum Löschen und Enter zum Bestätigen',
+            },
         },
     },
 };
