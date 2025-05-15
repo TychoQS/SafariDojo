@@ -285,7 +285,7 @@ function DetectiveLupin() {
                         border-PS-dark-yellow bg-PS-light-yellow p-6 w-full max-w-4xl overflow-hidden">
 
                         <div className="max-w-96 max-h-80 min-h-50 flex justify-center items-center mb-8 overflow-hidden">
-                            <img src={`${currentPainting?.image}`} alt="Painting" className="max-w-full max-h-full object-contain border-4 border-black"/>
+                            <img src={`${currentPainting?.image}`} alt="Painting" className="max-w-full max-h-80 object-contain border-4 border-black"/>
                         </div>
 
                         <div className="flex flex-wrap justify-center gap-2 mb-6 w-full max-w-4xl px-4 overflow-x-auto">
