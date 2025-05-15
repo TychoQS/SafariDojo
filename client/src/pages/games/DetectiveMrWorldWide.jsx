@@ -89,14 +89,14 @@ function DetectiveMrWorldWide() {
         if (!isGuessCorrect())
         return (
         <div className={"flex flex-col items-center justify-center gap-5"}>
-            <p className={"flex flex-col text-red-600 text-2xl"}>Incorrect</p>
-            <p className={"flex flex-col text-black text-xl"}>Actual Name:
+            <p className={"flex flex-col text-red-600 text-2xl"}>{t("geography.incorrect")}</p>
+            <p className={"flex flex-col text-black text-xl"}>{t("geography.actualName")}:
                 <span className={"font-bold text-2xl text-blue-600"}>{gameCountries[currentIndex]?.name}</span></p>
         </div>)
         else return(
             <div className={"flex flex-col items-center justify-center gap-5"}>
-                <p className={"flex flex-col text-green-600 text-2xl"}>Correct</p>
-                <p className={"flex flex-col text-black text-xl"}>Actual Name:
+                <p className={"flex flex-col text-green-600 text-2xl"}>{t("geography.correct")}</p>
+                <p className={"flex flex-col text-black text-xl"}>{t("geography.actualName")}:
                     <span className={"font-bold text-2xl text-blue-600"}>{gameCountries[currentIndex]?.name}</span></p>
             </div>)
     }
@@ -203,7 +203,7 @@ function DetectiveMrWorldWide() {
                                 <div className={"flex flex-col items-center gap-6"}>
                                     <input className={"bg-[#E8B1EC] h-[50px] w-[350px] px-4 py-3 text-[20px] text-gray-600 outline-none rounded-lg border-2 transition-colors" +
                                         " duration-300 border-solid border-gray-500 focus:border-[black] focus:text-black"}
-                                           placeholder={"Introduce the flag name..."} value={guess}
+                                           placeholder={t("geography.flagPlaceholder")} value={guess}
                                            onChange={(e) => setGuess(e.target.value)}
                                            onKeyDown={(e) => {if(e.key === "Enter") validatePicture(name,  guess);}
                                            }/>
@@ -213,7 +213,7 @@ function DetectiveMrWorldWide() {
                                         "text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black duration-300 hover:scale-110 " +
                                         "hover:bg-[#c450cc]"}
                                             onClick={() => validatePicture(name, guess)}>
-                                        Resolve
+                                        {t("geography.resolveButton")}
                                     </button>
                                 </div> : null}
 
@@ -223,7 +223,7 @@ function DetectiveMrWorldWide() {
                                     <button className={"cursor-pointer h-15 w-35 rounded-4xl duration-300 hover:scale-110 " +
                                         "hover:bg-[#c450cc] text-lg border-[#ED6EF6] bg-[#E8B1EC] text-black"}
                                             onClick={() => nextGame()}>
-                                        Next
+                                        {t("geography.nextButton")}
                                     </button>
                                 </div> : null}
 
@@ -231,7 +231,7 @@ function DetectiveMrWorldWide() {
                                 <div>
                                     <div className={"flex flex-col items-center gap-6 text-center"}>
                                         {getMessage()}
-                                        <Button onClick={() => setGameStatus("finished")}>Finish</Button>
+                                        <Button onClick={() => setGameStatus("finished")}>{t("geography.finishButton")}</Button>
                                     </div>
 
                                     <div>
@@ -259,7 +259,7 @@ function DetectiveMrWorldWide() {
                         </div>
                         {gameStatus !== "finished" ? (
                             <div className={"text-black text-2xl font-black flex justify-between"}>
-                                <p className="text-gray-600 font-light">Score: {score}</p>
+                                <p className="text-gray-600 font-light">{t("score")}: {score}</p>
                             </div>) : null
                         }
                     </div>

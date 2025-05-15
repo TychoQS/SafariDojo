@@ -66,6 +66,7 @@ const resources = {
             gamesCatalog: 'Games Catalog',
             backButton: 'Back',
             startButton: 'Start',
+            score: 'Score',
             bestScore: 'Best score',
             logOutText1: 'Bye bye, you are logged out!',
             logOutText2: 'See you later!',
@@ -176,6 +177,15 @@ const resources = {
                 bad: 'The order is not correct. Try again!',
                 good: 'Correct! You\'ve ordered the story perfectly!'
             },
+            geography: {
+                resolveButton: 'Resolve',
+                nextButton: 'Next',
+                flagPlaceholder: 'Introduce the flag name...',
+                actualName: 'Actual Name',
+                finishButton: 'Finish',
+                correct: 'Correct',
+                incorrect: 'Incorrect',
+            }
         },
     },
     es: {
@@ -240,6 +250,7 @@ const resources = {
             gamesCatalog: 'Catálogo de juegos',
             backButton: 'Atrás',
             startButton: 'Empezar',
+            score: 'Puntuación',
             bestScore: 'Mejor puntuación',
             logOutText1: 'Has cerrado sesión',
             logOutText2: '¡Nos vemos pronto!',
@@ -349,7 +360,15 @@ const resources = {
                 bad: 'El orden no es correcto. ¡Intenta de nuevo!',
                 good: '¡Correcto! ¡Has ordenado la historia perfectamente!'
             },
-
+            geography: {
+                resolveButton: 'Resolver',
+                nextButton: 'Siguiente',
+                flagPlaceholder: 'Introduce el nombre de la bandera...',
+                actualName: 'Nombre real',
+                finishButton: 'Finalizar',
+                correct: 'Correcto',
+                incorrect: 'Incorrecto',
+            },
         },
     },
     fr: {
@@ -414,6 +433,7 @@ const resources = {
             gamesCatalog: 'Catalogue de jeux',
             backButton: 'Derrière',
             startButton: 'Commencer',
+            score: 'Résultat',
             bestScore: 'Meilleur résultat',
             logOutText1: 'Vous êtes déconnecté',
             logOutText2: 'À bientôt!',
@@ -522,6 +542,15 @@ const resources = {
                 empty: 'Plus de pièces disponibles',
                 bad: 'L’ordre n’est pas correct. Réessaie !',
                 good: 'Correct ! Tu as parfaitement ordonné l’histoire !'
+            },
+            geography: {
+                resolveButton: 'Résoudre',
+                nextButton: 'Suivant',
+                flagPlaceholder: 'Entrez le nom du drapeau...',
+                actualName: 'Nom réel',
+                finishButton: 'Terminer',
+                correct: 'Correct',
+                incorrect: 'Incorrect',
             }
         },
     },
@@ -588,6 +617,7 @@ const resources = {
             gamesCatalog: 'Spiele-Katalog',
             backButton: 'Hinter',
             startButton: 'Anfangen',
+            score: 'Ergebnis',
             bestScore: 'Besseres Ergebnis',
             logOutText1: 'Sie sind abgemeldet',
             logOutText2: 'Bis bald!',
@@ -696,6 +726,15 @@ const resources = {
                 empty: 'Keine weiteren Teile verfügbar',
                 bad: 'Die Reihenfolge ist nicht korrekt. Versuche es erneut!',
                 good: 'Richtig! Du hast die Geschichte perfekt geordnet!'
+            },
+            geography: {
+                resolveButton: 'Lösen',
+                nextButton: 'Weiter',
+                flagPlaceholder: 'Gib den Namen der Flagge ein...',
+                actualName: 'Tatsächlicher Name',
+                finishButton: 'Beenden',
+                correct: 'Richtig',
+                incorrect: 'Falsch',
             }
         },
     },

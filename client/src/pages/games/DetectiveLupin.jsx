@@ -66,28 +66,22 @@ function DetectiveLupin() {
         }
     }, [currentPainting]);
 
-    // Función para configurar los slots de letras con algunas ya rellenadas
     const setupLetterSlots = (paintingName) => {
         const name = paintingName.trim();
         const slots = [];
 
-        // Establecer 50% de letras reveladas para todas las dificultades
         const revealPercentage = 0.5;
 
-        // Crear array de índices y mezclarlo aleatoriamente
         const indices = Array.from({ length: name.length }, (_, i) => i);
         indices.sort(() => 0.5 - Math.random());
 
-        // Calcular cuántas letras revelar
         const lettersToReveal = Math.max(1, Math.floor(name.length * revealPercentage));
         const revealIndices = new Set(indices.slice(0, lettersToReveal));
 
-        // Crear slots
         for (let i = 0; i < name.length; i++) {
             const isRevealed = revealIndices.has(i);
             const char = name[i];
 
-            // Tratar espacios y caracteres especiales
             if (char === " " || char === "-" || char === "." || char === "," || char === "'") {
                 slots.push({
                     letter: char,
@@ -121,7 +115,6 @@ function DetectiveLupin() {
         const letter = e.target.value.slice(-1).toUpperCase();
         setCurrentLetter(letter);
 
-        // Actualizar el slot automáticamente al ingresar una letra
         if (letter) {
             const newSlots = [...letterSlots];
             newSlots[selectedSlotIndex] = {
@@ -130,26 +123,20 @@ function DetectiveLupin() {
             };
             setLetterSlots(newSlots);
 
-            // Mover automáticamente al siguiente slot disponible
             moveToNextEmptySlot();
         }
     };
 
     const handleKeyDown = (e) => {
-        // Si presiona Enter, validar la respuesta
         if (e.key === "Enter") {
             checkAnswer();
             return;
         }
 
-        // Si presiona Backspace, borrar la letra actual
         if (e.key === "Backspace") {
             if (currentLetter) {
-                // Si hay una letra en el input actual, borrarla
                 setCurrentLetter("");
             } else {
-                // Si no hay letra en el input actual, borrar la letra del slot seleccionado
-                // y mantener el mismo slot seleccionado
                 const newSlots = [...letterSlots];
                 if (newSlots[selectedSlotIndex]) {
                     newSlots[selectedSlotIndex] = {
@@ -159,7 +146,6 @@ function DetectiveLupin() {
                     setLetterSlots(newSlots);
                 }
 
-                // Si no hay letra en el slot actual, moverse al slot anterior
                 if (!currentLetter && selectedSlotIndex > 0) {
                     moveToPreviousEmptySlot();
                 }
@@ -168,7 +154,6 @@ function DetectiveLupin() {
     };
 
     const moveToPreviousEmptySlot = () => {
-        // Buscar el slot anterior que no sea revelado o especial
         for (let i = selectedSlotIndex - 1; i >= 0; i--) {
             if (!letterSlots[i].isRevealed && !letterSlots[i].isSpecial) {
                 setSelectedSlotIndex(i);
@@ -187,7 +172,6 @@ function DetectiveLupin() {
             setSelectedSlotIndex(nextEmptyIndex);
             setCurrentLetter("");
         } else {
-            // Si no hay más slots vacíos, verificar si se completaron todos
             const allSlotsFilled = letterSlots.every(slot =>
                 slot.isRevealed || slot.isSpecial || slot.enteredLetter
             );
@@ -195,7 +179,6 @@ function DetectiveLupin() {
             if (allSlotsFilled) {
                 checkAnswer();
             } else {
-                // Buscar el primer slot vacío desde el principio
                 const firstEmptyIndex = letterSlots.findIndex(slot =>
                     !slot.isRevealed && !slot.isSpecial && !slot.enteredLetter
                 );
@@ -211,7 +194,6 @@ function DetectiveLupin() {
     const checkAnswer = () => {
         if (gameFinished) return;
 
-        // Verificar si todas las letras ingresadas son correctas
         const isCorrect = letterSlots.every((slot, index) => {
             if (slot.isRevealed || slot.isSpecial) return true;
             return slot.enteredLetter && slot.enteredLetter.toUpperCase() === slot.letter.toUpperCase();
@@ -306,8 +288,6 @@ function DetectiveLupin() {
                             <img src={`${currentPainting?.image}`} alt="Painting" className="max-w-full max-h-full object-contain border-4 border-black"/>
                         </div>
 
-                        {/* Slots de letras */}
-                        {/* Slots de letras */}
                         <div className="flex flex-wrap justify-center gap-2 mb-6 w-full max-w-4xl px-4 overflow-x-auto">
                             {letterSlots.map((slot, index) => (
                                 <div
@@ -323,7 +303,6 @@ function DetectiveLupin() {
                             ))}
                         </div>
 
-                        {/* Input para la letra actual */}
                         {selectedSlotIndex !== -1 && !waiting && !gameFinished && (
                             <div className="flex flex-col items-center gap-4 mb-6 bg-gray-100 p-4 rounded-lg border border-gray-300">
                                 <p className="text-lg font-bold text-black">Enter a letter here:</p>
