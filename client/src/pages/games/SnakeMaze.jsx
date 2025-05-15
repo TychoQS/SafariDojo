@@ -272,7 +272,7 @@ export default function MazeGame() {
                 </div>
                 <div className={"relative w-[60em] mb-3 flex justify-between"}>
                     <Button size="small" onClick={finishGame}>{t("backButton")} </Button>
-                    <div className={"text-3xl"}>Score: {score}</div>
+                    <div className={"text-3xl"}>{t("snakemaze.score")}: {score}</div>
                     <div className={"mt-[-1.5em]"}>
                         <Lifes ref={livesRef} />
                     </div>

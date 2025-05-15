@@ -181,6 +181,9 @@ const resources = {
                 incorrectMessage: 'Try again! Find the correct group.',
                 level: 'Level',
                 score: 'Score',
+            },
+            snakemaze: {
+                score: 'Score'
             }
         },
     },
@@ -344,7 +347,6 @@ const resources = {
                 incorrectMessage: 'Prueba otra vez. ¡Encuentra el grupo correcto!',
                 level: 'Nivel',
                 score: 'Puntos',
-            }
             },
             mathinvasors: {
                 score: 'Puntos',
@@ -362,7 +364,11 @@ const resources = {
                 bad: 'El orden no es correcto. ¡Intenta de nuevo!',
                 good: '¡Correcto! ¡Has ordenado la historia perfectamente!'
             },
+            snakemaze: {
+                score: 'Puntos'
+            }
         },
+    },
     fr: {
         translation: {
             home: 'Accueil',
@@ -539,6 +545,9 @@ const resources = {
                 empty: 'Plus de pièces disponibles',
                 bad: 'L’ordre n’est pas correct. Réessaie !',
                 good: 'Correct ! Tu as parfaitement ordonné l’histoire !'
+            },
+            snakemaze: {
+                score: 'Score'
             }
         },
     },
@@ -719,6 +728,9 @@ const resources = {
                 empty: 'Keine weiteren Teile verfügbar',
                 bad: 'Die Reihenfolge ist nicht korrekt. Versuche es erneut!',
                 good: 'Richtig! Du hast die Geschichte perfekt geordnet!'
+            },
+            snakemaze: {
+                score: 'Punktzahl'
             }
         },
     },
