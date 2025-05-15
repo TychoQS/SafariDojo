@@ -258,7 +258,7 @@ const AnimalClassificationGame = () => {
                     </div>
 
                     <div className="relative w-full mb-[-2em] flex justify-around">
-                        <Button size="small" onClick={finishGame}>{t("backButton")} </Button>
+                        <Button size="small" onClick={() => router.back()}>{t("backButton")} </Button>
                         <Lifes ref={lifesRef}/>
                         <ErrorReportModal />
                     </div>
