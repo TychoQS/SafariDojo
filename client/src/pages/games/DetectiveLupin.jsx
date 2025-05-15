@@ -224,15 +224,15 @@ function DetectiveLupin() {
         if (!isCorrect)
             return (
                 <div className="flex flex-col items-center justify-center text-center gap-5">
-                    <p className="flex flex-col text-red-600 text-2xl">Incorrect</p>
-                    <p className="flex flex-col text-black text-xl">Actual Name:
+                    <p className="flex flex-col text-red-600 text-2xl">{t("geography.incorrect")}</p>
+                    <p className="flex flex-col text-black text-xl">{t("geography.actualName")}:
                         <span className="font-bold text-2xl text-blue-600">{gamePaintings[currentIndex]?.name}</span></p>
                 </div>
             );
         else
             return (
                 <div className="flex flex-col items-center justify-center gap-5">
-                    <p className="flex flex-col text-green-600 text-2xl">Correct</p>
+                    <p className="flex flex-col text-green-600 text-2xl">{t("geography.correct")}</p>
                 </div>
             );
     }
@@ -305,7 +305,7 @@ function DetectiveLupin() {
 
                         {selectedSlotIndex !== -1 && !waiting && !gameFinished && (
                             <div className="flex flex-col items-center gap-4 mb-6 bg-gray-100 p-4 rounded-lg border border-gray-300">
-                                <p className="text-lg font-bold text-black">Enter a letter here:</p>
+                                <p className="text-lg font-bold text-black">{t("detectiveLupin.enterLetter")}:</p>
                                 <input
                                     type="text"
                                     value={currentLetter}
@@ -316,7 +316,7 @@ function DetectiveLupin() {
                                     className="w-12 h-12 text-2xl font-bold text-center border-2 border-black bg-white text-black"
                                     placeholder="?"
                                 />
-                                <p className="text-sm text-black">Use Backspace to delete and Enter to validate</p>
+                                <p className="text-sm text-black">{t("detectiveLupin.instructions")}</p>
                             </div>
                         )}
 
@@ -327,7 +327,7 @@ function DetectiveLupin() {
                                     hover:bg-[#F67C6E]"
                                 onClick={checkAnswer}
                             >
-                                Solve
+                                {t("solveButton")}
                             </button>
                         )}
 
@@ -340,7 +340,7 @@ function DetectiveLupin() {
                                         hover:bg-[#F67C6E]"
                                     onClick={nextGame}
                                 >
-                                    Next
+                                    {t("geography.nextButton")}
                                 </button>
                             </div>
                         )}
@@ -361,7 +361,7 @@ function DetectiveLupin() {
                         )}
 
                         <div className="flex items-center justify-center mt-4">
-                            <p className="text-black text-2xl font-black">Score: <span className="font-bold text-4xl">{score}</span></p>
+                            <p className="text-black text-2xl font-black">{t("score")}: <span className="font-bold text-4xl">{score}</span></p>
                         </div>
                     </div>
                 </div>
