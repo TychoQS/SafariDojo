@@ -60,7 +60,7 @@ export default function MathInvasors() {
                 setMagnitude(Difficulty+1);
                 break;
             case "hard":
-                setDifficulty(1);
+                setDifficulty(2);
                 setMagnitude(Difficulty+1);
         }
     }, [router.isReady]);
@@ -251,21 +251,6 @@ export default function MathInvasors() {
         };
     }, [Playing]);
 
-    if (!LifesAvailable || GameOver) return (
-        <GameOverModal
-            onCloseMessage={closeModal}
-            onRestart={Start}
-        />
-    )
-
-    if (Win) return (
-        <CongratsModal
-            points={Score}
-            onCloseMessage={closeModal}
-            onRestart={Start}
-        />
-    )
-
     return (
         <>
             <div id={""} className={"app flex flex-col h-screen bg-PS-main-purple"}>
@@ -292,6 +277,19 @@ export default function MathInvasors() {
                             height={CanvasHeight}
                             className="border-4 border-PS-dark-yellow bg-PS-light-yellow mb-4"
                         ></canvas>
+                        {(Win) && (
+                            <CongratsModal
+                                points={Score}
+                                onCloseMessage={closeModal}
+                                onRestart={Start}
+                            />
+                        )}
+                        {(!LifesAvailable || GameOver) && (
+                            <GameOverModal
+                                onCloseMessage={closeModal}
+                                onRestart={Start}
+                            />
+                        )}
                     </section>
                     <section id={"button-menu-section"} className={"flex flex-row mb-5 space-x-5"}>
                         {!Playing &&  (
@@ -311,10 +309,11 @@ export default function MathInvasors() {
         // Otherwise, some Restarts will not work
         // Due to some useEffect being executed
         // Before others
-        SetScore(0)
+        lifesRef.current?.resetHearts();
         SetGameOver(false);
-        SetLifesAvailable(true)
         SetWin(false);
+        SetScore(0)
+        SetLifesAvailable(true)
         SetPlaying(true);
         setRoundsCompleted(false);
     }
