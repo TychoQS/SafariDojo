@@ -236,21 +236,6 @@ const CookTheBook = () => {
         }, 0);
     };
 
-    if (!lifesAvailable) return (
-        <GameOverModal
-            onCloseMessage={closeModal}
-            onRestart={replayGame}
-        />
-    )
-
-    if (Win) return (
-        <CongratsModal
-            points={score}
-            onCloseMessage={closeModal}
-            onRestart={replayGame}
-        />
-    )
-
     return (
         <>
             <div className="app flex flex-col bg-PS-main-purple min-h-screen">
@@ -421,6 +406,19 @@ const CookTheBook = () => {
                                         )}
                                     </div>
                                 </section>
+                                {(Win) && (
+                                    <CongratsModal
+                                        points={score}
+                                        onCloseMessage={closeModal}
+                                        onRestart={replayGame}
+                                    />
+                                )}
+                                {(!lifesAvailable) && (
+                                    <GameOverModal
+                                        onCloseMessage={closeModal}
+                                        onRestart={replayGame}
+                                    />
+                                )}
                             </section>
 
                         </>
