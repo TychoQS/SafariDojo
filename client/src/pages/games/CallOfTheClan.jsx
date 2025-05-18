@@ -100,8 +100,8 @@ const AnimalClassificationGame = () => {
 
     function selectRandomLevels(difficulty) {
         const shuffled = [...allLevels].sort(() => 0.5 - Math.random());
-        if (difficulty === "hard") return shuffled.slice(0, 6);
-        if (difficulty === "medium") return shuffled.slice(0, 5);
+        if (difficulty.toLowerCase() === "hard") return shuffled.slice(0, 6);
+        if (difficulty.toLowerCase() === "medium") return shuffled.slice(0, 5);
         return shuffled.slice(0, 4);
     }
 
@@ -238,12 +238,9 @@ const AnimalClassificationGame = () => {
         } catch (error) {
             console.error("Error processing score update:", error);
         }
-        return router.push({
-            pathname: "../GameSelectionPage",
-            query: {
-                Subject: "Science"
-            }
-        });
+        setTimeout(() => {
+            router.back();
+        }, 0);
     }
 
     if (!gameLoaded) return <LoadingPage />;
@@ -258,7 +255,7 @@ const AnimalClassificationGame = () => {
                     </div>
 
                     <div className="relative w-full mb-[-2em] flex justify-around">
-                        <Button size="small" onClick={finishGame}>{t("backButton")} </Button>
+                        <Button size="small" onClick={() => router.back()}>{t("backButton")} </Button>
                         <Lifes ref={lifesRef}/>
                         <ErrorReportModal />
                     </div>

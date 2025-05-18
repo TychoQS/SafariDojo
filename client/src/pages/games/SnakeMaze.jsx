@@ -252,12 +252,9 @@ export default function MazeGame() {
         } catch (error) {
             console.error("Error processing score update:", error);
         }
-        return router.push({
-            pathname: "../GameSelectionPage",
-            query: {
-                Subject: "Science"
-            }
-        });
+        setTimeout(() => {
+            router.back();
+        }, 0);
     }
 
 
