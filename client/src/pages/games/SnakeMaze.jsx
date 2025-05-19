@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import CongratsModal from "@/components/CongratsModal";
 import Button from "@/components/Button";
 import ErrorReportModal from "@/components/ErrorModal";
-import {router} from "next/client";
 import {useTranslation} from "react-i18next";
 import Lifes from "@/components/Lifes";
 import GameOverModal from "@/components/GameOverModal";
@@ -78,7 +77,7 @@ export default function MazeGame() {
     const [gameOver, setGameOver] = useState(false);
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
-    const [lives, setLives] = useState(3);
+    const [lives, setLives] = useState(4);
     const livesRef = useRef(null);
 
     const startSound = useRef(null);
@@ -204,7 +203,7 @@ export default function MazeGame() {
     const restartGame = () => {
         startSound.current.play();
         generateMaze();
-        setLives(3);
+        setLives(4);
         livesRef.current?.resetHearts();
         setPlayerPos({ x: 1, y: 1 });
         setGameWon(false);
@@ -253,7 +252,7 @@ export default function MazeGame() {
                     <Title>Snake Maze</Title>
                 </div>
                 <div className={"relative w-[60em] mb-3 flex justify-between"}>
-                    <Button size="small" onClick={finishGame}>{t("backButton")} </Button>
+                    <Button size="small" onClick={closeModal}>{t("backButton")} </Button>
                     <div className={"text-3xl"}>{t("snakemaze.score")}: {score}</div>
                     <div className={"mt-[-1.5em]"}>
                         <Lifes ref={livesRef} />

@@ -91,9 +91,9 @@ INSERT INTO Quizzes (QuizName, Premium, Register, Tutorial) VALUES
                                                                 ('Crossword', FALSE, FALSE, NULL),
                                                                 ('Letter Soup', FALSE, TRUE, 'https://youtu.be/mdDlEF4_kG4'),
                                                                 ('Mahjong', TRUE, FALSE, 'https://youtu.be/6VlVbPj-4FY'),
-                                                                ('Call Of The Clan', FALSE, FALSE, NULL),
-                                                                ('Snake Maze', FALSE, TRUE, NULL),
-                                                                ('Memory', TRUE, FALSE, NULL);
+                                                                ('Call Of The Clan', FALSE, FALSE, 'https://youtu.be/VvBf7FQcJMI'),
+                                                                ('Snake Maze', FALSE, TRUE, 'https://youtu.be/Me-TTWKy2LM'),
+                                                                ('Memory', TRUE, FALSE, 'https://youtu.be/JRTJe_PHmMU');
 CREATE TABLE UserQuizzes ( -- Users and Quizzes Joint Table
                              UserId INT,
                              QuizId INT,
