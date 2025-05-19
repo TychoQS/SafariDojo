@@ -28,8 +28,8 @@ DROP TABLE IF EXISTS Quizzes;
 DROP TABLE IF EXISTS CookTheBook_StoryPieces;
 DROP TABLE IF EXISTS CookTheBook_Stories;
 DROP TABLE IF EXISTS Mahjong;
-DROP TABLE IF EXISTS Shapes;
 DROP TABLE IF EXISTS DominoMasterShapes;
+DROP TABLE IF EXISTS Shapes;
 DROP TABLE IF EXISTS LetterSoup;
 DROP TABLE IF EXISTS Geography;
 DROP TABLE IF EXISTS DetectiveLupin;
@@ -87,7 +87,7 @@ INSERT INTO Quizzes (QuizName, Premium, Register, Tutorial) VALUES
                                                                 ('Cook The Book', FALSE, TRUE, 'https://youtu.be/EUbBz0BaD3Y'),
                                                                 ('Math Invasors', FALSE, TRUE, 'https://youtu.be/przb2puT3lg'),
                                                                 ('Mistery Doors', TRUE, FALSE, 'https://youtu.be/rw-i_AwR7G8'),
-                                                                ('Cross Math', FALSE, FALSE, NULL),
+                                                                ('Cross Math', FALSE, FALSE, 'https://youtu.be/CW9dUyQxJ2c'),
                                                                 ('Crossword', FALSE, FALSE, NULL),
                                                                 ('Letter Soup', FALSE, TRUE, 'https://youtu.be/mdDlEF4_kG4'),
                                                                 ('Mahjong', TRUE, FALSE, 'https://youtu.be/6VlVbPj-4FY'),
