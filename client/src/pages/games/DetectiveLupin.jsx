@@ -9,6 +9,7 @@ import GameOverModal from "@/components/GameOverModal";
 import Button from "@/components/Button";
 import ErrorReportModal from "@/components/ErrorModal";
 import saveGameData from "@/StorageServices/SaveDataFinishedGame";
+import Title from "@/components/Title";
 
 function fetchPaintings(difficulty = 'easy') {
     return fetch(`http://localhost:8080/api/getPaintings?` + new URLSearchParams({
@@ -268,6 +269,7 @@ function DetectiveLupin() {
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
             <Header />
             <section className="min-h-screen flex flex-col justify-evenly bg-PS-main-purple">
+                <Title>Detective Lupin</Title>
                 <div className="w-full max-w-6xl mx-auto flex flex-col mt-8 px-4">
                     {!gameFinished && (
                         <div className="w-full relative mb-4 h-10 flex items-center">
