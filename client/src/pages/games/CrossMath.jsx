@@ -303,7 +303,7 @@ export default function CrossMaths() {
     ];
 
     const resetGame = () => {
-        saveGameData();
+        saveGameData(points);
         let attempts = 0;
         const maxAttempts = 3;
 
@@ -421,7 +421,7 @@ export default function CrossMaths() {
 
     const closeModal = () => {
         setShowModal(false);
-        saveScore();
+        saveGameData(points)
         setTimeout(() => {
             router.back();
         }, 0);
