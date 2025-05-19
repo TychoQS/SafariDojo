@@ -33,7 +33,7 @@ const Carousel = ({carouselData, difficulty}) => {
     };
 
     const handleGameClick = (game) => {
-        if (game === "Comming soon...") {
+        if (game === "Coming soon...") {
             setShowModalSoon(true);
             return;
         }
