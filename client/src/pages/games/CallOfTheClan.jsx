@@ -11,6 +11,8 @@ import Title from "@/components/Title";
 import ErrorReportModal from "@/components/ErrorModal";
 import {useTranslation} from "react-i18next";
 import LoadingPage from "@/components/LoadingPage";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
+import {router} from "next/client";
 
 
 const AnimalClassificationGame = () => {
@@ -208,39 +210,24 @@ const AnimalClassificationGame = () => {
         setGameWon(false);
     };
 
-    function finishGame() {
-        try {
-            const previousURL = localStorage.getItem("previousURL");
-            if (previousURL) {
-                const url = new URL(previousURL);
-                const gameData = url.searchParams.get("Game");
-                const age = url.searchParams.get("Age");
-
-                if (gameData && age) {
-                    const key = `${gameData}_${age}_bestScore`;
-                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-                    if (maxScore > storedScore) {
-                        localStorage.setItem(key, maxScore.toString());
-                    }
-                    const typeMedal = age === "easy"
-                        ? "BronzeMedal"
-                        : age === "medium"
-                            ? "SilverMedal"
-                            : "GoldMedal";
-
-                    const medalKey = `${gameData}_${typeMedal}`;
-                    const medalStatus = localStorage.getItem(medalKey) === "1";
-                    if (!medalStatus) {
-                        localStorage.setItem(medalKey, "1");
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("Error processing score update:", error);
-        }
+    const closeModal = () => {
         setTimeout(() => {
             router.back();
         }, 0);
+    };
+
+
+    const closeModalCongrats = () => {
+        saveGameData(score);
+        setTimeout(() => {
+            router.back();
+        }, 0);
+    };
+
+
+    const restartGameCongrats = () => {
+        saveGameData(score);
+        restartGame();
     }
 
     if (!gameLoaded) return <LoadingPage />;
@@ -295,11 +282,11 @@ const AnimalClassificationGame = () => {
                         ))}
 
                         {(gameWon && gameFinished) && (
-                            <CongratsModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
+                            <CongratsModal onCloseMessage={closeModalCongrats} onRestart={restartGameCongrats} points={score}/>
                         )}
 
                         {(!gameWon && gameFinished) && (
-                            <GameOverModal onCloseMessage={finishGame} onRestart={restartGame}/>
+                            <GameOverModal onCloseMessage={closeModal} onRestart={restartGame}/>
                         )}
                     </div>
 

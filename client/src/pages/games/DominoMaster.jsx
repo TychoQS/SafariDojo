@@ -297,18 +297,28 @@ export default function DominoMaster() {
     };
 
     const closeModal = () => {
-        setShowModal(false);
-        saveGameData(score);
         setTimeout(() => {
             router.back();
         }, 0);
     };
 
-    const restartGame = () => {
+    const closeModalCongrats = () => {
+        saveGameData(score);
+        closeModal();
+    };
+
+
+    const restartGameCongrats = () => {
         setShowModal(false);
         startGame()
         saveGameData(score);
     };
+
+    const restartGame = () => {
+        setShowModal(false);
+        startGame()
+    };
+
     return (
         <div className="app flex flex-col bg-PS-main-purple">
             <Header></Header>
@@ -393,8 +403,8 @@ export default function DominoMaster() {
                             {message && showModal && (
                                 <CongratsModal
                                     points={score}
-                                    onCloseMessage={closeModal}
-                                    onRestart={restartGame}
+                                    onCloseMessage={closeModalCongrats}
+                                    onRestart={restartGameCongrats}
                                 />
                             )}
                             {lives === 0 && showModal && (
