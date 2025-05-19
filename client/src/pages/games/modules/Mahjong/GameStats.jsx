@@ -2,6 +2,7 @@ import React from "react";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
 import {useTranslation} from "react-i18next";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
 
 export default function GameStats({completedPairs, totalPairs, score, message, mistakes, onCloseMessage, onRestart}) {
     const hearts = Array.from({length: 5}, (_, index) =>
@@ -10,6 +11,16 @@ export default function GameStats({completedPairs, totalPairs, score, message, m
 
     const {t} = useTranslation();
     const isModalMessage = message && (message.type === "congratulations" || message.type === "game-over");
+
+    const closeCongrats = () => {
+        saveGameData(score);
+        onCloseMessage();
+    }
+
+    const restartCongrats = () => {
+        saveGameData(score);
+        onRestart();
+    }
 
     return (
         <>
@@ -32,8 +43,8 @@ export default function GameStats({completedPairs, totalPairs, score, message, m
                 message.type === "congratulations" ? (
                     <CongratsModal
                         points={score}
-                        onCloseMessage={onCloseMessage}
-                        onRestart={onRestart}
+                        onCloseMessage={closeCongrats}
+                        onRestart={restartCongrats}
                     />
                 ) : (
                     <GameOverModal

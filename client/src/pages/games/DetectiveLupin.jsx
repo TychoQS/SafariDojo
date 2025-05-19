@@ -254,13 +254,19 @@ function DetectiveLupin() {
     }
 
     const closeModal = () => {
+        setTimeout(() => {
+            router.back();
+        }, 0);
+    };
+
+    const closeModalCongrats = () => {
         saveGameData(score);
         setTimeout(() => {
             router.back();
         }, 0);
     };
 
-    const playAgain = () => {
+    const restartGameCongrats = () => {
         saveGameData(score);
         restartGame();
     }
@@ -350,15 +356,15 @@ function DetectiveLupin() {
                         {gameFinished && (
                             <CongratsModal
                                 points={score}
-                                onCloseMessage={closeModal}
-                                onRestart={playAgain}
+                                onCloseMessage={closeModalCongrats}
+                                onRestart={restartGameCongrats}
                             />
                         )}
 
                         {tries === 0 && (
                             <GameOverModal
                                 onCloseMessage={closeModal}
-                                onRestart={playAgain}
+                                onRestart={restartGame}
                             />
                         )}
 
