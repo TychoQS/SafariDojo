@@ -82,7 +82,7 @@ INSERT INTO Quizzes (QuizName, Premium, Register, Tutorial) VALUES
                                                                 ('Pin The Place', TRUE, FALSE, 'https://www.youtube.com/watch?v=i4h0Kbc-QJ4'),
                                                                 ('Detective MrWorldWide', FALSE, FALSE, 'https://www.youtube.com/watch?v=TfaobAucjRc'),
                                                                 ('Where Is My Country', FALSE, TRUE, 'https://www.youtube.com/watch?v=2X_FSoMpVRU'),
-                                                                ('Domino Master', TRUE, FALSE, NULL),
+                                                                ('Domino Master', TRUE, FALSE, 'https://youtu.be/VVvRIctjqxE'),
                                                                 ('Detective Lupin', FALSE, FALSE, 'https://www.youtube.com/watch?v=58hDQCdWNU0'),
                                                                 ('Cook The Book', FALSE, TRUE, 'https://youtu.be/EUbBz0BaD3Y'),
                                                                 ('Math Invasors', FALSE, TRUE, 'https://youtu.be/przb2puT3lg'),
