@@ -302,8 +302,12 @@ export default function CrossMaths() {
         [0, 0], [0, 4], [2, 0], [2, 2], [4, 4],
     ];
 
+    const restartGameCongrats = () => {
+        saveGameData(points);
+        resetGame()
+    }
+
     const resetGame = () => {
-        saveGameData();
         let attempts = 0;
         const maxAttempts = 3;
 
@@ -421,10 +425,14 @@ export default function CrossMaths() {
 
     const closeModal = () => {
         setShowModal(false);
-        saveScore();
         setTimeout(() => {
             router.back();
         }, 0);
+    };
+
+    const closeModalCongrats = () => {
+        saveGameData(points);
+        closeModal();
     };
 
     return (
@@ -491,8 +499,8 @@ export default function CrossMaths() {
                 {message && showModal && message.includes('Congratulations') && (
                     <CongratsModal
                         points={points}
-                        onCloseMessage={closeModal}
-                        onRestart={resetGame}
+                        onCloseMessage={closeModalCongrats}
+                        onRestart={restartGameCongrats}
                     />
                 )}
                 {lives === 0 && showModal && (

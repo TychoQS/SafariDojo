@@ -150,13 +150,17 @@ function DetectiveMrWorldWide() {
 
     const closeModal = () => {
         setGameStatus("playing");
-        saveGameData(score);
         setTimeout(() => {
             router.back();
         }, 0);
     };
 
-    const playAgain = () => {
+    const closeModalCongrats = () => {
+        saveGameData(score);
+        closeModal();
+    };
+
+    const restartGameCongrats = () => {
         saveGameData(score);
         restartGame();
     }
@@ -244,15 +248,15 @@ function DetectiveMrWorldWide() {
                             {(gameStatus === "finished") &&
                                 <CongratsModal
                                     points={score}
-                                    onCloseMessage={closeModal}
-                                    onRestart={playAgain}
+                                    onCloseMessage={closeModalCongrats}
+                                    onRestart={restartGameCongrats}
                                 />
                             }
 
                             {tries === 0 && (
                                 <GameOverModal
                                     onCloseMessage={closeModal}
-                                    onRestart={playAgain}
+                                    onRestart={restartGame}
                                 />
                             )}
 

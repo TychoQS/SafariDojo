@@ -14,9 +14,9 @@ export default function saveGameData(score) {
                     localStorage.setItem(key, score.toString());
                 }
 
-                const typeMedal = age === "easy"
+                const typeMedal = age.toLowerCase() === "easy"
                     ? "BronzeMedal"
-                    : age === "medium"
+                    : age.toLowerCase() === "medium"
                         ? "SilverMedal"
                         : "GoldMedal";
 

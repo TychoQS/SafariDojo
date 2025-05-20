@@ -9,6 +9,8 @@ import {router} from "next/client";
 import {useTranslation} from "react-i18next";
 import Lifes from "@/components/Lifes";
 import GameOverModal from "@/components/GameOverModal";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
+import {useRouter} from "next/router";
 
 
 export default function MazeGame() {
@@ -84,6 +86,7 @@ export default function MazeGame() {
     const dropSound = useRef(null);
     const winSound = useRef(null);
     const loseSound = useRef(null);
+    const router = useRouter();
 
     const {t} = useTranslation();
 
@@ -222,39 +225,21 @@ export default function MazeGame() {
         }
     }
 
-    function finishGame() {
-        try {
-            const previousURL = localStorage.getItem("previousURL");
-            if (previousURL) {
-                const url = new URL(previousURL);
-                const gameData = url.searchParams.get("Game");
-                const age = url.searchParams.get("Age");
-
-                if (gameData && age) {
-                    const key = `${gameData}_${age}_bestScore`;
-                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-                    if (bestScore > storedScore) {
-                        localStorage.setItem(key, bestScore.toString());
-                    }
-                    const typeMedal = age === "easy"
-                        ? "BronzeMedal"
-                        : age === "medium"
-                            ? "SilverMedal"
-                            : "GoldMedal";
-
-                    const medalKey = `${gameData}_${typeMedal}`;
-                    const medalStatus = localStorage.getItem(medalKey) === "1";
-                    if (!medalStatus) {
-                        localStorage.setItem(medalKey, "1");
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("Error processing score update:", error);
-        }
+    const closeModal = () => {
         setTimeout(() => {
             router.back();
         }, 0);
+    };
+
+
+    const closeModalCongrats = () => {
+        saveGameData(score);
+        closeModal();
+    };
+
+    const restartGameCongrats = () => {
+        saveGameData(score);
+        restartGame();
     }
 
 
@@ -333,11 +318,11 @@ export default function MazeGame() {
                 </div>
 
                 {gameWon && (
-                    <CongratsModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
+                        <CongratsModal onCloseMessage={closeModalCongrats} onRestart={restartGameCongrats} points={score}/>
                 )}
 
                 {gameOver && (
-                    <GameOverModal onCloseMessage={finishGame} onRestart={restartGame}/>
+                    <GameOverModal onCloseMessage={closeModal} onRestart={restartGame}/>
                 )}
 
                 <audio ref={startSound} src="/sounds/SnakeMaze/startSound.mp3" preload="auto "/>

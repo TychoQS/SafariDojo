@@ -345,9 +345,21 @@ const MisteryDoorsGame = () => {
         setShowStartScreen(true);
     };
 
-    const onCloseMessage = () => {
-        router.back();
+    const closeModal = () => {
+        setTimeout(() => {
+            router.back();
+        }, 0);
     };
+
+    const closeModalCongrats = () => {
+        saveGameData(score);
+        closeModal();
+    };
+
+    const restartGameCongrats = () => {
+        saveGameData(score);
+        restartGame();
+    }
 
     return (
         <div className="app min-h-screen flex flex-col bg-PS-main-purple">
@@ -527,14 +539,14 @@ const MisteryDoorsGame = () => {
                     {!showStartScreen && gameState === 'win' && (
                         <CongratsModal
                             points={score}
-                            onCloseMessage={onCloseMessage}
-                            onRestart={restartGame}
+                            onCloseMessage={closeModalCongrats}
+                            onRestart={restartGameCongrats}
                         />
                     )}
 
                     {!showStartScreen && gameState === 'lose' && (
                         <GameOverModal
-                            onCloseMessage={onCloseMessage}
+                            onCloseMessage={closeModal}
                             onRestart={restartGame}
                         />
                     )}

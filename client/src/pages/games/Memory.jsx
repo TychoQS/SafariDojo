@@ -9,6 +9,8 @@ import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
 import Title from "@/components/Title";
 import ErrorReportModal from "@/components/ErrorModal";
+import saveGameData from "@/StorageServices/SaveDataFinishedGame";
+import {useRouter} from "next/router";
 
 
 async function initialCards(cardsDiff) {
@@ -62,7 +64,7 @@ export default function MemoryGame() {
     const [isActive, setIsActive] = useState(true);
     const [timeLeft, setTimeLeft] = useState(5);
     const [isComplete, setIsComplete] = useState(false);
-
+    const router = useRouter();
     const progressPercentage = (timeLeft / 5) * 100;
 
     async function fetchDifficulty() {
@@ -191,42 +193,22 @@ export default function MemoryGame() {
         }, 5000);
     }
 
-    function finishGame() {
-        try {
-            const previousURL = localStorage.getItem("previousURL");
-            if (previousURL) {
-                const url = new URL(previousURL);
-                const gameData = url.searchParams.get("Game");
-                const age = url.searchParams.get("Age");
+    const closeModal = () => {
+        saveGameData(score);
+        setTimeout(() => {
+            router.back();
+        }, 0);
+    };
 
-                if (gameData && age) {
-                    const key = `${gameData}_${age}_bestScore`;
-                    const storedScore = parseInt(localStorage.getItem(key) || "0", 10);
-                    if (bestScore > storedScore) {
-                        localStorage.setItem(key, bestScore.toString());
-                    }
-                    const typeMedal = age === "easy"
-                        ? "BronzeMedal"
-                        : age === "medium"
-                            ? "SilverMedal"
-                            : "GoldMedal";
+    const closeModalCongrats = () => {
+        saveGameData(score);
+        closeModal();
+    };
 
-                    const medalKey = `${gameData}_${typeMedal}`;
-                    const medalStatus = localStorage.getItem(medalKey) === "1";
-                    if (!medalStatus) {
-                        localStorage.setItem(medalKey, "1");
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("Error processing score update:", error);
-        }
-        return router.push({
-            pathname: "../GameSelectionPage",
-            query: {
-                Subject: "Science"
-            }
-        });
+
+    const restartGameCongrats = () => {
+        saveGameData(score);
+        restartGame();
     }
 
     return (
@@ -294,10 +276,10 @@ export default function MemoryGame() {
                 )}
 
                 {matched.length === cards.length / 2 && (
-                    <CongratsModal onCloseMessage={finishGame} onRestart={restartGame} points={score}/>
+                    <CongratsModal onCloseMessage={closeModalCongrats} onRestart={restartGameCongrats} points={score}/>
                 )}
                 {gameOver && (
-                    <GameOverModal onCloseMessage={finishGame} onRestart={restartGame}/>
+                    <GameOverModal onCloseMessage={closeModal} onRestart={restartGame}/>
                 )}
 
                 <audio ref={successSound} src="/sounds/Memory/correct_answer.mp3" preload="auto" />

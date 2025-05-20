@@ -1,10 +1,16 @@
+
+/* Create Database and use it schema
 CREATE DATABASE IF NOT EXISTS SafariDojoDB;
     USE SafariDojoDB;
+ */
+
+
     SET sql_notes = 0;
-        /* Node server user in the database */
+        /* Node server user in the database
     CREATE USER 'node_server'@'%' IDENTIFIED BY 'Ps20242025';
     GRANT ALL PRIVILEGES ON SafariDojoDB.* TO 'node_server'@'%';
     FLUSH PRIVILEGES;
+         */
 
         /* First we remove all in order to evade errors of "already exists" when creating the DB*/
 DROP TABLE IF EXISTS UserQuizzes;

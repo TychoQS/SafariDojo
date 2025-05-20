@@ -236,21 +236,6 @@ const CookTheBook = () => {
         }, 0);
     };
 
-    if (!lifesAvailable) return (
-        <GameOverModal
-            onCloseMessage={closeModal}
-            onRestart={replayGame}
-        />
-    )
-
-    if (Win) return (
-        <CongratsModal
-            points={score}
-            onCloseMessage={closeModal}
-            onRestart={replayGame}
-        />
-    )
-
     return (
         <>
             <div className="app flex flex-col bg-PS-main-purple min-h-screen">
@@ -286,7 +271,7 @@ const CookTheBook = () => {
                                     </div>
                                 </section>
                             </div>
-                        <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-12 w-full max-w-7xl">
+                        <section id={"game-section"} className="bg-PS-light-yellow border-PS-dark-yellow border-4 rounded-lg shadow-lg p-12 max-w-8xl">
                             <h1 className={`text-4xl font-bold mb-6 text-center ${cherryBomb.className} text-PS-art-color`}>{Stories[currentLevel]?.title}</h1>
                             {message && (
                                 <div className={`mb-4 p-6 text-3xl rounded-lg text-center font-bold ${message.includes('Correct') ? 'text-green-700' : 'text-red-700'}  ${cherryBomb.className}`}>
@@ -421,6 +406,19 @@ const CookTheBook = () => {
                                         )}
                                     </div>
                                 </section>
+                                {(Win) && (
+                                    <CongratsModal
+                                        points={score}
+                                        onCloseMessage={closeModal}
+                                        onRestart={replayGame}
+                                    />
+                                )}
+                                {(!lifesAvailable) && (
+                                    <GameOverModal
+                                        onCloseMessage={closeModal}
+                                        onRestart={replayGame}
+                                    />
+                                )}
                             </section>
 
                         </>

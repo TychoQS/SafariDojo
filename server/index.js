@@ -640,66 +640,41 @@ app.get('/api/getUserMedals', (req, res) => {
 
 
 app.post("/api/updateMedals", async (req, res) => {
-    console.log("=============================================");
-    console.log("Inicio de updateMedals");
-    console.log("=============================================");
 
     try {
         const { userId, medals } = req.body;
-
-        console.log("Datos recibidos:");
-        console.log("userId:", userId);
-        //console.log("medals:", JSON.stringify(medals, null, 2));
-
         if (!userId || !Array.isArray(medals)) {
-            console.log("Error: Datos inválidos recibidos");
             return res.status(400).json({ error: "Invalid data", details: "userId debe ser un número y medals debe ser un array" });
         }
 
-        console.log(`Procesando actualización de medallas para usuario ID: ${userId}`);
-
-        // Verificar la conexión a la base de datos
         dbConnection.query('SELECT 1 as connection_test', (error, results) => {
             if (error) {
-                console.error('Error al verificar la conexión:', error);
                 return;
             }
-            console.log('Conexión a la base de datos verificada:', results);
         });
 
         // Procesar cada medalla
         for (const medal of medals) {
-            console.log("------------------------------------------");
-            console.log(`Procesando medalla para juego: ${medal.quizName}`);
-
             try {
                 // Verificar si el quiz existe
-                console.log(`Buscando quiz con nombre: "${medal.quizName}"`);
                 dbConnection.query('SELECT Id FROM Quizzes WHERE QuizName = ?', [medal.quizName], (error, results) => {
                     if (error) {
-                        console.error('Error when checking quiz existence:', error);
                         return;
                     }
                     quizResult = results;
-                    console.log("Resultado de la búsqueda del quiz:", quizResult);
 
                     if (!quizResult || quizResult.length === 0) {
-                        console.warn(`Quiz no encontrado: ${medal.quizName}`);
                         // Vamos a buscar todos los quizzes para depuración
                         dbConnection.query('SELECT Id, QuizName FROM Quizzes LIMIT 10', (error, results) => {
                             if (error) {
-                                console.error('Error while reading 10 quizes:', error);
                                 return;
                             }
-                            console.log('Found quizzes', results);
                             allQuizzes = results;
                         });
-                        console.log("Primeros 10 quizzes en la base de datos:", allQuizzes);
                         return;
                     }
 
                     const quizId = quizResult[0].Id;
-                    console.log(`Quiz encontrado con Id: ${quizId}`);
 
                     // Updating registers
                     const updateQuery = `
@@ -714,32 +689,19 @@ app.post("/api/updateMedals", async (req, res) => {
                         quizId
                     ];
 
-                    console.log("Query de actualización:", updateQuery);
-                    console.log("Parámetros:", params);
-
                     dbConnection.query(updateQuery, params, (error, results) => {
                         if (error) {
-                            console.error('Error while updating register in UserQuizzes:', error);
                             return;
                         }
-                        console.log('Register updated in UserQuizzes successfully', results);
                         updateResult = results;
-                        console.log("Resultado de la actualización:", updateResult);
-                        console.log(`Medallas actualizadas para quiz: ${medal.quizName} (Oro: ${medal.GoldMedal}, Plata: ${medal.SilverMedal}, Bronce: ${medal.BronzeMedal})`);
                     });
                 });
             } catch (medalError) {
-                console.error(`Error procesando medalla ${medal.quizName}:`, medalError);
-                // Continuamos con la siguiente medalla
             }
         }
 
-        console.log("Actualización de medallas completada para usuario:", userId);
-        console.log("=============================================");
         return res.status(200).json({ message: "Medals updated successfully" });
     } catch (error) {
-        console.error("Error general al actualizar medallas:", error);
-        console.log("=============================================");
         return res.status(500).json({ error: "Error updating medals", details: error.message });
     }
 });

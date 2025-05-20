@@ -77,7 +77,7 @@ function WhereIsMyCountry() {
         }
     }, [gameCountries, currentIndex]);
 
-    const initializeGame= () => {
+    const restartGame= () => {
         fetchGameData().then(() => (console.log("Loaded game countries")));
 
         setGameStatus("loading");
@@ -147,15 +147,19 @@ function WhereIsMyCountry() {
     }
 
     const closeModal = () => {
-        saveGameData(score);
         setTimeout(() => {
             router.back();
         }, 0);
     };
 
-    const playAgain = () => {
+    const closeModalCongrats = () => {
         saveGameData(score);
-        initializeGame();
+        closeModal();
+    };
+
+    const restartGameCongrats = () => {
+        saveGameData(score);
+        restartGame();
     }
 
     return (
@@ -238,14 +242,14 @@ function WhereIsMyCountry() {
                             {(gameStatus === "finished" && tries > 0) && (
                                 <CongratsModal
                                     points={score}
-                                    onCloseMessage={closeModal}
-                                    onRestart={playAgain}
+                                    onCloseMessage={closeModalCongrats}
+                                    onRestart={restartGameCongrats}
                                 />
                             )}
                             {(tries === 0) && (
                                 <GameOverModal
                                     onCloseMessage={closeModal}
-                                    onRestart={playAgain}
+                                    onRestart={restartGame}
                                 />
                             )}
                         </div>

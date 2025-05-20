@@ -17,13 +17,10 @@ const MahjongPairs = ({dataSets, title}) => {
     const {t} = useTranslation();
 
     const playAgain = () =>{
-        saveGameData(game.score);
         game.initializeGame()
     }
 
-
     const handleCloseMessage = () => {
-        saveGameData(game.score);
         router.back();
     };
 
