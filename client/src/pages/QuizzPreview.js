@@ -78,14 +78,14 @@ function QuizzPreview() {
 
     async function fetchBestScore() {
         if (gameData && subject && age) {
-            const storedScore = localStorage.getItem(`${gameData}_${age}_bestScore`);
+            const storedScore = localStorage.getItem(`${gameData}_${age.toLowerCase()}_bestScore`);
             if (storedScore) {
                 setBestScore(parseInt(storedScore));
             } else {
                 const response = await fetch(`http://localhost:8080/api/getBestScore?userId=${user.userId}&quizId=${gameData}&difficulty=${age}`);
                 if (response.ok) {
                     const data = await response.json();
-                    localStorage.setItem(`${gameData}_${age}_bestScore`, data.bestScore)
+                    localStorage.setItem(`${gameData}_${age.toLowerCase()}_bestScore`, data.bestScore)
                     setBestScore(data.bestScore);
                 }
             }

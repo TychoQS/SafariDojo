@@ -61,13 +61,12 @@ const Card = ({gameSubject, gameNumber, isCompleted: isCompletedProp = null}) =>
                 )) {
                     storedGames.push(newGame);
                     localStorage.setItem(`completedGames_${user.id}`, JSON.stringify(storedGames));
-                    //setIsCompleted(true);
                 }
             }
 
             await router.push({
                 pathname: "/QuizzPreview",
-                query: {Subject: gameSubject, Game: gameName, Age: selectedDifficulty}
+                query: {Subject: gameSubject, Game: gameName, Age: selectedDifficulty.toLowerCase()}
             });
         }
     };
