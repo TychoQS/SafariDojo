@@ -60,7 +60,7 @@ const CookTheBook = () => {
 
 
     useEffect(() => {
-        saveGameData(score);
+        if (Win) saveGameData(score);
     }, [Win]);
 
     useEffect(() => {
