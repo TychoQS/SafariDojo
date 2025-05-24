@@ -8,9 +8,13 @@ import Footer from "@/components/Footer";
 import CongratsModal from "@/components/CongratsModal";
 import GameOverModal from "@/components/GameOverModal";
 import saveGameData from "@/StorageServices/SaveDataFinishedGame";
+import {useTranslation} from "react-i18next";
+import i18n from "i18next";
 
 export default function CrossMaths() {
     const router = useRouter();
+    const {t} = useTranslation();
+    const buttonSize = i18n.language === "es" || i18n.language === "de" ? "large" : "small";
 
     const getInitialDifficulty = () => {
         const previousURL = localStorage.getItem('previousURL');
@@ -420,7 +424,8 @@ export default function CrossMaths() {
     };
 
     if (!puzzle) {
-        return <div className="min-h-screen flex items-center justify-center text-white">Cargando...</div>;
+        return <div className="min-h-screen flex items-center justify-center text-white">
+            {t('crossMath.loading')}...</div>;
     }
 
     const closeModal = () => {
@@ -441,14 +446,13 @@ export default function CrossMaths() {
             <section className="flex flex-col items-center py-10 flex-grow">
                 <Title>Cross Math</Title>
                 <div className="mt-4 mb-2 w-full max-w-3xl flex justify-between px-4">
-                    <Button size="small" onClick={() => router.back()}>
-                        Back
-                    </Button>
+                    <Button size="small" onClick={() => router.back()}> {t("backButton")} </Button>
                     <ErrorReportModal/>
                 </div>
 
                 <div className="mt-4 mb-2 w-full max-w-3xl flex justify-between px-4">
-                    <div className="text-2xl">Score: {points}</div>
+                    <div className="text-2xl">
+                        {t('crossMath.score')}: {points}</div>
                     <div className="flex items-center">
                         {[...Array(lives)].map((_, i) => (
                             <span key={i} className="text-3xl mx-1">❤️</span>
@@ -513,8 +517,8 @@ export default function CrossMaths() {
 
                 <div className="flex flex-col gap-2 mt-4">
                     {!isComplete && (
-                        <Button size="small" onClick={() => verifyPuzzle()}>
-                            Verify
+                        <Button size={buttonSize} onClick={() => verifyPuzzle()}>
+                            {t('crossMath.verify')}
                         </Button>
                     )}
                 </div>

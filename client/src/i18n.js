@@ -210,6 +210,11 @@ const resources = {
             detectiveLupin: {
                 enterLetter: 'Enter a letter here',
                 instructions: 'Use Backspace to delete and Enter to validate',
+            },
+            crossMath: {
+                score: 'Score',
+                verify: 'Verify',
+                loading: 'Loading',
             }
         },
     },
@@ -418,6 +423,11 @@ const resources = {
             detectiveLupin: {
                 enterLetter: 'Ingresa una letra aquí',
                 instructions: 'Usa Retroceso para borrar y Enter para validar',
+            },
+            crossMath: {
+                score: 'Puntos',
+                verify: 'Comprobar',
+                loading: 'Carregando',
             }
         },
     },
@@ -628,6 +638,11 @@ const resources = {
                 enterLetter: 'Entrez une lettre ici',
                 instructions: 'Utilisez Retour arrière pour supprimer et Entrée pour valider',
             },
+            crossMath: {
+                score: 'Score',
+                verify: 'Vérifier',
+                loading: 'Chargement'
+            }
         },
     },
     de: {
@@ -837,6 +852,11 @@ const resources = {
                 enterLetter: 'Gib hier einen Buchstaben ein',
                 instructions: 'Verwende Rückschritt zum Löschen und Enter zum Bestätigen',
             },
+            crossMath: {
+                score: 'Punktzahl',
+                verify: 'Bestellung',
+                loading: 'Laden'
+            }
         },
     },
 };
