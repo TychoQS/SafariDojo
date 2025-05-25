@@ -186,7 +186,7 @@ export default function LetterSoup() {
 
     const closeModal = () => {
         setShowModal(false);
-        saveGameData();
+        saveGameData(points);
         setTimeout(() => {
             router.back();
         }, 0);
@@ -206,7 +206,7 @@ export default function LetterSoup() {
 
     const playAgain = () => {
         setShowModal(false);
-        saveGameData();
+        saveGameData(points);
         fetchLetterSoupData(difficulty);
     }
 

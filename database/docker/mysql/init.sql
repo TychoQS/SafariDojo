@@ -67,7 +67,8 @@ INSERT INTO Users (Name, Email, Password, ProfileIcon) VALUES
                                                            ('Dylan Castrillón', 'dylan@example.com', '9a400da2fc27de967acb85a0b50dbbcd9536c60da1eee1e4bb1f1c05a6036068', 'Shark'),
                                                            ('Laura Herrera', 'laura@example.com', '9a400da2fc27de967acb85a0b50dbbcd9536c60da1eee1e4bb1f1c05a6036068', 'Seal'),
                                                            ('Luis Martín', 'luis@example.com', '9a400da2fc27de967acb85a0b50dbbcd9536c60da1eee1e4bb1f1c05a6036068', 'Tiger'),
-                                                           ('Tycho Quintana', 'tycho@example.com', '9a400da2fc27de967acb85a0b50dbbcd9536c60da1eee1e4bb1f1c05a6036068', 'Koala');
+                                                           ('Tycho Quintana', 'tycho@example.com', '9a400da2fc27de967acb85a0b50dbbcd9536c60da1eee1e4bb1f1c05a6036068', 'Koala'),
+                                                           ('Demostracion', 'demops@gmail.com', 'df018607b7847173e0ec5f0f1c6704cdeaea84a60b744c667af77fcefe4f82c0', 'Seal');
 
 
 CREATE TABLE Quizzes ( -- Quiz table
