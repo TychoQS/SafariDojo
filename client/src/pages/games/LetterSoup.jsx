@@ -186,7 +186,7 @@ export default function LetterSoup() {
 
     const closeModal = () => {
         setShowModal(false);
-        saveGame();
+        saveGameData();
         setTimeout(() => {
             router.back();
         }, 0);
